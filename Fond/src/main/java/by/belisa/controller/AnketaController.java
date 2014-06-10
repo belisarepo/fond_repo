@@ -35,9 +35,7 @@ import by.belisa.service.UserService;
 //@SessionAttributes("anketa")
 public class AnketaController {
 	private static Logger log = Logger.getLogger(AnketaController.class);
-	public AnketaController(){
-		log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-	}
+	
 	@Autowired
 	@Qualifier("userService")
 	private IService<User,Long> userService;
