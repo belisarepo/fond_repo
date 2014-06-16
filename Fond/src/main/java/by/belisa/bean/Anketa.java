@@ -1,8 +1,6 @@
 package by.belisa.bean;
 
-import java.io.Serializable;
-
-public class Anketa implements Serializable{
+public class Anketa {
 	
 	private String surname;
 	private String name;
