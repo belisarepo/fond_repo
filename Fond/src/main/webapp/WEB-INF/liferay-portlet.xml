@@ -6,8 +6,15 @@
 		<portlet-name>anketa</portlet-name>
 		<icon>/icon.png</icon>
 		<requires-namespaced-parameters>false</requires-namespaced-parameters>
-		<header-portlet-css>/css/main.css</header-portlet-css>
-		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
+		<header-portlet-css>/css/anketa/main.css</header-portlet-css>
+		<footer-portlet-javascript>/js/anketa/main.js</footer-portlet-javascript>
+	</portlet>
+	<portlet>
+		<portlet-name>request</portlet-name>
+		<icon>/icon.png</icon>
+		<requires-namespaced-parameters>false</requires-namespaced-parameters>
+		<header-portlet-css>/css/request/main.css</header-portlet-css>
+		<footer-portlet-javascript>/js/request/main.js</footer-portlet-javascript>
 	</portlet>
 	<role-mapper>
 		<role-name>administrator</role-name>

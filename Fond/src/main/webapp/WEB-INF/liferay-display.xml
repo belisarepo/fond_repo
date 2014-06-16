@@ -4,5 +4,6 @@
 <display>
 	<category name="Фонд">
 		<portlet id="anketa" />
+		<portlet id="request" />
 	</category>
 </display>
