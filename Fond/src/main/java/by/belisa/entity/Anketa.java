@@ -24,41 +24,10 @@ public class Anketa implements Serializable{
 	@OneToOne  
 	@PrimaryKeyJoinColumn
 	private User user;
-	@Column(name = "surname")
-	private String surname;
-	@Column(name = "name")
-	private String name;
-	@Column(name = "patronymic")
-	private String patronymic;
-	@Column(name = "age")
-	private byte age;
 	
 	
 	
-	public String getSurname() {
-		return surname;
-	}
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getPatronymic() {
-		return patronymic;
-	}
-	public void setPatronymic(String patronymic) {
-		this.patronymic = patronymic;
-	}
-	public byte getAge() {
-		return age;
-	}
-	public void setAge(byte age) {
-		this.age = age;
-	}
+	
 	public long getId() {
 		return id;
 	}

@@ -16,7 +16,6 @@ public class TestHibernate {
 			tr = s.beginTransaction();
 			User u = new User();
 			Anketa a = new Anketa();
-			a.setName("Вася");
 			a.setUser(u);
 			u.setAnketa(a);
 			s.save(u);

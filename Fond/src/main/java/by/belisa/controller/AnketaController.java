@@ -88,10 +88,7 @@ public class AnketaController {
 				by.belisa.entity.Anketa ank =  anketaService.get(pk);
 				if (ank!=null){
 					
-					anketa.setSurname(ank.getSurname());
-					anketa.setName(ank.getName());
-					anketa.setPatronymic(ank.getPatronymic());
-					anketa.setAge(ank.getAge());
+					
 				}
 				
 			}
@@ -123,10 +120,7 @@ public class AnketaController {
 			ank = new by.belisa.entity.Anketa();
 		}
 		
-		ank.setAge(anketa.getAge());
-		ank.setSurname(anketa.getSurname());
-		ank.setName(anketa.getName());
-		ank.setPatronymic(anketa.getPatronymic());
+		
 		ank.setUser(user);
 		anketaService.update(ank);
 	}
