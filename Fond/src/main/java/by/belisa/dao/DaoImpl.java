@@ -51,6 +51,7 @@ public class DaoImpl<T, PK extends Serializable> implements Dao<T, PK> {
 	public List<T> getAll() throws DaoException {
 		log.debug(String.format("Get all <%s>.", typeName));
 		try {
+			@SuppressWarnings("unchecked")
 			List<T> list = getSession().createCriteria(type)
 					.addOrder(Order.asc("id")).list();
 			log.debug(String.format("Got %d products",
@@ -68,6 +69,7 @@ public class DaoImpl<T, PK extends Serializable> implements Dao<T, PK> {
 			for (Criterion cr : criterion) {
 				criteria.add(cr);
 			}
+			@SuppressWarnings("unchecked")
 			List<T> list = criteria.list();
 			log.debug(String.format("Got %d products",
 					list == null ? 0 : list.size()));
@@ -81,6 +83,7 @@ public class DaoImpl<T, PK extends Serializable> implements Dao<T, PK> {
 	public T get(PK id) throws DaoException {
 		try {
 			log.debug(String.format("Get %s with id=%s.", typeName, id));
+			@SuppressWarnings("unchecked")
 			T o = (T) getSession().get(type, id);
 			log.debug(String.format("Got %s: %s.", typeName, o));
 			return o;
@@ -93,6 +96,7 @@ public class DaoImpl<T, PK extends Serializable> implements Dao<T, PK> {
 	public T add(T o) throws DaoException {
 		try {
 			log.debug(String.format("Create %s: %s.", typeName, o));
+			@SuppressWarnings("unchecked")
 			PK id = (PK) getSession().save(o);
 			getSession().flush();
 			log.debug(String.format("Created %s with id=%s.", typeName, id));

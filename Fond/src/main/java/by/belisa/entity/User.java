@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -34,7 +35,7 @@ public class User implements Serializable{
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PK")
 	@Column(name="userid")
 	private long id;
-	@OneToOne(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@OneToOne(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.LAZY, optional=false)
 	private Anketa anketa;
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "USERS_ROLES", schema="LPORTAL", joinColumns = { @JoinColumn(name = "userid") }, inverseJoinColumns = { @JoinColumn(name = "roleid") })

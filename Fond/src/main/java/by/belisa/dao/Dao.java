@@ -7,7 +7,7 @@ import by.belisa.exception.DaoException;
 
 public interface Dao<T, PK extends Serializable> {
     /**
-     * Get persisted objects
+     * Get all persisted objects
      *
      * @throws DaoException
      *

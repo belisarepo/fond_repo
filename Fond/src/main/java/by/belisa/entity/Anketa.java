@@ -2,7 +2,6 @@
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,7 +26,8 @@ public class Anketa implements Serializable{
 	@GeneratedValue(generator = "gen")  
 	@GenericGenerator(name = "gen", strategy = "foreign", parameters = @Parameter(name = "property", value = "user"))
 	private long id;
-	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY, optional=false)  
+	
+	@OneToOne(fetch=FetchType.LAZY, optional=false)  
 	@PrimaryKeyJoinColumn()
 	private User user;
 	

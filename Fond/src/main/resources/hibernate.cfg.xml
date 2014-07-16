@@ -17,5 +17,11 @@
         <mapping class="by.belisa.entity.User" />
         <mapping class="by.belisa.entity.Role" />
         <mapping class="by.belisa.entity.Anketa" />
+        <mapping class="by.belisa.entity.TUser" />
+        <mapping class="by.belisa.entity.TUserInfo" />
+        <mapping class="by.belisa.entity.FinRazdel" />
+        <mapping class="by.belisa.entity.TipKonkursa" />
+        <mapping class="by.belisa.entity.VidKonkursa" />
+        
     </session-factory>
 </hibernate-configuration>
