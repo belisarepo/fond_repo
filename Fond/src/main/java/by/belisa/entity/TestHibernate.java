@@ -14,13 +14,22 @@ public class TestHibernate {
 		Transaction tr = null;
 		try {
 			tr = s.beginTransaction();
-			User u = new User();
-			Anketa a = new Anketa();
-			a.setUser(u);
-			u.setAnketa(a);
-			s.save(u);
-			System.out.println(((User)s.get(User.class, 200l)));
+//			User u = new User();
+//			Anketa a = new Anketa();
+//			a.setUser(u);
+//			u.setAnketa(a);
+//			s.save(a);
+//			System.out.println(((Anketa)s.get(Anketa.class, 4050l)));
 			
+			
+//			TipKonkursa t = new TipKonkursa();
+//			t.setDescription("texttexttexttexttextetxtetxtetxtextetxtetxtetxte");
+//			t.setFinRazdel((FinRazdel)s.get(FinRazdel.class, 1));
+//			t.setName("name");
+//			t.setOldCode("00");
+//			t.setVidKonkursa((VidKonkursa)s.get(VidKonkursa.class, 1));
+//			s.save(t);
+			System.out.println(((TipKonkursa)s.get(TipKonkursa.class, 50)).getVidKonkursa());
 			tr.commit();
 		} catch (HibernateException e) {
 			tr.rollback();
