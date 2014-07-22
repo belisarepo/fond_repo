@@ -15,6 +15,6 @@ public interface IService<T, PK extends Serializable> {
     T add(T o) throws ServiceException;
     void update(T o) throws ServiceException;
     void delete(T o) throws ServiceException;
-    String test();
+
 
 }

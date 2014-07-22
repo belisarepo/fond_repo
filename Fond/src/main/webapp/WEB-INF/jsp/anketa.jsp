@@ -28,13 +28,7 @@
 <c:set var="ns"><portlet:namespace/></c:set>
 
 <form:form modelAttribute='${ns}anketa' method="POST" action="${sendForm}" name="anketa">
-	<form:label path="surname">Фамилия</form:label>
-	<form:input path="surname"/><br/>
-	<form:label path="name">Имя</form:label>
-	<form:input path="name"/><br/>
-	<form:label path="patronymic">Отчество</form:label>
-	<form:input path="patronymic"/><br/>
-	<form:label path="age">Возраст</form:label>
-	<form:input path="age"/><br/>
+	<form:label path="fio">ФИО</form:label>
+	<form:input path="fio"/><br/>
 	<input type="submit" value="Save" />
 </form:form>

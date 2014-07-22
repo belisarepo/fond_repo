@@ -29,7 +29,7 @@ public class TestHibernate {
 //			t.setOldCode("00");
 //			t.setVidKonkursa((VidKonkursa)s.get(VidKonkursa.class, 1));
 //			s.save(t);
-			System.out.println(((TipKonkursa)s.get(TipKonkursa.class, 50)).getVidKonkursa());
+//			System.out.println(((TipKonkursa)s.get(TipKonkursa.class, 50)).getVidKonkursa());
 			tr.commit();
 		} catch (HibernateException e) {
 			tr.rollback();

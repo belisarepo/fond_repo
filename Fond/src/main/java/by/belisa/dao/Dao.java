@@ -3,9 +3,13 @@ package by.belisa.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
+
 import by.belisa.exception.DaoException;
 
 public interface Dao<T, PK extends Serializable> {
+	
     /**
      * Get all persisted objects
      *
@@ -40,4 +44,10 @@ public interface Dao<T, PK extends Serializable> {
      * @throws DaoException
      */
     void delete(T object) throws DaoException;
+    /**
+     * Get all persisted objects by criterion
+     * @param criterion
+     * @return
+     */
+	List<T> getList(Criterion[] criterion) throws DaoException;
 }

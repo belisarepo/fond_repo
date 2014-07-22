@@ -12,6 +12,9 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.orm.hibernate3.SessionFactoryUtils;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import by.belisa.exception.DaoException;
 
@@ -40,7 +43,8 @@ public class DaoImpl<T, PK extends Serializable> implements Dao<T, PK> {
 	}
 
 	protected Session getSession() {
-		Session session = sessionFactory.getCurrentSession();
+		
+		Session session = SessionFactoryUtils.getSession(sessionFactory, true);//sessionFactory.getCurrentSession();
 
 		log.debug(String.format("Got current session for %s: %s.", typeName,
 				session));
@@ -61,7 +65,7 @@ public class DaoImpl<T, PK extends Serializable> implements Dao<T, PK> {
 			throw new DaoException(e);
 		}
 	}
-
+	@Override
 	public List<T> getList(Criterion... criterion) throws DaoException {
 		log.debug(String.format("Get list <%s>.", typeName));
 		try {

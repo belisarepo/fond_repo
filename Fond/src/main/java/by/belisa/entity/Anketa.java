@@ -26,6 +26,8 @@ public class Anketa implements Serializable{
 	@GeneratedValue(generator = "gen")  
 	@GenericGenerator(name = "gen", strategy = "foreign", parameters = @Parameter(name = "property", value = "user"))
 	private long id;
+	@Column(name="FIO")
+	private String fio;
 	
 	@OneToOne(fetch=FetchType.LAZY, optional=false)  
 	@PrimaryKeyJoinColumn()
@@ -34,11 +36,14 @@ public class Anketa implements Serializable{
 	
 	
 	
+	public String getFio() {
+		return fio;
+	}
+	public void setFio(String fio) {
+		this.fio = fio;
+	}
 	public long getId() {
 		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
 	}
 	public User getUser() {
 		return user;

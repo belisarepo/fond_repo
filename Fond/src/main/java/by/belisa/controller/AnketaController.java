@@ -43,8 +43,6 @@ public class AnketaController {
 	@Qualifier("anketaService")
 	private IService<by.belisa.entity.Anketa,Long> anketaService;
 	
-	@Autowired
-	private TestDao testDao;
 	
 //	@ModelAttribute("my_anketa")
 //	public Anketa prepareFormModel(PortletRequest request){
@@ -87,8 +85,7 @@ public class AnketaController {
 				long pk = user.getPrimaryKey();
 				by.belisa.entity.Anketa ank =  anketaService.get(pk);
 				if (ank!=null){
-					
-					
+					anketa.setFio(ank.getFio());
 				}
 				
 			}
@@ -110,17 +107,17 @@ public class AnketaController {
 	public void getFormData(@ModelAttribute Anketa anketa, ActionRequest aRequest) throws ServiceException, PortalException, SystemException{
 		long pk = PortalUtil.getUser(aRequest).getPrimaryKey();
 		User user = userService.get(pk);
+		
 		if (user==null){
-			user = new User();
-			user.setId(pk);
-			user = userService.add(user);
+			return;
 		}
-		by.belisa.entity.Anketa ank = anketaService.get(pk);
+		by.belisa.entity.Anketa ank = user.getAnketa();
+		
 		if (ank==null){
 			ank = new by.belisa.entity.Anketa();
 		}
-		
-		
+		System.out.println(ank.getFio());
+		ank.setFio(anketa.getFio());
 		ank.setUser(user);
 		anketaService.update(ank);
 	}

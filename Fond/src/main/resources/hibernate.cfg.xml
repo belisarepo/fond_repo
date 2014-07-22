@@ -5,7 +5,8 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
-        <property name="hibernate.connection.url">jdbc:oracle:thin:@10.10.0.41:1521:ardb</property>
+        <property name="hibernate.connection.url">jdbc:oracle:thin:@192.168.11.71:1521:OraLR</property>
+        <!-- <property name="hibernate.connection.url">jdbc:oracle:thin:@10.10.0.41:1521:ardb</property>-->
         <property name="hibernate.connection.username">fond</property>
         <property name="hibernate.connection.password">fond</property>
         <property name="connection.pool_size">1</property>
@@ -14,14 +15,18 @@
         <property name="format_sql">true</property>
 		<property name="use_sql_comments">true</property>
         <property name="hbm2ddl.auto">update</property>
-        <mapping class="by.belisa.entity.User" />
+        <!-- <mapping class="by.belisa.entity.User" />
         <mapping class="by.belisa.entity.Role" />
         <mapping class="by.belisa.entity.Anketa" />
         <mapping class="by.belisa.entity.TUser" />
-        <mapping class="by.belisa.entity.TUserInfo" />
+        <mapping class="by.belisa.entity.TUserInfo" />-->
         <mapping class="by.belisa.entity.FinRazdel" />
         <mapping class="by.belisa.entity.TipKonkursa" />
         <mapping class="by.belisa.entity.VidKonkursa" />
+        <mapping class="by.belisa.entity.VidUchStepeni" />
+        <mapping class="by.belisa.entity.VidUchZvaniy" />
+        <mapping class="by.belisa.entity.SpravochnikUchZvaniy" />
+        <mapping class="by.belisa.entity.Konkurs" />
         
     </session-factory>
 </hibernate-configuration>
