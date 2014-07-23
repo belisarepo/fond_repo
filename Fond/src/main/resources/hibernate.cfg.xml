@@ -27,6 +27,9 @@
         <mapping class="by.belisa.entity.VidUchZvaniy" />
         <mapping class="by.belisa.entity.SpravochnikUchZvaniy" />
         <mapping class="by.belisa.entity.Konkurs" />
+        <mapping class="by.belisa.entity.UchStepeni" />
+        <mapping class="by.belisa.entity.VidOrg" />
+        <mapping class="by.belisa.entity.SectionFond" />
         
     </session-factory>
 </hibernate-configuration>

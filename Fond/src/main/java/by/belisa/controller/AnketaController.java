@@ -29,6 +29,7 @@ import by.belisa.service.IService;
 import by.belisa.service.ServiceImpl;
 import by.belisa.service.TestService;
 import by.belisa.service.UserService;
+import by.belisa.util.HibernateUtil;
 
 @Controller(value="anketaController")
 @RequestMapping(value="VIEW")
@@ -111,12 +112,11 @@ public class AnketaController {
 		if (user==null){
 			return;
 		}
-		by.belisa.entity.Anketa ank = user.getAnketa();
-		
+		by.belisa.entity.Anketa ank = anketaService.get(pk);
+//		ank = HibernateUtil.unproxy(ank);
 		if (ank==null){
 			ank = new by.belisa.entity.Anketa();
 		}
-		System.out.println(ank.getFio());
 		ank.setFio(anketa.getFio());
 		ank.setUser(user);
 		anketaService.update(ank);

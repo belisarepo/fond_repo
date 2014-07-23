@@ -27,7 +27,7 @@ public class ServiceImpl<T, PK extends Serializable> implements IService<T, PK> 
 	protected void setBaseDao(Dao<T, PK> baseDao) {
 		this.baseDao = baseDao;
 	}
-	
+
 	public ServiceImpl(Class<T> type) {
 		this.type = type;
 		this.typeName = type.getSimpleName();
@@ -59,14 +59,15 @@ public class ServiceImpl<T, PK extends Serializable> implements IService<T, PK> 
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public T get(PK id) throws ServiceException {
-		
+
 		try {
-			
+
 			return baseDao.get(id);
-			
+
 		} catch (DaoException e) {
-			
-			throw new ServiceException(e, ServiceErrorCode.ERR_SRVC_002, typeName, id);
+
+			throw new ServiceException(e, ServiceErrorCode.ERR_SRVC_002,
+					typeName, id);
 		}
 	}
 
@@ -81,13 +82,14 @@ public class ServiceImpl<T, PK extends Serializable> implements IService<T, PK> 
 	}
 
 	public void update(T o) throws ServiceException {
-		
+
 		try {
 			baseDao.update(o);
-			
+
 		} catch (DaoException e) {
-			
-			throw new ServiceException(e, ServiceErrorCode.ERR_SRVC_001,typeName);
+
+			throw new ServiceException(e, ServiceErrorCode.ERR_SRVC_001,
+					typeName);
 		}
 	}
 
@@ -99,5 +101,4 @@ public class ServiceImpl<T, PK extends Serializable> implements IService<T, PK> 
 		}
 	}
 
-	
 }
