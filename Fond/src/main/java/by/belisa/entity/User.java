@@ -35,6 +35,14 @@ public class User implements Serializable{
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PK")
 	@Column(name="userid")
 	private long id;
+	@Column(name="FIRSTNAME")
+	private String firstName;
+	@Column(name="MIDDLENAME")
+	private String middleName;
+	@Column(name="LASTNAME")
+	private String lastName;
+	@Column(name="EMAILADDRESS")
+	private String email;
 	@OneToOne(mappedBy="user", cascade=CascadeType.ALL, fetch=FetchType.LAZY, optional=false)
 	private Anketa anketa;
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -59,5 +67,30 @@ public class User implements Serializable{
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getMiddleName() {
+		return middleName;
+	}
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 	
 }

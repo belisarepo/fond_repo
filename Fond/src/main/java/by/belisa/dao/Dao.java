@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 
+import by.belisa.entity.Anketa;
 import by.belisa.exception.DaoException;
 
 public interface Dao<T, PK extends Serializable> {
@@ -50,4 +51,9 @@ public interface Dao<T, PK extends Serializable> {
      * @return
      */
 	List<T> getList(Criterion[] criterion) throws DaoException;
+	/**
+	 * Save or update 
+	 * @param anketa
+	 */
+	void saveOrUpdate(T object) throws DaoException;
 }

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
-import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,10 +12,8 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.orm.hibernate3.SessionFactoryUtils;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.ContextLoader;
 
 import by.belisa.exception.DaoException;
 
@@ -45,6 +42,8 @@ public class DaoImpl<T, PK extends Serializable> implements Dao<T, PK> {
 	}
 
 	protected Session getSession() {
+		ApplicationContext ctx = ContextLoader.getCurrentWebApplicationContext();
+		log.debug("!!!!!!!!!!! dao context id "+ctx.hashCode());
 		Session session =  sessionFactory.getCurrentSession();
 		
 		log.debug(String.format("Got current session for %s: %s.", typeName,
@@ -117,7 +116,7 @@ public class DaoImpl<T, PK extends Serializable> implements Dao<T, PK> {
 		try {
 			log.debug(String.format("Update %s: %s.", typeName, o));
 			Session s = getSession();
-			s.saveOrUpdate(o);
+			s.update(o);
 			log.debug(String.format("Updated %s: %s.", typeName, o));
 		} catch (HibernateException e) {
 			throw new DaoException(e);
@@ -135,6 +134,19 @@ public class DaoImpl<T, PK extends Serializable> implements Dao<T, PK> {
 		} catch (HibernateException e) {
 			throw new DaoException(e);
 		}
+	}
+
+	@Override
+	public void saveOrUpdate(T o) throws DaoException {
+		try {
+			log.debug(String.format("saveOrUpdate %s: %s.", typeName, o));
+			Session s = getSession();
+			s.saveOrUpdate(o);
+			log.debug(String.format("Saved or Updated %s: %s.", typeName, o));
+		} catch (HibernateException e) {
+			throw new DaoException(e);
+		}
+		
 	}
 
 }

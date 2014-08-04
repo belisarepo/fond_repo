@@ -65,4 +65,15 @@
 			<role-name>user</role-name>
 		</security-role-ref>
 	</portlet>
+	<!-- <filter>
+		<filter-name>hiber</filter-name>
+		<filter-class>by.belisa.filters.PortletOpenSessionInViewFilter</filter-class>
+		<lifecycle>ACTION_PHASE</lifecycle>
+		<lifecycle>RENDER_PHASE</lifecycle>
+	</filter>
+	<filter-mapping>
+		<filter-name>hiber</filter-name>
+		<portlet-name>anketa</portlet-name>
+	</filter-mapping>
+-->
 </portlet-app>

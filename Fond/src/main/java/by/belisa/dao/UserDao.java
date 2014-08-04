@@ -1,7 +1,5 @@
 package by.belisa.dao;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +11,6 @@ public class UserDao extends DaoImpl<User, Long> {
 
 	public UserDao() {
 		super(User.class);
-		log.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!created userDao");
 	}
 	
 }

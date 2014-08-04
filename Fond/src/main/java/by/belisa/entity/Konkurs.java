@@ -15,7 +15,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="KONKURS")
+@Table(name="KONKURSY")
 @SequenceGenerator(name="PK", sequenceName="SEQ_KONKURS")
 public class Konkurs implements Serializable{
 

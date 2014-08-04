@@ -13,9 +13,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="SPR_UCH_ZVANIY")
+@Table(name="UCH_ZVANIY")
 @SequenceGenerator(name="PK", sequenceName="SEQ_SPR_UCH_ZVANIY")
-public class SpravochnikUchZvaniy implements Serializable{
+public class UchZvaniy implements Serializable{
 
 	/**
 	 * 
