@@ -16,6 +16,13 @@
 		<header-portlet-css>/css/request/main.css</header-portlet-css>
 		<footer-portlet-javascript>/js/request/main.js</footer-portlet-javascript>
 	</portlet>
+	<portlet>
+		<portlet-name>konkursy</portlet-name>
+		<icon>/icon.png</icon>
+		<requires-namespaced-parameters>false</requires-namespaced-parameters>
+		<header-portlet-css>/css/konkursy/main.css</header-portlet-css>
+		<footer-portlet-javascript>/js/konkursy/main.js</footer-portlet-javascript>
+	</portlet>
 	<role-mapper>
 		<role-name>administrator</role-name>
 		<role-link>Administrator</role-link>

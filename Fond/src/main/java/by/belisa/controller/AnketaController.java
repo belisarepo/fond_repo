@@ -1,7 +1,5 @@
 package by.belisa.controller;
 
-
-
 import java.text.ParseException;
 import java.util.List;
 
@@ -18,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
-import by.belisa.bean.AnketaVO;
+import by.belisa.bean.AnketaDTO;
 import by.belisa.entity.Anketa;
 import by.belisa.entity.Organization;
 import by.belisa.entity.UchStepeni;
@@ -35,12 +33,12 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.util.PortalUtil;
 
-@Controller(value="anketaController")
-@RequestMapping(value="VIEW")
-//@SessionAttributes("anketa")
+@Controller(value = "anketaController")
+@RequestMapping(value = "VIEW")
+// @SessionAttributes("anketa")
 public class AnketaController {
 	private static Logger log = Logger.getLogger(AnketaController.class);
-	
+
 	@Autowired
 	@Qualifier("userService")
 	private UserService userService;
@@ -56,59 +54,61 @@ public class AnketaController {
 	@Autowired
 	@Qualifier("orgService")
 	private OrgService orgService;
-	
-	
-//	@ModelAttribute("my_anketa")
-//	public Anketa prepareFormModel(PortletRequest request){
-//		System.out.println("model attribute");
-//		Anketa anketa = new Anketa();
-//		try {
-//			com.liferay.portal.model.User user = PortalUtil.getUser(request);
-//			if (user!=null){
-//				long pk = user.getPrimaryKey();
-//				by.belisa.entity.Anketa ank =  anketaService.get(pk);
-//				if (ank!=null){
-//					
-//					anketa.setSurname(ank.getSurname());
-//					anketa.setName(ank.getName());
-//					anketa.setPatronymic(ank.getPatronymic());
-//					anketa.setAge(ank.getAge());
-//				}
-//				
-//			}
-//			
-//		} catch (PortalException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (SystemException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (ServiceException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return anketa;
-//	}
-	
+
+	// @ModelAttribute("my_anketa")
+	// public Anketa prepareFormModel(PortletRequest request){
+	// System.out.println("model attribute");
+	// Anketa anketa = new Anketa();
+	// try {
+	// com.liferay.portal.model.User user = PortalUtil.getUser(request);
+	// if (user!=null){
+	// long pk = user.getPrimaryKey();
+	// by.belisa.entity.Anketa ank = anketaService.get(pk);
+	// if (ank!=null){
+	//
+	// anketa.setSurname(ank.getSurname());
+	// anketa.setName(ank.getName());
+	// anketa.setPatronymic(ank.getPatronymic());
+	// anketa.setAge(ank.getAge());
+	// }
+	//
+	// }
+	//
+	// } catch (PortalException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// } catch (SystemException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// } catch (ServiceException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// return anketa;
+	// }
+
 	@RenderMapping
-	public String renderView(Model model, PortletRequest request) throws ServiceException, DaoException {
-		AnketaVO anketaVO = null;
+	public String renderView(Model model, PortletRequest request)
+			throws ServiceException, DaoException {
+		AnketaDTO anketaDTO = null;
 		try {
 			com.liferay.portal.model.User user = PortalUtil.getUser(request);
-			if (user!=null){
+			if (user != null) {
 				long pk = user.getPrimaryKey();
-				anketaVO =  anketaService.getVO(pk);
-				if(anketaVO.getId()==0){
-					anketaVO.setEmail(user.getEmailAddress());
-					anketaVO.setFullFio(user.getLastName()+" "+user.getFirstName()+" "+user.getMiddleName());
-					anketaVO.setFio(user.getLastName()+" "+user.getFirstName().charAt(0)+"."+user.getMiddleName().charAt(0)+".");
+				anketaDTO = anketaService.getVO(pk);
+				if (anketaDTO.getId() == 0) {
+					anketaDTO.setEmail(user.getEmailAddress());
+					anketaDTO.setFullFio(user.getLastName() + " "
+							+ user.getFirstName() + " " + user.getMiddleName());
+					anketaDTO.setFio(user.getLastName() + " "
+							+ user.getFirstName().charAt(0) + "."
+							+ user.getMiddleName().charAt(0) + ".");
 				}
-				
-			}else{
-				anketaVO = new AnketaVO(); 
+
+			} else {
+				anketaDTO = new AnketaDTO();
 			}
-			
-			
+
 		} catch (PortalException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -122,15 +122,18 @@ public class AnketaController {
 		model.addAttribute("uchStepeniList", uchStepeniList);
 		model.addAttribute("uchZvaniyList", uchZvaniyList);
 		model.addAttribute("orgList", orgList);
-		model.addAttribute("anketa", anketaVO);
+		model.addAttribute("anketa", anketaDTO);
 		return "anketa";
 	}
+
 	@ActionMapping
-	public void getFormData(@ModelAttribute AnketaVO anketaVO, ActionRequest aRequest, Model model) throws ServiceException, PortalException, SystemException, ParseException, DaoException{
-		long pk = PortalUtil.getUser(aRequest).getPrimaryKey();	
-		anketaVO.setId(pk);
-		anketaService.saveOrUpdate(anketaVO);
-		model.addAttribute("save_result","ok");
+	public void getFormData(@ModelAttribute AnketaDTO anketaDTO,
+			ActionRequest aRequest, Model model) throws ServiceException,
+			PortalException, SystemException, ParseException, DaoException {
+		long pk = PortalUtil.getUser(aRequest).getPrimaryKey();
+		anketaDTO.setId(pk);
+		anketaService.saveOrUpdate(anketaDTO);
+		model.addAttribute("save_result", "ok");
 	}
-	
+
 }

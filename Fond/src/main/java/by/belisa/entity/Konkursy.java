@@ -3,6 +3,7 @@ package by.belisa.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="KONKURSY")
 @SequenceGenerator(name="PK", sequenceName="SEQ_KONKURS")
-public class Konkurs implements Serializable{
+public class Konkursy implements Serializable{
 
 	/**
 	 * 
@@ -50,6 +51,7 @@ public class Konkurs implements Serializable{
 	@Column(name="RESHENIE_NS",length=4000)
 	private String reshenieNS;
 	@Lob
+	@Basic(fetch = FetchType.LAZY)
 	@Column(name="USL_KONKURSA_R")
 	private byte[] uslKonkursaR;
 	@Lob
@@ -62,11 +64,14 @@ public class Konkurs implements Serializable{
 	@Column(name="STOP_PROJECT")
 	private Date stopProject;
 	@Column(name="COUNT_ISPOLNITEL")
-	private int countIspolnitel;
+	private Integer countIspolnitel;
 	@Column(name="COUNT_RUKOVODITEL")
-	private int countRukovoditel;
+	private Integer countRukovoditel;
 	@Column(name="COUNT_ISPOL_RUKOV")
-	private int countIspolRukov;
+	private Integer countIspolRukov;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="STATUS_KONKURS")
+	private KonkursStatus konkursStatus;
 	public int getId() {
 		return id;
 	}
@@ -166,22 +171,22 @@ public class Konkurs implements Serializable{
 	public void setStopProject(Date stopProject) {
 		this.stopProject = stopProject;
 	}
-	public int getCountIspolnitel() {
+	public Integer getCountIspolnitel() {
 		return countIspolnitel;
 	}
-	public void setCountIspolnitel(int countIspolnitel) {
+	public void setCountIspolnitel(Integer countIspolnitel) {
 		this.countIspolnitel = countIspolnitel;
 	}
-	public int getCountRukovoditel() {
+	public Integer getCountRukovoditel() {
 		return countRukovoditel;
 	}
-	public void setCountRukovoditel(int countRukovoditel) {
+	public void setCountRukovoditel(Integer countRukovoditel) {
 		this.countRukovoditel = countRukovoditel;
 	}
-	public int getCountIspolRukov() {
+	public Integer getCountIspolRukov() {
 		return countIspolRukov;
 	}
-	public void setCountIspolRukov(int countIspolRukov) {
+	public void setCountIspolRukov(Integer countIspolRukov) {
 		this.countIspolRukov = countIspolRukov;
 	}
 	

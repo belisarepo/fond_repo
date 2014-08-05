@@ -5,15 +5,15 @@ import java.text.SimpleDateFormat;
 
 import by.belisa.entity.Anketa;
 
-public class AnketaVO implements Serializable{
+public class AnketaDTO implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5556610303426905342L;
-	public AnketaVO(){
+	public AnketaDTO(){
 		
 	}
-	public AnketaVO(Anketa anketa){
+	public AnketaDTO(Anketa anketa){
 		if (anketa!=null){
 			this.address = anketa.getAddress();
 			this.biography = anketa.getBiography();

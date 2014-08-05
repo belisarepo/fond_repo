@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import by.belisa.bean.AnketaVO;
+import by.belisa.bean.AnketaDTO;
 import by.belisa.dao.Dao;
 import by.belisa.dao.OrgDao;
 import by.belisa.dao.UchStepeniDao;
@@ -43,35 +43,35 @@ public class AnketaService extends ServiceImpl<Anketa,Long>{
 		super.setBaseDao(baseDao);
 	}
 	
-	public void saveOrUpdate(AnketaVO anketaVo) throws ParseException, DaoException, ServiceException{
-		Anketa anketa = baseDao.get(anketaVo.getId());
+	public void saveOrUpdate(AnketaDTO anketaDTO) throws ParseException, DaoException, ServiceException{
+		Anketa anketa = baseDao.get(anketaDTO.getId());
 		 if (anketa==null){
 			 anketa = new Anketa();
 		 }
-		anketa.setAddress(anketaVo.getAddress());
-		anketa.setBiography(anketaVo.getBiography());
-		if (anketaVo.getBirthday()!=null && !anketaVo.getBirthday().isEmpty()){
-			anketa.setBirthday(dateFormat.parse(anketaVo.getBirthday()));
+		anketa.setAddress(anketaDTO.getAddress());
+		anketa.setBiography(anketaDTO.getBiography());
+		if (anketaDTO.getBirthday()!=null && !anketaDTO.getBirthday().isEmpty()){
+			anketa.setBirthday(dateFormat.parse(anketaDTO.getBirthday()));
 		}
-		anketa.setEmail(anketaVo.getEmail());
-		anketa.setFio(anketaVo.getFio());
-		anketa.setFullFio(anketaVo.getFullFio());
-		anketa.setHomePhone(anketaVo.getHomePhone());
-		anketa.setJobPhone(anketaVo.getJobPhone());
-		anketa.setLab(anketaVo.getLab());
-		anketa.setMobilePhone(anketaVo.getMobilePhone());
-		anketa.setOrg(orgDao.get(anketaVo.getOrgId()));
-		anketa.setPost(anketaVo.getPost());
-		anketa.setUchStepeni(uchStepeniDao.get(anketaVo.getUchStepenId()));
-		anketa.setUchZvanie(uchZvanieDao.get(anketaVo.getUchZvaniyId()));
-		anketa.setUser(userDao.get(anketaVo.getId()));
+		anketa.setEmail(anketaDTO.getEmail());
+		anketa.setFio(anketaDTO.getFio());
+		anketa.setFullFio(anketaDTO.getFullFio());
+		anketa.setHomePhone(anketaDTO.getHomePhone());
+		anketa.setJobPhone(anketaDTO.getJobPhone());
+		anketa.setLab(anketaDTO.getLab());
+		anketa.setMobilePhone(anketaDTO.getMobilePhone());
+		anketa.setOrg(orgDao.get(anketaDTO.getOrgId()));
+		anketa.setPost(anketaDTO.getPost());
+		anketa.setUchStepeni(uchStepeniDao.get(anketaDTO.getUchStepenId()));
+		anketa.setUchZvanie(uchZvanieDao.get(anketaDTO.getUchZvaniyId()));
+		anketa.setUser(userDao.get(anketaDTO.getId()));
 		baseDao.saveOrUpdate(anketa);
 	}
 	
-	public AnketaVO getVO(Long id) throws DaoException{
+	public AnketaDTO getVO(Long id) throws DaoException{
 		Anketa anketa = baseDao.get(id);
-		AnketaVO anketaVO = new AnketaVO(anketa);
-		return anketaVO;
+		AnketaDTO anketaDTO = new AnketaDTO(anketa);
+		return anketaDTO;
 		
 	}
 	

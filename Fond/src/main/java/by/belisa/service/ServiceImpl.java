@@ -44,7 +44,7 @@ public class ServiceImpl<T, PK extends Serializable> implements IService<T, PK> 
 		try {
 			return baseDao.getAll();
 		} catch (DaoException e) {
-			throw new ServiceException(e, ServiceErrorCode.ERR_SRVC_005);
+			throw new ServiceException(e, ServiceErrorCode.ERR_SRVC_005, typeName);
 		}
 	}
 
