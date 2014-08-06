@@ -54,6 +54,11 @@
 				<value>by.belisa.entity.FinRazdel</value>
 				<value>by.belisa.entity.VidKonkursa</value>
 				<value>by.belisa.entity.KonkursStatus</value>
+				<value>by.belisa.entity.ZayavkaFI</value>
+				<value>by.belisa.entity.StatusZayavkaFI</value>
+				<value>by.belisa.entity.PrioritetNauka</value>
+				<value>by.belisa.entity.OtraslNauka</value>
+				<value>by.belisa.entity.SectionFond</value>
 			</list>
 		</property>
 

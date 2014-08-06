@@ -17,13 +17,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
-import com.liferay.portal.kernel.servlet.HttpHeaders;
-import com.liferay.portal.kernel.util.ParamUtil;
-
 import by.belisa.bean.KonkursyDTO;
+import by.belisa.bean.ZayavkaFIDTO;
+import by.belisa.entity.Konkursy;
+import by.belisa.entity.OtraslNauka;
+import by.belisa.entity.SectionFond;
 import by.belisa.exception.DaoException;
 import by.belisa.exception.ServiceException;
 import by.belisa.service.KonkursyService;
+import by.belisa.service.OtraslNaukaService;
+import by.belisa.service.SectionFondService;
+import by.belisa.service.ZayavkaFIService;
+
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.servlet.HttpHeaders;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.util.PortalUtil;
 
 @Controller(value="konkursyController")
 @RequestMapping(value="VIEW")
@@ -32,12 +42,34 @@ public class KonkursyController {
 	@Autowired
 	@Qualifier(value="konkursyService")
 	private KonkursyService konkursyService;
+	@Autowired
+	@Qualifier(value="sectionFondService")
+	private SectionFondService sectionFondService;
+	@Autowired
+	@Qualifier(value="zayavkaFIService")
+	private ZayavkaFIService zayavkaFIService;
+	@Autowired
+	@Qualifier(value="otraslNaukaService")
+	private OtraslNaukaService otraslNaukaService;
 	
 	@RenderMapping
 	public String renderView(Model model, PortletRequest request) throws ServiceException, DaoException{
 		List<KonkursyDTO> konkursyList = konkursyService.getActiveKonkursy();
 		model.addAttribute("konkursyList", konkursyList);
 		return "konkursy";
+	}
+	@RenderMapping(params="view=zayavka")
+	public String renderZayavkaForm(Model model, PortletRequest request) throws ServiceException, NumberFormatException, PortalException, SystemException{
+		String konkursId = ParamUtil.getString(request, "konkursId");
+		Konkursy konkurs = konkursyService.get(Integer.parseInt(konkursId));
+		ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(PortalUtil.getUser(request).getUserId(), Integer.parseInt(konkursId));
+		List<SectionFond> sectionFondList = sectionFondService.getAll();
+		List<OtraslNauka> otraslNaukaList = otraslNaukaService.getAll();
+		model.addAttribute("otraslNaukaList", otraslNaukaList);
+		model.addAttribute("konkurs", konkurs);
+		model.addAttribute("zayavka", zayavkaFIDTO);
+		model.addAttribute("sectionFondList", sectionFondList);
+		return "zayavka";
 	}
 	@ResourceMapping()
 	public void getUsloviy(ResourceRequest request, ResourceResponse response){
