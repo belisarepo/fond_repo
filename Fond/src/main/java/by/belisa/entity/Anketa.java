@@ -30,14 +30,14 @@ public class Anketa implements Serializable{
 	public Anketa(){
 		
 	}
-	public Anketa(long id){
+	public Anketa(Long id){
 		this.id = id;
 	}
 	@Id
 	@Column(name = "id")  
 	@GeneratedValue(generator = "gen")  
 	@GenericGenerator(name = "gen", strategy = "foreign", parameters = @Parameter(name = "property", value = "user"))
-	private long id;
+	private Long id;
 	@Column(name="FIO", length=60)
 	private String fio;
 	@Column(name="FIO_FULL", length=100)
@@ -162,8 +162,17 @@ public class Anketa implements Serializable{
 	public void setFio(String fio) {
 		this.fio = fio;
 	}
-	public long getId() {
+	public Long getId() {
 		return id;
+	}
+	public UchZvaniy getUchZvaniy() {
+		return uchZvaniy;
+	}
+	public void setUchZvaniy(UchZvaniy uchZvaniy) {
+		this.uchZvaniy = uchZvaniy;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public User getUser() {
 		return user;

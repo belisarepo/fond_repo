@@ -38,7 +38,7 @@
 	<form:input path="fullFio" />
 	<br />
 	<form:label path="orgId">Организация</form:label>
-	<form:select path="orgId">
+	<form:select path="orgId"  class="chosen">
 		<form:options items="${orgList}" itemLabel="name" itemValue="id" />
 	</form:select>
 	<form:label path="uchStepenId">Ученая степень</form:label>
@@ -47,7 +47,7 @@
 			itemValue="id" />
 	</form:select>
 	<form:label path="uchZvaniyId">Ученое звание</form:label>
-	<form:select path="uchZvaniyId">
+	<form:select path="uchZvaniyId" class="chosen">
 		<form:options items="${uchZvaniyList}" itemLabel="fullName"
 			itemValue="id" />
 	</form:select>
@@ -60,7 +60,7 @@
 
 	<form:label path="birthday" placeholder="dd-MM-yyyy">Дата рождения</form:label>
 	
-		<form:input id="birthday_id" path="birthday" />
+		<form:input path="birthday" class="datepicker" id="xxx"/>
 		<br />
 
 
@@ -85,21 +85,11 @@
 
 <aui:script>
 YUI().use(
-  'aui-datepicker',
   function(Y) {
   	var save_result = '${save_result}';
   	if (save_result){
   		showSuccess();
   	}
-    new Y.DatePicker(
-      {
-        trigger: '#birthday_id',
-        mask: '%d-%m-%Y',
-        popover: {
-          zIndex: 1
-        }
-      }
-    );
   }
 );
 

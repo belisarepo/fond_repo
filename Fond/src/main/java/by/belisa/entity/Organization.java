@@ -4,8 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -32,6 +35,21 @@ public class Organization implements Serializable{
 	private String address;
 	@Column(name="EMAIL")
 	private String email;
+	@Column(name="KOD_OLD")
+	private String oldCode;
+	@Column(name="UNP")
+	private String unp;
+	@Column(name="KOD_BOOKER")
+	private String codeBooker;
+	@Column(name="OKOGU")
+	private Integer okogu;
+	@Column(name="FULL_NAME_RUS")
+	private String fullNameR;
+	@Column(name="FULL_NAME_ENG")
+	private String fullNameE;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="VID_ORG_ID")
+	private VidOrg vidOrg;
 	public int getId() {
 		return id;
 	}
@@ -52,6 +70,51 @@ public class Organization implements Serializable{
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getOldCode() {
+		return oldCode;
+	}
+	public void setOldCode(String oldCode) {
+		this.oldCode = oldCode;
+	}
+	public String getUnp() {
+		return unp;
+	}
+	public void setUnp(String unp) {
+		this.unp = unp;
+	}
+	public String getCodeBooker() {
+		return codeBooker;
+	}
+	public void setCodeBooker(String codeBooker) {
+		this.codeBooker = codeBooker;
+	}
+	public Integer getOkogu() {
+		return okogu;
+	}
+	public void setOkogu(Integer okogu) {
+		this.okogu = okogu;
+	}
+	public String getFullNameR() {
+		return fullNameR;
+	}
+	public void setFullNameR(String fullNameR) {
+		this.fullNameR = fullNameR;
+	}
+	public String getFullNameE() {
+		return fullNameE;
+	}
+	public void setFullNameE(String fullNameE) {
+		this.fullNameE = fullNameE;
+	}
+	public VidOrg getVidOrg() {
+		return vidOrg;
+	}
+	public void setVidOrg(VidOrg vidOrg) {
+		this.vidOrg = vidOrg;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 

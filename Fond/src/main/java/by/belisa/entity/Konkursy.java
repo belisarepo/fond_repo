@@ -50,13 +50,12 @@ public class Konkursy implements Serializable{
 	private String formaZE;
 	@Column(name="RESHENIE_NS",length=4000)
 	private String reshenieNS;
-	@Lob
-	@Basic(fetch = FetchType.LAZY)
-	@Column(name="USL_KONKURSA_R")
-	private byte[] uslKonkursaR;
-	@Lob
-	@Column(name="USL_KONKURSA_E")
-	private byte[] uslKonkursaE;
+//	@Lob@Basic(fetch=FetchType.LAZY)
+//	@Column(name="USL_KONKURSA_R")
+//	private byte[] uslKonkursaR;
+//	@Lob
+//	@Column(name="USL_KONKURSA_E")
+//	private byte[] uslKonkursaE;
 	@Column(name="STOP_KONKURS")
 	private Date stopKonkurs;
 	@Column(name="START_PROJECT")
@@ -141,18 +140,7 @@ public class Konkursy implements Serializable{
 	public void setReshenieNS(String reshenieNS) {
 		this.reshenieNS = reshenieNS;
 	}
-	public byte[] getUslKonkursaR() {
-		return uslKonkursaR;
-	}
-	public void setUslKonkursaR(byte[] uslKonkursaR) {
-		this.uslKonkursaR = uslKonkursaR;
-	}
-	public byte[] getUslKonkursaE() {
-		return uslKonkursaE;
-	}
-	public void setUslKonkursaE(byte[] uslKonkursaE) {
-		this.uslKonkursaE = uslKonkursaE;
-	}
+	
 	public Date getStopKonkurs() {
 		return stopKonkurs;
 	}

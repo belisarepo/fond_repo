@@ -59,6 +59,10 @@
 				<value>by.belisa.entity.PrioritetNauka</value>
 				<value>by.belisa.entity.OtraslNauka</value>
 				<value>by.belisa.entity.SectionFond</value>
+				<value>by.belisa.entity.VidOrg</value>
+				<value>by.belisa.entity.FizInfo</value>
+				<value>by.belisa.entity.Ispolnitel</value>
+				
 			</list>
 		</property>
 

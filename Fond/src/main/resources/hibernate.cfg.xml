@@ -30,6 +30,7 @@
         <mapping class="by.belisa.entity.UchStepeni" />
         <mapping class="by.belisa.entity.VidOrg" />
         <mapping class="by.belisa.entity.SectionFond" />
+        <mapping class="by.belisa.entity.Ispolnitel" />
         
     </session-factory>
 </hibernate-configuration>

@@ -10,12 +10,13 @@
 <!-- <input id="<portlet:namespace />text" type="hidden" value="" /> -->
 <aui:script>
 function <portlet:namespace />initEditor() {
-                        return Liferay.Util.getOpener().document.getElementById("popup_text").value;
+                        return Liferay.Util.getOpener().document.getElementById('${input_id}').value;
             }
 function getDataFromPopup(input_id) {
     //AUI().one('#<portlet:namespace />text').value = window.<portlet:namespace />editor.getHTML(); 
     Liferay.Util.getOpener().document.getElementById(input_id).value = window.<portlet:namespace />editor.getHTML(); 
-    showSuccess();              
+    showSuccess();
+    <portlet:namespace />textDialog.hide();              
             }
             
 function showSuccess(){

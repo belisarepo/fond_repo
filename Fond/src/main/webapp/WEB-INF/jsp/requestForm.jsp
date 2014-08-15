@@ -40,10 +40,10 @@
 
 	<ul class="nav nav-tabs ">
 		<li><a href="#tab-1"><spring:message
-					code="request.competitionLegend" /></a></li>
-		<li><a href="#tab-2"><spring:message code="request.orgLegend" /></a></li>
+					code="zayavka.competitionLegend" /></a></li>
+		<li><a href="#tab-2"><spring:message code="zayavka.orgLegend" /></a></li>
 		<li><a href="#tab-3"><spring:message
-					code="request.managerLegend" /></a></li>
+					code="zayavka.managerLegend" /></a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -52,47 +52,47 @@
 			<form:form modelAttribute='${ns}requestBean' method="POST"
 				action="${sendForm}">
 				<legend>
-					<spring:message code="request.competitionLegend" />
+					<spring:message code="zayavka.competitionLegend" />
 				</legend>
 				<aui:fieldset>
 					<aui:col width="33">
 						<form:label path="codeCompetition">
-							<spring:message code="request.codeCompetition" />
+							<spring:message code="zayavka.codeCompetition" />
 						</form:label>
 						<form:input path="codeCompetition" class="uneditable-input"
 							value="test" />
 						<form:label path="nameCompetition">
-							<spring:message code="request.nameCompetition" />
+							<spring:message code="zayavka.nameCompetition" />
 						</form:label>
 						<form:input path="nameCompetition" class="uneditable-input"
 							value="test" />
 						<form:label path="typeCompetition">
-							<spring:message code="request.typeCompetition" />
+							<spring:message code="zayavka.typeCompetition" />
 						</form:label>
 						<form:input path="typeCompetition" class="uneditable-input"
 							value="1" />
 					</aui:col>
 					<aui:col width="33">
 						<form:label path="brffi">
-							<spring:message code="request.brffi" />
+							<spring:message code="zayavka.brffi" />
 						</form:label>
 						<form:select path="brffi" items="${testMap }" />
 						<form:label path="branchScience">
-							<spring:message code="request.branchScience" />
+							<spring:message code="zayavka.branchScience" />
 						</form:label>
 						<form:select path="branchScience" items="${testMap }" />
 						<form:label path="priority">
-							<spring:message code="request.priority" />
+							<spring:message code="zayavka.priority" />
 						</form:label>
 						<form:select path="priority" items="${testMap }" />
 					</aui:col>
 					<aui:col width="33">
 						<form:label path="topic">
-							<spring:message code="request.topic" />
+							<spring:message code="zayavka.topic" />
 						</form:label>
 						<form:input path="topic" class="uneditable-input" value="test" />
 						<form:label path="codeUdk">
-							<spring:message code="request.codeUdk" />
+							<spring:message code="zayavka.codeUdk" />
 						</form:label>
 						<form:input path="codeUdk" class="uneditable-input" value="test" />
 					</aui:col>
@@ -108,26 +108,26 @@
 			<form:form modelAttribute='${ns}requestBean' method="POST"
 				action="${sendForm}">
 				<legend>
-					<spring:message code="request.orgLegend" />
+					<spring:message code="zayavka.orgLegend" />
 				</legend>
 				<aui:fieldset>
 					<aui:col width="33">
 						<form:label path="org">
-							<spring:message code="request.org" />
+							<spring:message code="zayavka.org" />
 						</form:label>
 						<form:select path="org" items="${testMap }" />
 						<form:label path="supremeOrg">
-							<spring:message code="request.supremeOrg" />
+							<spring:message code="zayavka.supremeOrg" />
 						</form:label>
 						<form:select path="supremeOrg" items="${testMap }" />
 					</aui:col>
 					<aui:col width="33">
 						<form:label path="addressOrg">
-							<spring:message code="request.addressOrg" />
+							<spring:message code="zayavka.addressOrg" />
 						</form:label>
 						<form:input path="addressOrg" />
 						<form:label path="emailOrg">
-							<spring:message code="request.emailOrg" />
+							<spring:message code="zayavka.emailOrg" />
 						</form:label>
 						<div class="input-prepend">
 							<span class="add-on"><i class="icon-envelope"></i></span>
@@ -146,59 +146,59 @@
 			<form:form modelAttribute='${ns}requestBean' method="POST"
 				action="${sendForm}">
 				<legend>
-					<spring:message code="request.managerLegend" />
+					<spring:message code="zayavka.managerLegend" />
 				</legend>
 				<aui:fieldset>
 					<aui:col width="33">
 						<form:label path="fioManager">
-							<spring:message code="request.fioManager" />
+							<spring:message code="zayavka.fioManager" />
 						</form:label>
 						<form:input path="fioManager" id="fioManager"/>
 						<form:label path="birthdayManager">
-							<spring:message code="request.birthdayManager" />
+							<spring:message code="zayavka.birthdayManager" />
 						</form:label>
 						<form:input path="birthdayManager" />
 						<form:label path="degree">
-							<spring:message code="request.degree" />
+							<spring:message code="zayavka.degree" />
 						</form:label>
 						<form:select path="degree" items="${testMap }" />
 						<form:label path="academicTitle">
-							<spring:message code="request.academicTitle" />
+							<spring:message code="zayavka.academicTitle" />
 						</form:label>
 						<form:select path="academicTitle" items="${testMap }" />
 					</aui:col>
 					<aui:col width="33">
 						<form:label path="postManager">
-							<spring:message code="request.postManager" />
+							<spring:message code="zayavka.postManager" />
 						</form:label>
 						<form:input path="postManager" />
 						<form:label path="chairManager">
-							<spring:message code="request.chairManager" />
+							<spring:message code="zayavka.chairManager" />
 						</form:label>
 						<form:input path="chairManager" />
 						<form:label path="emailManager">
-							<spring:message code="request.emailManager" />
+							<spring:message code="zayavka.emailManager" />
 						</form:label>
 						<div class="input-prepend">
 							<span class="add-on"><i class="icon-envelope"></i></span>
 							<form:input path="emailManager" />
 						</div>
 						<form:label path="addressManager">
-							<spring:message code="request.addressManager" />
+							<spring:message code="zayavka.addressManager" />
 						</form:label>
 						<form:input path="addressManager" />
 					</aui:col>
 					<aui:col width="33">
 						<form:label path="businessPhone">
-							<spring:message code="request.businessPhone" />
+							<spring:message code="zayavka.businessPhone" />
 						</form:label>
 						<form:input path="businessPhone" />
 						<form:label path="homePhone">
-							<spring:message code="request.homePhone" />
+							<spring:message code="zayavka.homePhone" />
 						</form:label>
 						<form:input path="homePhone" />
 						<form:label path="mobilePhone">
-							<spring:message code="request.mobilePhone" />
+							<spring:message code="zayavka.mobilePhone" />
 						</form:label>
 						<form:input path="mobilePhone" />
 						<form:label path="text">Text</form:label>
@@ -223,73 +223,73 @@
 	action="${sendForm}">
 
 	<legend>
-		<spring:message code="request.competitionLegend" />
+		<spring:message code="zayavka.competitionLegend" />
 	</legend>
 	<aui:fieldset>
 		<aui:col width="33">
 			<form:label path="codeCompetition">
-				<spring:message code="request.codeCompetition" />
+				<spring:message code="zayavka.codeCompetition" />
 			</form:label>
 			<form:input path="codeCompetition" class="uneditable-input"
 				value="test" />
 			<form:label path="nameCompetition">
-				<spring:message code="request.nameCompetition" />
+				<spring:message code="zayavka.nameCompetition" />
 			</form:label>
 			<form:input path="nameCompetition" class="uneditable-input"
 				value="test" />
 			<form:label path="typeCompetition">
-				<spring:message code="request.typeCompetition" />
+				<spring:message code="zayavka.typeCompetition" />
 			</form:label>
 			<form:input path="typeCompetition" class="uneditable-input"
 				value="test" />
 		</aui:col>
 		<aui:col width="33">
 			<form:label path="brffi">
-				<spring:message code="request.brffi" />
+				<spring:message code="zayavka.brffi" />
 			</form:label>
 			<form:select path="brffi" items="${testMap }" />
 			<form:label path="branchScience">
-				<spring:message code="request.branchScience" />
+				<spring:message code="zayavka.branchScience" />
 			</form:label>
 			<form:select path="branchScience" items="${testMap }" />
 			<form:label path="priority">
-				<spring:message code="request.priority" />
+				<spring:message code="zayavka.priority" />
 			</form:label>
 			<form:select path="priority" items="${testMap }" />
 		</aui:col>
 		<aui:col width="33">
 			<form:label path="topic">
-				<spring:message code="request.topic" />
+				<spring:message code="zayavka.topic" />
 			</form:label>
 			<form:input path="topic" class="uneditable-input" value="test" />
 			<form:label path="codeUdk">
-				<spring:message code="request.codeUdk" />
+				<spring:message code="zayavka.codeUdk" />
 			</form:label>
 			<form:input path="codeUdk" class="uneditable-input" value="test" />
 		</aui:col>
 	</aui:fieldset>
 
 	<legend>
-		<spring:message code="request.orgLegend" />
+		<spring:message code="zayavka.orgLegend" />
 	</legend>
 	<aui:fieldset>
 		<aui:col width="33">
 			<form:label path="org">
-				<spring:message code="request.org" />
+				<spring:message code="zayavka.org" />
 			</form:label>
 			<form:select path="org" items="${testMap }" />
 			<form:label path="supremeOrg">
-				<spring:message code="request.supremeOrg" />
+				<spring:message code="zayavka.supremeOrg" />
 			</form:label>
 			<form:select path="supremeOrg" items="${testMap }" />
 		</aui:col>
 		<aui:col width="33">
 			<form:label path="addressOrg">
-				<spring:message code="request.addressOrg" />
+				<spring:message code="zayavka.addressOrg" />
 			</form:label>
 			<form:input path="addressOrg" />
 			<form:label path="emailOrg">
-				<spring:message code="request.emailOrg" />
+				<spring:message code="zayavka.emailOrg" />
 			</form:label>
 			<div class="input-prepend">
 				<span class="add-on"><i class="icon-envelope"></i></span>
@@ -299,59 +299,59 @@
 	</aui:fieldset>
 
 	<legend>
-		<spring:message code="request.managerLegend" />
+		<spring:message code="zayavka.managerLegend" />
 	</legend>
 	<aui:fieldset>
 		<aui:col width="33">
 			<form:label path="fioManager">
-				<spring:message code="request.fioManager" />
+				<spring:message code="zayavka.fioManager" />
 			</form:label>
 			<form:input path="fioManager" />
 			<form:label path="birthdayManager">
-				<spring:message code="request.birthdayManager" />
+				<spring:message code="zayavka.birthdayManager" />
 			</form:label>
 			<form:input path="birthdayManager" />
 			<form:label path="degree">
-				<spring:message code="request.degree" />
+				<spring:message code="zayavka.degree" />
 			</form:label>
 			<form:select path="degree" items="${testMap }" />
 			<form:label path="academicTitle">
-				<spring:message code="request.academicTitle" />
+				<spring:message code="zayavka.academicTitle" />
 			</form:label>
 			<form:select path="academicTitle" items="${testMap }" />
 		</aui:col>
 		<aui:col width="33">
 			<form:label path="postManager">
-				<spring:message code="request.postManager" />
+				<spring:message code="zayavka.postManager" />
 			</form:label>
 			<form:input path="postManager" />
 			<form:label path="chairManager">
-				<spring:message code="request.chairManager" />
+				<spring:message code="zayavka.chairManager" />
 			</form:label>
 			<form:input path="chairManager" />
 			<form:label path="emailManager">
-				<spring:message code="request.emailManager" />
+				<spring:message code="zayavka.emailManager" />
 			</form:label>
 			<div class="input-prepend">
 				<span class="add-on"><i class="icon-envelope"></i></span>
 				<form:input path="emailManager" />
 			</div>
 			<form:label path="addressManager">
-				<spring:message code="request.addressManager" />
+				<spring:message code="zayavka.addressManager" />
 			</form:label>
 			<form:input path="addressManager" />
 		</aui:col>
 		<aui:col width="33">
 			<form:label path="businessPhone">
-				<spring:message code="request.businessPhone" />
+				<spring:message code="zayavka.businessPhone" />
 			</form:label>
 			<form:input path="businessPhone" />
 			<form:label path="homePhone">
-				<spring:message code="request.homePhone" />
+				<spring:message code="zayavka.homePhone" />
 			</form:label>
 			<form:input path="homePhone" />
 			<form:label path="mobilePhone">
-				<spring:message code="request.mobilePhone" />
+				<spring:message code="zayavka.mobilePhone" />
 			</form:label>
 			<form:input path="mobilePhone" />
 			<form:label path="text">Text</form:label>
