@@ -3,9 +3,9 @@ package by.belisa.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -13,10 +13,11 @@ import org.springframework.stereotype.Service;
 import by.belisa.bean.IspolnitelDTO;
 import by.belisa.dao.Dao;
 import by.belisa.dao.FizInfoDao;
+import by.belisa.dao.IspolniteliDao;
 import by.belisa.dao.OrgDao;
 import by.belisa.dao.UchStepeniDao;
 import by.belisa.dao.UchZvanieDao;
-import by.belisa.entity.FizInfo;
+import by.belisa.dao.ZayavkaFIDao;
 import by.belisa.entity.Ispolnitel;
 import by.belisa.exception.DaoException;
 @Service
@@ -45,9 +46,16 @@ public class IspolnitelService extends ServiceImpl<Ispolnitel, Integer>{
 	@Autowired
 	@Qualifier("orgDao")
 	private OrgDao orgDao;
+	@Autowired
+	@Qualifier("zayavkaFIDao")
+	private ZayavkaFIDao zayavkaFIDao;
 	
-	public List<IspolnitelDTO> getAllDTO() throws DaoException{
-		List<Ispolnitel> ispolnitelList = baseDao.getAll();
+	public List<IspolnitelDTO> getAllDTOByZayavkaId(Integer zayavkaId) throws DaoException{
+		if (zayavkaId==null){
+			return new ArrayList<IspolnitelDTO>();
+		}
+		IspolniteliDao ispolniteliDao= (IspolniteliDao)baseDao; 
+		List<Ispolnitel> ispolnitelList = ispolniteliDao.getAllByZayavkaId(zayavkaId);
 		List<IspolnitelDTO> ispolnitelDTOList = new ArrayList<IspolnitelDTO>();
 		for (Ispolnitel i : ispolnitelList){
 			ispolnitelDTOList.add(new IspolnitelDTO(i));
@@ -55,9 +63,26 @@ public class IspolnitelService extends ServiceImpl<Ispolnitel, Integer>{
 		return ispolnitelDTOList;
 	}
 	
-	public void addIspolnitel(IspolnitelDTO dto) throws ParseException, DaoException{
-		Date birthday = dateFormat.parse(dto.getBirthday());
-		Ispolnitel ispolnitel = new Ispolnitel();
+	public void saveOrUpdate(IspolnitelDTO dto) throws ParseException, DaoException{
+		Ispolnitel ispolnitel ;
+		if (dto.getId()!=null){
+			ispolnitel = baseDao.get(dto.getId());
+		}else{
+			ispolnitel = new Ispolnitel();
+		}
+		
+		if (dto.getBirthday()!=null && !dto.getBirthday().isEmpty()){
+			ispolnitel.setBirthday(dateFormat.parse(dto.getBirthday()));
+		}
+		ispolnitel.setName(dto.getName());
+		ispolnitel.setOrg(orgDao.get(dto.getOrgId()));
+		ispolnitel.setPatronymic(dto.getPatronymic());
+		ispolnitel.setPost(dto.getPost());
+		ispolnitel.setSurname(dto.getSurname());
+		ispolnitel.setUchStepeni(uchStepeniDao.get(dto.getUchStepeniId()));
+		ispolnitel.setUchZvaniy(uchZvanieDao.get(dto.getUchZvaniyId()));
+		ispolnitel.setZayavkaFI(zayavkaFIDao.get(dto.getZayavkaFIId()));
+		baseDao.saveOrUpdate(ispolnitel);
 		
 	}
 	

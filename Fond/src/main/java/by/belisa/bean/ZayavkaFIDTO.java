@@ -14,7 +14,7 @@ public class ZayavkaFIDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 2104550708006725459L;
 
-	private int id;
+	private Integer id;
 	private String konkursNameR;
 	private int konkursId;
 	private String sectionFondNameR;
@@ -27,7 +27,6 @@ public class ZayavkaFIDTO implements Serializable {
 	private String temaName;
 	private String orgName;
 	private Integer orgId;
-	private Set<FizInfo> fizInfoSet = new HashSet<FizInfo>();
 	private Set<IspolnitelDTO> ispolniteliDTO = new HashSet<IspolnitelDTO>();
 
 	public ZayavkaFIDTO() {
@@ -49,18 +48,11 @@ public class ZayavkaFIDTO implements Serializable {
 			this.temaName = zayavkaFI.getTemaZName();
 			this.orgId = zayavkaFI.getOrganization() != null ? zayavkaFI.getOrganization().getId() : null;
 			this.orgName = zayavkaFI.getOrganization() != null ? zayavkaFI.getOrganization().getName() : "";
-			this.fizInfoSet = zayavkaFI.getIspolniteli();
 		}
 
 	}
 
-	public Set<FizInfo> getFizInfoSet() {
-		return fizInfoSet;
-	}
-
-	public void setFizInfoSet(Set<FizInfo> ispolniteli) {
-		this.fizInfoSet = ispolniteli;
-	}
+	
 
 	public String getOrgName() {
 		return orgName;
@@ -126,11 +118,11 @@ public class ZayavkaFIDTO implements Serializable {
 		this.otraslNaukaId = otraslNaukaId;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

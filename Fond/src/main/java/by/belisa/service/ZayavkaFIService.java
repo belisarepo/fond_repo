@@ -53,6 +53,8 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	public ZayavkaFIDTO getZayavkaFIDTOByUserId(long userId, int konkursId) throws DaoException{
 		ZayavkaFIDao zayavkaFIDao = (ZayavkaFIDao)baseDao;
 		ZayavkaFIDTO zayavkaFIDTO = new ZayavkaFIDTO(zayavkaFIDao.getZayavkaFIByUserId(userId, konkursId));
+		
+		
 		if (zayavkaFIDTO.getOrgId()==null){
 			Anketa anketa = anketaDao.get(userId);
 			if (anketa != null && anketa.getOrg()!=null){
@@ -61,8 +63,9 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		}
 		return zayavkaFIDTO;
 	}
-	public void saveOrUpdate(ZayavkaFIDTO dto) throws DaoException{
-		ZayavkaFI zayavkaFI = baseDao.get(dto.getId());
+	public Integer saveOrUpdate(ZayavkaFIDTO dto) throws DaoException{
+		Integer id = dto.getId()!=null ? dto.getId() : -1; 
+		ZayavkaFI zayavkaFI = baseDao.get(id);
 		if (zayavkaFI==null){
 			zayavkaFI = new ZayavkaFI();
 		}
@@ -72,7 +75,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		zayavkaFI.setSectionFond(sectionFondDao.get(dto.getSectionFondId()));
 		zayavkaFI.setTemaZName(dto.getTemaName());
 		zayavkaFI.setOrganization(orgDao.get(dto.getOrgId()));
-		zayavkaFI.setIspolniteli(dto.getFizInfoSet());
 		baseDao.saveOrUpdate(zayavkaFI);
+		return zayavkaFI.getId();
 	}
 }

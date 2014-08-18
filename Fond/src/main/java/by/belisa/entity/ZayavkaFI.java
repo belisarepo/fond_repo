@@ -64,17 +64,17 @@ public class ZayavkaFI implements Serializable{
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ORGANIZATION_ID")
 	private Organization organization;
-	@ManyToMany(cascade = {CascadeType.ALL},fetch=FetchType.EAGER)
-    @JoinTable(name="ZAYAVKA_FI_FIZ_INFO", 
-                joinColumns={@JoinColumn(name="ZAYAVKA_FI_ID")}, 
-                inverseJoinColumns={@JoinColumn(name="FIZ_INFO_ID")})
-	private Set<FizInfo> ispolniteli = new HashSet<FizInfo>();
-	public Set<FizInfo> getIspolniteli() {
-		return ispolniteli;
-	}
-	public void setIspolniteli(Set<FizInfo> ispolniteli) {
-		this.ispolniteli = ispolniteli;
-	}
+	
+//	@ManyToMany(cascade=CascadeType.ALL)
+//    @JoinTable(name="ZAYAVKA_FI_FIZ_INFO", 
+//                joinColumns={@JoinColumn(name="ZAYAVKA_FI_ID")}, 
+//                inverseJoinColumns={@JoinColumn(name="FIZ_INFO_ID")})
+//	private Set<FizInfo> fizInfoSet = new HashSet<FizInfo>();
+	
+	
+	
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -165,6 +165,7 @@ public class ZayavkaFI implements Serializable{
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
 	}
+	
 	
 
 }

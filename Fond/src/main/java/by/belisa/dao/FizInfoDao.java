@@ -13,7 +13,7 @@ public class FizInfoDao extends DaoImpl<FizInfo, Integer>{
 	public FizInfoDao() {
 		super(FizInfo.class);
 	}
-	public FizInfo getByFio(String n, String s, String p, Date birthday){
+	public FizInfo getByFio(String s, String n, String p, Date birthday){
 		Query q = getSession().createQuery("FROM FizInfo where surname=:surname and birthday=:birthday");
 		q.setDate("birthday", birthday);
 		q.setString("surname", s+" "+n+" "+p);

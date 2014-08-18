@@ -19,18 +19,30 @@
         <mapping class="by.belisa.entity.Role" />
         <mapping class="by.belisa.entity.Anketa" />
         <mapping class="by.belisa.entity.TUser" />
-        <mapping class="by.belisa.entity.TUserInfo" />-->
+        <mapping class="by.belisa.entity.PrioritetNauka" />-->
         <mapping class="by.belisa.entity.FinRazdel" />
         <mapping class="by.belisa.entity.TipKonkursa" />
         <mapping class="by.belisa.entity.VidKonkursa" />
         <mapping class="by.belisa.entity.VidUchStepeni" />
         <mapping class="by.belisa.entity.VidUchZvaniy" />
-        <mapping class="by.belisa.entity.SpravochnikUchZvaniy" />
-        <mapping class="by.belisa.entity.Konkurs" />
+        <mapping class="by.belisa.entity.Konkursy" />
+        <mapping class="by.belisa.entity.KonkursStatus" />
         <mapping class="by.belisa.entity.UchStepeni" />
         <mapping class="by.belisa.entity.VidOrg" />
         <mapping class="by.belisa.entity.SectionFond" />
         <mapping class="by.belisa.entity.Ispolnitel" />
+        <mapping class="by.belisa.entity.FizInfo" />
+        <mapping class="by.belisa.entity.ZayavkaFI" />
+        <mapping class="by.belisa.entity.StatusZayavkaFI" />
+        <mapping class="by.belisa.entity.Organization" />
+        <mapping class="by.belisa.entity.UchZvaniy" />
+        <mapping class="by.belisa.entity.Anketa" />
+        <mapping class="by.belisa.entity.OtraslNauka" />
+        <mapping class="by.belisa.entity.PrioritetNauka" />
+        <mapping class="by.belisa.entity.User" />
+        <mapping class="by.belisa.entity.Role" />
+        <mapping class="by.belisa.entity.One" />
+        <mapping class="by.belisa.entity.Two" />
         
     </session-factory>
 </hibernate-configuration>

@@ -42,10 +42,7 @@ public class DaoImpl<T, PK extends Serializable> implements Dao<T, PK> {
 	}
 
 	protected Session getSession() {
-		ApplicationContext ctx = ContextLoader.getCurrentWebApplicationContext();
-		log.debug("!!!!!!!!!!! dao context id "+ctx.hashCode());
 		Session session =  sessionFactory.getCurrentSession();
-		
 		log.debug(String.format("Got current session for %s: %s.", typeName,
 				session));
 		return session;

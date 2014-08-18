@@ -2,6 +2,7 @@ package by.belisa.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -24,6 +25,7 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import by.belisa.bean.IspolnitelDTO;
 import by.belisa.bean.KonkursyDTO;
 import by.belisa.bean.ZayavkaFIDTO;
+import by.belisa.entity.Ispolnitel;
 import by.belisa.entity.Konkursy;
 import by.belisa.entity.Organization;
 import by.belisa.entity.OtraslNauka;
@@ -149,7 +151,7 @@ public class KonkursyController {
 		model.addAttribute("zayavka", zayavkaFIDTO);
 		List<Organization> listOrg = orgService.getAll();
 		model.addAttribute("listOrg", listOrg);
-		List<IspolnitelDTO> ispolniteliList = ispolnitelService.getAllDTO();
+		List<IspolnitelDTO> ispolniteliList = ispolnitelService.getAllDTOByZayavkaId(zayavkaFIDTO.getId());
 		model.addAttribute("ispolniteliList", ispolniteliList);
 		model.addAttribute("ispolnitelModel", new IspolnitelDTO());
 		return "zayavka";
@@ -163,10 +165,35 @@ public class KonkursyController {
 	}
 	
 	@ActionMapping(params = "action=addIspolnitel")
-	public void addIspolnitel(@ModelAttribute IspolnitelDTO ispolnitelDTO, ActionRequest req, ActionResponse resp){
-//		ispolnitelService.addDTO(ispolnitelDTO);
+	public void addIspolnitel(@ModelAttribute IspolnitelDTO ispolnitelDTO, ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+		String konkursId = ParamUtil.getString(req, "konkursId");
+		ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(PortalUtil.getUser(req).getUserId(), Integer.parseInt(konkursId));
+		if (zayavkaFIDTO.getId()==null){
+			zayavkaFIDTO.setUserId(PortalUtil.getUser(req).getUserId());
+			zayavkaFIDTO.setKonkursId(Integer.parseInt(konkursId));
+			Integer zayavkaFIId = zayavkaFIService.saveOrUpdate(zayavkaFIDTO);
+			zayavkaFIDTO.setId(zayavkaFIId);
+		}
+		
+		ispolnitelDTO.setZayavkaFIId(zayavkaFIDTO.getId());
+		fizInfoService.addFizInfo(ispolnitelDTO);
+		ispolnitelService.saveOrUpdate(ispolnitelDTO);
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
+		
+	}
+	
+	@ActionMapping(params = "action=deleteIspolnitel")
+	public void deleteIspolnitel(@ModelAttribute IspolnitelDTO ispolnitelDTO, ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+		
+		Integer ispolnitelId = ParamUtil.getInteger(req, "ispolnitelId");
+		Ispolnitel ispolnitel = ispolnitelService.get(ispolnitelId);
+		fizInfoService.removeFizInfoFromZayavkaFI(PortalUtil.getUser(req).getUserId(), Integer.parseInt(ParamUtil.getString(req, "konkursId")), ispolnitel);
+		ispolnitelService.delete(ispolnitel);
+		
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
+		
 		
 	}
 

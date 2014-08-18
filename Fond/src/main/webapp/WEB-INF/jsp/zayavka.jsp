@@ -16,7 +16,7 @@
 </portlet:actionURL>
 <portlet:actionURL var="addIspolnitelAction">
 	<portlet:param name="action" value="addIspolnitel" />
-	<portlet:param name="konkursId" value="${zayavka.konkursId}"/>
+	<portlet:param name="konkursId" value="${zayavka.konkursId}" />
 </portlet:actionURL>
 
 <portlet:renderURL var="popupPageURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
@@ -65,51 +65,83 @@
 		</div>
 		<div id="tab-3" class="tab-pane"></div>
 		<div id="tab-4" class="tab-pane">
-			<table class="table table-condensed table-bordered" style="width:auto">
-				<thead>
-					<tr>
 
-						<th><spring:message code="zayavka.surname" /></th>
-						<th><spring:message code="zayavka.name" /></th>
-						<th><spring:message code="zayavka.patronymic" /></th>
-						<th><spring:message code="zayavka.birthdayManager" /></th>
-						<th><spring:message code="zayavka.degree" /></th>
-						<th><spring:message code="zayavka.academicTitle" /></th>
-						<th><spring:message code="zayavka.mestoRaboti" /></th>
-						<th><spring:message code="zayavka.postManager" /></th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${ispolniteliList}" var="i">
+			<c:if test="${not empty ispolniteliList}">
+				<table class="table table-condensed table-bordered" style="width: auto">
+					<thead>
 						<tr>
-							<td>${i.surname}</td>
-							<td>${i.name}</td>
-							<td>${i.patronymic}</td>
-							<td>${i.birthday}</td>
-							<td>${i.uchStepeniName}</td>
-							<td>${i.uchZvaniyName}</td>
-							<td>${i.orgName}</td>
-							<td>${i.post}</td>
+							<th><spring:message code="zayavka.surname" /></th>
+							<th><spring:message code="zayavka.name" /></th>
+							<th><spring:message code="zayavka.patronymic" /></th>
+							<th><spring:message code="zayavka.birthdayManager" /></th>
+							<th><spring:message code="zayavka.degree" /></th>
+							<th><spring:message code="zayavka.academicTitle" /></th>
+							<th><spring:message code="zayavka.mestoRaboti" /></th>
+							<th><spring:message code="zayavka.postManager" /></th>
+							<th></th>
 						</tr>
-					</c:forEach>
-					<form:form action="${addIspolnitelAction}" modelAttribute="${ns}ispolnitelModel" method="POST">
-						<tr>
-							<td><form:input path="surname" cssClass="big-table"/></td>
-							<td><form:input path="name" cssClass="big-table"/></td>
-							<td><form:input path="patronymic" cssClass="big-table"/></td>
-							<td><form:input path="birthday" cssClass="big-table"/></td>
-							<td><form:select path="uchStepeniId" items="${uchStepeniList}" itemLabel="fullName" itemValue="id" /></td>
-							<td><form:select path="uchZvaniyId" items="${uchZvaniyList}" itemLabel="fullName" itemValue="id" /></td>
-							<td><form:select path="orgId" items="${listOrg}" itemValue="id" itemLabel="name" class="chosen" /></td>
-							<td><form:input path="post" cssClass="big-table"/></td>
-							<td><button type="submit" class="btn btn-lg btn-link">
-									<span class="glyphicon glyphicon-plus green">Add</span>
-								</button></td>
-						</tr>
-					</form:form>
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						<c:forEach items="${ispolniteliList}" var="i">
+							<tr>
+								<td>${i.surname}</td>
+								<td>${i.name}</td>
+								<td>${i.patronymic}</td>
+								<td>${i.birthday}</td>
+								<td>${i.uchStepeniName}</td>
+								<td>${i.uchZvaniyName}</td>
+								<td>${i.orgName}</td>
+								<td>${i.post}</td>
+								<td><a
+									href="<portlet:actionURL><portlet:param name="action" value="deleteIspolnitel"/><portlet:param name="ispolnitelId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavka.konkursId}" /></portlet:actionURL>">Удалить</a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</c:if>
+
+
+			<form:form action="${addIspolnitelAction}" modelAttribute="${ns}ispolnitelModel" method="POST">
+				<form:label path="surname">
+					<spring:message code="zayavka.surname" />
+				</form:label>
+				<form:input path="surname" />
+				<form:label path="name">
+					<spring:message code="zayavka.name" />
+				</form:label>
+				<form:input path="name" />
+				<form:label path="patronymic">
+					<spring:message code="zayavka.patronymic" />
+				</form:label>
+				<form:input path="patronymic" />
+				<form:label path="birthday">
+					<spring:message code="zayavka.birthdayManager" />
+				</form:label>
+				<form:input path="birthday" />
+				<form:label path="uchStepeniId">
+					<spring:message code="zayavka.degree" />
+				</form:label>
+				<form:select path="uchStepeniId" items="${uchStepeniList}" itemLabel="fullName" itemValue="id" />
+				<form:label path="uchZvaniyId">
+					<spring:message code="zayavka.academicTitle" />
+				</form:label>
+				<form:select path="uchZvaniyId" items="${uchZvaniyList}" itemLabel="fullName" itemValue="id" />
+				<form:label path="orgId">
+					<spring:message code="zayavka.mestoRaboti" />
+				</form:label>
+				<form:select path="orgId" items="${listOrg}" itemValue="id" itemLabel="name" class="chosen" />
+				<form:label path="post">
+					<spring:message code="zayavka.postManager" />
+				</form:label>
+				<form:input path="post" />
+				<aui:button-row>
+					<div align="left">
+						<aui:button type="submit" value="Добавить" />
+					</div>
+				</aui:button-row>
+
+			</form:form>
+
 		</div>
 	</div>
 </div>

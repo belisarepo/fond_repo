@@ -11,25 +11,17 @@ public class TestHibernate {
 	public static void main(String args[]){
 		SessionFactory sf = new AnnotationConfiguration().configure().buildSessionFactory();
 		Session s = sf.openSession();
-		Transaction tr = null;
+		Transaction tr = s.getTransaction();
 		try {
-			tr = s.beginTransaction();
-//			User u = new User();
-//			Anketa a = new Anketa();
-//			a.setUser(u);
-//			u.setAnketa(a);
-//			s.save(a);
-//			System.out.println(((Anketa)s.get(Anketa.class, 4050l)));
-			
-			
-//			TipKonkursa t = new TipKonkursa();
-//			t.setDescription("texttexttexttexttextetxtetxtetxtextetxtetxtetxte");
-//			t.setFinRazdel((FinRazdel)s.get(FinRazdel.class, 1));
-//			t.setName("name");
-//			t.setOldCode("00");
-//			t.setVidKonkursa((VidKonkursa)s.get(VidKonkursa.class, 1));
-//			s.save(t);
-//			System.out.println(((TipKonkursa)s.get(TipKonkursa.class, 50)).getVidKonkursa());
+			tr.begin();
+			FizInfo fi = new FizInfo();
+			ZayavkaFI z = new ZayavkaFI();
+			fi.getZayavki().add(z);
+			s.saveOrUpdate(fi);
+//			One o = new One();
+//			Two t = new Two();
+//			t.getOneSet().add(o);
+//			s.saveOrUpdate(t);
 			tr.commit();
 		} catch (HibernateException e) {
 			tr.rollback();

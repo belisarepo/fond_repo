@@ -14,7 +14,10 @@ import by.belisa.dao.FizInfoDao;
 import by.belisa.dao.OrgDao;
 import by.belisa.dao.UchStepeniDao;
 import by.belisa.dao.UchZvanieDao;
+import by.belisa.dao.ZayavkaFIDao;
 import by.belisa.entity.FizInfo;
+import by.belisa.entity.Ispolnitel;
+import by.belisa.entity.ZayavkaFI;
 import by.belisa.exception.DaoException;
 
 @Service
@@ -36,6 +39,9 @@ public class FizInfoService extends ServiceImpl<FizInfo, Integer>{
 	@Autowired
 	@Qualifier("orgDao")
 	private OrgDao orgDao;
+	@Autowired
+	@Qualifier("zayavkaFIDao")
+	private ZayavkaFIDao zayavkaFIDao;
 	
 	@Override
 	@Autowired
@@ -56,8 +62,14 @@ public class FizInfoService extends ServiceImpl<FizInfo, Integer>{
 		fizInfo.setPost(dto.getPost());
 		fizInfo.setUchStepeni(uchStepeniDao.get(dto.getUchStepeniId()));
 		fizInfo.setUchZvaniy(uchZvanieDao.get(dto.getUchZvaniyId()));
+		fizInfo.getZayavki().add(zayavkaFIDao.get(dto.getZayavkaFIId()));
 		fizInfoDao.saveOrUpdate(fizInfo);
 	}
-	
+	public void removeFizInfoFromZayavkaFI(Long userId, Integer konkursId, Ispolnitel ispolnitel) throws DaoException{
+		ZayavkaFI zayavkaFI = zayavkaFIDao.getZayavkaFIByUserId(userId, konkursId);
+		FizInfo fizInfo = fizInfoDao.getByFio(ispolnitel.getSurname(),ispolnitel.getName(),ispolnitel.getPatronymic(),ispolnitel.getBirthday());
+		fizInfo.getZayavki().remove(zayavkaFI);
+		fizInfoDao.saveOrUpdate(fizInfo);
+	}
 
 }
