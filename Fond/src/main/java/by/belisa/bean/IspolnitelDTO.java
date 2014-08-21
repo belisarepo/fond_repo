@@ -3,6 +3,11 @@ package by.belisa.bean;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Past;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import by.belisa.entity.Ispolnitel;
 
 public class IspolnitelDTO implements Serializable{
@@ -38,12 +43,12 @@ public class IspolnitelDTO implements Serializable{
 			this.surname = entity.getSurname();
 			this.patronymic = entity.getPatronymic();
 			this.birthday = entity.getBirthday()!=null ? dateFormat.format(entity.getBirthday()): null;
-			this.orgId = entity.getOrg().getId();
-			this.orgName = entity.getOrg().getName();
-			this.uchStepeniId = entity.getUchStepeni().getId();
-			this.uchStepeniName = entity.getUchStepeni().getFullName();
-			this.uchZvaniyId = entity.getUchZvaniy().getId();
-			this.uchZvaniyName = entity.getUchZvaniy().getFullName();
+			this.orgId = entity.getOrg()!=null ? entity.getOrg().getId() : null;
+			this.orgName = entity.getOrg()!=null ? entity.getOrg().getName() : "";
+			this.uchStepeniId =  entity.getUchStepeni()!=null ? entity.getUchStepeni().getId() : null;
+			this.uchStepeniName = entity.getUchStepeni()!=null ? entity.getUchStepeni().getFullName() : "";
+			this.uchZvaniyId = entity.getUchZvaniy()!=null ? entity.getUchZvaniy().getId() : null;
+			this.uchZvaniyName = entity.getUchZvaniy()!=null ? entity.getUchZvaniy().getFullName() : "";
 			this.post = entity.getPost();
 			this.zayavkaFIId = entity.getZayavkaFI().getId();
 		}

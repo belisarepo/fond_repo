@@ -41,8 +41,7 @@
         <mapping class="by.belisa.entity.PrioritetNauka" />
         <mapping class="by.belisa.entity.User" />
         <mapping class="by.belisa.entity.Role" />
-        <mapping class="by.belisa.entity.One" />
-        <mapping class="by.belisa.entity.Two" />
+        
         
     </session-factory>
 </hibernate-configuration>

@@ -5,6 +5,7 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme"%>
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 
 <portlet:defineObjects />
@@ -53,7 +54,9 @@
 				<form:label path="prioritetNaukaId">Приоритет науки</form:label>
 				<form:select path="prioritetNaukaId" items="${prioritetNaukaList}" itemLabel="name" itemValue="id" class="chosen"></form:select>
 				<form:label path="orgId">Организация заявитель</form:label>
-				<form:select path="orgId" items="${listOrg}" itemValue="id" itemLabel="name" class="chosen"></form:select>
+				<form:select path="orgId" items="${listOrg}" itemValue="id" itemLabel="name" class="chosen">
+					<option></option>
+				</form:select>
 				<%-- <form:label path="ispolniteli">Исполнители</form:label>
 				<form:select path="ispolniteli" items="${fizInfoList}" itemValue="id" itemLabel="surname" class="chosen" multiple="true"></form:select> --%>
 				<aui:button-row>
@@ -101,47 +104,74 @@
 			</c:if>
 
 
-			<form:form action="${addIspolnitelAction}" modelAttribute="${ns}ispolnitelModel" method="POST">
-				<form:label path="surname">
-					<spring:message code="zayavka.surname" />
-				</form:label>
-				<form:input path="surname" />
-				<form:label path="name">
-					<spring:message code="zayavka.name" />
-				</form:label>
-				<form:input path="name" />
-				<form:label path="patronymic">
-					<spring:message code="zayavka.patronymic" />
-				</form:label>
-				<form:input path="patronymic" />
-				<form:label path="birthday">
-					<spring:message code="zayavka.birthdayManager" />
-				</form:label>
-				<form:input path="birthday" />
-				<form:label path="uchStepeniId">
-					<spring:message code="zayavka.degree" />
-				</form:label>
-				<form:select path="uchStepeniId" items="${uchStepeniList}" itemLabel="fullName" itemValue="id" />
-				<form:label path="uchZvaniyId">
-					<spring:message code="zayavka.academicTitle" />
-				</form:label>
-				<form:select path="uchZvaniyId" items="${uchZvaniyList}" itemLabel="fullName" itemValue="id" />
-				<form:label path="orgId">
-					<spring:message code="zayavka.mestoRaboti" />
-				</form:label>
-				<form:select path="orgId" items="${listOrg}" itemValue="id" itemLabel="name" class="chosen" />
-				<form:label path="post">
-					<spring:message code="zayavka.postManager" />
-				</form:label>
-				<form:input path="post" />
+			<aui:form action="${addIspolnitelAction}" method="POST">
+				<spring:message code="zayavka.surname" var='surnameLabel'/>
+				<aui:input name="surname" label='${surnameLabel}' bean="ispolnitelModel">
+					<aui:validator name="required" />
+				</aui:input>
+				
+				<spring:message code="zayavka.name" var='nameLabel'/>
+				<aui:input name="name" label='${nameLabel}' bean="ispolnitelModel">
+					<aui:validator name="required" />
+				</aui:input>
+				
+				<spring:message code="zayavka.patronymic" var='patronymicLabel'/>
+				<aui:input name="patronymic" label='${patronymicLabel}' bean="ispolnitelModel">
+					<aui:validator name="required" />
+				</aui:input>
+
+				<spring:message code="zayavka.birthdayManager" var='birthdayLabel'/>
+				<aui:input name="birthday" label='${birthdayLabel}' bean="ispolnitelModel" cssClass="datapick" >
+					<aui:validator name="required" />
+					<aui:validator  name="custom"  errorMessage="Формат даты дд-мм-гггг" >
+						function (val, fieldNode, ruleValue) {
+							var result = false;
+							
+							if (val == '' || val.search(/^\d{2}-\d{2}-\d{4}$/)!=-1){
+								result = true;
+							}
+							return result;
+						}
+					</aui:validator>
+				</aui:input>
+				
+				<spring:message code="zayavka.degree" var='degreeLabel'/>
+				<aui:select name="uchStepeniId" bean="ispolnitelModel" label='${degreeLabel}'>
+					<option value="" />
+					<c:forEach var="i" items="${uchStepeniList}">
+						<aui:option value="${i.id}" label="${i.fullName}"/>
+					</c:forEach>
+					<aui:option></aui:option>
+				</aui:select>
+				
+				<spring:message code="zayavka.academicTitle" var='academicTitleLabel'/>
+				<aui:select name="uchZvaniyId" bean="ispolnitelModel" label='${academicTitleLabel}'>
+					<option value="" />
+					<c:forEach var="i" items="${uchZvaniyList}">
+						<aui:option value="${i.id}" label="${i.fullName}"/>
+					</c:forEach>
+					<aui:option></aui:option>
+				</aui:select>
+				
+				<spring:message code="zayavka.mestoRaboti" var='mestoRabotiLabel'/>
+				<aui:select name="orgId" bean="ispolnitelModel" label='${mestoRabotiLabel}'>
+					<option value="" />
+					<c:forEach var="i" items="${listOrg}">
+						<aui:option value="${i.id}" label="${i.name}"/>
+					</c:forEach>
+					<aui:option></aui:option>
+				</aui:select>
+				
+				<spring:message code='zayavka.postManager' var='postLabel'/>
+				<aui:input name="post" label='${postLabel}' bean="ispolnitelModel"></aui:input>
 				<aui:button-row>
 					<div align="left">
 						<aui:button type="submit" value="Добавить" />
 					</div>
 				</aui:button-row>
 
-			</form:form>
-
+			</aui:form>
+			<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 		</div>
 	</div>
 </div>

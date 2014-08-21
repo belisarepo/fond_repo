@@ -11,6 +11,7 @@ import by.belisa.dao.KonkursyDao;
 import by.belisa.dao.OrgDao;
 import by.belisa.dao.OtraslNaukaDao;
 import by.belisa.dao.SectionFondDao;
+import by.belisa.dao.StatusZayavkaFIDao;
 import by.belisa.dao.ZayavkaFIDao;
 import by.belisa.entity.Anketa;
 import by.belisa.entity.ZayavkaFI;
@@ -44,6 +45,9 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	@Autowired
 	@Qualifier(value="orgDao")
 	private OrgDao orgDao;
+	@Autowired
+	@Qualifier(value="statusZayavkaFIDao")
+	private StatusZayavkaFIDao statusZayavkaFIDao;
 	
 	
 	public ZayavkaFIDTO getZayavkaFIDTO(int id) throws DaoException{
@@ -75,6 +79,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		zayavkaFI.setSectionFond(sectionFondDao.get(dto.getSectionFondId()));
 		zayavkaFI.setTemaZName(dto.getTemaName());
 		zayavkaFI.setOrganization(orgDao.get(dto.getOrgId()));
+		zayavkaFI.setStatusZayavkaFI(statusZayavkaFIDao.get(1));//id=1 - Подготовка материалов
 		baseDao.saveOrUpdate(zayavkaFI);
 		return zayavkaFI.getId();
 	}

@@ -10,12 +10,16 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
@@ -140,14 +144,16 @@ public class KonkursyController {
 	}
 
 	@RenderMapping(params = "view=zayavka")
-	public String renderZayavkaForm(Model model, PortletRequest request) throws ServiceException, NumberFormatException, PortalException,
+	public String renderZayavkaForm(ModelMap model, PortletRequest request) throws ServiceException, NumberFormatException, PortalException,
 			SystemException, DaoException {
+		
 		String konkursId = ParamUtil.getString(request, "konkursId");
 		Konkursy konkurs = konkursyService.get(Integer.parseInt(konkursId));
 		ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(PortalUtil.getUser(request).getUserId(), Integer.parseInt(konkursId));
 		zayavkaFIDTO.setUserId(PortalUtil.getUser(request).getUserId());
 		zayavkaFIDTO.setKonkursNameR(konkurs.getNameR());
 		zayavkaFIDTO.setKonkursId(konkurs.getId());
+		
 		model.addAttribute("zayavka", zayavkaFIDTO);
 		List<Organization> listOrg = orgService.getAll();
 		model.addAttribute("listOrg", listOrg);
@@ -157,6 +163,7 @@ public class KonkursyController {
 		return "zayavka";
 	}
 
+	
 	@ActionMapping
 	public void saveZayavka(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp) throws DaoException {
 		zayavkaFIService.saveOrUpdate(zayavkaFIDTO);
@@ -166,20 +173,22 @@ public class KonkursyController {
 	
 	@ActionMapping(params = "action=addIspolnitel")
 	public void addIspolnitel(@ModelAttribute IspolnitelDTO ispolnitelDTO, ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
-		String konkursId = ParamUtil.getString(req, "konkursId");
-		ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(PortalUtil.getUser(req).getUserId(), Integer.parseInt(konkursId));
-		if (zayavkaFIDTO.getId()==null){
-			zayavkaFIDTO.setUserId(PortalUtil.getUser(req).getUserId());
-			zayavkaFIDTO.setKonkursId(Integer.parseInt(konkursId));
-			Integer zayavkaFIId = zayavkaFIService.saveOrUpdate(zayavkaFIDTO);
-			zayavkaFIDTO.setId(zayavkaFIId);
-		}
 		
-		ispolnitelDTO.setZayavkaFIId(zayavkaFIDTO.getId());
-		fizInfoService.addFizInfo(ispolnitelDTO);
-		ispolnitelService.saveOrUpdate(ispolnitelDTO);
-		resp.setRenderParameter("view", "zayavka");
-		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
+			String konkursId = ParamUtil.getString(req, "konkursId");
+			ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(PortalUtil.getUser(req).getUserId(), Integer.parseInt(konkursId));
+			if (zayavkaFIDTO.getId()==null){
+				zayavkaFIDTO.setUserId(PortalUtil.getUser(req).getUserId());
+				zayavkaFIDTO.setKonkursId(Integer.parseInt(konkursId));
+				Integer zayavkaFIId = zayavkaFIService.saveOrUpdate(zayavkaFIDTO);
+				zayavkaFIDTO.setId(zayavkaFIId);
+			}
+			
+			ispolnitelDTO.setZayavkaFIId(zayavkaFIDTO.getId());
+			fizInfoService.addFizInfo(ispolnitelDTO);
+			ispolnitelService.saveOrUpdate(ispolnitelDTO);
+			resp.setRenderParameter("view", "zayavka");
+			resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
+		
 		
 	}
 	
@@ -188,8 +197,10 @@ public class KonkursyController {
 		
 		Integer ispolnitelId = ParamUtil.getInteger(req, "ispolnitelId");
 		Ispolnitel ispolnitel = ispolnitelService.get(ispolnitelId);
-		fizInfoService.removeFizInfoFromZayavkaFI(PortalUtil.getUser(req).getUserId(), Integer.parseInt(ParamUtil.getString(req, "konkursId")), ispolnitel);
-		ispolnitelService.delete(ispolnitel);
+		if (ispolnitel!=null){
+			fizInfoService.removeFizInfoFromZayavkaFI(PortalUtil.getUser(req).getUserId(), Integer.parseInt(ParamUtil.getString(req, "konkursId")), ispolnitel);
+			ispolnitelService.delete(ispolnitel);
+		}
 		
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));

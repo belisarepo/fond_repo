@@ -1,13 +1,18 @@
 package by.belisa.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -23,12 +28,12 @@ public class Organization implements Serializable{
 	public Organization(){
 		
 	}
-	public Organization(int id){
+	public Organization(Integer id){
 		this.id = id;
 	}
 	@Id
 	@GeneratedValue(generator="PK")
-	private int id;
+	private Integer id;
 	@Column(name="NAME")
 	private String name;
 	@Column(name="ADDRESS")
@@ -50,6 +55,14 @@ public class Organization implements Serializable{
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="VID_ORG_ID")
 	private VidOrg vidOrg;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="ZAYAVKA_FI_ORG", 
+                joinColumns={@JoinColumn(name="ORG_ID")}, 
+                inverseJoinColumns={@JoinColumn(name="ZAYAVKA_FI_ID")})
+	private Set<ZayavkaFI> zayavki = new HashSet<ZayavkaFI>();
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -113,7 +126,7 @@ public class Organization implements Serializable{
 	public void setVidOrg(VidOrg vidOrg) {
 		this.vidOrg = vidOrg;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	

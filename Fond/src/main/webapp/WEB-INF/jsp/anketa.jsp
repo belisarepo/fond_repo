@@ -60,7 +60,7 @@
 
 	<form:label path="birthday" placeholder="dd-MM-yyyy">Дата рождения</form:label>
 	
-		<form:input path="birthday" class="datepicker" id="xxx"/>
+		<form:input path="birthday" class="datepicker"/>
 		<br />
 
 

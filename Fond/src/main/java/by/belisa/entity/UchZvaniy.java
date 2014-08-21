@@ -23,7 +23,7 @@ public class UchZvaniy implements Serializable{
 	private static final long serialVersionUID = -7675657014294710276L;
 	@Id
 	@GeneratedValue(generator="PK")
-	private int id;
+	private Integer id;
 	@Column(name="NAME")
 	private String name;
 	@Column(name="KOD_OLD",length=3)
@@ -33,7 +33,7 @@ public class UchZvaniy implements Serializable{
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="VID_UCH_ZVANIY_ID")
 	private VidUchZvaniy vidUchZvaniy;
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	public String getName() {

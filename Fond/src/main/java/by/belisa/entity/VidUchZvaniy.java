@@ -20,12 +20,12 @@ public class VidUchZvaniy implements Serializable{
 	private static final long serialVersionUID = -8031866819427074197L;
 	@Id
 	@GeneratedValue(generator="PK")
-	private int id;
+	private Integer id;
 	@Column(name="NAME", length=20)
 	private String name;
 	@Column(name="KOD_OLD", length=2)
 	private String oldCode;
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	public String getName() {

@@ -75,12 +75,21 @@ public class IspolnitelService extends ServiceImpl<Ispolnitel, Integer>{
 			ispolnitel.setBirthday(dateFormat.parse(dto.getBirthday()));
 		}
 		ispolnitel.setName(dto.getName());
-		ispolnitel.setOrg(orgDao.get(dto.getOrgId()));
+		if (dto.getOrgId()!=null){
+			ispolnitel.setOrg(orgDao.get(dto.getOrgId()));
+		}
+		
 		ispolnitel.setPatronymic(dto.getPatronymic());
 		ispolnitel.setPost(dto.getPost());
 		ispolnitel.setSurname(dto.getSurname());
-		ispolnitel.setUchStepeni(uchStepeniDao.get(dto.getUchStepeniId()));
-		ispolnitel.setUchZvaniy(uchZvanieDao.get(dto.getUchZvaniyId()));
+		if (dto.getUchStepeniId()!=null){
+			ispolnitel.setUchStepeni(uchStepeniDao.get(dto.getUchStepeniId()));
+		}
+		
+		if(dto.getUchZvaniyId()!=null){
+			ispolnitel.setUchZvaniy(uchZvanieDao.get(dto.getUchZvaniyId()));
+		}
+		
 		ispolnitel.setZayavkaFI(zayavkaFIDao.get(dto.getZayavkaFIId()));
 		baseDao.saveOrUpdate(ispolnitel);
 		

@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 @Entity
@@ -28,7 +29,7 @@ public class ZayavkaFI implements Serializable{
 	private static final long serialVersionUID = 4740539220522010233L;
 	@Id
 	@GeneratedValue(generator="PK")
-	private int id;
+	private Integer id;
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="KONKURSY_ID")
 	private Konkursy konkursy;
@@ -64,6 +65,29 @@ public class ZayavkaFI implements Serializable{
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ORGANIZATION_ID")
 	private Organization organization;
+	@Column(name="LASTING_DEADLINE")
+	private String lastingDeadline;
+	@Column(name="START_DEADLINE", columnDefinition="DATE")
+	private Date startDeadline;
+	@Column(name="STOP_DEADLINE", columnDefinition="DATE")
+	private Date stopDeadline;
+	@Column(name="COST_ALL")
+	private Integer costAll;
+	@Column(name="COST_FIRST_YEAR")
+	private Integer costFirstYear;
+	@Column(name="KOD_UDK")
+	private String codeUdk;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="ORGANIZATION_NR_ID")
+	private OrganizationNR orgNR;
+	@OneToOne(mappedBy="zayavkaFI", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private Annotation annotation;
+	@ManyToOne
+	@JoinColumn(name="FIZ_NR_INFO_ID")
+	private FizNRInfo fizNrInfo;
+	@ManyToMany(mappedBy="zayavki")
+	private Set<Organization> soOrgs = new HashSet<Organization>();
+	
 	
 //	@ManyToMany(cascade=CascadeType.ALL)
 //    @JoinTable(name="ZAYAVKA_FI_FIZ_INFO", 
@@ -75,10 +99,70 @@ public class ZayavkaFI implements Serializable{
 	
 	
 	
-	public int getId() {
+	public String getLastingDeadline() {
+		return lastingDeadline;
+	}
+	public void setLastingDeadline(String lastingDeadline) {
+		this.lastingDeadline = lastingDeadline;
+	}
+	public Date getStartDeadline() {
+		return startDeadline;
+	}
+	public void setStartDeadline(Date startDeadline) {
+		this.startDeadline = startDeadline;
+	}
+	public Date getStopDeadline() {
+		return stopDeadline;
+	}
+	public void setStopDeadline(Date stopDeadline) {
+		this.stopDeadline = stopDeadline;
+	}
+	public Integer getCostAll() {
+		return costAll;
+	}
+	public void setCostAll(Integer costAll) {
+		this.costAll = costAll;
+	}
+	public Integer getCostFirstYear() {
+		return costFirstYear;
+	}
+	public void setCostFirstYear(Integer costFirstYear) {
+		this.costFirstYear = costFirstYear;
+	}
+	public String getCodeUdk() {
+		return codeUdk;
+	}
+	public void setCodeUdk(String codeUdk) {
+		this.codeUdk = codeUdk;
+	}
+	public OrganizationNR getOrgNR() {
+		return orgNR;
+	}
+	public void setOrgNR(OrganizationNR orgNR) {
+		this.orgNR = orgNR;
+	}
+	public Annotation getAnnotation() {
+		return annotation;
+	}
+	public void setAnnotation(Annotation annotation) {
+		this.annotation = annotation;
+	}
+	public FizNRInfo getFizNrInfo() {
+		return fizNrInfo;
+	}
+	public void setFizNrInfo(FizNRInfo fizNrInfo) {
+		this.fizNrInfo = fizNrInfo;
+	}
+	public Set<Organization> getSoOrgs() {
+		return soOrgs;
+	}
+	public void setSoOrgs(Set<Organization> soOrgs) {
+		this.soOrgs = soOrgs;
+	}
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public Konkursy getKonkursy() {

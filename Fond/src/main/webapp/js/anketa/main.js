@@ -1,2 +1,2 @@
-$('#xxx').datepick({dateFormat: 'dd-mm-yyyy'});
+$('.datepicker').datepick({dateFormat: 'dd-mm-yyyy'});
 $('select').chosen();

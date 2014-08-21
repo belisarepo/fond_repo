@@ -58,10 +58,19 @@ public class FizInfoService extends ServiceImpl<FizInfo, Integer>{
 			fizInfo.setBirthday(birthday);
 			fizInfo.setSurname(dto.getSurname()+" "+dto.getName()+" "+dto.getPatronymic());
 		}
-		fizInfo.setOrg(orgDao.get(dto.getOrgId()));
+		if (dto.getOrgId()!=null){
+			fizInfo.setOrg(orgDao.get(dto.getOrgId()));
+		}
+		
 		fizInfo.setPost(dto.getPost());
-		fizInfo.setUchStepeni(uchStepeniDao.get(dto.getUchStepeniId()));
-		fizInfo.setUchZvaniy(uchZvanieDao.get(dto.getUchZvaniyId()));
+		if (dto.getUchStepeniId()!=null){
+			fizInfo.setUchStepeni(uchStepeniDao.get(dto.getUchStepeniId()));
+		}
+		
+		if (dto.getUchZvaniyId()!=null){
+			fizInfo.setUchZvaniy(uchZvanieDao.get(dto.getUchZvaniyId()));
+		}
+		
 		fizInfo.getZayavki().add(zayavkaFIDao.get(dto.getZayavkaFIId()));
 		fizInfoDao.saveOrUpdate(fizInfo);
 	}
