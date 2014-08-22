@@ -28,6 +28,8 @@ public class ZayavkaFIDTO implements Serializable {
 	private String orgName;
 	private Integer orgId;
 	private Set<IspolnitelDTO> ispolniteliDTO = new HashSet<IspolnitelDTO>();
+	
+	
 
 	public ZayavkaFIDTO() {
 

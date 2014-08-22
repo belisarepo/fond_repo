@@ -14,6 +14,7 @@ import by.belisa.dao.SectionFondDao;
 import by.belisa.dao.StatusZayavkaFIDao;
 import by.belisa.dao.ZayavkaFIDao;
 import by.belisa.entity.Anketa;
+import by.belisa.entity.Rukovoditel;
 import by.belisa.entity.ZayavkaFI;
 import by.belisa.exception.DaoException;
 @Service
@@ -73,6 +74,12 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		if (zayavkaFI==null){
 			zayavkaFI = new ZayavkaFI();
 		}
+//		Rukovoditel rukovoditel = zayavkaFI.getRukovoditel();
+//		if (rukovoditel==null){
+//			rukovoditel = new Rukovoditel();
+//		}
+//		rukovoditel.set
+//		zayavkaFI.setRukovoditel(rukovoditel);
 		zayavkaFI.setAnketa(anketaDao.get(dto.getUserId()));
 		zayavkaFI.setKonkursy(konkursyDao.get(dto.getKonkursId()));
 		zayavkaFI.setOtraslNauka(otraslNaukaDao.get(dto.getOtraslNaukaId()));

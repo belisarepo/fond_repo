@@ -82,6 +82,10 @@ public class ZayavkaFI implements Serializable{
 	private OrganizationNR orgNR;
 	@OneToOne(mappedBy="zayavkaFI", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private Annotation annotation;
+	@OneToOne(mappedBy="zayavkaFI", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private Obosnovanie obosnovanie;
+	@OneToOne(mappedBy="zayavkaFI", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private Rukovoditel rukovoditel;
 	@ManyToOne
 	@JoinColumn(name="FIZ_NR_INFO_ID")
 	private FizNRInfo fizNrInfo;
@@ -101,6 +105,18 @@ public class ZayavkaFI implements Serializable{
 	
 	public String getLastingDeadline() {
 		return lastingDeadline;
+	}
+	public Obosnovanie getObosnovanie() {
+		return obosnovanie;
+	}
+	public void setObosnovanie(Obosnovanie obosnovanie) {
+		this.obosnovanie = obosnovanie;
+	}
+	public Rukovoditel getRukovoditel() {
+		return rukovoditel;
+	}
+	public void setRukovoditel(Rukovoditel rukovoditel) {
+		this.rukovoditel = rukovoditel;
 	}
 	public void setLastingDeadline(String lastingDeadline) {
 		this.lastingDeadline = lastingDeadline;
