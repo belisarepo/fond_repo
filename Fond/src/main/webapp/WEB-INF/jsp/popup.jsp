@@ -7,14 +7,17 @@
 <center><div id="successMessageContainer" /></center>
 
 
-<!-- <input id="<portlet:namespace />text" type="hidden" value="" /> -->
+<%-- <input id="<portlet:namespace />text" type="hidden" value="" />  --%>
 <aui:script>
+
 function <portlet:namespace />initEditor() {
-                        return Liferay.Util.getOpener().document.getElementById('${input_id}').value;
+                        return Liferay.Util.getOpener().document.getElementById('<portlet:namespace />${input_id}').value;
             }
 function getDataFromPopup(input_id) {
     //AUI().one('#<portlet:namespace />text').value = window.<portlet:namespace />editor.getHTML(); 
-    Liferay.Util.getOpener().document.getElementById(input_id).value = window.<portlet:namespace />editor.getHTML(); 
+    
+    Liferay.Util.getOpener().document.getElementById('<portlet:namespace />'+input_id).value = window.<portlet:namespace />editor.getHTML(); 
+    
     showSuccess();
     <portlet:namespace />textDialog.hide();              
             }

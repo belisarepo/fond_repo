@@ -70,6 +70,7 @@
 				<value>by.belisa.entity.Publication</value>
 				<value>by.belisa.entity.Rukovoditel</value>
 				<value>by.belisa.entity.RukovoditelNR</value>
+				<value>by.belisa.entity.Okogu</value>
 				
 			</list>
 		</property>

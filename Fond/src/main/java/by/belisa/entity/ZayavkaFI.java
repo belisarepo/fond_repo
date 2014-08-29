@@ -12,7 +12,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -86,6 +85,8 @@ public class ZayavkaFI implements Serializable{
 	private Obosnovanie obosnovanie;
 	@OneToOne(mappedBy="zayavkaFI", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private Rukovoditel rukovoditel;
+	@OneToOne(mappedBy="zayavkaFI", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private RukovoditelNR rukovoditelNr;
 	@ManyToOne
 	@JoinColumn(name="FIZ_NR_INFO_ID")
 	private FizNRInfo fizNrInfo;
@@ -264,6 +265,12 @@ public class ZayavkaFI implements Serializable{
 	}
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
+	}
+	public RukovoditelNR getRukovoditelNr() {
+		return rukovoditelNr;
+	}
+	public void setRukovoditelNr(RukovoditelNR rukovoditelNr) {
+		this.rukovoditelNr = rukovoditelNr;
 	}
 	
 	

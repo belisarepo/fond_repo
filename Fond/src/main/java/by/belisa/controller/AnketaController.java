@@ -132,6 +132,7 @@ public class AnketaController {
 			PortalException, SystemException, ParseException, DaoException {
 		long pk = PortalUtil.getUser(aRequest).getPrimaryKey();
 		anketaDTO.setId(pk);
+		System.out.println("!!!!!!!!!!!!"+anketaDTO.getFullFio());
 		anketaService.saveOrUpdate(anketaDTO);
 		model.addAttribute("save_result", "ok");
 	}

@@ -3,11 +3,6 @@ package by.belisa.bean;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Past;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import by.belisa.entity.Ispolnitel;
 
 public class IspolnitelDTO implements Serializable{

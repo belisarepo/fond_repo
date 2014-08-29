@@ -28,7 +28,18 @@
 <c:set var="ns">
 	<portlet:namespace />
 </c:set>
-<center><div id="successMessageContainer" /></center>
+<center>
+	<div id="successMessageContainer" />
+</center>
+<%-- <aui:form action="${sendForm}">
+	<aui:input name="fullFio" bean="anketa" value="${anketa.fullFio}" type="hidden"></aui:input>
+	<aui:input name="fio" bean="anketa" value="${anketa.fio}"></aui:input>
+	<aui:button-row>
+		<div align="left">
+			<aui:button type="submit" value="Добавить" />
+		</div>
+	</aui:button-row>
+</aui:form> --%>
 <form:form modelAttribute='${ns}anketa' method="POST"
 	action="${sendForm}" name="anketa">
 	<form:label path="fio">ФИО краткое</form:label>
@@ -79,6 +90,7 @@
 	<form:label path="email">Email</form:label>
 	<form:input path="email" />
 	<br />
+	
 	
 	<input type="submit" value="Save" />
 </form:form>

@@ -46,8 +46,9 @@ public class Organization implements Serializable{
 	private String unp;
 	@Column(name="KOD_BOOKER")
 	private String codeBooker;
-	@Column(name="OKOGU")
-	private Integer okogu;
+	@ManyToOne
+	@JoinColumn(name="OKOGU")
+	private Okogu okogu;
 	@Column(name="FULL_NAME_RUS")
 	private String fullNameR;
 	@Column(name="FULL_NAME_ENG")
@@ -102,11 +103,18 @@ public class Organization implements Serializable{
 	public void setCodeBooker(String codeBooker) {
 		this.codeBooker = codeBooker;
 	}
-	public Integer getOkogu() {
+	
+	public Okogu getOkogu() {
 		return okogu;
 	}
-	public void setOkogu(Integer okogu) {
+	public void setOkogu(Okogu okogu) {
 		this.okogu = okogu;
+	}
+	public Set<ZayavkaFI> getZayavki() {
+		return zayavki;
+	}
+	public void setZayavki(Set<ZayavkaFI> zayavki) {
+		this.zayavki = zayavki;
 	}
 	public String getFullNameR() {
 		return fullNameR;

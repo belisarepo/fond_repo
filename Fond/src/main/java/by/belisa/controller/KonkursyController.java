@@ -10,16 +10,14 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
@@ -28,10 +26,11 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import by.belisa.bean.IspolnitelDTO;
 import by.belisa.bean.KonkursyDTO;
+import by.belisa.bean.OrgDTO;
 import by.belisa.bean.ZayavkaFIDTO;
 import by.belisa.entity.Ispolnitel;
-import by.belisa.entity.Konkursy;
 import by.belisa.entity.Organization;
+import by.belisa.entity.OrganizationNR;
 import by.belisa.entity.OtraslNauka;
 import by.belisa.entity.PrioritetNauka;
 import by.belisa.entity.SectionFond;
@@ -42,6 +41,7 @@ import by.belisa.exception.ServiceException;
 import by.belisa.service.FizInfoService;
 import by.belisa.service.IspolnitelService;
 import by.belisa.service.KonkursyService;
+import by.belisa.service.OrgNrService;
 import by.belisa.service.OrgService;
 import by.belisa.service.OtraslNaukaService;
 import by.belisa.service.PrioritetNaukaService;
@@ -78,6 +78,9 @@ public class KonkursyController {
 	@Autowired
 	@Qualifier(value = "orgService")
 	private OrgService orgService;
+	@Autowired
+	@Qualifier(value = "orgNrService")
+	private OrgNrService orgNrService;
 	@Autowired
 	@Qualifier(value = "fizInfoService")
 	private FizInfoService fizInfoService;
@@ -148,15 +151,13 @@ public class KonkursyController {
 			SystemException, DaoException {
 		
 		String konkursId = ParamUtil.getString(request, "konkursId");
-		Konkursy konkurs = konkursyService.get(Integer.parseInt(konkursId));
 		ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(PortalUtil.getUser(request).getUserId(), Integer.parseInt(konkursId));
-		zayavkaFIDTO.setUserId(PortalUtil.getUser(request).getUserId());
-		zayavkaFIDTO.setKonkursNameR(konkurs.getNameR());
-		zayavkaFIDTO.setKonkursId(konkurs.getId());
 		
-		model.addAttribute("zayavka", zayavkaFIDTO);
+		model.addAttribute("zayavkaModel", zayavkaFIDTO);
 		List<Organization> listOrg = orgService.getAll();
 		model.addAttribute("listOrg", listOrg);
+		List<OrganizationNR> orgNrList = orgNrService.getAll();
+		model.addAttribute("orgNrList", orgNrList);
 		List<IspolnitelDTO> ispolniteliList = ispolnitelService.getAllDTOByZayavkaId(zayavkaFIDTO.getId());
 		model.addAttribute("ispolniteliList", ispolniteliList);
 		model.addAttribute("ispolnitelModel", new IspolnitelDTO());
@@ -165,15 +166,56 @@ public class KonkursyController {
 
 	
 	@ActionMapping
-	public void saveZayavka(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp) throws DaoException {
+	public void saveZayavka(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
 		zayavkaFIService.saveOrUpdate(zayavkaFIDTO);
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
+		model.addAttribute("save_result", "ok");
+	}
+	
+	@ActionMapping(params="form=form1")
+	public void saveForm1(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
+		zayavkaFIService.saveForm1(zayavkaFIDTO);
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
+		model.addAttribute("save_result", "ok");
+	}
+	
+	@ActionMapping(params="form=form2")
+	public void saveForm2(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
+		zayavkaFIService.saveForm2(zayavkaFIDTO);
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
+		model.addAttribute("save_result", "ok");
+	}
+	
+	@ActionMapping(params="form=form3")
+	public void saveForm3(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
+		zayavkaFIService.saveForm3(zayavkaFIDTO);
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
+		model.addAttribute("save_result", "ok");
+	}
+	
+	@ActionMapping(params="form=form4")
+	public void saveForm4(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
+		zayavkaFIService.saveForm4(zayavkaFIDTO);
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
+		model.addAttribute("save_result", "ok");
+	}
+	
+	@ActionMapping(params="form=form5")
+	public void saveForm5(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
+		zayavkaFIService.saveForm5(zayavkaFIDTO);
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
+		model.addAttribute("save_result", "ok");
 	}
 	
 	@ActionMapping(params = "action=addIspolnitel")
 	public void addIspolnitel(@ModelAttribute IspolnitelDTO ispolnitelDTO, ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
-		
+	
 			String konkursId = ParamUtil.getString(req, "konkursId");
 			ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(PortalUtil.getUser(req).getUserId(), Integer.parseInt(konkursId));
 			if (zayavkaFIDTO.getId()==null){
@@ -210,7 +252,7 @@ public class KonkursyController {
 
 	@ResourceMapping()
 	public void getUsloviy(ResourceRequest request, ResourceResponse response) {
-
+		
 		String konkursId = ParamUtil.getString(request, "konkursId");
 		byte[] usloviy = konkursyService.getUsloviy(Integer.parseInt(konkursId));
 		response.setContentType("application/msword");
@@ -241,6 +283,26 @@ public class KonkursyController {
 		String inputId = ParamUtil.getString(request, "input_id");
 		model.addAttribute("input_id", inputId);
 		return "popup";
+	}
+	
+	@ResourceMapping(value="getOrgById")
+	public void getOrgByid(ResourceRequest request, ResourceResponse response) throws IOException, NumberFormatException, DaoException{
+		OutputStream outStream = response.getPortletOutputStream();
+		String orgId = request.getParameter("orgId");
+		OrgDTO orgDTO = orgService.getOrgDTOById(Integer.parseInt(orgId));
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonString = mapper.writeValueAsString(orgDTO);
+	    outStream.write(jsonString.getBytes());
+	}
+	
+	@ResourceMapping(value="getOrgNrById")
+	public void getOrgNrByid(ResourceRequest request, ResourceResponse response) throws IOException, NumberFormatException, DaoException, ServiceException{
+		OutputStream outStream = response.getPortletOutputStream();
+		String orgId = request.getParameter("orgId");
+		OrganizationNR orgNr = orgNrService.get(Integer.parseInt(orgId));
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonString = mapper.writeValueAsString(orgNr);
+	    outStream.write(jsonString.getBytes());
 	}
 	
 	/*@InitBinder
