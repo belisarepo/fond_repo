@@ -251,6 +251,19 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		return zayavkaFI.getId();
 
 	}
+	public Integer saveForm12(ZayavkaFIDTO dto) throws DaoException {
+		ZayavkaFI zayavkaFI = commonSave(dto);
+		Rukovoditel rukovoditel = zayavkaFI.getRukovoditel();
+		if (rukovoditel == null) {
+			rukovoditel = new Rukovoditel();
+		}
+		rukovoditel.setBiography(dto.getBiographyRk());
+		rukovoditel.setZayavkaFI(zayavkaFI);
+		zayavkaFI.setRukovoditel(rukovoditel);
+		baseDao.saveOrUpdate(zayavkaFI);
+		return zayavkaFI.getId();
+
+	}
 	
 	
 	public Integer saveOrUpdate(ZayavkaFIDTO dto) throws DaoException, ParseException {

@@ -244,6 +244,13 @@ public class KonkursyController {
 		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
 		model.addAttribute("save_result", "ok");
 	}
+	@ActionMapping(params="form=form12")
+	public void saveForm12(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
+		zayavkaFIService.saveForm12(zayavkaFIDTO);
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
+		model.addAttribute("save_result", "ok");
+	}
 	
 	@ActionMapping(params = "action=addIspolnitel")
 	public void addIspolnitel(@ModelAttribute IspolnitelDTO ispolnitelDTO, ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{

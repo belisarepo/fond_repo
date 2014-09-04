@@ -42,6 +42,9 @@
 <portlet:actionURL var="saveForm11">
 	<portlet:param name="form" value="form11" />
 </portlet:actionURL>
+<portlet:actionURL var="saveForm12">
+	<portlet:param name="form" value="form12" />
+</portlet:actionURL>
 <portlet:actionURL var="addIspolnitelAction">
 	<portlet:param name="action" value="addIspolnitel" />
 	<portlet:param name="konkursId" value="${zayavka.konkursId}" />
@@ -69,6 +72,7 @@
 		<li><a href="#tab-9"><spring:message code="zayavka.tab9" /></a></li>
 		<li><a href="#tab-10"><spring:message code="zayavka.tab10" /></a></li>
 		<li><a href="#tab-11"><spring:message code="zayavka.tab11" /></a></li>
+		<li><a href="#tab-12"><spring:message code="zayavka.tab12" /></a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -105,6 +109,9 @@
 		</div>
 		<div id="tab-11" class="tab-pane">
 			<%@ include file="/WEB-INF/jsp/zayavka/form11.jsp"%>
+		</div>
+		<div id="tab-12" class="tab-pane">
+			<%@ include file="/WEB-INF/jsp/zayavka/form12.jsp"%>
 		</div>
 	</div>
 </div>
@@ -290,6 +297,10 @@ Y.one('#${ns}provisionEquipment').on('click', function(event){
 });
 Y.one('#${ns}previousKonkurs').on('click', function(event){
    showPopup('Сведения об участии руководителя и основных исполнителей проекта с белорусской стороны в предыдущих конкурсах Фонда','previousKonkurs','${strPopupPreviousKonkursURL}');
+});
+
+Y.one('#${ns}biography').on('click', function(event){
+   showPopup('Научная биография руководителя','biography','${strPopupBiographyURL}');
 });
 
 //=================================================================================  
