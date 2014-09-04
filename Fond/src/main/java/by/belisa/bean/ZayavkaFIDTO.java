@@ -5,7 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Lob;
+
 import by.belisa.entity.FizInfo;
+import by.belisa.entity.Organization;
 import by.belisa.entity.ZayavkaFI;
 
 public class ZayavkaFIDTO implements Serializable {
@@ -36,6 +40,7 @@ public class ZayavkaFIDTO implements Serializable {
 	private String orgAddress;
 	private String udk;
 	private Set<IspolnitelDTO> ispolniteliDTO = new HashSet<IspolnitelDTO>();
+	private Set<OrgDTO> soOrg = new HashSet<OrgDTO>();
 	
 	
 	private Integer idRk;
@@ -74,6 +79,31 @@ public class ZayavkaFIDTO implements Serializable {
 	private String orgNrEmail;
 	private String orgNrAddress;
 	
+	private String lastingDeadline;
+	private String startDeadline;
+	private String stopDeadline;
+	private Float costAll;
+	private Float costFirstYear;
+	
+	private String keyWords;
+	private String jobGoal;
+	private String idea;
+	private String results;
+	
+	private String goal;
+	private String analizResults;
+	private String reserveAuthors;
+	private String expediency;
+	private String ideaFormulation;
+	private String ideaInnovation;
+	private String structureOfStudy;
+	private String resultsNir;
+	private String usingResults;
+	private String teamCharacteristic;
+	private String provisionEquipment;
+	private String previousKonkurs;
+	
+	
 	
 
 	public ZayavkaFIDTO() {
@@ -96,6 +126,11 @@ public class ZayavkaFIDTO implements Serializable {
 			this.tipKonkursaId = zayavkaFI.getKonkursy().getTipKonkursa()!=null ? zayavkaFI.getKonkursy().getTipKonkursa().getId() : null;
 			this.tipKonkursaName = zayavkaFI.getKonkursy().getTipKonkursa()!=null ? zayavkaFI.getKonkursy().getTipKonkursa().getName() : "";
 			this.udk = zayavkaFI.getCodeUdk();
+			this.lastingDeadline = zayavkaFI.getLastingDeadline();
+			this.startDeadline = zayavkaFI.getStartDeadline()!=null ? dateFormat.format(zayavkaFI.getStartDeadline()): null;
+			this.stopDeadline = zayavkaFI.getStopDeadline()!=null ? dateFormat.format(zayavkaFI.getStopDeadline()): null;
+			this.costAll = zayavkaFI.getCostAll();
+			this.costFirstYear = zayavkaFI.getCostFirstYear();
 			
 			if (zayavkaFI.getOrganization() == null){
 				if (zayavkaFI.getAnketa() != null && zayavkaFI.getAnketa().getOrg()!=null){
@@ -169,6 +204,32 @@ public class ZayavkaFIDTO implements Serializable {
 				this.orgNrAddress=zayavkaFI.getOrgNR().getAddress();
 				this.orgNrEmail=zayavkaFI.getOrgNR().getEmail();
 			}
+			if (!zayavkaFI.getSoOrgs().isEmpty()){
+				for (Organization org : zayavkaFI.getSoOrgs()){
+					this.soOrg.add(new OrgDTO(org));
+				}
+			}
+			if (zayavkaFI.getAnnotation()!=null){
+				this.keyWords = zayavkaFI.getAnnotation().getKeyWords();
+				this.jobGoal = zayavkaFI.getAnnotation().getJobGoal();
+				this.idea = zayavkaFI.getAnnotation().getIdea();
+				this.results = zayavkaFI.getAnnotation().getResults();
+			}
+			if (zayavkaFI.getObosnovanie()!=null){
+				this.goal=zayavkaFI.getObosnovanie().getGoal();
+				this.analizResults=zayavkaFI.getObosnovanie().getAnalizResults();
+				this.reserveAuthors=zayavkaFI.getObosnovanie().getReserveAuthors();
+				this.expediency=zayavkaFI.getObosnovanie().getExpediency();
+				this.ideaFormulation=zayavkaFI.getObosnovanie().getIdeaFormulation();
+				this.ideaInnovation=zayavkaFI.getObosnovanie().getIdeaInnovation();
+				this.structureOfStudy=zayavkaFI.getObosnovanie().getStructureOfStudy();
+				this.resultsNir=zayavkaFI.getObosnovanie().getResultsNir();
+				this.usingResults=zayavkaFI.getObosnovanie().getUsingResults();
+				this.teamCharacteristic=zayavkaFI.getObosnovanie().getTeamCharacteristic();
+				this.provisionEquipment=zayavkaFI.getObosnovanie().getProvisionEquipment();
+				this.previousKonkurs=zayavkaFI.getObosnovanie().getPreviousKonkurs();		
+							
+			}
 			
 		}
 
@@ -177,6 +238,182 @@ public class ZayavkaFIDTO implements Serializable {
 	
 
 	
+
+	public String getGoal() {
+		return goal;
+	}
+
+	public void setGoal(String goal) {
+		this.goal = goal;
+	}
+
+	public String getAnalizResults() {
+		return analizResults;
+	}
+
+	public void setAnalizResults(String analizResults) {
+		this.analizResults = analizResults;
+	}
+
+	public String getReserveAuthors() {
+		return reserveAuthors;
+	}
+
+	public void setReserveAuthors(String reserveAuthors) {
+		this.reserveAuthors = reserveAuthors;
+	}
+
+	public String getExpediency() {
+		return expediency;
+	}
+
+	public void setExpediency(String expediency) {
+		this.expediency = expediency;
+	}
+
+	public String getIdeaFormulation() {
+		return ideaFormulation;
+	}
+
+	public void setIdeaFormulation(String ideaFormulation) {
+		this.ideaFormulation = ideaFormulation;
+	}
+
+	public String getIdeaInnovation() {
+		return ideaInnovation;
+	}
+
+	public void setIdeaInnovation(String ideaInnovation) {
+		this.ideaInnovation = ideaInnovation;
+	}
+
+	public String getStructureOfStudy() {
+		return structureOfStudy;
+	}
+
+	public void setStructureOfStudy(String structureOfStudy) {
+		this.structureOfStudy = structureOfStudy;
+	}
+
+	public String getResultsNir() {
+		return resultsNir;
+	}
+
+	public void setResultsNir(String resultsNir) {
+		this.resultsNir = resultsNir;
+	}
+
+	public String getUsingResults() {
+		return usingResults;
+	}
+
+	public void setUsingResults(String usingResults) {
+		this.usingResults = usingResults;
+	}
+
+	public String getTeamCharacteristic() {
+		return teamCharacteristic;
+	}
+
+	public void setTeamCharacteristic(String teamCharacteristic) {
+		this.teamCharacteristic = teamCharacteristic;
+	}
+
+	public String getProvisionEquipment() {
+		return provisionEquipment;
+	}
+
+	public void setProvisionEquipment(String provisionEquipment) {
+		this.provisionEquipment = provisionEquipment;
+	}
+
+	public String getPreviousKonkurs() {
+		return previousKonkurs;
+	}
+
+	public void setPreviousKonkurs(String previousKonkurs) {
+		this.previousKonkurs = previousKonkurs;
+	}
+
+	public String getJobGoal() {
+		return jobGoal;
+	}
+
+	public void setJobGoal(String jobGoal) {
+		this.jobGoal = jobGoal;
+	}
+
+	public String getIdea() {
+		return idea;
+	}
+
+	public void setIdea(String idea) {
+		this.idea = idea;
+	}
+
+	public String getResults() {
+		return results;
+	}
+
+	public void setResults(String results) {
+		this.results = results;
+	}
+
+	public String getKeyWords() {
+		return keyWords;
+	}
+
+	public void setKeyWords(String keyWords) {
+		this.keyWords = keyWords;
+	}
+
+	public String getLastingDeadline() {
+		return lastingDeadline;
+	}
+
+	public void setLastingDeadline(String lastingDeadline) {
+		this.lastingDeadline = lastingDeadline;
+	}
+
+	public String getStartDeadline() {
+		return startDeadline;
+	}
+
+	public void setStartDeadline(String startDeadline) {
+		this.startDeadline = startDeadline;
+	}
+
+	public String getStopDeadline() {
+		return stopDeadline;
+	}
+
+	public void setStopDeadline(String stopDeadline) {
+		this.stopDeadline = stopDeadline;
+	}
+
+	public Float getCostAll() {
+		return costAll;
+	}
+
+	public void setCostAll(Float costAll) {
+		this.costAll = costAll;
+	}
+
+	public Float getCostFirstYear() {
+		return costFirstYear;
+	}
+
+	public void setCostFirstYear(Float costFirstYear) {
+		this.costFirstYear = costFirstYear;
+	}
+
+	public Set<OrgDTO> getSoOrg() {
+		return soOrg;
+	}
+
+	public void setSoOrg(Set<OrgDTO> soOrg) {
+		this.soOrg = soOrg;
+	}
 
 	public String getOrgNrName() {
 		return orgNrName;

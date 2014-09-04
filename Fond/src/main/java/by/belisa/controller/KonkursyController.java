@@ -213,6 +213,38 @@ public class KonkursyController {
 		model.addAttribute("save_result", "ok");
 	}
 	
+	@ActionMapping(params="form=form8")
+	public void saveForm8(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
+		zayavkaFIService.saveForm8(zayavkaFIDTO);
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
+		model.addAttribute("save_result", "ok");
+	}
+	
+	@ActionMapping(params="form=form9")
+	public void saveForm9(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
+		zayavkaFIService.saveForm9(zayavkaFIDTO);
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
+		model.addAttribute("save_result", "ok");
+	}
+	
+	@ActionMapping(params="form=form10")
+	public void saveForm10(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
+		zayavkaFIService.saveForm10(zayavkaFIDTO);
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
+		model.addAttribute("save_result", "ok");
+	}
+	
+	@ActionMapping(params="form=form11")
+	public void saveForm11(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
+		zayavkaFIService.saveForm11(zayavkaFIDTO);
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
+		model.addAttribute("save_result", "ok");
+	}
+	
 	@ActionMapping(params = "action=addIspolnitel")
 	public void addIspolnitel(@ModelAttribute IspolnitelDTO ispolnitelDTO, ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
 	
@@ -230,12 +262,27 @@ public class KonkursyController {
 			ispolnitelService.saveOrUpdate(ispolnitelDTO);
 			resp.setRenderParameter("view", "zayavka");
 			resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
-		
-		
+	}
+	
+	@ActionMapping(params = "action=addSoOrg")
+	public void addSoOrg(ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+	
+			String konkursId = ParamUtil.getString(req, "konkursId");
+			String soOrgId = ParamUtil.getString(req, "soOrgId");;
+			ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(PortalUtil.getUser(req).getUserId(), Integer.parseInt(konkursId));
+			if (zayavkaFIDTO.getId()==null){
+				zayavkaFIDTO.setUserId(PortalUtil.getUser(req).getUserId());
+				zayavkaFIDTO.setKonkursId(Integer.parseInt(konkursId));
+				Integer zayavkaFIId = zayavkaFIService.saveOrUpdate(zayavkaFIDTO);
+				zayavkaFIDTO.setId(zayavkaFIId);
+			}
+			orgService.addSoOrg(Integer.parseInt(soOrgId), zayavkaFIDTO.getId());
+			resp.setRenderParameter("view", "zayavka");
+			resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
 	}
 	
 	@ActionMapping(params = "action=deleteIspolnitel")
-	public void deleteIspolnitel(@ModelAttribute IspolnitelDTO ispolnitelDTO, ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+	public void deleteIspolnitel(ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
 		
 		Integer ispolnitelId = ParamUtil.getInteger(req, "ispolnitelId");
 		Ispolnitel ispolnitel = ispolnitelService.get(ispolnitelId);
@@ -244,6 +291,18 @@ public class KonkursyController {
 			ispolnitelService.delete(ispolnitel);
 		}
 		
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
+		
+		
+	}
+	
+	@ActionMapping(params = "action=deleteSoOrg")
+	public void deleteSoOrg(ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+		
+		Integer soOrgId = ParamUtil.getInteger(req, "soOrgId");
+		Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
+		orgService.deleteSoOrg(soOrgId, zayavkaId);
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
 		

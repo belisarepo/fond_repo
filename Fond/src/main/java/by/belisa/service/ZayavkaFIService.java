@@ -21,6 +21,8 @@ import by.belisa.dao.UchStepeniDao;
 import by.belisa.dao.UchZvanieDao;
 import by.belisa.dao.ZayavkaFIDao;
 import by.belisa.entity.Anketa;
+import by.belisa.entity.Annotation;
+import by.belisa.entity.Obosnovanie;
 import by.belisa.entity.Rukovoditel;
 import by.belisa.entity.RukovoditelNR;
 import by.belisa.entity.ZayavkaFI;
@@ -189,7 +191,68 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		return zayavkaFI.getId();
 
 	}
+	
+	public Integer saveForm8(ZayavkaFIDTO dto) throws DaoException, ParseException {
+		ZayavkaFI zayavkaFI = commonSave(dto);
+		zayavkaFI.setLastingDeadline(dto.getLastingDeadline());
+		if (dto.getStartDeadline()!=null && !dto.getStartDeadline().isEmpty())
+		zayavkaFI.setStartDeadline(dateFormat.parse(dto.getStartDeadline()));
+		if (dto.getStopDeadline()!=null && !dto.getStopDeadline().isEmpty())
+		zayavkaFI.setStopDeadline(dateFormat.parse(dto.getStopDeadline()));
+		baseDao.saveOrUpdate(zayavkaFI);
+		return zayavkaFI.getId();
 
+	}
+	public Integer saveForm9(ZayavkaFIDTO dto) throws DaoException {
+		ZayavkaFI zayavkaFI = commonSave(dto);
+		zayavkaFI.setCostAll(dto.getCostAll());
+		zayavkaFI.setCostFirstYear(dto.getCostFirstYear());
+		baseDao.saveOrUpdate(zayavkaFI);
+		return zayavkaFI.getId();
+
+	}
+	public Integer saveForm10(ZayavkaFIDTO dto) throws DaoException {
+		ZayavkaFI zayavkaFI = commonSave(dto);
+		Annotation annotation = zayavkaFI.getAnnotation();
+		if (annotation == null){
+			annotation = new Annotation();
+		}
+		annotation.setIdea(dto.getIdea());
+		annotation.setJobGoal(dto.getJobGoal());
+		annotation.setKeyWords(dto.getKeyWords());
+		annotation.setResults(dto.getResults());
+		annotation.setZayavkaFI(zayavkaFI);
+		zayavkaFI.setAnnotation(annotation);
+		baseDao.saveOrUpdate(zayavkaFI);
+		return zayavkaFI.getId();
+
+	}
+	
+	public Integer saveForm11(ZayavkaFIDTO dto) throws DaoException {
+		ZayavkaFI zayavkaFI = commonSave(dto);
+		Obosnovanie obosnovanie = zayavkaFI.getObosnovanie();
+		if (obosnovanie == null){
+			obosnovanie = new Obosnovanie();
+		}
+		obosnovanie.setAnalizResults(dto.getAnalizResults());
+		obosnovanie.setExpediency(dto.getExpediency());
+		obosnovanie.setGoal(dto.getGoal());
+		obosnovanie.setIdeaFormulation(dto.getIdeaFormulation());
+		obosnovanie.setIdeaInnovation(dto.getIdeaInnovation());
+		obosnovanie.setPreviousKonkurs(dto.getPreviousKonkurs());
+		obosnovanie.setProvisionEquipment(dto.getProvisionEquipment());
+		obosnovanie.setReserveAuthors(dto.getResults());
+		obosnovanie.setResultsNir(dto.getResultsNir());
+		obosnovanie.setStructureOfStudy(dto.getStructureOfStudy());
+		obosnovanie.setTeamCharacteristic(dto.getTeamCharacteristic());
+		obosnovanie.setZayavkaFI(zayavkaFI);
+		zayavkaFI.setObosnovanie(obosnovanie);
+		baseDao.saveOrUpdate(zayavkaFI);
+		return zayavkaFI.getId();
+
+	}
+	
+	
 	public Integer saveOrUpdate(ZayavkaFIDTO dto) throws DaoException, ParseException {
 		ZayavkaFI zayavkaFI = commonSave(dto);
 		baseDao.saveOrUpdate(zayavkaFI);

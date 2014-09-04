@@ -71,9 +71,9 @@ public class ZayavkaFI implements Serializable{
 	@Column(name="STOP_DEADLINE", columnDefinition="DATE")
 	private Date stopDeadline;
 	@Column(name="COST_ALL")
-	private Integer costAll;
+	private Float costAll;
 	@Column(name="COST_FIRST_YEAR")
-	private Integer costFirstYear;
+	private Float costFirstYear;
 	@Column(name="KOD_UDK")
 	private String codeUdk;
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -131,20 +131,21 @@ public class ZayavkaFI implements Serializable{
 	public Date getStopDeadline() {
 		return stopDeadline;
 	}
-	public void setStopDeadline(Date stopDeadline) {
-		this.stopDeadline = stopDeadline;
-	}
-	public Integer getCostAll() {
+	
+	public Float getCostAll() {
 		return costAll;
 	}
-	public void setCostAll(Integer costAll) {
+	public void setCostAll(Float costAll) {
 		this.costAll = costAll;
 	}
-	public Integer getCostFirstYear() {
+	public Float getCostFirstYear() {
 		return costFirstYear;
 	}
-	public void setCostFirstYear(Integer costFirstYear) {
+	public void setCostFirstYear(Float costFirstYear) {
 		this.costFirstYear = costFirstYear;
+	}
+	public void setStopDeadline(Date stopDeadline) {
+		this.stopDeadline = stopDeadline;
 	}
 	public String getCodeUdk() {
 		return codeUdk;
