@@ -8,7 +8,7 @@
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme"%>
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 
-<c:if test="${not empty ispolniteliList}">
+<c:if test="${not empty zayavkaModel.ispolniteliDTO}">
 	<table class="table table-condensed table-bordered" style="width: auto">
 		<thead>
 			<tr>
@@ -24,7 +24,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${ispolniteliList}" var="i">
+			<c:forEach items="${zayavkaModel.ispolniteliDTO}" var="i">
 				<tr>
 					<td>${i.surname}</td>
 					<td>${i.name}</td>

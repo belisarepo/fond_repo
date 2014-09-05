@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import by.belisa.bean.PublicationDTO;
 import by.belisa.bean.ZayavkaFIDTO;
 import by.belisa.dao.AnketaDao;
 import by.belisa.dao.Dao;
@@ -15,6 +16,7 @@ import by.belisa.dao.OrgDao;
 import by.belisa.dao.OrgNrDao;
 import by.belisa.dao.OtraslNaukaDao;
 import by.belisa.dao.PrioritetNaukaDao;
+import by.belisa.dao.PublicationDao;
 import by.belisa.dao.SectionFondDao;
 import by.belisa.dao.StatusZayavkaFIDao;
 import by.belisa.dao.UchStepeniDao;
@@ -22,7 +24,9 @@ import by.belisa.dao.UchZvanieDao;
 import by.belisa.dao.ZayavkaFIDao;
 import by.belisa.entity.Anketa;
 import by.belisa.entity.Annotation;
+import by.belisa.entity.Calculation;
 import by.belisa.entity.Obosnovanie;
+import by.belisa.entity.Publication;
 import by.belisa.entity.Rukovoditel;
 import by.belisa.entity.RukovoditelNR;
 import by.belisa.entity.ZayavkaFI;
@@ -74,6 +78,9 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	@Autowired
 	@Qualifier("uchZvanieDao")
 	private UchZvanieDao uchZvanieDao;
+	@Autowired
+	@Qualifier("publicationDao")
+	private PublicationDao publicationDao;
 
 	public ZayavkaFIDTO getZayavkaFIDTO(int id) throws DaoException {
 		ZayavkaFI zayavkaFI = baseDao.get(id);
@@ -264,6 +271,90 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		return zayavkaFI.getId();
 
 	}
+	public Integer saveForm13(ZayavkaFIDTO dto) throws DaoException {
+		ZayavkaFI zayavkaFI = commonSave(dto);
+		Rukovoditel rukovoditel = zayavkaFI.getRukovoditel();
+		if (rukovoditel == null) {
+			rukovoditel = new Rukovoditel();
+		}
+		rukovoditel.setCitationIndexISI(dto.getCitationIndexISI());
+		rukovoditel.setCitationIndexRINC(dto.getCitationIndexRINC());
+		rukovoditel.setCitationIndexScopus(dto.getCitationIndexScopus());
+		rukovoditel.setCountPublicationISI(dto.getCountPublicationISI());
+		rukovoditel.setCountPublicationRINC(dto.getCountPublicationRINC());
+		rukovoditel.setCountPublicationScopus(dto.getCountPublicationScopus());
+		rukovoditel.setIndexHirshaISI(dto.getIndexHirshaISI());
+		rukovoditel.setIndexHirshaRINC(dto.getIndexHirshaRINC());
+		rukovoditel.setIndexHirshaScopus(dto.getIndexHirshaScopus());
+		rukovoditel.setIndexWithoutSelfISI(dto.getIndexWithoutSelfISI());
+		rukovoditel.setIndexWithoutSelfRINC(dto.getIndexWithoutSelfRINC());
+		rukovoditel.setIndexWithoutSelfScopus(dto.getIndexWithoutSelfScopus());
+		rukovoditel.setZayavkaFI(zayavkaFI);
+		zayavkaFI.setRukovoditel(rukovoditel);
+		baseDao.saveOrUpdate(zayavkaFI);
+		return zayavkaFI.getId();
+
+	}
+	
+	public Integer saveForm15(ZayavkaFIDTO dto) throws DaoException {
+		ZayavkaFI zayavkaFI = commonSave(dto);
+		Calculation calc = zayavkaFI.getCalculation();
+		if (calc==null){
+			calc = new Calculation();
+		}
+		calc.setId(dto.getCalcId());
+		calc.setZpFull(dto.getZpFull());
+		calc.setZpFirstYear(dto.getZpFirstYear());
+		calc.setFsznFull(dto.getFsznFull());
+		calc.setFsznFirstYear(dto.getFsznFirstYear());
+		calc.setInsuranceFull(dto.getInsuranceFull());
+		calc.setInsuranceFirstYear(dto.getInsuranceFirstYear());
+		calc.setHardwareFull(dto.getHardwareFull());
+		calc.setHardwareFirstYear(dto.getHardwareFirstYear());
+		calc.setFuelFull(dto.getFuelFull());
+		calc.setFuelFirstYear(dto.getFuelFirstYear());
+		calc.setEquipmentFull(dto.getEquipmentFull());
+		calc.setEquipmentFirstYear(dto.getEquipmentFirstYear());
+		calc.setBusinessTripFull(dto.getBusinessTripFull());
+		calc.setBusinessTripFirstYear(dto.getBusinessTripFirstYear());
+		calc.setThirdPartyServicesFull(dto.getThirdPartyServicesFull());
+		calc.setThirdPartyServicesFirstYear(dto.getThirdPartyServicesFirstYear());
+		calc.setOtherFull(dto.getOtherFull());
+		calc.setOtherFirstYear(dto.getOtherFirstYear());
+		calc.setOverheadFull(dto.getOverheadFull());
+		calc.setOverheadFirstYear(dto.getOverheadFirstYear());
+		calc.setInnovationFondFull(dto.getInnovationFondFull());
+		calc.setInnovationFondFirstYear(dto.getInnovationFondFirstYear());
+		calc.setPlannedCostFull(dto.getPlannedCostFull());
+		calc.setPlannedCostFirstYear(dto.getPlannedCostFirstYear());
+		calc.setProfitFull(dto.getProfitFull());
+		calc.setProfitFirstYear(dto.getProfitFirstYear());
+		calc.setAllFull(dto.getAllFull());
+		calc.setAllFirstYear(dto.getAllFirstYear());
+		calc.setZayavkaFI(zayavkaFI);
+		zayavkaFI.setCalculation(calc);
+		baseDao.saveOrUpdate(zayavkaFI);
+		return zayavkaFI.getId();
+
+	}
+	
+	public void addPublication(ZayavkaFIDTO zayavkaDto, PublicationDTO publDto) throws DaoException{
+		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
+		Rukovoditel ruk = zayavkaFI.getRukovoditel();
+		if (ruk==null){
+			ruk = new Rukovoditel();
+		}
+		Publication publ = new Publication();
+		publ.setAuthors(publDto.getAuthors());
+		publ.setCitationIndex(publDto.getCitationIndex());
+		publ.setDatabase(publDto.getDatabase());
+		publ.setEdition(publDto.getEdition());
+		publ.setName(publDto.getName());
+		ruk.getPublicationSet().add(publ);
+		zayavkaFI.setRukovoditel(ruk);
+		ruk.setZayavkaFI(zayavkaFI);
+		baseDao.saveOrUpdate(zayavkaFI);
+	}
 	
 	
 	public Integer saveOrUpdate(ZayavkaFIDTO dto) throws DaoException, ParseException {
@@ -273,16 +364,17 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	}
 
 	private ZayavkaFI commonSave(ZayavkaFIDTO dto) throws DaoException {
-		Integer id = dto.getId() != null ? dto.getId() : -1;
-		ZayavkaFI zayavkaFI = baseDao.get(id);
-		if (zayavkaFI == null) {
+		ZayavkaFI zayavkaFI;
+		if (dto.getId()==null){
 			zayavkaFI = new ZayavkaFI();
+			zayavkaFI.setAnketa(anketaDao.get(dto.getUserId()));
+			zayavkaFI.setKonkursy(konkursyDao.get(dto.getKonkursId()));
+			zayavkaFI.setStatusZayavkaFI(statusZayavkaFIDao.get(1));// id=1 -
+			// Подготовка
+			// материалов
+		}else{
+			zayavkaFI = baseDao.get(dto.getId());
 		}
-		zayavkaFI.setAnketa(anketaDao.get(dto.getUserId()));
-		zayavkaFI.setKonkursy(konkursyDao.get(dto.getKonkursId()));
-		zayavkaFI.setStatusZayavkaFI(statusZayavkaFIDao.get(1));// id=1 -
-		// Подготовка
-		// материалов
 		return zayavkaFI;
 	}
 }

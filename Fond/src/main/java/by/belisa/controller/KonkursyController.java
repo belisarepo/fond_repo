@@ -27,12 +27,14 @@ import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import by.belisa.bean.IspolnitelDTO;
 import by.belisa.bean.KonkursyDTO;
 import by.belisa.bean.OrgDTO;
+import by.belisa.bean.PublicationDTO;
 import by.belisa.bean.ZayavkaFIDTO;
 import by.belisa.entity.Ispolnitel;
 import by.belisa.entity.Organization;
 import by.belisa.entity.OrganizationNR;
 import by.belisa.entity.OtraslNauka;
 import by.belisa.entity.PrioritetNauka;
+import by.belisa.entity.Publication;
 import by.belisa.entity.SectionFond;
 import by.belisa.entity.UchStepeni;
 import by.belisa.entity.UchZvaniy;
@@ -45,6 +47,7 @@ import by.belisa.service.OrgNrService;
 import by.belisa.service.OrgService;
 import by.belisa.service.OtraslNaukaService;
 import by.belisa.service.PrioritetNaukaService;
+import by.belisa.service.PublicationService;
 import by.belisa.service.SectionFondService;
 import by.belisa.service.UchStepeniService;
 import by.belisa.service.UchZvaniyService;
@@ -93,6 +96,9 @@ public class KonkursyController {
 	@Autowired
 	@Qualifier("uchZvaniyService")
 	private UchZvaniyService uchZvaniyService;
+	@Autowired
+	@Qualifier("publicationService")
+	private PublicationService publicationService;
 
 	private List<OtraslNauka> otraslNaukaList = null;
 	private List<SectionFond> sectionFondList = null;
@@ -138,6 +144,16 @@ public class KonkursyController {
 		}
 		return prioritetNaukaList;
 	}
+	
+	@ModelAttribute(value = "publicationModel")
+	public PublicationDTO initPublicationModel(){
+		return new PublicationDTO();
+	}
+	
+	@ModelAttribute(value = "ispolnitelModel")
+	public IspolnitelDTO initIspolnitelModel(){
+		return new IspolnitelDTO();
+	}
 
 	@RenderMapping
 	public String renderView(Model model, PortletRequest request) throws ServiceException, DaoException {
@@ -158,9 +174,6 @@ public class KonkursyController {
 		model.addAttribute("listOrg", listOrg);
 		List<OrganizationNR> orgNrList = orgNrService.getAll();
 		model.addAttribute("orgNrList", orgNrList);
-		List<IspolnitelDTO> ispolniteliList = ispolnitelService.getAllDTOByZayavkaId(zayavkaFIDTO.getId());
-		model.addAttribute("ispolniteliList", ispolniteliList);
-		model.addAttribute("ispolnitelModel", new IspolnitelDTO());
 		return "zayavka";
 	}
 
@@ -252,6 +265,21 @@ public class KonkursyController {
 		model.addAttribute("save_result", "ok");
 	}
 	
+	@ActionMapping(params="form=form13")
+	public void saveForm13(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
+		zayavkaFIService.saveForm13(zayavkaFIDTO);
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
+		model.addAttribute("save_result", "ok");
+	}
+	
+	@ActionMapping(params="form=form15")
+	public void saveForm15(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
+		zayavkaFIService.saveForm15(zayavkaFIDTO);
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
+		model.addAttribute("save_result", "ok");
+	}
 	@ActionMapping(params = "action=addIspolnitel")
 	public void addIspolnitel(@ModelAttribute IspolnitelDTO ispolnitelDTO, ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
 	
@@ -274,18 +302,32 @@ public class KonkursyController {
 	@ActionMapping(params = "action=addSoOrg")
 	public void addSoOrg(ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
 	
-			String konkursId = ParamUtil.getString(req, "konkursId");
-			String soOrgId = ParamUtil.getString(req, "soOrgId");;
-			ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(PortalUtil.getUser(req).getUserId(), Integer.parseInt(konkursId));
+			Integer konkursId = ParamUtil.getInteger(req, "konkursId");
+			Integer soOrgId = ParamUtil.getInteger(req, "soOrgId");;
+			ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(PortalUtil.getUser(req).getUserId(), konkursId);
 			if (zayavkaFIDTO.getId()==null){
 				zayavkaFIDTO.setUserId(PortalUtil.getUser(req).getUserId());
-				zayavkaFIDTO.setKonkursId(Integer.parseInt(konkursId));
+				zayavkaFIDTO.setKonkursId(konkursId);
 				Integer zayavkaFIId = zayavkaFIService.saveOrUpdate(zayavkaFIDTO);
 				zayavkaFIDTO.setId(zayavkaFIId);
 			}
-			orgService.addSoOrg(Integer.parseInt(soOrgId), zayavkaFIDTO.getId());
+			orgService.addSoOrg(soOrgId, zayavkaFIDTO.getId());
 			resp.setRenderParameter("view", "zayavka");
-			resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
+			resp.setRenderParameter("konkursId", konkursId.toString());
+	}
+	
+	@ActionMapping(params = "action=addPublication")
+	public void addPublication(@ModelAttribute(value="publicationModel") PublicationDTO publication, ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+			Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
+			Integer konkursId = ParamUtil.getInteger(req, "konkursId");
+			Long userId = PortalUtil.getUser(req).getUserId();
+			ZayavkaFIDTO zayavkaFIDTO = new ZayavkaFIDTO();
+			zayavkaFIDTO.setId(zayavkaId);
+			zayavkaFIDTO.setKonkursId(konkursId);
+			zayavkaFIDTO.setUserId(userId);
+			zayavkaFIService.addPublication(zayavkaFIDTO,publication);
+			resp.setRenderParameter("view", "zayavka");
+			resp.setRenderParameter("konkursId", konkursId.toString());
 	}
 	
 	@ActionMapping(params = "action=deleteIspolnitel")
@@ -298,6 +340,17 @@ public class KonkursyController {
 			ispolnitelService.delete(ispolnitel);
 		}
 		
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
+		
+		
+	}
+	
+	@ActionMapping(params = "action=deletePublication")
+	public void deletePublication(ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+		
+		Integer publicationId = ParamUtil.getInteger(req, "publicationId");
+		publicationService.delete(publicationService.get(publicationId));
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
 		

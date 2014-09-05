@@ -71,6 +71,7 @@
 				<value>by.belisa.entity.Rukovoditel</value>
 				<value>by.belisa.entity.RukovoditelNR</value>
 				<value>by.belisa.entity.Okogu</value>
+				<value>by.belisa.entity.Calculation</value>
 				
 			</list>
 		</property>

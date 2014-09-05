@@ -45,8 +45,22 @@
 <portlet:actionURL var="saveForm12">
 	<portlet:param name="form" value="form12" />
 </portlet:actionURL>
+<portlet:actionURL var="saveForm13">
+	<portlet:param name="form" value="form13" />
+</portlet:actionURL>
+<portlet:actionURL var="saveForm14">
+	<portlet:param name="form" value="form14" />
+</portlet:actionURL>
+<portlet:actionURL var="saveForm15">
+	<portlet:param name="form" value="form15" />
+</portlet:actionURL>
+
 <portlet:actionURL var="addIspolnitelAction">
 	<portlet:param name="action" value="addIspolnitel" />
+	<portlet:param name="konkursId" value="${zayavka.konkursId}" />
+</portlet:actionURL>
+<portlet:actionURL var="addPublicationAction">
+	<portlet:param name="action" value="addPublication" />
 	<portlet:param name="konkursId" value="${zayavka.konkursId}" />
 </portlet:actionURL>
 <portlet:actionURL var="addSoOrgAction">
@@ -73,6 +87,9 @@
 		<li><a href="#tab-10"><spring:message code="zayavka.tab10" /></a></li>
 		<li><a href="#tab-11"><spring:message code="zayavka.tab11" /></a></li>
 		<li><a href="#tab-12"><spring:message code="zayavka.tab12" /></a></li>
+		<li><a href="#tab-13"><spring:message code="zayavka.tab13" /></a></li>
+		<li><a href="#tab-14"><spring:message code="zayavka.tab14" /></a></li>
+		<li><a href="#tab-15"><spring:message code="zayavka.tab15" /></a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -112,6 +129,15 @@
 		</div>
 		<div id="tab-12" class="tab-pane">
 			<%@ include file="/WEB-INF/jsp/zayavka/form12.jsp"%>
+		</div>
+		<div id="tab-13" class="tab-pane">
+			<%@ include file="/WEB-INF/jsp/zayavka/form13.jsp"%>
+		</div>
+		<div id="tab-14" class="tab-pane">
+			<%@ include file="/WEB-INF/jsp/zayavka/form14.jsp"%>
+		</div>
+		<div id="tab-15" class="tab-pane">
+			<%@ include file="/WEB-INF/jsp/zayavka/form15.jsp"%>
 		</div>
 	</div>
 </div>

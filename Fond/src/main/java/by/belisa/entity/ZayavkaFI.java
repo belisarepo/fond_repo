@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -86,12 +87,16 @@ public class ZayavkaFI implements Serializable{
 	@OneToOne(mappedBy="zayavkaFI", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private Rukovoditel rukovoditel;
 	@OneToOne(mappedBy="zayavkaFI", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private Calculation calculation;
+	@OneToOne(mappedBy="zayavkaFI", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private RukovoditelNR rukovoditelNr;
 	@ManyToOne
 	@JoinColumn(name="FIZ_NR_INFO_ID")
 	private FizNRInfo fizNrInfo;
 	@ManyToMany(mappedBy="zayavki")
 	private Set<Organization> soOrgs = new HashSet<Organization>();
+	@OneToMany(mappedBy="zayavkaFI")
+	private Set<Ispolnitel> ispolniteli = new HashSet<Ispolnitel>();
 	
 	
 //	@ManyToMany(cascade=CascadeType.ALL)
@@ -106,6 +111,18 @@ public class ZayavkaFI implements Serializable{
 	
 	public String getLastingDeadline() {
 		return lastingDeadline;
+	}
+	public Calculation getCalculation() {
+		return calculation;
+	}
+	public void setCalculation(Calculation calculation) {
+		this.calculation = calculation;
+	}
+	public Set<Ispolnitel> getIspolniteli() {
+		return ispolniteli;
+	}
+	public void setIspolniteli(Set<Ispolnitel> ispolniteli) {
+		this.ispolniteli = ispolniteli;
 	}
 	public Obosnovanie getObosnovanie() {
 		return obosnovanie;

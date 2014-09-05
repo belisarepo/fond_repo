@@ -3,8 +3,10 @@ package by.belisa.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -43,7 +45,7 @@ public class Ispolnitel implements Serializable{
 	private UchZvaniy uchZvaniy;
 	@Column(name="POST")
 	private String post;
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ZAYAVKA_FI_ID")
 	private ZayavkaFI zayavkaFI;
 	public Integer getId() {

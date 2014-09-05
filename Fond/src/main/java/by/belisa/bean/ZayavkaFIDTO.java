@@ -6,10 +6,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
-import javax.persistence.Lob;
 
-import by.belisa.entity.FizInfo;
+import by.belisa.entity.Ispolnitel;
 import by.belisa.entity.Organization;
+import by.belisa.entity.Publication;
 import by.belisa.entity.ZayavkaFI;
 
 public class ZayavkaFIDTO implements Serializable {
@@ -41,6 +41,7 @@ public class ZayavkaFIDTO implements Serializable {
 	private String udk;
 	private Set<IspolnitelDTO> ispolniteliDTO = new HashSet<IspolnitelDTO>();
 	private Set<OrgDTO> soOrg = new HashSet<OrgDTO>();
+	private Set<PublicationDTO> publications = new HashSet<PublicationDTO>();
 	
 	
 	private Integer idRk;
@@ -61,6 +62,22 @@ public class ZayavkaFIDTO implements Serializable {
 	private String addressRk;
 	private String emailRk;
 	private String biographyRk;
+	
+	private String countPublicationScopus;
+	private String countPublicationISI;
+	private String countPublicationRINC;
+	
+	private String citationIndexScopus;
+	private String citationIndexISI;
+	private String citationIndexRINC;
+	
+	private String indexWithoutSelfScopus;
+	private String indexWithoutSelfISI;
+	private String indexWithoutSelfRINC;
+	
+	private String indexHirshaScopus;
+	private String indexHirshaISI;
+	private String indexHirshaRINC;
 	
 	private Integer idRkNr;
 	private String fioRkNr;
@@ -103,6 +120,36 @@ public class ZayavkaFIDTO implements Serializable {
 	private String provisionEquipment;
 	private String previousKonkurs;
 	
+	
+	private Integer calcId;
+	private int zpFull;
+	private int zpFirstYear;
+	private int fsznFull;
+	private int fsznFirstYear;
+	private int insuranceFull;
+	private int insuranceFirstYear;
+	private int hardwareFull;
+	private int hardwareFirstYear;
+	private int fuelFull;
+	private int fuelFirstYear;
+	private int equipmentFull;
+	private int equipmentFirstYear;
+	private int businessTripFull;
+	private int businessTripFirstYear;
+	private int thirdPartyServicesFull;
+	private int thirdPartyServicesFirstYear;
+	private int otherFull;
+	private int otherFirstYear;
+	private int overheadFull;
+	private int overheadFirstYear;
+	private int innovationFondFull;
+	private int innovationFondFirstYear;
+	private int plannedCostFull;
+	private int plannedCostFirstYear;
+	private int profitFull;
+	private int profitFirstYear;
+	private int allFull;
+	private int allFirstYear;
 	
 	
 
@@ -168,6 +215,26 @@ public class ZayavkaFIDTO implements Serializable {
 				this.uchStepenNameRk = zayavkaFI.getRukovoditel().getUchStepeni()!=null ? zayavkaFI.getRukovoditel().getUchStepeni().getName() : "";
 				this.uchZvaniyIdRk = zayavkaFI.getRukovoditel().getUchZvaniy()!=null ? zayavkaFI.getRukovoditel().getUchZvaniy().getId() : null;
 				this.uchZvaniyNameRk = zayavkaFI.getRukovoditel().getUchZvaniy()!=null ? zayavkaFI.getRukovoditel().getUchZvaniy().getName() : "";
+				
+				this.countPublicationScopus =zayavkaFI.getRukovoditel().getCountPublicationScopus();
+				this.countPublicationISI =zayavkaFI.getRukovoditel().getCountPublicationISI();
+				this.countPublicationRINC =zayavkaFI.getRukovoditel().getCountPublicationRINC();
+				this.citationIndexScopus =zayavkaFI.getRukovoditel().getCitationIndexScopus();
+				this.citationIndexISI =zayavkaFI.getRukovoditel().getCitationIndexISI();
+				this.citationIndexRINC =zayavkaFI.getRukovoditel().getCitationIndexRINC();
+				this.indexWithoutSelfScopus =zayavkaFI.getRukovoditel().getIndexWithoutSelfScopus();
+				this.indexWithoutSelfISI =zayavkaFI.getRukovoditel().getIndexWithoutSelfISI();
+				this.indexWithoutSelfRINC =zayavkaFI.getRukovoditel().getIndexWithoutSelfRINC();
+				this.indexHirshaScopus =zayavkaFI.getRukovoditel().getIndexHirshaScopus();
+				this.indexHirshaISI =zayavkaFI.getRukovoditel().getIndexHirshaISI();
+				this.indexHirshaRINC =zayavkaFI.getRukovoditel().getIndexHirshaRINC();
+				
+				if (!zayavkaFI.getRukovoditel().getPublicationSet().isEmpty()){
+					for (Publication i : zayavkaFI.getRukovoditel().getPublicationSet()){
+						this.publications.add(new PublicationDTO(i));
+					}
+					
+				}
 			}else{
 				this.addressRk = zayavkaFI.getAnketa().getAddress();
 				this.biographyRk = zayavkaFI.getAnketa().getBiography();
@@ -209,6 +276,12 @@ public class ZayavkaFIDTO implements Serializable {
 					this.soOrg.add(new OrgDTO(org));
 				}
 			}
+			if (!zayavkaFI.getIspolniteli().isEmpty()){
+				for (Ispolnitel i : zayavkaFI.getIspolniteli()){
+					this.ispolniteliDTO.add(new IspolnitelDTO(i));
+				}
+			}
+			
 			if (zayavkaFI.getAnnotation()!=null){
 				this.keyWords = zayavkaFI.getAnnotation().getKeyWords();
 				this.jobGoal = zayavkaFI.getAnnotation().getJobGoal();
@@ -230,6 +303,38 @@ public class ZayavkaFIDTO implements Serializable {
 				this.previousKonkurs=zayavkaFI.getObosnovanie().getPreviousKonkurs();		
 							
 			}
+			if (zayavkaFI.getCalculation()!=null){
+				this.calcId =zayavkaFI.getCalculation().getId();
+				this.zpFull =zayavkaFI.getCalculation().getZpFull();
+				this.zpFirstYear =zayavkaFI.getCalculation().getZpFirstYear();
+				this.fsznFull =zayavkaFI.getCalculation().getFsznFull();
+				this.fsznFirstYear =zayavkaFI.getCalculation().getFsznFirstYear();
+				this.insuranceFull =zayavkaFI.getCalculation().getInsuranceFull();
+				this.insuranceFirstYear =zayavkaFI.getCalculation().getInsuranceFirstYear();
+				this.hardwareFull =zayavkaFI.getCalculation().getHardwareFull();
+				this.hardwareFirstYear =zayavkaFI.getCalculation().getHardwareFirstYear();
+				this.fuelFull =zayavkaFI.getCalculation().getFuelFull();
+				this.fuelFirstYear =zayavkaFI.getCalculation().getFuelFirstYear();
+				this.equipmentFull =zayavkaFI.getCalculation().getEquipmentFull();
+				this.equipmentFirstYear =zayavkaFI.getCalculation().getEquipmentFirstYear();
+				this.businessTripFull =zayavkaFI.getCalculation().getBusinessTripFull();
+				this.businessTripFirstYear =zayavkaFI.getCalculation().getBusinessTripFirstYear();
+				this.thirdPartyServicesFull =zayavkaFI.getCalculation().getThirdPartyServicesFull();
+				this.thirdPartyServicesFirstYear =zayavkaFI.getCalculation().getThirdPartyServicesFirstYear();
+				this.otherFull =zayavkaFI.getCalculation().getOtherFull();
+				this.otherFirstYear =zayavkaFI.getCalculation().getOtherFirstYear();
+				this.overheadFull =zayavkaFI.getCalculation().getOverheadFull();
+				this.overheadFirstYear =zayavkaFI.getCalculation().getOverheadFirstYear();
+				this.innovationFondFull =zayavkaFI.getCalculation().getInnovationFondFull();
+				this.innovationFondFirstYear =zayavkaFI.getCalculation().getInnovationFondFirstYear();
+				this.plannedCostFull =zayavkaFI.getCalculation().getPlannedCostFull();
+				this.plannedCostFirstYear =zayavkaFI.getCalculation().getPlannedCostFirstYear();
+				this.profitFull =zayavkaFI.getCalculation().getProfitFull();
+				this.profitFirstYear =zayavkaFI.getCalculation().getProfitFirstYear();
+				this.allFull =zayavkaFI.getCalculation().getAllFull();
+				this.allFirstYear =zayavkaFI.getCalculation().getAllFirstYear();
+				
+			}
 			
 		}
 
@@ -238,6 +343,344 @@ public class ZayavkaFIDTO implements Serializable {
 	
 
 	
+
+	
+	public Integer getCalcId() {
+		return calcId;
+	}
+
+	public void setCalcId(Integer calcId) {
+		this.calcId = calcId;
+	}
+
+	public int getZpFull() {
+		return zpFull;
+	}
+
+	public void setZpFull(int zpFull) {
+		this.zpFull = zpFull;
+	}
+
+	public int getZpFirstYear() {
+		return zpFirstYear;
+	}
+
+	public void setZpFirstYear(int zpFirstYear) {
+		this.zpFirstYear = zpFirstYear;
+	}
+
+	public int getFsznFull() {
+		return fsznFull;
+	}
+
+	public void setFsznFull(int fsznFull) {
+		this.fsznFull = fsznFull;
+	}
+
+	public int getFsznFirstYear() {
+		return fsznFirstYear;
+	}
+
+	public void setFsznFirstYear(int fsznFirstYear) {
+		this.fsznFirstYear = fsznFirstYear;
+	}
+
+	public int getInsuranceFull() {
+		return insuranceFull;
+	}
+
+	public void setInsuranceFull(int insuranceFull) {
+		this.insuranceFull = insuranceFull;
+	}
+
+	public int getInsuranceFirstYear() {
+		return insuranceFirstYear;
+	}
+
+	public void setInsuranceFirstYear(int insuranceFirstYear) {
+		this.insuranceFirstYear = insuranceFirstYear;
+	}
+
+	public int getHardwareFull() {
+		return hardwareFull;
+	}
+
+	public void setHardwareFull(int hardwareFull) {
+		this.hardwareFull = hardwareFull;
+	}
+
+	public int getHardwareFirstYear() {
+		return hardwareFirstYear;
+	}
+
+	public void setHardwareFirstYear(int hardwareFirstYear) {
+		this.hardwareFirstYear = hardwareFirstYear;
+	}
+
+	public int getFuelFull() {
+		return fuelFull;
+	}
+
+	public void setFuelFull(int fuelFull) {
+		this.fuelFull = fuelFull;
+	}
+
+	public int getFuelFirstYear() {
+		return fuelFirstYear;
+	}
+
+	public void setFuelFirstYear(int fuelFirstYear) {
+		this.fuelFirstYear = fuelFirstYear;
+	}
+
+	public int getEquipmentFull() {
+		return equipmentFull;
+	}
+
+	public void setEquipmentFull(int equipmentFull) {
+		this.equipmentFull = equipmentFull;
+	}
+
+	
+	public int getEquipmentFirstYear() {
+		return equipmentFirstYear;
+	}
+
+	public void setEquipmentFirstYear(int equipmentFirstYear) {
+		this.equipmentFirstYear = equipmentFirstYear;
+	}
+
+	public int getBusinessTripFull() {
+		return businessTripFull;
+	}
+
+	public void setBusinessTripFull(int businessTripFull) {
+		this.businessTripFull = businessTripFull;
+	}
+
+	public int getBusinessTripFirstYear() {
+		return businessTripFirstYear;
+	}
+
+	public void setBusinessTripFirstYear(int businessTripFirstYear) {
+		this.businessTripFirstYear = businessTripFirstYear;
+	}
+
+	public int getThirdPartyServicesFull() {
+		return thirdPartyServicesFull;
+	}
+
+	public void setThirdPartyServicesFull(int thirdPartyServicesFull) {
+		this.thirdPartyServicesFull = thirdPartyServicesFull;
+	}
+
+	public int getThirdPartyServicesFirstYear() {
+		return thirdPartyServicesFirstYear;
+	}
+
+	public void setThirdPartyServicesFirstYear(int thirdPartyServicesFirstYear) {
+		this.thirdPartyServicesFirstYear = thirdPartyServicesFirstYear;
+	}
+
+	public int getOtherFull() {
+		return otherFull;
+	}
+
+	public void setOtherFull(int otherFull) {
+		this.otherFull = otherFull;
+	}
+
+	public int getOtherFirstYear() {
+		return otherFirstYear;
+	}
+
+	public void setOtherFirstYear(int otherFirstYear) {
+		this.otherFirstYear = otherFirstYear;
+	}
+
+	public int getOverheadFull() {
+		return overheadFull;
+	}
+
+	public void setOverheadFull(int overheadFull) {
+		this.overheadFull = overheadFull;
+	}
+
+	public int getOverheadFirstYear() {
+		return overheadFirstYear;
+	}
+
+	public void setOverheadFirstYear(int overheadFirstYear) {
+		this.overheadFirstYear = overheadFirstYear;
+	}
+
+	public int getInnovationFondFull() {
+		return innovationFondFull;
+	}
+
+	public void setInnovationFondFull(int innovationFondFull) {
+		this.innovationFondFull = innovationFondFull;
+	}
+
+	public int getInnovationFondFirstYear() {
+		return innovationFondFirstYear;
+	}
+
+	public void setInnovationFondFirstYear(int innovationFondFirstYear) {
+		this.innovationFondFirstYear = innovationFondFirstYear;
+	}
+
+	public int getPlannedCostFull() {
+		return plannedCostFull;
+	}
+
+	public void setPlannedCostFull(int plannedCostFull) {
+		this.plannedCostFull = plannedCostFull;
+	}
+
+	public int getPlannedCostFirstYear() {
+		return plannedCostFirstYear;
+	}
+
+	public void setPlannedCostFirstYear(int plannedCostFirstYear) {
+		this.plannedCostFirstYear = plannedCostFirstYear;
+	}
+
+	public int getProfitFull() {
+		return profitFull;
+	}
+
+	public void setProfitFull(int profitFull) {
+		this.profitFull = profitFull;
+	}
+
+	public int getProfitFirstYear() {
+		return profitFirstYear;
+	}
+
+	public void setProfitFirstYear(int profitFirstYear) {
+		this.profitFirstYear = profitFirstYear;
+	}
+
+	public int getAllFull() {
+		return allFull;
+	}
+
+	public void setAllFull(int allFull) {
+		this.allFull = allFull;
+	}
+
+	public int getAllFirstYear() {
+		return allFirstYear;
+	}
+
+	public void setAllFirstYear(int allFirstYear) {
+		this.allFirstYear = allFirstYear;
+	}
+
+	public Set<PublicationDTO> getPublications() {
+		return publications;
+	}
+
+	public void setPublications(Set<PublicationDTO> publications) {
+		this.publications = publications;
+	}
+
+	public String getCountPublicationScopus() {
+		return countPublicationScopus;
+	}
+
+	public void setCountPublicationScopus(String countPublicationScopus) {
+		this.countPublicationScopus = countPublicationScopus;
+	}
+
+	public String getCountPublicationISI() {
+		return countPublicationISI;
+	}
+
+	public void setCountPublicationISI(String countPublicationISI) {
+		this.countPublicationISI = countPublicationISI;
+	}
+
+	public String getCountPublicationRINC() {
+		return countPublicationRINC;
+	}
+
+	public void setCountPublicationRINC(String countPublicationRINC) {
+		this.countPublicationRINC = countPublicationRINC;
+	}
+
+	public String getCitationIndexScopus() {
+		return citationIndexScopus;
+	}
+
+	public void setCitationIndexScopus(String citationIndexScopus) {
+		this.citationIndexScopus = citationIndexScopus;
+	}
+
+	public String getCitationIndexISI() {
+		return citationIndexISI;
+	}
+
+	public void setCitationIndexISI(String citationIndexISI) {
+		this.citationIndexISI = citationIndexISI;
+	}
+
+	public String getCitationIndexRINC() {
+		return citationIndexRINC;
+	}
+
+	public void setCitationIndexRINC(String citationIndexRINC) {
+		this.citationIndexRINC = citationIndexRINC;
+	}
+
+	public String getIndexWithoutSelfScopus() {
+		return indexWithoutSelfScopus;
+	}
+
+	public void setIndexWithoutSelfScopus(String indexWithoutSelfScopus) {
+		this.indexWithoutSelfScopus = indexWithoutSelfScopus;
+	}
+
+	public String getIndexWithoutSelfISI() {
+		return indexWithoutSelfISI;
+	}
+
+	public void setIndexWithoutSelfISI(String indexWithoutSelfISI) {
+		this.indexWithoutSelfISI = indexWithoutSelfISI;
+	}
+
+	public String getIndexWithoutSelfRINC() {
+		return indexWithoutSelfRINC;
+	}
+
+	public void setIndexWithoutSelfRINC(String indexWithoutSelfRINC) {
+		this.indexWithoutSelfRINC = indexWithoutSelfRINC;
+	}
+
+	public String getIndexHirshaScopus() {
+		return indexHirshaScopus;
+	}
+
+	public void setIndexHirshaScopus(String indexHirshaScopus) {
+		this.indexHirshaScopus = indexHirshaScopus;
+	}
+
+	public String getIndexHirshaISI() {
+		return indexHirshaISI;
+	}
+
+	public void setIndexHirshaISI(String indexHirshaISI) {
+		this.indexHirshaISI = indexHirshaISI;
+	}
+
+	public String getIndexHirshaRINC() {
+		return indexHirshaRINC;
+	}
+
+	public void setIndexHirshaRINC(String indexHirshaRINC) {
+		this.indexHirshaRINC = indexHirshaRINC;
+	}
 
 	public String getGoal() {
 		return goal;

@@ -98,7 +98,7 @@ public class Rukovoditel implements Serializable{
 	@Column(name="INDEX_HIRSHA_RINC")
 	private String indexHirshaRINC;
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="RUKOVODITEL_ID")
 	Set<Publication> publicationSet = new HashSet<Publication>();
 	
