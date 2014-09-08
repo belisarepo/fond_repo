@@ -88,6 +88,7 @@ public class ZayavkaFI implements Serializable{
 	private Rukovoditel rukovoditel;
 	@OneToOne(mappedBy="zayavkaFI", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private Calculation calculation;
+	
 	@OneToOne(mappedBy="zayavkaFI", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private RukovoditelNR rukovoditelNr;
 	@ManyToOne
@@ -97,6 +98,19 @@ public class ZayavkaFI implements Serializable{
 	private Set<Organization> soOrgs = new HashSet<Organization>();
 	@OneToMany(mappedBy="zayavkaFI")
 	private Set<Ispolnitel> ispolniteli = new HashSet<Ispolnitel>();
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="ZAYAVKA_ID")
+	Set<CalcZp> calcZpSet = new HashSet<CalcZp>();
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="ZAYAVKA_ID")
+	Set<CalcTrip> calcTripSet = new HashSet<CalcTrip>();
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="ZAYAVKA_ID")
+	Set<CalcMaterials> calcMaterialsSet = new HashSet<CalcMaterials>();
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="ZAYAVKA_ID")
+	Set<CalcOtherCosts> calcOtherCostsSet = new HashSet<CalcOtherCosts>();
 	
 	
 //	@ManyToMany(cascade=CascadeType.ALL)
@@ -112,6 +126,39 @@ public class ZayavkaFI implements Serializable{
 	public String getLastingDeadline() {
 		return lastingDeadline;
 	}
+	
+	public Set<CalcZp> getCalcZpSet() {
+		return calcZpSet;
+	}
+
+	public void setCalcZpSet(Set<CalcZp> calcZpSet) {
+		this.calcZpSet = calcZpSet;
+	}
+
+	public Set<CalcTrip> getCalcTripSet() {
+		return calcTripSet;
+	}
+
+	public void setCalcTripSet(Set<CalcTrip> calcTripSet) {
+		this.calcTripSet = calcTripSet;
+	}
+
+	public Set<CalcMaterials> getCalcMaterialsSet() {
+		return calcMaterialsSet;
+	}
+
+	public void setCalcMaterialsSet(Set<CalcMaterials> calcMaterialsSet) {
+		this.calcMaterialsSet = calcMaterialsSet;
+	}
+
+	public Set<CalcOtherCosts> getCalcOtherCostsSet() {
+		return calcOtherCostsSet;
+	}
+
+	public void setCalcOtherCostsSet(Set<CalcOtherCosts> calcOtherCostsSet) {
+		this.calcOtherCostsSet = calcOtherCostsSet;
+	}
+
 	public Calculation getCalculation() {
 		return calculation;
 	}

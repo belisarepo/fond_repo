@@ -24,6 +24,10 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import by.belisa.bean.CalcMaterialsDTO;
+import by.belisa.bean.CalcOtherCostsDTO;
+import by.belisa.bean.CalcTripDTO;
+import by.belisa.bean.CalcZpDTO;
 import by.belisa.bean.IspolnitelDTO;
 import by.belisa.bean.KonkursyDTO;
 import by.belisa.bean.OrgDTO;
@@ -34,12 +38,15 @@ import by.belisa.entity.Organization;
 import by.belisa.entity.OrganizationNR;
 import by.belisa.entity.OtraslNauka;
 import by.belisa.entity.PrioritetNauka;
-import by.belisa.entity.Publication;
 import by.belisa.entity.SectionFond;
 import by.belisa.entity.UchStepeni;
 import by.belisa.entity.UchZvaniy;
 import by.belisa.exception.DaoException;
 import by.belisa.exception.ServiceException;
+import by.belisa.service.CalcMaterialsService;
+import by.belisa.service.CalcOtherCostsService;
+import by.belisa.service.CalcTripService;
+import by.belisa.service.CalcZpService;
 import by.belisa.service.FizInfoService;
 import by.belisa.service.IspolnitelService;
 import by.belisa.service.KonkursyService;
@@ -99,6 +106,18 @@ public class KonkursyController {
 	@Autowired
 	@Qualifier("publicationService")
 	private PublicationService publicationService;
+	@Autowired
+	@Qualifier("calcZpService")
+	private CalcZpService calcZpService;
+	@Autowired
+	@Qualifier("calcTripService")
+	private CalcTripService calcTripService;
+	@Autowired
+	@Qualifier("calcOtherCostsService")
+	private CalcOtherCostsService calcOtherCostsService;
+	@Autowired
+	@Qualifier("calcMaterialsService")
+	private CalcMaterialsService calcMaterialsService;
 
 	private List<OtraslNauka> otraslNaukaList = null;
 	private List<SectionFond> sectionFondList = null;
@@ -153,6 +172,23 @@ public class KonkursyController {
 	@ModelAttribute(value = "ispolnitelModel")
 	public IspolnitelDTO initIspolnitelModel(){
 		return new IspolnitelDTO();
+	}
+	
+	@ModelAttribute(value = "calcZpModel")
+	public CalcZpDTO initCalcZpModel(){
+		return new CalcZpDTO();
+	}
+	@ModelAttribute(value = "calcMaterialsModel")
+	public CalcMaterialsDTO initCalcMaterialsModel(){
+		return new CalcMaterialsDTO();
+	}
+	@ModelAttribute(value = "calcTripModel")
+	public CalcTripDTO initCalcTripModel(){
+		return new CalcTripDTO();
+	}
+	@ModelAttribute(value = "calcOtherCostsModel")
+	public CalcOtherCostsDTO initCalcOtherCostsModel(){
+		return new CalcOtherCostsDTO();
 	}
 
 	@RenderMapping
@@ -330,6 +366,59 @@ public class KonkursyController {
 			resp.setRenderParameter("konkursId", konkursId.toString());
 	}
 	
+	@ActionMapping(params = "action=addCalcZp")
+	public void addCalcZp(@ModelAttribute(value="calcZpModel") CalcZpDTO calcZp, ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+			Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
+			Integer konkursId = ParamUtil.getInteger(req, "konkursId");
+			Long userId = PortalUtil.getUser(req).getUserId();
+			ZayavkaFIDTO zayavkaFIDTO = new ZayavkaFIDTO();
+			zayavkaFIDTO.setId(zayavkaId);
+			zayavkaFIDTO.setKonkursId(konkursId);
+			zayavkaFIDTO.setUserId(userId);
+			zayavkaFIService.addCalcZp(zayavkaFIDTO,calcZp);
+			resp.setRenderParameter("view", "zayavka");
+			resp.setRenderParameter("konkursId", konkursId.toString());
+	}
+	@ActionMapping(params = "action=addCalcMaterials")
+	public void addCalcMaterials(@ModelAttribute(value="calcMaterialsModel") CalcMaterialsDTO calcMaterials, ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+			Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
+			Integer konkursId = ParamUtil.getInteger(req, "konkursId");
+			Long userId = PortalUtil.getUser(req).getUserId();
+			ZayavkaFIDTO zayavkaFIDTO = new ZayavkaFIDTO();
+			zayavkaFIDTO.setId(zayavkaId);
+			zayavkaFIDTO.setKonkursId(konkursId);
+			zayavkaFIDTO.setUserId(userId);
+			zayavkaFIService.addCalcMaterials(zayavkaFIDTO,calcMaterials);
+			resp.setRenderParameter("view", "zayavka");
+			resp.setRenderParameter("konkursId", konkursId.toString());
+	}
+	@ActionMapping(params = "action=addCalcTrip")
+	public void addCalcTrip(@ModelAttribute(value="calcTripModel") CalcTripDTO calcTrip, ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+			Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
+			Integer konkursId = ParamUtil.getInteger(req, "konkursId");
+			Long userId = PortalUtil.getUser(req).getUserId();
+			ZayavkaFIDTO zayavkaFIDTO = new ZayavkaFIDTO();
+			zayavkaFIDTO.setId(zayavkaId);
+			zayavkaFIDTO.setKonkursId(konkursId);
+			zayavkaFIDTO.setUserId(userId);
+			zayavkaFIService.addCalcTrip(zayavkaFIDTO,calcTrip);
+			resp.setRenderParameter("view", "zayavka");
+			resp.setRenderParameter("konkursId", konkursId.toString());
+	}
+	@ActionMapping(params = "action=addCalcOtherCosts")
+	public void addCalcOtherCosts(@ModelAttribute(value="calcOtherCostsModel") CalcOtherCostsDTO calcOtherCosts, ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+			Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
+			Integer konkursId = ParamUtil.getInteger(req, "konkursId");
+			Long userId = PortalUtil.getUser(req).getUserId();
+			ZayavkaFIDTO zayavkaFIDTO = new ZayavkaFIDTO();
+			zayavkaFIDTO.setId(zayavkaId);
+			zayavkaFIDTO.setKonkursId(konkursId);
+			zayavkaFIDTO.setUserId(userId);
+			zayavkaFIService.addCalcOtherCosts(zayavkaFIDTO,calcOtherCosts);
+			resp.setRenderParameter("view", "zayavka");
+			resp.setRenderParameter("konkursId", konkursId.toString());
+	}
+	
 	@ActionMapping(params = "action=deleteIspolnitel")
 	public void deleteIspolnitel(ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
 		
@@ -348,13 +437,39 @@ public class KonkursyController {
 	
 	@ActionMapping(params = "action=deletePublication")
 	public void deletePublication(ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
-		
 		Integer publicationId = ParamUtil.getInteger(req, "publicationId");
 		publicationService.delete(publicationService.get(publicationId));
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
-		
-		
+	}
+	
+	@ActionMapping(params = "action=deleteCalcZp")
+	public void deleteCalcZp(ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+		Integer calcZpId = ParamUtil.getInteger(req, "calcZpId");
+		calcZpService.delete(calcZpService.get(calcZpId));
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
+	}
+	@ActionMapping(params = "action=deleteCalcTrip")
+	public void deleteCalcTrip(ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+		Integer calcTripId = ParamUtil.getInteger(req, "calcTripId");
+		calcTripService.delete(calcTripService.get(calcTripId));
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
+	}
+	@ActionMapping(params = "action=deleteCalcOtherCosts")
+	public void deleteCalcOtherCosts(ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+		Integer calcOtherCostsId = ParamUtil.getInteger(req, "calcOtherCostsId");
+		calcOtherCostsService.delete(calcOtherCostsService.get(calcOtherCostsId));
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
+	}
+	@ActionMapping(params = "action=deleteCalcMaterials")
+	public void deleteCalcMaterials(ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+		Integer calcMaterialsId = ParamUtil.getInteger(req, "calcMaterialsId");
+		calcMaterialsService.delete(calcMaterialsService.get(calcMaterialsId));
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
 	}
 	
 	@ActionMapping(params = "action=deleteSoOrg")

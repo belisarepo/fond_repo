@@ -55,6 +55,7 @@
 	<portlet:param name="form" value="form15" />
 </portlet:actionURL>
 
+
 <portlet:actionURL var="addIspolnitelAction">
 	<portlet:param name="action" value="addIspolnitel" />
 	<portlet:param name="konkursId" value="${zayavka.konkursId}" />
@@ -65,6 +66,22 @@
 </portlet:actionURL>
 <portlet:actionURL var="addSoOrgAction">
 	<portlet:param name="action" value="addSoOrg" />
+	<portlet:param name="konkursId" value="${zayavka.konkursId}" />
+</portlet:actionURL>
+<portlet:actionURL var="addCalcZpAction">
+	<portlet:param name="action" value="addCalcZp" />
+	<portlet:param name="konkursId" value="${zayavka.konkursId}" />
+</portlet:actionURL>
+<portlet:actionURL var="addCalcMaterialsAction">
+	<portlet:param name="action" value="addCalcMaterials" />
+	<portlet:param name="konkursId" value="${zayavka.konkursId}" />
+</portlet:actionURL>
+<portlet:actionURL var="addCalcTripAction">
+	<portlet:param name="action" value="addCalcTrip" />
+	<portlet:param name="konkursId" value="${zayavka.konkursId}" />
+</portlet:actionURL>
+<portlet:actionURL var="addCalcOtherCostsAction">
+	<portlet:param name="action" value="addCalcOtherCosts" />
 	<portlet:param name="konkursId" value="${zayavka.konkursId}" />
 </portlet:actionURL>
 
@@ -90,6 +107,10 @@
 		<li><a href="#tab-13"><spring:message code="zayavka.tab13" /></a></li>
 		<li><a href="#tab-14"><spring:message code="zayavka.tab14" /></a></li>
 		<li><a href="#tab-15"><spring:message code="zayavka.tab15" /></a></li>
+		<li><a href="#tab-16"><spring:message code="zayavka.tab16" /></a></li>
+		<li><a href="#tab-17"><spring:message code="zayavka.tab17" /></a></li>
+		<li><a href="#tab-18"><spring:message code="zayavka.tab18" /></a></li>
+		<li><a href="#tab-19"><spring:message code="zayavka.tab19" /></a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -138,6 +159,18 @@
 		</div>
 		<div id="tab-15" class="tab-pane">
 			<%@ include file="/WEB-INF/jsp/zayavka/form15.jsp"%>
+		</div>
+		<div id="tab-16" class="tab-pane">
+			<%@ include file="/WEB-INF/jsp/zayavka/form16.jsp"%>
+		</div>
+		<div id="tab-17" class="tab-pane">
+			<%@ include file="/WEB-INF/jsp/zayavka/form17.jsp"%>
+		</div>
+		<div id="tab-18" class="tab-pane">
+			<%@ include file="/WEB-INF/jsp/zayavka/form18.jsp"%>
+		</div>
+		<div id="tab-19" class="tab-pane">
+			<%@ include file="/WEB-INF/jsp/zayavka/form19.jsp"%>
 		</div>
 	</div>
 </div>

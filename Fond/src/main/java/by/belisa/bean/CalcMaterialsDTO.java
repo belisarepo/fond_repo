@@ -1,42 +1,35 @@
-package by.belisa.entity;
+package by.belisa.bean;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import by.belisa.entity.CalcMaterials;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
-@Entity
-@Table(name="CALC_MATERIALS")
-@SequenceGenerator(name="PK", sequenceName="SEQ_CALC_MATERIALS")
-public class CalcMaterials implements Serializable{
+public class CalcMaterialsDTO implements Serializable{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1623793837731319139L;
+	private static final long serialVersionUID = -985597745797207415L;
 	
-	@Id
-	@GeneratedValue(generator="PK")
 	private Integer id;
-	@Column
 	private int pn;
-	@Column
 	private String name;
-	@Column
 	private String unit;
-	@Column
 	private int count;
-	@Column
 	private int sum;
 	
-	
+	public CalcMaterialsDTO() {
+	}
+
+	public CalcMaterialsDTO(CalcMaterials calcMaterials) {
+		this.id = calcMaterials.getId();
+		this.pn = calcMaterials.getPn();
+		this.name = calcMaterials.getName();
+		this.unit = calcMaterials.getUnit();
+		this.count = calcMaterials.getCount();
+		this.sum = calcMaterials.getSum();
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -84,8 +77,7 @@ public class CalcMaterials implements Serializable{
 	public void setSum(int sum) {
 		this.sum = sum;
 	}
+	
+	
 
-	
-	
-	
 }

@@ -1,37 +1,33 @@
-package by.belisa.entity;
+package by.belisa.bean;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import by.belisa.entity.CalcOtherCosts;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-@Entity
-@Table(name="CALC_OTHER_COSTS")
-@SequenceGenerator(name="PK", sequenceName="SEQ_CALC_OTHER_COSTS")
-public class CalcOtherCosts implements Serializable{
+public class CalcOtherCostsDTO implements Serializable{
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6781622257919065147L;
+	private static final long serialVersionUID = -6106974998723299801L;
 	
-	@Id
-	@GeneratedValue(generator="PK")
 	private Integer id;
-	@Column
 	private int pn;
-	@Column
 	private String name;
-	@Column
 	private int sum;
-	@Column
 	private String note;
+	
+	
+	
+	public CalcOtherCostsDTO() {
+	}
+	public CalcOtherCostsDTO(CalcOtherCosts calcOtherCosts) {
+		this.id = calcOtherCosts.getId();
+		this.pn = calcOtherCosts.getPn();
+		this.name = calcOtherCosts.getName();
+		this.sum = calcOtherCosts.getSum();
+		this.note = calcOtherCosts.getNote();
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -62,8 +58,7 @@ public class CalcOtherCosts implements Serializable{
 	public void setNote(String note) {
 		this.note = note;
 	}
-	
-	
-	
 
+	
+	
 }

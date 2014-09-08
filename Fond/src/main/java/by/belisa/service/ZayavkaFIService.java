@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import by.belisa.bean.CalcMaterialsDTO;
+import by.belisa.bean.CalcOtherCostsDTO;
+import by.belisa.bean.CalcTripDTO;
+import by.belisa.bean.CalcZpDTO;
 import by.belisa.bean.PublicationDTO;
 import by.belisa.bean.ZayavkaFIDTO;
 import by.belisa.dao.AnketaDao;
@@ -24,6 +28,10 @@ import by.belisa.dao.UchZvanieDao;
 import by.belisa.dao.ZayavkaFIDao;
 import by.belisa.entity.Anketa;
 import by.belisa.entity.Annotation;
+import by.belisa.entity.CalcMaterials;
+import by.belisa.entity.CalcOtherCosts;
+import by.belisa.entity.CalcTrip;
+import by.belisa.entity.CalcZp;
 import by.belisa.entity.Calculation;
 import by.belisa.entity.Obosnovanie;
 import by.belisa.entity.Publication;
@@ -353,6 +361,54 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		ruk.getPublicationSet().add(publ);
 		zayavkaFI.setRukovoditel(ruk);
 		ruk.setZayavkaFI(zayavkaFI);
+		baseDao.saveOrUpdate(zayavkaFI);
+	}
+	
+	public void addCalcZp(ZayavkaFIDTO zayavkaDto, CalcZpDTO calcZpDto) throws DaoException{
+		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
+		CalcZp calcZp = new CalcZp();
+		calcZp.setDuration(calcZpDto.getDuration());
+		calcZp.setFondZp(calcZpDto.getFondZp());
+		calcZp.setName(calcZpDto.getName());
+		calcZp.setNote(calcZpDto.getNote());
+		calcZp.setRate(calcZpDto.getRate());
+		calcZp.setSalary(calcZpDto.getSalary());
+		zayavkaFI.getCalcZpSet().add(calcZp);
+		baseDao.saveOrUpdate(zayavkaFI);
+	}
+	
+	public void addCalcMaterials(ZayavkaFIDTO zayavkaDto, CalcMaterialsDTO calcMaterialsDto) throws DaoException{
+		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
+		CalcMaterials calcMaterials = new CalcMaterials();
+		calcMaterials.setCount(calcMaterialsDto.getCount());
+		calcMaterials.setName(calcMaterialsDto.getName());
+		calcMaterials.setPn(calcMaterialsDto.getPn());
+		calcMaterials.setSum(calcMaterialsDto.getSum());
+		calcMaterials.setUnit(calcMaterialsDto.getUnit());
+		zayavkaFI.getCalcMaterialsSet().add(calcMaterials);
+		baseDao.saveOrUpdate(zayavkaFI);
+	}
+	
+	public void addCalcTrip(ZayavkaFIDTO zayavkaDto, CalcTripDTO calcTripDto) throws DaoException{
+		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
+		CalcTrip calcTrip = new CalcTrip();
+		calcTrip.setCosts(calcTripDto.getCosts());
+		calcTrip.setCount(calcTripDto.getCount());
+		calcTrip.setDuration(calcTripDto.getDuration());
+		calcTrip.setTripGoal(calcTripDto.getTripGoal());
+		calcTrip.setTripPoint(calcTripDto.getTripPoint());
+		zayavkaFI.getCalcTripSet().add(calcTrip);
+		baseDao.saveOrUpdate(zayavkaFI);
+	}
+	
+	public void addCalcOtherCosts(ZayavkaFIDTO zayavkaDto, CalcOtherCostsDTO calcOtherCostsDto) throws DaoException{
+		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
+		CalcOtherCosts calcOtherCosts = new CalcOtherCosts();
+		calcOtherCosts.setName(calcOtherCostsDto.getName());
+		calcOtherCosts.setNote(calcOtherCostsDto.getNote());
+		calcOtherCosts.setPn(calcOtherCostsDto.getPn());
+		calcOtherCosts.setSum(calcOtherCostsDto.getSum());
+		zayavkaFI.getCalcOtherCostsSet().add(calcOtherCosts);
 		baseDao.saveOrUpdate(zayavkaFI);
 	}
 	

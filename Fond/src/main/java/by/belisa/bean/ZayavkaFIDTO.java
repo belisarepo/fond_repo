@@ -5,8 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-
+import by.belisa.entity.CalcMaterials;
+import by.belisa.entity.CalcOtherCosts;
+import by.belisa.entity.CalcTrip;
+import by.belisa.entity.CalcZp;
 import by.belisa.entity.Ispolnitel;
 import by.belisa.entity.Organization;
 import by.belisa.entity.Publication;
@@ -42,6 +44,11 @@ public class ZayavkaFIDTO implements Serializable {
 	private Set<IspolnitelDTO> ispolniteliDTO = new HashSet<IspolnitelDTO>();
 	private Set<OrgDTO> soOrg = new HashSet<OrgDTO>();
 	private Set<PublicationDTO> publications = new HashSet<PublicationDTO>();
+	
+	private Set<CalcZpDTO> calcZpSet = new HashSet<CalcZpDTO>();
+	private Set<CalcMaterialsDTO> calcMaterialsSet = new HashSet<CalcMaterialsDTO>();
+	private Set<CalcTripDTO> calcTripSet = new HashSet<CalcTripDTO>();
+	private Set<CalcOtherCostsDTO> calcOtherCostsSet = new HashSet<CalcOtherCostsDTO>();
 	
 	
 	private Integer idRk;
@@ -150,6 +157,8 @@ public class ZayavkaFIDTO implements Serializable {
 	private int profitFirstYear;
 	private int allFull;
 	private int allFirstYear;
+	
+	
 	
 	
 
@@ -336,15 +345,63 @@ public class ZayavkaFIDTO implements Serializable {
 				
 			}
 			
+			if (!zayavkaFI.getCalcZpSet().isEmpty()){
+				for (CalcZp i : zayavkaFI.getCalcZpSet()){
+					this.calcZpSet.add(new CalcZpDTO(i));
+				}
+			}
+			if (!zayavkaFI.getCalcOtherCostsSet().isEmpty()){
+				for (CalcOtherCosts i : zayavkaFI.getCalcOtherCostsSet()){
+					this.calcOtherCostsSet.add(new CalcOtherCostsDTO(i));
+				}
+			}
+			if (!zayavkaFI.getCalcTripSet().isEmpty()){
+				for (CalcTrip i : zayavkaFI.getCalcTripSet()){
+					this.calcTripSet.add(new CalcTripDTO(i));
+				}
+			}
+			if (!zayavkaFI.getCalcMaterialsSet().isEmpty()){
+				for (CalcMaterials i : zayavkaFI.getCalcMaterialsSet()){
+					this.calcMaterialsSet.add(new CalcMaterialsDTO(i));
+				}
+			}
+			
 		}
 
 	}
-
 	
+	public Set<CalcZpDTO> getCalcZpSet() {
+		return calcZpSet;
+	}
 
-	
+	public void setCalcZpSet(Set<CalcZpDTO> calcZpSet) {
+		this.calcZpSet = calcZpSet;
+	}
 
-	
+	public Set<CalcMaterialsDTO> getCalcMaterialsSet() {
+		return calcMaterialsSet;
+	}
+
+	public void setCalcMaterialsSet(Set<CalcMaterialsDTO> calcMaterialsSet) {
+		this.calcMaterialsSet = calcMaterialsSet;
+	}
+
+	public Set<CalcTripDTO> getCalcTripSet() {
+		return calcTripSet;
+	}
+
+	public void setCalcTripSet(Set<CalcTripDTO> calcTripSet) {
+		this.calcTripSet = calcTripSet;
+	}
+
+	public Set<CalcOtherCostsDTO> getCalcOtherCostsSet() {
+		return calcOtherCostsSet;
+	}
+
+	public void setCalcOtherCostsSet(Set<CalcOtherCostsDTO> calcOtherCostsSet) {
+		this.calcOtherCostsSet = calcOtherCostsSet;
+	}
+
 	public Integer getCalcId() {
 		return calcId;
 	}
