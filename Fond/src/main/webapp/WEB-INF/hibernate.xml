@@ -71,6 +71,10 @@
 				<value>by.belisa.entity.Rukovoditel</value>
 				<value>by.belisa.entity.RukovoditelNR</value>
 				<value>by.belisa.entity.Okogu</value>
+				<value>by.belisa.entity.CalcZp</value>
+				<value>by.belisa.entity.CalcMaterials</value>
+				<value>by.belisa.entity.CalcTrip</value>
+				<value>by.belisa.entity.CalcOtherCosts</value>
 				<value>by.belisa.entity.Calculation</value>
 				
 			</list>
