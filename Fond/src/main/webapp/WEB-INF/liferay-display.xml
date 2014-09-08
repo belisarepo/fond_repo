@@ -6,5 +6,6 @@
 		<portlet id="anketa" />
 		<portlet id="request" />
 		<portlet id="konkursy" />
+		<portlet id="organization" />
 	</category>
 </display>

@@ -1,4 +1,4 @@
-	package by.belisa.service;
+package by.belisa.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -6,17 +6,18 @@ import org.springframework.stereotype.Service;
 
 import by.belisa.dao.Dao;
 import by.belisa.entity.UchStepeni;
+import by.belisa.entity.VidOrg;
 @Service
-public class UchStepeniService extends ServiceImpl<UchStepeni, Integer>{
+public class VidOrgService extends ServiceImpl<VidOrg, Integer>{
 
-	public UchStepeniService() {
-		super(UchStepeni.class);
+	public VidOrgService() {
+		super(VidOrg.class);
 	}
 
 	@Override
 	@Autowired
-	@Qualifier("uchStepeniDao")
-	protected void setBaseDao(Dao<UchStepeni, Integer> baseDao) {
+	@Qualifier("vidOrgDao")
+	protected void setBaseDao(Dao<VidOrg, Integer> baseDao) {
 		super.setBaseDao(baseDao);
 	}
 }

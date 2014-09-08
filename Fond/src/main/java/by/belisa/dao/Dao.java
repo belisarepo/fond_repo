@@ -3,10 +3,8 @@ package by.belisa.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 
-import by.belisa.entity.Anketa;
 import by.belisa.exception.DaoException;
 
 public interface Dao<T, PK extends Serializable> {

@@ -1,42 +1,76 @@
 package by.belisa.service;
 
+import java.text.ParseException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import by.belisa.bean.AnketaDTO;
 import by.belisa.bean.OrgDTO;
 import by.belisa.dao.Dao;
+import by.belisa.dao.OkoguDao;
+import by.belisa.dao.OrgDao;
+import by.belisa.dao.VidOrgDao;
 import by.belisa.dao.ZayavkaFIDao;
+import by.belisa.entity.Anketa;
+import by.belisa.entity.Okogu;
 import by.belisa.entity.Organization;
 import by.belisa.exception.DaoException;
+import by.belisa.exception.ServiceException;
+
 @Service
-public class OrgService extends ServiceImpl<Organization, Integer>{
+public class OrgService extends ServiceImpl<Organization, Integer> {
 
 	public OrgService() {
 		super(Organization.class);
 	}
+
 	@Autowired
-	@Qualifier(value="zayavkaFIDao")
+	@Qualifier("okoguDao")
+	private OkoguDao okoguDao;
+
+	@Autowired
+	@Qualifier("zayavkaFIDao")
 	private ZayavkaFIDao zayavkaFIDao;
-	
+
+	@Autowired
+	@Qualifier("vidOrgDao")
+	private VidOrgDao vidOrgDao;
+
 	@Override
 	@Autowired
 	@Qualifier("orgDao")
 	protected void setBaseDao(Dao<Organization, Integer> baseDao) {
 		super.setBaseDao(baseDao);
 	}
-	
-	public OrgDTO getOrgDTOById(Integer id) throws DaoException{
-		return new OrgDTO(baseDao.get(id)); 
+
+	public void saveOrUpdate(OrgDTO orgDTO) throws ParseException, DaoException, ServiceException {
+		Organization org = new Organization();
+		org.setAddress(orgDTO.getAddress());
+		org.setCodeBooker(orgDTO.getKod_booker());
+		org.setEmail(orgDTO.getEmail());
+		org.setFullNameE(orgDTO.getFull_name_eng());
+		org.setFullNameR(orgDTO.getFull_name_rus());
+		org.setName(orgDTO.getName());
+		org.setOkogu(okoguDao.get(orgDTO.getOkoguName()));
+		org.setOldCode(orgDTO.getKod_old());
+		org.setUnp(orgDTO.getUnp());
+		org.setVidOrg(vidOrgDao.get(orgDTO.getVidOrgId()));
+		baseDao.saveOrUpdate(org);
 	}
-	
-	public void addSoOrg(Integer orgId, Integer zayavkaId) throws DaoException{
+
+	public OrgDTO getOrgDTOById(Integer id) throws DaoException {
+		return new OrgDTO(baseDao.get(id));
+	}
+
+	public void addSoOrg(Integer orgId, Integer zayavkaId) throws DaoException {
 		Organization soOrg = baseDao.get(orgId);
 		soOrg.getZayavki().add(zayavkaFIDao.get(zayavkaId));
 		baseDao.update(soOrg);
 	}
-	
-	public void deleteSoOrg(Integer orgId, Integer zayavkaId) throws DaoException{
+
+	public void deleteSoOrg(Integer orgId, Integer zayavkaId) throws DaoException {
 		Organization soOrg = baseDao.get(orgId);
 		soOrg.getZayavki().remove(zayavkaFIDao.get(zayavkaId));
 		baseDao.update(soOrg);

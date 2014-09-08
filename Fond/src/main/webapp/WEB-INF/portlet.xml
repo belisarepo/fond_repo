@@ -96,6 +96,37 @@
 			<role-name>user</role-name>
 		</security-role-ref>
 	</portlet>
+		<!-- Organization portlet  -->
+	<portlet>
+		<portlet-name>organization</portlet-name>
+		<display-name>Организации</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+			<name>contextConfigLocation</name>
+			<value>/WEB-INF/organization-portlet.xml</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<portlet-info>
+			<title>Организации</title>
+			<short-title>Организации</short-title>
+			<keywords>Организации</keywords>
+		</portlet-info>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
 	<!-- <filter>
 		<filter-name>hiber</filter-name>
 		<filter-class>by.belisa.filters.PortletOpenSessionInViewFilter</filter-class>

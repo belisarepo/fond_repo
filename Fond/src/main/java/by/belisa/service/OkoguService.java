@@ -5,18 +5,18 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import by.belisa.dao.Dao;
-import by.belisa.entity.UchStepeni;
+import by.belisa.entity.Okogu;
 @Service
-public class UchStepeniService extends ServiceImpl<UchStepeni, Integer>{
+public class OkoguService extends ServiceImpl<Okogu, Integer>{
 
-	public UchStepeniService() {
-		super(UchStepeni.class);
+	public OkoguService() {
+		super(Okogu.class);
 	}
 
 	@Override
 	@Autowired
-	@Qualifier("uchStepeniDao")
-	protected void setBaseDao(Dao<UchStepeni, Integer> baseDao) {
+	@Qualifier("okoguDao")
+	protected void setBaseDao(Dao<Okogu, Integer> baseDao) {
 		super.setBaseDao(baseDao);
 	}
 }

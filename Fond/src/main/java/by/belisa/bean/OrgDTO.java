@@ -12,11 +12,28 @@ public class OrgDTO implements Serializable{
 	private static final long serialVersionUID = 3962334779407152977L;
 	
 	private Integer id;
-	private String name;
-	private String okoguName;
 	private String address;
 	private String email;
+	private String name;
+	//Code in dictionary
+	private String kod_old;
+	private String unp;
+	//Accounting code
+	private String kod_booker;
+	//Classifier  OKOGU code
+	private int okoguName;
+	private String full_name_rus;
+	private String full_name_eng;
+	private int cityId;
+	private int vidOrgId;
+	private boolean approval;
+	private int regionId;
 	
+	
+
+
+	
+
 	public OrgDTO(){
 		
 	}
@@ -26,42 +43,129 @@ public class OrgDTO implements Serializable{
 		this.address=org.getAddress();
 		this.email=org.getEmail();
 		this.name=org.getName();
-		this.okoguName=org.getOkogu().getName();
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getOkoguName() {
-		return okoguName;
-	}
-
-	public void setOkoguName(String okoguName) {
-		this.okoguName = okoguName;
 	}
 
 	public String getAddress() {
 		return address;
 	}
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getKod_old() {
+		return kod_old;
+	}
+
+	public void setKod_old(String kod_old) {
+		this.kod_old = kod_old;
+	}
+
+	public String getUnp() {
+		return unp;
+	}
+
+	public void setUnp(String unp) {
+		this.unp = unp;
+	}
+
+	public String getKod_booker() {
+		return kod_booker;
+	}
+
+	public void setKod_booker(String kod_booker) {
+		this.kod_booker = kod_booker;
+	}
+
+	
+
+	public int getOkoguName() {
+		return okoguName;
+	}
+
+	public void setOkoguName(int okoguName) {
+		this.okoguName = okoguName;
+	}
+
+	public String getFull_name_rus() {
+		return full_name_rus;
+	}
+
+	public void setFull_name_rus(String full_name_rus) {
+		this.full_name_rus = full_name_rus;
+	}
+
+	public String getFull_name_eng() {
+		return full_name_eng;
+	}
+
+	public void setFull_name_eng(String full_name_eng) {
+		this.full_name_eng = full_name_eng;
+	}
+
+	public int getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(int cityId) {
+		this.cityId = cityId;
+	}
+
+	public int getVidOrgId() {
+		return vidOrgId;
+	}
+
+	public void setVidOrgId(int vidOrgId) {
+		this.vidOrgId = vidOrgId;
+	}
+
+	public boolean isApproval() {
+		return approval;
+	}
+
+	public void setApproval(boolean approval) {
+		this.approval = approval;
+	}
+
+	public int getRegionId() {
+		return regionId;
+	}
+
+	public void setRegionId(int regionId) {
+		this.regionId = regionId;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+	
+	
 	
 
 }
