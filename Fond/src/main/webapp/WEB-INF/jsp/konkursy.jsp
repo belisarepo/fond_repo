@@ -24,7 +24,7 @@
  				<td>${i.nameR}</td>
  				<td>${i.descriptionR}</td>
  				<td><a href="<portlet:resourceURL><portlet:param name="konkursId" value="${i.id}" /></portlet:resourceURL>" >Скачать описание</a></td>
- 				<td><a href="<portlet:renderURL><portlet:param name="view" value="zayavka"/><portlet:param name="konkursId" value="${i.id}"/></portlet:renderURL>">Подать</a></td>
+ 				<td><a href="<portlet:renderURL><portlet:param name="view" value="zayavka"/><portlet:param name="konkursId" value="${i.id}"/></portlet:renderURL>">К заявке</a></td>
  			</tr>
  		</c:forEach>
  	</tbody>

@@ -50,15 +50,18 @@
 	<br />
 	<form:label path="orgId">Организация</form:label>
 	<form:select path="orgId"  class="chosen">
+		<form:option value=""></form:option>
 		<form:options items="${orgList}" itemLabel="name" itemValue="id" />
 	</form:select>
 	<form:label path="uchStepenId">Ученая степень</form:label>
 	<form:select path="uchStepenId">
+		<form:option value=""></form:option>
 		<form:options items="${uchStepeniList}" itemLabel="fullName"
 			itemValue="id" />
 	</form:select>
 	<form:label path="uchZvaniyId">Ученое звание</form:label>
 	<form:select path="uchZvaniyId" class="chosen">
+		<form:option value=""></form:option>
 		<form:options items="${uchZvaniyList}" itemLabel="fullName"
 			itemValue="id" />
 	</form:select>
@@ -96,6 +99,22 @@
 </form:form>
 
 <aui:script>
+$(document).ready(function() {
+	$('select').chosen({
+		no_results_text : "Извините, нет совпадений!",
+		placeholder_text_single : "Выберите из списка...",
+		width : '206px'
+	});
+
+	$('.datapick').datepick({
+		dateFormat : 'dd-mm-yyyy',
+		onClose : function(dates) {
+			$(this).focus();
+			$(this).datepick('performAction', 'close');
+			$(this).blur();$(this).focus();
+		}
+	});
+});
 YUI().use(
   function(Y) {
   	var save_result = '${save_result}';

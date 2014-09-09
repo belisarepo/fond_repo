@@ -76,6 +76,7 @@ public class OrganizationController {
 		System.out.println(orgDTO.getFull_name_eng() + "- name eng");
 		System.out.println(orgDTO.getVidOrgId() + "- vid org");
 		orgService.saveOrUpdate(orgDTO);
+		model.addAttribute("save_result", "Сохранено");
 
 	}
 

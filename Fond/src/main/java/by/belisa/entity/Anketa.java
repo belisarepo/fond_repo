@@ -42,6 +42,12 @@ public class Anketa implements Serializable{
 	private String fio;
 	@Column(name="FIO_FULL", length=100)
 	private String fullFio;
+	@Column(name="NAME")
+	private String name;
+	@Column(name="SURNAME")
+	private String surname;
+	@Column(name="PATRONYMIC")
+	private String patronymic;
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ORG_ID")
 	private Organization org;
@@ -78,6 +84,24 @@ public class Anketa implements Serializable{
 	
 	
 	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getSurname() {
+		return surname;
+	}
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+	public String getPatronymic() {
+		return patronymic;
+	}
+	public void setPatronymic(String patronymic) {
+		this.patronymic = patronymic;
+	}
 	public String getFullFio() {
 		return fullFio;
 	}

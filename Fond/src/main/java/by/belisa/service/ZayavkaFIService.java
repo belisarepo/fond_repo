@@ -109,6 +109,12 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		return zayavkaFIDTO;
 	}
 
+	public void changeStatus(int newStatus, Integer zayavkaId) throws DaoException{
+		ZayavkaFI zayavka = baseDao.get(zayavkaId);
+		zayavka.setStatusZayavkaFI(statusZayavkaFIDao.get(newStatus));
+		baseDao.update(zayavka);
+	}
+	
 	public Integer saveForm1(ZayavkaFIDTO dto) throws DaoException {
 		ZayavkaFI zayavkaFI = commonSave(dto);
 		if (dto.getOtraslNaukaId() != null)

@@ -33,6 +33,7 @@ import by.belisa.bean.KonkursyDTO;
 import by.belisa.bean.OrgDTO;
 import by.belisa.bean.PublicationDTO;
 import by.belisa.bean.ZayavkaFIDTO;
+import by.belisa.dao.StatusZayavkaFIDao;
 import by.belisa.entity.Ispolnitel;
 import by.belisa.entity.Organization;
 import by.belisa.entity.OrganizationNR;
@@ -41,8 +42,10 @@ import by.belisa.entity.PrioritetNauka;
 import by.belisa.entity.SectionFond;
 import by.belisa.entity.UchStepeni;
 import by.belisa.entity.UchZvaniy;
+import by.belisa.entity.ZayavkaFI;
 import by.belisa.exception.DaoException;
 import by.belisa.exception.ServiceException;
+import by.belisa.service.AnketaService;
 import by.belisa.service.CalcMaterialsService;
 import by.belisa.service.CalcOtherCostsService;
 import by.belisa.service.CalcTripService;
@@ -58,6 +61,7 @@ import by.belisa.service.PublicationService;
 import by.belisa.service.SectionFondService;
 import by.belisa.service.UchStepeniService;
 import by.belisa.service.UchZvaniyService;
+import by.belisa.service.UserService;
 import by.belisa.service.ZayavkaFIService;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -70,6 +74,9 @@ import com.liferay.portal.util.PortalUtil;
 @RequestMapping(value = "VIEW")
 public class KonkursyController {
 	private static Logger log = Logger.getLogger(KonkursyController.class);
+	@Autowired
+	@Qualifier(value = "statusZayavkaFIDao")
+	private StatusZayavkaFIDao statusZayavkaFIDao;
 	@Autowired
 	@Qualifier(value = "konkursyService")
 	private KonkursyService konkursyService;
@@ -118,6 +125,12 @@ public class KonkursyController {
 	@Autowired
 	@Qualifier("calcMaterialsService")
 	private CalcMaterialsService calcMaterialsService;
+	@Autowired
+	@Qualifier("anketaService")
+	private AnketaService anketaService;
+	@Autowired
+	@Qualifier("userService")
+	private UserService userService;
 
 	private List<OtraslNauka> otraslNaukaList = null;
 	private List<SectionFond> sectionFondList = null;
@@ -200,11 +213,17 @@ public class KonkursyController {
 
 	@RenderMapping(params = "view=zayavka")
 	public String renderZayavkaForm(ModelMap model, PortletRequest request) throws ServiceException, NumberFormatException, PortalException,
-			SystemException, DaoException {
-		
+			SystemException, DaoException, ParseException {
+		Long userId = PortalUtil.getUser(request).getUserId();
+		anketaService.checkUser(PortalUtil.getUser(request));
 		String konkursId = ParamUtil.getString(request, "konkursId");
-		ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(PortalUtil.getUser(request).getUserId(), Integer.parseInt(konkursId));
-		
+		ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(userId, Integer.parseInt(konkursId));
+		if (zayavkaFIDTO.getId()==null){
+			Integer fizInfoId = fizInfoService.addFizInfo(anketaService.getDTO(userId));
+			if (!konkursyService.checkUsloviy(Integer.parseInt(konkursId), fizInfoId)){
+				return "violation";
+			}
+		}
 		model.addAttribute("zayavkaModel", zayavkaFIDTO);
 		List<Organization> listOrg = orgService.getAll();
 		model.addAttribute("listOrg", listOrg);
@@ -213,13 +232,24 @@ public class KonkursyController {
 		return "zayavka";
 	}
 
-	
+	@ActionMapping(params="action=send")
+	public void sendZayavka(ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException, NumberFormatException, ServiceException {
+		String zayavkaId = ParamUtil.getString(req, "zayavkaId");
+		if (!zayavkaId.isEmpty()){
+			zayavkaFIService.changeStatus(3, Integer.parseInt(zayavkaId));
+			model.addAttribute("save_result", "Заявка подана");
+		}else{
+			model.addAttribute("errorMsg", "Заявка не заполнена");
+		}
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
+	}
 	@ActionMapping
 	public void saveZayavka(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
 		zayavkaFIService.saveOrUpdate(zayavkaFIDTO);
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
-		model.addAttribute("save_result", "ok");
+		model.addAttribute("save_result", "Сохранено");
 	}
 	
 	@ActionMapping(params="form=form1")
@@ -227,7 +257,7 @@ public class KonkursyController {
 		zayavkaFIService.saveForm1(zayavkaFIDTO);
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
-		model.addAttribute("save_result", "ok");
+		model.addAttribute("save_result", "Сохранено");
 	}
 	
 	@ActionMapping(params="form=form2")
@@ -235,7 +265,7 @@ public class KonkursyController {
 		zayavkaFIService.saveForm2(zayavkaFIDTO);
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
-		model.addAttribute("save_result", "ok");
+		model.addAttribute("save_result", "Сохранено");
 	}
 	
 	@ActionMapping(params="form=form3")
@@ -243,7 +273,7 @@ public class KonkursyController {
 		zayavkaFIService.saveForm3(zayavkaFIDTO);
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
-		model.addAttribute("save_result", "ok");
+		model.addAttribute("save_result", "Сохранено");
 	}
 	
 	@ActionMapping(params="form=form4")
@@ -251,7 +281,7 @@ public class KonkursyController {
 		zayavkaFIService.saveForm4(zayavkaFIDTO);
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
-		model.addAttribute("save_result", "ok");
+		model.addAttribute("save_result", "Сохранено");
 	}
 	
 	@ActionMapping(params="form=form5")
@@ -259,7 +289,7 @@ public class KonkursyController {
 		zayavkaFIService.saveForm5(zayavkaFIDTO);
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
-		model.addAttribute("save_result", "ok");
+		model.addAttribute("save_result", "Сохранено");
 	}
 	
 	@ActionMapping(params="form=form8")
@@ -267,7 +297,7 @@ public class KonkursyController {
 		zayavkaFIService.saveForm8(zayavkaFIDTO);
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
-		model.addAttribute("save_result", "ok");
+		model.addAttribute("save_result", "Сохранено");
 	}
 	
 	@ActionMapping(params="form=form9")
@@ -275,7 +305,7 @@ public class KonkursyController {
 		zayavkaFIService.saveForm9(zayavkaFIDTO);
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
-		model.addAttribute("save_result", "ok");
+		model.addAttribute("save_result", "Сохранено");
 	}
 	
 	@ActionMapping(params="form=form10")
@@ -283,7 +313,7 @@ public class KonkursyController {
 		zayavkaFIService.saveForm10(zayavkaFIDTO);
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
-		model.addAttribute("save_result", "ok");
+		model.addAttribute("save_result", "Сохранено");
 	}
 	
 	@ActionMapping(params="form=form11")
@@ -291,14 +321,14 @@ public class KonkursyController {
 		zayavkaFIService.saveForm11(zayavkaFIDTO);
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
-		model.addAttribute("save_result", "ok");
+		model.addAttribute("save_result", "Сохранено");
 	}
 	@ActionMapping(params="form=form12")
 	public void saveForm12(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
 		zayavkaFIService.saveForm12(zayavkaFIDTO);
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
-		model.addAttribute("save_result", "ok");
+		model.addAttribute("save_result", "Сохранено");
 	}
 	
 	@ActionMapping(params="form=form13")
@@ -306,7 +336,7 @@ public class KonkursyController {
 		zayavkaFIService.saveForm13(zayavkaFIDTO);
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
-		model.addAttribute("save_result", "ok");
+		model.addAttribute("save_result", "Сохранено");
 	}
 	
 	@ActionMapping(params="form=form15")
@@ -314,10 +344,10 @@ public class KonkursyController {
 		zayavkaFIService.saveForm15(zayavkaFIDTO);
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
-		model.addAttribute("save_result", "ok");
+		model.addAttribute("save_result", "Сохранено");
 	}
 	@ActionMapping(params = "action=addIspolnitel")
-	public void addIspolnitel(@ModelAttribute IspolnitelDTO ispolnitelDTO, ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+	public void addIspolnitel(@ModelAttribute IspolnitelDTO ispolnitelDTO, ActionRequest req, ActionResponse resp, Model model) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
 	
 			String konkursId = ParamUtil.getString(req, "konkursId");
 			ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(PortalUtil.getUser(req).getUserId(), Integer.parseInt(konkursId));
@@ -329,8 +359,12 @@ public class KonkursyController {
 			}
 			
 			ispolnitelDTO.setZayavkaFIId(zayavkaFIDTO.getId());
-			fizInfoService.addFizInfo(ispolnitelDTO);
-			ispolnitelService.saveOrUpdate(ispolnitelDTO);
+			Integer fizInfoId = fizInfoService.addFizInfo(ispolnitelDTO);
+			if (!konkursyService.checkUsloviy(Integer.parseInt(konkursId), fizInfoId)){
+				model.addAttribute("errorMsg", ispolnitelDTO.getSurname()+" не может учавствовать в заявке");
+			}else{
+				ispolnitelService.saveOrUpdate(ispolnitelDTO);
+			}	
 			resp.setRenderParameter("view", "zayavka");
 			resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
 	}

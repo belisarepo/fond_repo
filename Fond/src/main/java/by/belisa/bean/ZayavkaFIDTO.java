@@ -41,6 +41,7 @@ public class ZayavkaFIDTO implements Serializable {
 	private String okoguName;
 	private String orgAddress;
 	private String udk;
+	private Integer statusZayavkaId;
 	private Set<IspolnitelDTO> ispolniteliDTO = new HashSet<IspolnitelDTO>();
 	private Set<OrgDTO> soOrg = new HashSet<OrgDTO>();
 	private Set<PublicationDTO> publications = new HashSet<PublicationDTO>();
@@ -187,6 +188,7 @@ public class ZayavkaFIDTO implements Serializable {
 			this.stopDeadline = zayavkaFI.getStopDeadline()!=null ? dateFormat.format(zayavkaFI.getStopDeadline()): null;
 			this.costAll = zayavkaFI.getCostAll();
 			this.costFirstYear = zayavkaFI.getCostFirstYear();
+			this.statusZayavkaId = zayavkaFI.getStatusZayavkaFI()!=null ? zayavkaFI.getStatusZayavkaFI().getId() : null;
 			
 			if (zayavkaFI.getOrganization() == null){
 				if (zayavkaFI.getAnketa() != null && zayavkaFI.getAnketa().getOrg()!=null){
@@ -370,6 +372,14 @@ public class ZayavkaFIDTO implements Serializable {
 
 	}
 	
+	public Integer getStatusZayavkaId() {
+		return statusZayavkaId;
+	}
+
+	public void setStatusZayavkaId(Integer statusZayavkaId) {
+		this.statusZayavkaId = statusZayavkaId;
+	}
+
 	public Set<CalcZpDTO> getCalcZpSet() {
 		return calcZpSet;
 	}

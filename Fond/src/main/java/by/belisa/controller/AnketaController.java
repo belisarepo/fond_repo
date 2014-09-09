@@ -95,7 +95,7 @@ public class AnketaController {
 			com.liferay.portal.model.User user = PortalUtil.getUser(request);
 			if (user != null) {
 				long pk = user.getPrimaryKey();
-				anketaDTO = anketaService.getVO(pk);
+				anketaDTO = anketaService.getDTO(pk);
 				if (anketaDTO.getId() == 0) {
 					anketaDTO.setEmail(user.getEmailAddress());
 					anketaDTO.setFullFio(user.getLastName() + " "
@@ -103,6 +103,9 @@ public class AnketaController {
 					anketaDTO.setFio(user.getLastName() + " "
 							+ user.getFirstName().charAt(0) + "."
 							+ user.getMiddleName().charAt(0) + ".");
+					anketaDTO.setName(user.getFirstName());
+					anketaDTO.setSurname(user.getLastName());
+					anketaDTO.setPatronymic(user.getMiddleName());
 				}
 
 			} else {

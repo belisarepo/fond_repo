@@ -54,40 +54,41 @@
 <portlet:actionURL var="saveForm15">
 	<portlet:param name="form" value="form15" />
 </portlet:actionURL>
+<portlet:actionURL var="sendZayavka">
+	<portlet:param name="action" value="send" />
+	<portlet:param name="konkursId" value="${zayavkaModel.konkursId}" />
+	<portlet:param name="zayavkaId" value="${zayavkaModel.id}" />
+</portlet:actionURL>
 
 
 <portlet:actionURL var="addIspolnitelAction">
 	<portlet:param name="action" value="addIspolnitel" />
-	<portlet:param name="konkursId" value="${zayavka.konkursId}" />
 </portlet:actionURL>
 <portlet:actionURL var="addPublicationAction">
 	<portlet:param name="action" value="addPublication" />
-	<portlet:param name="konkursId" value="${zayavka.konkursId}" />
 </portlet:actionURL>
 <portlet:actionURL var="addSoOrgAction">
 	<portlet:param name="action" value="addSoOrg" />
-	<portlet:param name="konkursId" value="${zayavka.konkursId}" />
 </portlet:actionURL>
 <portlet:actionURL var="addCalcZpAction">
 	<portlet:param name="action" value="addCalcZp" />
-	<portlet:param name="konkursId" value="${zayavka.konkursId}" />
 </portlet:actionURL>
 <portlet:actionURL var="addCalcMaterialsAction">
 	<portlet:param name="action" value="addCalcMaterials" />
-	<portlet:param name="konkursId" value="${zayavka.konkursId}" />
 </portlet:actionURL>
 <portlet:actionURL var="addCalcTripAction">
 	<portlet:param name="action" value="addCalcTrip" />
-	<portlet:param name="konkursId" value="${zayavka.konkursId}" />
 </portlet:actionURL>
 <portlet:actionURL var="addCalcOtherCostsAction">
 	<portlet:param name="action" value="addCalcOtherCosts" />
-	<portlet:param name="konkursId" value="${zayavka.konkursId}" />
 </portlet:actionURL>
 
 
 <center>
 	<div id="successMessageContainer"></div>
+</center>
+<center>
+	<div id="errorMessageContainer"></div>
 </center>
 <div id="myTab" class="tabs-left">
 
@@ -178,8 +179,20 @@
 
 
 
+
+
 <aui:script>
 $(document).ready(function() {
+	function disabledZayavka(){
+		$('input').prop('disabled', true);
+		$('button').prop('disabled', true);
+		$('select').prop('disabled', true);
+		
+	}
+	if ('${zayavkaModel.statusZayavkaId}'==3){
+		disabledZayavka();
+	}
+	
 	$('select').chosen({
 		no_results_text : "Извините, нет совпадений!",
 		placeholder_text_single : "Выберите из списка...",
@@ -194,7 +207,7 @@ $(document).ready(function() {
 			$(this).blur();$(this).focus();
 		}
 	});
-
+	
 	$('#${ns}orgSelect').on('change', function(evt, params) {
 		var orgId = $(evt.target).val();
 
@@ -380,10 +393,10 @@ tabview.after('selectionChange', function(e) {
 //==============================================================	
 var save_result = '${save_result}';
 if (save_result) {
-	showSuccess();
+	showSuccess(save_result);
 }
 
-function showSuccess() {
+function showSuccess(save_result) {
 
 	var successMessageContainer = Y.one('#successMessageContainer');
 	var banner = new Liferay.Notice({
@@ -393,7 +406,7 @@ function showSuccess() {
 			left : '50%'
 
 		},
-		content : '<div class="alert alert-success">Сохранено</div>',
+		content : '<div class="alert alert-success">'+save_result+'</div>',
 		closeText : false,
 		node : '#successMessageContainer',
 		type : 'notice',
@@ -406,6 +419,35 @@ function showSuccess() {
 	banner.show();
 }
 //==============================================================
+// Show error message
+//==============================================================	
+var errorMsg = '${errorMsg}';
+if (errorMsg) {
+	showError(errorMsg);
+}
 
+function showError(errorMsg) {
+
+	var errorMessageContainer = Y.one('#errorMessageContainer');
+	var banner = new Liferay.Notice({
+		animationConfig : {
+			duration : 0.1,
+			top : '50%',
+			left : '50%'
+
+		},
+		content : '<div class="alert alert-error">'+errorMsg+'</div>',
+		closeText : false,
+		node : '#errorMessageContainer',
+		type : 'notice',
+		toggleText : false,
+		timeout : 5000,
+		useAnimation : false
+
+	});
+
+	banner.show();
+}
+//==============================================================
 });
 </aui:script>

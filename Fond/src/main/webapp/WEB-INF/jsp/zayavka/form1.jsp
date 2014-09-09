@@ -41,14 +41,16 @@
 			<aui:option value="${i.id}" label="${i.name}" selected="${i.id==zayavkaModel.prioritetNaukaId}" />
 		</c:forEach>
 	</aui:select>
+	<c:if test="${not empty otraslNaukaList}">
+		<spring:message code="zayavka.otraslNauka" var='otraslNaukaLabel' />
+		<aui:select name="otraslNaukaId" label="${otraslNaukaLabel}" bean="zayavkaModel">
+			<option value="" />
+			<c:forEach var="i" items="${otraslNaukaList}">
+				<aui:option value="${i.id}" label="${i.name}" selected="${i.id==zayavkaModel.otraslNaukaId}" />
+			</c:forEach>
+		</aui:select>
+	</c:if>
 
-	<spring:message code="zayavka.otraslNauka" var='otraslNaukaLabel' />
-	<aui:select name="otraslNaukaId" label="${otraslNaukaLabel}" bean="zayavkaModel">
-		<option value="" />
-		<c:forEach var="i" items="${otraslNaukaList}">
-			<aui:option value="${i.id}" label="${i.name}" selected="${i.id==zayavkaModel.otraslNaukaId}" />
-		</c:forEach>
-	</aui:select>
 
 	<spring:message code="zayavka.temaName" var='temaNameLabel' />
 	<aui:input name="temaName" value="${zayavkaModel.temaName}" id="temaName" label="${temaNameLabel}" bean="zayavkaModel" />
@@ -59,6 +61,8 @@
 	<aui:button-row>
 		<div align="left">
 			<aui:button type="submit" value="Сохранить" />
+			<a class="btn" href="${sendZayavka}">Подать</a>
 		</div>
+
 	</aui:button-row>
 </aui:form>

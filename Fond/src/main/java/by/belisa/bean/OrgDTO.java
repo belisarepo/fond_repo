@@ -21,11 +21,11 @@ public class OrgDTO implements Serializable{
 	//Accounting code
 	private String kod_booker;
 	//Classifier  OKOGU code
-	private int okoguName;
+	private Integer okoguName;
 	private String full_name_rus;
 	private String full_name_eng;
 	private int cityId;
-	private int vidOrgId;
+	private Integer vidOrgId;
 	private boolean approval;
 	private int regionId;
 	
@@ -101,14 +101,21 @@ public class OrgDTO implements Serializable{
 		this.kod_booker = kod_booker;
 	}
 
-	
 
-	public int getOkoguName() {
+	public Integer getOkoguName() {
 		return okoguName;
 	}
 
-	public void setOkoguName(int okoguName) {
+	public void setOkoguName(Integer okoguName) {
 		this.okoguName = okoguName;
+	}
+
+	public Integer getVidOrgId() {
+		return vidOrgId;
+	}
+
+	public void setVidOrgId(Integer vidOrgId) {
+		this.vidOrgId = vidOrgId;
 	}
 
 	public String getFull_name_rus() {
@@ -135,14 +142,7 @@ public class OrgDTO implements Serializable{
 		this.cityId = cityId;
 	}
 
-	public int getVidOrgId() {
-		return vidOrgId;
-	}
-
-	public void setVidOrgId(int vidOrgId) {
-		this.vidOrgId = vidOrgId;
-	}
-
+	
 	public boolean isApproval() {
 		return approval;
 	}
@@ -158,11 +158,6 @@ public class OrgDTO implements Serializable{
 	public void setRegionId(int regionId) {
 		this.regionId = regionId;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 
 	
 	

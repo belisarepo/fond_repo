@@ -26,13 +26,16 @@ public class AnketaDTO implements Serializable{
 			this.jobPhone = anketa.getJobPhone();
 			this.lab = anketa.getLab();
 			this.mobilePhone = anketa.getMobilePhone();
-			this.orgId = anketa.getOrg()!=null ? anketa.getOrg().getId() : -1;
+			this.orgId = anketa.getOrg()!=null ? anketa.getOrg().getId() : null;
 			this.orgName = anketa.getOrg()!=null ? anketa.getOrg().getName() : "";
 			this.post = anketa.getPost();
-			this.uchStepenId = anketa.getUchStepeni()!=null ?  anketa.getUchStepeni().getId() : -1;
+			this.uchStepenId = anketa.getUchStepeni()!=null ?  anketa.getUchStepeni().getId() : null;
 			this.uchStepenName = anketa.getUchStepeni()!=null ? anketa.getUchStepeni().getName() : "";
-			this.uchZvaniyId = anketa.getUchZvanie()!=null ? anketa.getUchZvanie().getId() : -1;
+			this.uchZvaniyId = anketa.getUchZvanie()!=null ? anketa.getUchZvanie().getId() : null;
 			this.uchZvaniyName = anketa.getUchZvanie()!=null ? anketa.getUchZvanie().getName() : "";
+			this.name = anketa.getName();
+			this.surname = anketa.getSurname();
+			this.patronymic = anketa.getPatronymic();
 		}
 		
 	}
@@ -44,12 +47,12 @@ public class AnketaDTO implements Serializable{
 	private String fio;
 	private String fullFio;
 	private String orgName;
-	private int orgId;
+	private Integer orgId;
 	private String birthday;
 	private String uchStepenName;
-	private int uchStepenId;
+	private Integer uchStepenId;
 	private String uchZvaniyName;
-	private int uchZvaniyId;
+	private Integer uchZvaniyId;
 	private String post;
 	private String lab;
 	private String jobPhone;
@@ -58,11 +61,33 @@ public class AnketaDTO implements Serializable{
 	private String address;
 	private String email;
 	private String biography;
+	private String name;
+	private String surname;
+	private String patronymic;
 	public long getId() {
 		return id;
 	}
 	public void setId(long id) {
 		this.id = id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getSurname() {
+		return surname;
+	}
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+	public String getPatronymic() {
+		return patronymic;
+	}
+	public void setPatronymic(String patronymic) {
+		this.patronymic = patronymic;
 	}
 	public String getFio() {
 		return fio;
@@ -82,11 +107,24 @@ public class AnketaDTO implements Serializable{
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
 	}
-	public int getOrgId() {
+	
+	public Integer getOrgId() {
 		return orgId;
 	}
-	public void setOrgId(int orgId) {
+	public void setOrgId(Integer orgId) {
 		this.orgId = orgId;
+	}
+	public Integer getUchStepenId() {
+		return uchStepenId;
+	}
+	public void setUchStepenId(Integer uchStepenId) {
+		this.uchStepenId = uchStepenId;
+	}
+	public Integer getUchZvaniyId() {
+		return uchZvaniyId;
+	}
+	public void setUchZvaniyId(Integer uchZvaniyId) {
+		this.uchZvaniyId = uchZvaniyId;
 	}
 	public String getBirthday() {
 		return birthday;
@@ -100,12 +138,7 @@ public class AnketaDTO implements Serializable{
 	public void setUchStepenName(String uchStepenName) {
 		this.uchStepenName = uchStepenName;
 	}
-	public int getUchStepenId() {
-		return uchStepenId;
-	}
-	public void setUchStepenId(int uchStepenId) {
-		this.uchStepenId = uchStepenId;
-	}
+	
 	
 	public String getUchZvaniyName() {
 		return uchZvaniyName;
@@ -113,12 +146,7 @@ public class AnketaDTO implements Serializable{
 	public void setUchZvaniyName(String uchZvaniyName) {
 		this.uchZvaniyName = uchZvaniyName;
 	}
-	public int getUchZvaniyId() {
-		return uchZvaniyId;
-	}
-	public void setUchZvaniyId(int uchZvaniyId) {
-		this.uchZvaniyId = uchZvaniyId;
-	}
+	
 	public String getPost() {
 		return post;
 	}

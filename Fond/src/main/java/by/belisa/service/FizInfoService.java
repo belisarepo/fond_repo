@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import by.belisa.bean.AnketaDTO;
 import by.belisa.bean.IspolnitelDTO;
 import by.belisa.dao.Dao;
 import by.belisa.dao.FizInfoDao;
@@ -49,8 +50,33 @@ public class FizInfoService extends ServiceImpl<FizInfo, Integer>{
 	protected void setBaseDao(Dao<FizInfo, Integer> baseDao) {
 		super.setBaseDao(baseDao);
 	}
-	
-	public void addFizInfo(IspolnitelDTO dto) throws ParseException, DaoException{
+	public Integer addFizInfo(AnketaDTO dto) throws ParseException, DaoException{
+		Date birthday = dateFormat.parse(dto.getBirthday());
+		FizInfo fizInfo = fizInfoDao.getByFio(dto.getSurname(),dto.getName(),dto.getPatronymic(),birthday);
+		if (fizInfo==null){
+			fizInfo = new FizInfo();
+			fizInfo.setBirthday(birthday);
+			fizInfo.setSurname(dto.getSurname()+" "+dto.getName()+" "+dto.getPatronymic());
+			if (dto.getOrgId()!=null){
+				fizInfo.setOrg(orgDao.get(dto.getOrgId()));
+			}
+			
+			fizInfo.setPost(dto.getPost());
+			if (dto.getUchStepenId()!=null){
+				fizInfo.setUchStepeni(uchStepeniDao.get(dto.getUchStepenId()));
+			}
+			
+			if (dto.getUchZvaniyId()!=null){
+				fizInfo.setUchZvaniy(uchZvanieDao.get(dto.getUchZvaniyId()));
+			}
+			fizInfoDao.saveOrUpdate(fizInfo);
+		}
+		return fizInfo.getId();
+		
+		
+		
+	}
+	public Integer addFizInfo(IspolnitelDTO dto) throws ParseException, DaoException{
 		Date birthday = dateFormat.parse(dto.getBirthday());
 		FizInfo fizInfo = fizInfoDao.getByFio(dto.getSurname(),dto.getName(),dto.getPatronymic(),birthday);
 		if (fizInfo==null){
@@ -73,6 +99,7 @@ public class FizInfoService extends ServiceImpl<FizInfo, Integer>{
 		
 		fizInfo.getZayavki().add(zayavkaFIDao.get(dto.getZayavkaFIId()));
 		fizInfoDao.saveOrUpdate(fizInfo);
+		return fizInfo.getId();
 	}
 	public void removeFizInfoFromZayavkaFI(Long userId, Integer konkursId, Ispolnitel ispolnitel) throws DaoException{
 		ZayavkaFI zayavkaFI = zayavkaFIDao.getZayavkaFIByUserId(userId, konkursId);

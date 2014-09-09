@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.User;
+
 import by.belisa.bean.AnketaDTO;
 import by.belisa.dao.Dao;
 import by.belisa.dao.OrgDao;
@@ -42,7 +46,25 @@ public class AnketaService extends ServiceImpl<Anketa,Long>{
 	protected void setBaseDao(Dao<Anketa, Long> baseDao) {
 		super.setBaseDao(baseDao);
 	}
-	
+	public Anketa checkUser(User user) throws DaoException, PortalException, SystemException{
+		Anketa anketa = baseDao.get(user.getUserId());
+		if (anketa==null){
+			anketa = new Anketa();
+			anketa.setBirthday(user.getBirthday());
+			anketa.setEmail(user.getEmailAddress());
+			anketa.setFullFio(user.getLastName() + " "
+					+ user.getFirstName() + " " + user.getMiddleName());
+			anketa.setFio(user.getLastName() + " "
+					+ user.getFirstName().charAt(0) + "."
+					+ user.getMiddleName().charAt(0) + ".");
+			anketa.setName(user.getFirstName());
+			anketa.setSurname(user.getLastName());
+			anketa.setPatronymic(user.getMiddleName());
+			anketa.setUser(userDao.get(user.getUserId()));
+			anketa = baseDao.add(anketa);
+		}
+		return anketa;
+	}
 	public void saveOrUpdate(AnketaDTO anketaDTO) throws ParseException, DaoException, ServiceException{
 		Anketa anketa = baseDao.get(anketaDTO.getId());
 		 if (anketa==null){
@@ -68,7 +90,7 @@ public class AnketaService extends ServiceImpl<Anketa,Long>{
 		baseDao.saveOrUpdate(anketa);
 	}
 	
-	public AnketaDTO getVO(Long id) throws DaoException{
+	public AnketaDTO getDTO(Long id) throws DaoException{
 		Anketa anketa = baseDao.get(id);
 		AnketaDTO anketaDTO = new AnketaDTO(anketa);
 		return anketaDTO;
