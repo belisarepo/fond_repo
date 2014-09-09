@@ -53,10 +53,12 @@ public class OrgService extends ServiceImpl<Organization, Integer> {
 		org.setFullNameE(orgDTO.getFull_name_eng());
 		org.setFullNameR(orgDTO.getFull_name_rus());
 		org.setName(orgDTO.getName());
-		org.setOkogu(okoguDao.get(orgDTO.getOkoguName()));
+		if (orgDTO.getOkoguName() != null)
+			org.setOkogu(okoguDao.get(orgDTO.getOkoguName()));
 		org.setOldCode(orgDTO.getKod_old());
 		org.setUnp(orgDTO.getUnp());
-		org.setVidOrg(vidOrgDao.get(orgDTO.getVidOrgId()));
+		if (orgDTO.getVidOrgId() != null)
+			org.setVidOrg(vidOrgDao.get(orgDTO.getVidOrgId()));
 		baseDao.saveOrUpdate(org);
 	}
 
