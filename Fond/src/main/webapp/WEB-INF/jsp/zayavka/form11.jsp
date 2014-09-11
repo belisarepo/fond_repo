@@ -44,12 +44,12 @@
 </portlet:renderURL>
 <c:set var="strPopupIdeaInnovationURL"><%=popupIdeaInnovationURL.toString()%></c:set>
 
-<portlet:renderURL var="popupStructureOfStudURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
+<portlet:renderURL var="popupStructureOfStudyURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
 	<portlet:param name="action" value="popup" />
 	<portlet:param name="input_id" value="structureOfStud" />
 </portlet:renderURL>
-<c:set var="strPopupStructureOfStudURL"><%=popupStructureOfStudURL.toString()%></c:set>
-
+<c:set var="strPopupStructureOfStudyURL"><%=popupStructureOfStudyURL.toString()%></c:set>
+            
 <portlet:renderURL var="popupResultsNirURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
 	<portlet:param name="action" value="popup" />
 	<portlet:param name="input_id" value="resultsNir" />

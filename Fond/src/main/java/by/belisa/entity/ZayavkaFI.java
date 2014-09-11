@@ -94,6 +94,9 @@ public class ZayavkaFI implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="FIZ_NR_INFO_ID")
 	private FizNRInfo fizNrInfo;
+	@ManyToOne
+	@JoinColumn(name="FIZ_INFO_ID")
+	private FizInfo fizInfo;
 	@ManyToMany(mappedBy="zayavki")
 	private Set<Organization> soOrgs = new HashSet<Organization>();
 	@OneToMany(mappedBy="zayavkaFI")
@@ -127,6 +130,14 @@ public class ZayavkaFI implements Serializable{
 		return lastingDeadline;
 	}
 	
+	public FizInfo getFizInfo() {
+		return fizInfo;
+	}
+
+	public void setFizInfo(FizInfo fizInfo) {
+		this.fizInfo = fizInfo;
+	}
+
 	public Set<CalcZp> getCalcZpSet() {
 		return calcZpSet;
 	}

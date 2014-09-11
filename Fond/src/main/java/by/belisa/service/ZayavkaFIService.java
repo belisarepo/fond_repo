@@ -15,6 +15,7 @@ import by.belisa.bean.PublicationDTO;
 import by.belisa.bean.ZayavkaFIDTO;
 import by.belisa.dao.AnketaDao;
 import by.belisa.dao.Dao;
+import by.belisa.dao.FizInfoDao;
 import by.belisa.dao.KonkursyDao;
 import by.belisa.dao.OrgDao;
 import by.belisa.dao.OrgNrDao;
@@ -33,6 +34,7 @@ import by.belisa.entity.CalcOtherCosts;
 import by.belisa.entity.CalcTrip;
 import by.belisa.entity.CalcZp;
 import by.belisa.entity.Calculation;
+import by.belisa.entity.FizInfo;
 import by.belisa.entity.Obosnovanie;
 import by.belisa.entity.Publication;
 import by.belisa.entity.Rukovoditel;
@@ -89,6 +91,9 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	@Autowired
 	@Qualifier("publicationDao")
 	private PublicationDao publicationDao;
+	@Autowired
+	@Qualifier(value="fizInfoDao")
+	private FizInfoDao fizInfoDao;
 
 	public ZayavkaFIDTO getZayavkaFIDTO(int id) throws DaoException {
 		ZayavkaFI zayavkaFI = baseDao.get(id);
@@ -427,9 +432,12 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 
 	private ZayavkaFI commonSave(ZayavkaFIDTO dto) throws DaoException {
 		ZayavkaFI zayavkaFI;
+		Anketa anketa = anketaDao.get(dto.getUserId());
+		FizInfo fizInfo = fizInfoDao.getByFio(anketa.getSurname(),anketa.getName(),anketa.getPatronymic(),anketa.getBirthday());
 		if (dto.getId()==null){
 			zayavkaFI = new ZayavkaFI();
-			zayavkaFI.setAnketa(anketaDao.get(dto.getUserId()));
+			zayavkaFI.setAnketa(anketa);
+			zayavkaFI.setFizInfo(fizInfo);
 			zayavkaFI.setKonkursy(konkursyDao.get(dto.getKonkursId()));
 			zayavkaFI.setStatusZayavkaFI(statusZayavkaFIDao.get(1));// id=1 -
 			// Подготовка

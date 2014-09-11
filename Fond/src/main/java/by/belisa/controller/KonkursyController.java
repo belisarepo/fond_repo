@@ -220,7 +220,7 @@ public class KonkursyController {
 		ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(userId, Integer.parseInt(konkursId));
 		if (zayavkaFIDTO.getId()==null){
 			Integer fizInfoId = fizInfoService.addFizInfo(anketaService.getDTO(userId));
-			if (!konkursyService.checkUsloviy(Integer.parseInt(konkursId), fizInfoId)){
+			if (!konkursyService.checkUsloviy(Integer.parseInt(konkursId), fizInfoId, userId)){
 				return "violation";
 			}
 		}
@@ -236,6 +236,7 @@ public class KonkursyController {
 	public void sendZayavka(ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException, NumberFormatException, ServiceException {
 		String zayavkaId = ParamUtil.getString(req, "zayavkaId");
 		if (!zayavkaId.isEmpty()){
+			
 			zayavkaFIService.changeStatus(3, Integer.parseInt(zayavkaId));
 			model.addAttribute("save_result", "Заявка подана");
 		}else{
@@ -244,13 +245,13 @@ public class KonkursyController {
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
 	}
-	@ActionMapping
-	public void saveZayavka(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
-		zayavkaFIService.saveOrUpdate(zayavkaFIDTO);
-		resp.setRenderParameter("view", "zayavka");
-		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
-		model.addAttribute("save_result", "Сохранено");
-	}
+//	@ActionMapping
+//	public void saveZayavka(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
+//		zayavkaFIService.saveOrUpdate(zayavkaFIDTO);
+//		resp.setRenderParameter("view", "zayavka");
+//		resp.setRenderParameter("konkursId", String.valueOf(zayavkaFIDTO.getKonkursId()));
+//		model.addAttribute("save_result", "Сохранено");
+//	}
 	
 	@ActionMapping(params="form=form1")
 	public void saveForm1(@ModelAttribute ZayavkaFIDTO zayavkaFIDTO, ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException {
@@ -350,9 +351,10 @@ public class KonkursyController {
 	public void addIspolnitel(@ModelAttribute IspolnitelDTO ispolnitelDTO, ActionRequest req, ActionResponse resp, Model model) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
 	
 			String konkursId = ParamUtil.getString(req, "konkursId");
+			Long userId = PortalUtil.getUser(req).getUserId();
 			ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(PortalUtil.getUser(req).getUserId(), Integer.parseInt(konkursId));
 			if (zayavkaFIDTO.getId()==null){
-				zayavkaFIDTO.setUserId(PortalUtil.getUser(req).getUserId());
+				zayavkaFIDTO.setUserId(userId);
 				zayavkaFIDTO.setKonkursId(Integer.parseInt(konkursId));
 				Integer zayavkaFIId = zayavkaFIService.saveOrUpdate(zayavkaFIDTO);
 				zayavkaFIDTO.setId(zayavkaFIId);
@@ -360,9 +362,10 @@ public class KonkursyController {
 			
 			ispolnitelDTO.setZayavkaFIId(zayavkaFIDTO.getId());
 			Integer fizInfoId = fizInfoService.addFizInfo(ispolnitelDTO);
-			if (!konkursyService.checkUsloviy(Integer.parseInt(konkursId), fizInfoId)){
+			if (!konkursyService.checkUsloviy(Integer.parseInt(konkursId), fizInfoId, userId)){
 				model.addAttribute("errorMsg", ispolnitelDTO.getSurname()+" не может учавствовать в заявке");
 			}else{
+				fizInfoService.addZayavkaFI(fizInfoId,zayavkaFIDTO.getId());
 				ispolnitelService.saveOrUpdate(ispolnitelDTO);
 			}	
 			resp.setRenderParameter("view", "zayavka");
@@ -459,7 +462,7 @@ public class KonkursyController {
 		Integer ispolnitelId = ParamUtil.getInteger(req, "ispolnitelId");
 		Ispolnitel ispolnitel = ispolnitelService.get(ispolnitelId);
 		if (ispolnitel!=null){
-			fizInfoService.removeFizInfoFromZayavkaFI(PortalUtil.getUser(req).getUserId(), Integer.parseInt(ParamUtil.getString(req, "konkursId")), ispolnitel);
+			fizInfoService.removeZayavkaFI(PortalUtil.getUser(req).getUserId(), Integer.parseInt(ParamUtil.getString(req, "konkursId")), ispolnitel);
 			ispolnitelService.delete(ispolnitel);
 		}
 		
@@ -526,6 +529,7 @@ public class KonkursyController {
 		response.setContentType("application/msword");
 		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
 		response.setContentLength(usloviy.length);
+		response.setProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=uslovia.doc");
 		OutputStream outStream = null;
 		try {
 			outStream = response.getPortletOutputStream();

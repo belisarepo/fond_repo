@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import by.belisa.bean.KonkursyDTO;
+import by.belisa.dao.AnketaDao;
 import by.belisa.dao.Dao;
 import by.belisa.dao.FizInfoDao;
 import by.belisa.dao.KonkursyDao;
-import by.belisa.entity.FizInfo;
+import by.belisa.dao.ZayavkaFIDao;
+import by.belisa.entity.Anketa;
 import by.belisa.entity.Konkursy;
+import by.belisa.entity.TipKonkursa;
 import by.belisa.exception.DaoException;
 
 @Service
@@ -32,6 +35,14 @@ public class KonkursyService extends ServiceImpl<Konkursy, Integer>{
 	@Autowired
 	@Qualifier("fizInfoDao")
 	private FizInfoDao fizInfoDao;
+	@Autowired
+	@Qualifier("anketaDao")
+	private AnketaDao anketaDao;
+	@Autowired
+	@Qualifier("zayavkaFIDao")
+	private ZayavkaFIDao zayavkaFIDao;
+	
+	
 	public List<KonkursyDTO> getAllKonkursyDTO() throws DaoException{
 		List<Konkursy> konkursyList = baseDao.getAll();
 		List<KonkursyDTO> konkursyDTOList = new ArrayList<KonkursyDTO>();
@@ -60,14 +71,28 @@ public class KonkursyService extends ServiceImpl<Konkursy, Integer>{
 	}
 
 	
-	public boolean checkUsloviy(Integer konkursId, Integer fizInfoId) throws DaoException{
+	public boolean checkUsloviy(Integer konkursId, Integer fizInfoId, Long userId) throws DaoException{
 		
 		Konkursy konkurs = baseDao.get(konkursId);
+		if (konkurs.getTipKonkursa().getFinRazdel().getId()==1){
+			return true;
+		}
+		TipKonkursa tipKonkursa = konkurs.getTipKonkursa();
 		Integer countIspl = konkurs.getCountIspolnitel();
 		Integer countRuk = konkurs.getCountRukovoditel();
 		Integer countIsplRuk = konkurs.getCountIspolRukov();
-		FizInfo fizInfo = fizInfoDao.get(fizInfoId);
 		
+		Anketa anketa = anketaDao.get(userId);
+		long currentRukCount = zayavkaFIDao.getActualCountAsRukByUser(userId, konkurs.getStartProject());
+		long currentIsplCount = zayavkaFIDao.getActualCountAsIspolnitelByUser(fizInfoId, konkurs.getStartProject());
+		System.out.println("!!!!!!!"+currentIsplCount);
+//		FizInfo fizInfo = fizInfoDao.get(fizInfoId);
+//		if(countRuk!=null && currentRukCount>=countRuk){
+//			return false;
+//		}
+		if(countIspl!=null && currentIsplCount>=countIspl){
+			return false;
+		}
 		return true;
 	}
 }

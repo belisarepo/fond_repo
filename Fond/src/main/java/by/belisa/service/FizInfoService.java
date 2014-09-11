@@ -97,11 +97,13 @@ public class FizInfoService extends ServiceImpl<FizInfo, Integer>{
 			fizInfo.setUchZvaniy(uchZvanieDao.get(dto.getUchZvaniyId()));
 		}
 		
-		fizInfo.getZayavki().add(zayavkaFIDao.get(dto.getZayavkaFIId()));
 		fizInfoDao.saveOrUpdate(fizInfo);
 		return fizInfo.getId();
 	}
-	public void removeFizInfoFromZayavkaFI(Long userId, Integer konkursId, Ispolnitel ispolnitel) throws DaoException{
+	public void addZayavkaFI(Integer fizInfoId, Integer zayavkaId) throws DaoException{
+		fizInfoDao.get(fizInfoId).getZayavki().add(zayavkaFIDao.get(zayavkaId));
+	}
+	public void removeZayavkaFI(Long userId, Integer konkursId, Ispolnitel ispolnitel) throws DaoException{
 		ZayavkaFI zayavkaFI = zayavkaFIDao.getZayavkaFIByUserId(userId, konkursId);
 		FizInfo fizInfo = fizInfoDao.getByFio(ispolnitel.getSurname(),ispolnitel.getName(),ispolnitel.getPatronymic(),ispolnitel.getBirthday());
 		fizInfo.getZayavki().remove(zayavkaFI);

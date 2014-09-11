@@ -30,16 +30,12 @@ public class TestHibernate {
 //			s.close();
 //		}
 //		
-		Class.forName("oracle.jdbc.driver.OracleDriver");
-		
-		Date str = new Date();
-		String url = "jdbc:oracle:thin:@192.168.11.71:1521:OraLR";
-		Connection c = DriverManager.getConnection(url, "fond", "fond");
-//		String url = "jdbc:oracle:thin:@192.168.11.70:1521:OraBP";
-//		Connection c = DriverManager.getConnection(url, "liferay", "liferay");
-		Date fin = new Date();
-		long time = fin.getTime()-str.getTime();
-		System.out.println("connection is open "+ c+ "time: "+ time+" ms");
+		Date today = new Date();
+		Date futureDate = new Date(today.getTime() +100l * 365l * 24l * 60l * 60l * 1000l);
+		System.out.println(32 * 24 * 60 * 60 * 1000);
+		System.out.println(22 * 24 * 60 * 60 * 1000);
+		System.out.println(today);
+		System.out.println(futureDate);
 		
 	}
 

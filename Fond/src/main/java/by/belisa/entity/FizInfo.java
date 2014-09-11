@@ -9,12 +9,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -53,6 +53,9 @@ public class FizInfo implements Serializable{
                 joinColumns={@JoinColumn(name="FIZ_INFO_ID")}, 
                 inverseJoinColumns={@JoinColumn(name="ZAYAVKA_FI_ID")})
 	private Set<ZayavkaFI> zayavki = new HashSet<ZayavkaFI>();
+	
+	@OneToMany(mappedBy="fizInfo")
+	private Set<ZayavkaFI> zayavkiAsRuk = new HashSet<ZayavkaFI>();
 	
 	public Set<ZayavkaFI> getZayavki() {
 		return zayavki;
@@ -103,6 +106,12 @@ public class FizInfo implements Serializable{
 	}
 	public void setPost(String post) {
 		this.post = post;
+	}
+	public Set<ZayavkaFI> getZayavkiAsRuk() {
+		return zayavkiAsRuk;
+	}
+	public void setZayavkiAsRuk(Set<ZayavkaFI> zayavkiAsRuk) {
+		this.zayavkiAsRuk = zayavkiAsRuk;
 	}
 	
 	
