@@ -83,14 +83,17 @@ public class KonkursyService extends ServiceImpl<Konkursy, Integer>{
 		Integer countIsplRuk = konkurs.getCountIspolRukov();
 		
 		Anketa anketa = anketaDao.get(userId);
-		long currentRukCount = zayavkaFIDao.getActualCountAsRukByUser(userId, konkurs.getStartProject());
+		long currentRukCount = zayavkaFIDao.getActualCountAsRukByUser(fizInfoId, konkurs.getStartProject());
 		long currentIsplCount = zayavkaFIDao.getActualCountAsIspolnitelByUser(fizInfoId, konkurs.getStartProject());
-		System.out.println("!!!!!!!"+currentIsplCount);
-//		FizInfo fizInfo = fizInfoDao.get(fizInfoId);
+		long currentIsplRuk = zayavkaFIDao.getActualCountByKonkursType(fizInfoId, konkurs.getTipKonkursa().getId(), konkurs.getStartProject(), countIsplRuk);
+		System.out.println("!!!!!!!"+currentIsplRuk);
 //		if(countRuk!=null && currentRukCount>=countRuk){
 //			return false;
 //		}
-		if(countIspl!=null && currentIsplCount>=countIspl){
+//		if(countIspl!=null && currentIsplCount>=countIspl){
+//			return false;
+//		}
+		if(countIsplRuk!=null && currentIsplRuk>=countIsplRuk){
 			return false;
 		}
 		return true;
