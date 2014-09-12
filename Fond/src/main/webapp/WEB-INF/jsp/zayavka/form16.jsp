@@ -69,7 +69,7 @@
 	<spring:message code="zayavka.calcZp.duration" var='calcZpDurationLabel' />
 	<aui:input name="duration" label='${calcZpDurationLabel}' bean="calcZpModel">
 		<aui:validator name="required" />
-		<aui:validator name="digits" />
+		<aui:validator name="number" />
 	</aui:input>
 
 	<spring:message code="zayavka.calcZp.fondZp" var='calcZpFondZpLabel' />

@@ -68,6 +68,8 @@ public class Konkursy implements Serializable{
 	private Integer countRukovoditel;
 	@Column(name="COUNT_ISPOL_RUKOV")
 	private Integer countIspolRukov;
+	@Column(name="COUNT_ALL_TIME")
+	private Integer countAllTime;
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="STATUS_KONKURS")
 	private KonkursStatus konkursStatus;
@@ -141,6 +143,18 @@ public class Konkursy implements Serializable{
 		this.reshenieNS = reshenieNS;
 	}
 	
+	public Integer getCountAllTime() {
+		return countAllTime;
+	}
+	public void setCountAllTime(Integer countAllTime) {
+		this.countAllTime = countAllTime;
+	}
+	public KonkursStatus getKonkursStatus() {
+		return konkursStatus;
+	}
+	public void setKonkursStatus(KonkursStatus konkursStatus) {
+		this.konkursStatus = konkursStatus;
+	}
 	public Date getStopKonkurs() {
 		return stopKonkurs;
 	}

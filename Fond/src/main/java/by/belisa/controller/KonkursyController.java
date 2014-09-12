@@ -24,10 +24,12 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
+import by.belisa.bean.AnketaDTO;
 import by.belisa.bean.CalcMaterialsDTO;
 import by.belisa.bean.CalcOtherCostsDTO;
 import by.belisa.bean.CalcTripDTO;
 import by.belisa.bean.CalcZpDTO;
+import by.belisa.bean.CheckUslResult;
 import by.belisa.bean.IspolnitelDTO;
 import by.belisa.bean.KonkursyDTO;
 import by.belisa.bean.OrgDTO;
@@ -42,7 +44,6 @@ import by.belisa.entity.PrioritetNauka;
 import by.belisa.entity.SectionFond;
 import by.belisa.entity.UchStepeni;
 import by.belisa.entity.UchZvaniy;
-import by.belisa.entity.ZayavkaFI;
 import by.belisa.exception.DaoException;
 import by.belisa.exception.ServiceException;
 import by.belisa.service.AnketaService;
@@ -63,6 +64,7 @@ import by.belisa.service.UchStepeniService;
 import by.belisa.service.UchZvaniyService;
 import by.belisa.service.UserService;
 import by.belisa.service.ZayavkaFIService;
+import by.belisa.util.Utils;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -212,16 +214,20 @@ public class KonkursyController {
 	}
 
 	@RenderMapping(params = "view=zayavka")
-	public String renderZayavkaForm(ModelMap model, PortletRequest request) throws ServiceException, NumberFormatException, PortalException,
+	public String renderZayavkaForm(Model model, PortletRequest request) throws ServiceException, NumberFormatException, PortalException,
 			SystemException, DaoException, ParseException {
 		Long userId = PortalUtil.getUser(request).getUserId();
 		anketaService.checkUser(PortalUtil.getUser(request));
 		String konkursId = ParamUtil.getString(request, "konkursId");
 		ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(userId, Integer.parseInt(konkursId));
 		if (zayavkaFIDTO.getId()==null){
-			Integer fizInfoId = fizInfoService.addFizInfo(anketaService.getDTO(userId));
-			if (!konkursyService.checkUsloviy(Integer.parseInt(konkursId), fizInfoId, userId)){
-				return "violation";
+			AnketaDTO anketaDTO = anketaService.getDTO(userId);
+			Integer fizInfoId = fizInfoService.addFizInfo(anketaDTO);
+			CheckUslResult checkUslResult = konkursyService.checkUsloviyaRuk(Integer.parseInt(konkursId), fizInfoId);
+			if (!checkUslResult.isAvailable()){
+				String errorMsg = Utils.createErrorMsg(anketaDTO.getFio(), checkUslResult);
+				model.addAttribute("errorMsg", errorMsg);
+				return renderView(model,request);
 			}
 		}
 		model.addAttribute("zayavkaModel", zayavkaFIDTO);
@@ -362,8 +368,10 @@ public class KonkursyController {
 			
 			ispolnitelDTO.setZayavkaFIId(zayavkaFIDTO.getId());
 			Integer fizInfoId = fizInfoService.addFizInfo(ispolnitelDTO);
-			if (!konkursyService.checkUsloviy(Integer.parseInt(konkursId), fizInfoId, userId)){
-				model.addAttribute("errorMsg", ispolnitelDTO.getSurname()+" не может учавствовать в заявке");
+			CheckUslResult checkUslResult = konkursyService.checkUsloviyaIspl(Integer.parseInt(konkursId), fizInfoId); 
+			if (!checkUslResult.isAvailable()){
+				String errorMsg = Utils.createErrorMsg(ispolnitelDTO.getSurname(), checkUslResult);
+				model.addAttribute("errorMsg", errorMsg);
 			}else{
 				fizInfoService.addZayavkaFI(fizInfoId,zayavkaFIDTO.getId());
 				ispolnitelService.saveOrUpdate(ispolnitelDTO);
