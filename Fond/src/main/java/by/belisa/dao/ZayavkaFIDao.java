@@ -53,7 +53,7 @@ public class ZayavkaFIDao extends DaoImpl<ZayavkaFI, Integer>{
 		Date today = new Date();
 		Date futureDate = new Date(today.getTime() + 100l * 365l * 24l * 60l * 60l * 1000l);
 		Session s = getSession();
-		Query q1 = s.createQuery("FROM ZayavkaFI WHERE fizInfo.id=:fizInfoId and coalesce(z.konkursy.tipKonkursa.id,0)=:tipKonkursaId and coalesce(konkursy.stopProject,:futureDate)>=coalesce(:startProject,:today)");
+		Query q1 = s.createQuery("FROM ZayavkaFI WHERE fizInfo.id=:fizInfoId and coalesce(konkursy.tipKonkursa.id,0)=:tipKonkursaId and coalesce(konkursy.stopProject,:futureDate)>=coalesce(:startProject,:today)");
 		q1.setParameter("fizInfoId", fizInfoId);
 		q1.setParameter("tipKonkursaId", tipKonkursaId);
 		q1.setDate("startProject", startProject);
