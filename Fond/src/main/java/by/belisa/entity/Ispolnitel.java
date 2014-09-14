@@ -11,12 +11,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 @Entity
 @Table(name="ISPOLNITELI")
-@SequenceGenerator(name="PK",sequenceName="SEQ_ISPOLNITELI")
+@GenericGenerator(name="PK",strategy = "foreign", parameters = @Parameter(name = "property", value = "fizInfo"))
 public class Ispolnitel implements Serializable{
 
 	/**
@@ -48,6 +53,9 @@ public class Ispolnitel implements Serializable{
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ZAYAVKA_FI_ID")
 	private ZayavkaFI zayavkaFI;
+	@OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL, optional=false)
+	@PrimaryKeyJoinColumn()
+	private FizInfo fizInfo;
 	public Integer getId() {
 		return id;
 	}
@@ -107,6 +115,12 @@ public class Ispolnitel implements Serializable{
 	}
 	public void setZayavkaFI(ZayavkaFI zayavkaFI) {
 		this.zayavkaFI = zayavkaFI;
+	}
+	public FizInfo getFizInfo() {
+		return fizInfo;
+	}
+	public void setFizInfo(FizInfo fizInfo) {
+		this.fizInfo = fizInfo;
 	}
 	
 	

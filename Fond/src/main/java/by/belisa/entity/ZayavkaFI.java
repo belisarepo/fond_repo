@@ -94,7 +94,7 @@ public class ZayavkaFI implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="FIZ_NR_INFO_ID")
 	private FizNRInfo fizNrInfo;
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="FIZ_INFO_ID")
 	private FizInfo fizInfo;
 	@ManyToMany(mappedBy="zayavki")

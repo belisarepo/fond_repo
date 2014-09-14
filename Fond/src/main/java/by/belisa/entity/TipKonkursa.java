@@ -37,6 +37,9 @@ public class TipKonkursa implements Serializable{
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="VID_KONKURSA_ID")
 	private VidKonkursa vidKonkursa;
+	
+	@Column(name="M",nullable=false)
+	private boolean isMolod;
 	public int getId() {
 		return id;
 	}
@@ -72,6 +75,12 @@ public class TipKonkursa implements Serializable{
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	public boolean isMolod() {
+		return isMolod;
+	}
+	public void setMolod(boolean isMolod) {
+		this.isMolod = isMolod;
 	}
 	
 	

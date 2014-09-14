@@ -118,6 +118,7 @@
 		<li><a href="#tab-17"><spring:message code="zayavka.tab17" /></a></li>
 		<li><a href="#tab-18"><spring:message code="zayavka.tab18" /></a></li>
 		<li><a href="#tab-19"><spring:message code="zayavka.tab19" /></a></li>
+		<li><a href="#tab-20"><spring:message code="zayavka.tab20" /></a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -178,6 +179,9 @@
 		</div>
 		<div id="tab-19" class="tab-pane">
 			<%@ include file="/WEB-INF/jsp/zayavka/form19.jsp"%>
+		</div>
+		<div id="tab-20" class="tab-pane">
+			<%@ include file="/WEB-INF/jsp/zayavka/form20.jsp"%>
 		</div>
 	</div>
 </div>

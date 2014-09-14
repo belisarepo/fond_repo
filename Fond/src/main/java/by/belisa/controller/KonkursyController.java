@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
@@ -34,6 +33,7 @@ import by.belisa.bean.IspolnitelDTO;
 import by.belisa.bean.KonkursyDTO;
 import by.belisa.bean.OrgDTO;
 import by.belisa.bean.PublicationDTO;
+import by.belisa.bean.PublicationMDTO;
 import by.belisa.bean.ZayavkaFIDTO;
 import by.belisa.dao.StatusZayavkaFIDao;
 import by.belisa.entity.Ispolnitel;
@@ -41,6 +41,7 @@ import by.belisa.entity.Organization;
 import by.belisa.entity.OrganizationNR;
 import by.belisa.entity.OtraslNauka;
 import by.belisa.entity.PrioritetNauka;
+import by.belisa.entity.PublicationType;
 import by.belisa.entity.SectionFond;
 import by.belisa.entity.UchStepeni;
 import by.belisa.entity.UchZvaniy;
@@ -58,7 +59,9 @@ import by.belisa.service.OrgNrService;
 import by.belisa.service.OrgService;
 import by.belisa.service.OtraslNaukaService;
 import by.belisa.service.PrioritetNaukaService;
+import by.belisa.service.PublicationMService;
 import by.belisa.service.PublicationService;
+import by.belisa.service.PublicationTypeService;
 import by.belisa.service.SectionFondService;
 import by.belisa.service.UchStepeniService;
 import by.belisa.service.UchZvaniyService;
@@ -116,6 +119,9 @@ public class KonkursyController {
 	@Qualifier("publicationService")
 	private PublicationService publicationService;
 	@Autowired
+	@Qualifier("publicationMService")
+	private PublicationMService publicationMService;
+	@Autowired
 	@Qualifier("calcZpService")
 	private CalcZpService calcZpService;
 	@Autowired
@@ -133,13 +139,25 @@ public class KonkursyController {
 	@Autowired
 	@Qualifier("userService")
 	private UserService userService;
+	@Autowired
+	@Qualifier("publicationTypeService")
+	private PublicationTypeService publicationTypeService;
 
 	private List<OtraslNauka> otraslNaukaList = null;
 	private List<SectionFond> sectionFondList = null;
 	private List<PrioritetNauka> prioritetNaukaList = null;
 	private List<UchStepeni> uchStepeniList = null;
 	private List<UchZvaniy> uchZvaniyList = null;
+	private List<PublicationType> publicationTypes = null;
 
+	@ModelAttribute(value = "publicationTypes")
+	public List<PublicationType> initPublicationTypes() throws ServiceException {
+		if (publicationTypes == null) {
+			publicationTypes = publicationTypeService.getAll();
+		}
+		return publicationTypes;
+	}
+	
 	@ModelAttribute(value = "otraslNaukaList")
 	public List<OtraslNauka> initOtraslNaukaList() throws ServiceException {
 		if (otraslNaukaList == null) {
@@ -184,6 +202,11 @@ public class KonkursyController {
 		return new PublicationDTO();
 	}
 	
+	@ModelAttribute(value = "publicationMModel")
+	public PublicationMDTO initPublicationMModel(){
+		return new PublicationMDTO();
+	}
+	
 	@ModelAttribute(value = "ispolnitelModel")
 	public IspolnitelDTO initIspolnitelModel(){
 		return new IspolnitelDTO();
@@ -223,6 +246,7 @@ public class KonkursyController {
 		if (zayavkaFIDTO.getId()==null){
 			AnketaDTO anketaDTO = anketaService.getDTO(userId);
 			Integer fizInfoId = fizInfoService.addFizInfo(anketaDTO);
+			zayavkaFIDTO.setFizInfoDTO(fizInfoService.getDTO(fizInfoId));
 			CheckUslResult checkUslResult = konkursyService.checkUsloviyaRuk(Integer.parseInt(konkursId), fizInfoId);
 			if (!checkUslResult.isAvailable()){
 				String errorMsg = Utils.createErrorMsg(anketaDTO.getFio(), checkUslResult);
@@ -368,6 +392,7 @@ public class KonkursyController {
 			
 			ispolnitelDTO.setZayavkaFIId(zayavkaFIDTO.getId());
 			Integer fizInfoId = fizInfoService.addFizInfo(ispolnitelDTO);
+			ispolnitelDTO.setFizInfoId(fizInfoId);
 			CheckUslResult checkUslResult = konkursyService.checkUsloviyaIspl(Integer.parseInt(konkursId), fizInfoId); 
 			if (!checkUslResult.isAvailable()){
 				String errorMsg = Utils.createErrorMsg(ispolnitelDTO.getSurname(), checkUslResult);
@@ -407,6 +432,22 @@ public class KonkursyController {
 			zayavkaFIDTO.setKonkursId(konkursId);
 			zayavkaFIDTO.setUserId(userId);
 			zayavkaFIService.addPublication(zayavkaFIDTO,publication);
+			resp.setRenderParameter("view", "zayavka");
+			resp.setRenderParameter("konkursId", konkursId.toString());
+	}
+	
+	@ActionMapping(params = "action=addPublicationM")
+	public void addPublicationM(@ModelAttribute(value="publicationMModel") PublicationMDTO publication, ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+			Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
+			Integer konkursId = ParamUtil.getInteger(req, "konkursId");
+			Integer fizInfoId = ParamUtil.getInteger(req, "fizInfoId");
+			publication.setFizInfoId(fizInfoId);
+			Long userId = PortalUtil.getUser(req).getUserId();
+			ZayavkaFIDTO zayavkaFIDTO = new ZayavkaFIDTO();
+			zayavkaFIDTO.setId(zayavkaId);
+			zayavkaFIDTO.setKonkursId(konkursId);
+			zayavkaFIDTO.setUserId(userId);
+			zayavkaFIService.addPublicationM(zayavkaFIDTO,publication);
 			resp.setRenderParameter("view", "zayavka");
 			resp.setRenderParameter("konkursId", konkursId.toString());
 	}
@@ -484,6 +525,14 @@ public class KonkursyController {
 	public void deletePublication(ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
 		Integer publicationId = ParamUtil.getInteger(req, "publicationId");
 		publicationService.delete(publicationService.get(publicationId));
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
+	}
+	
+	@ActionMapping(params = "action=deletePublicationM")
+	public void deletePublicationM(ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+		Integer publicationId = ParamUtil.getInteger(req, "publicationId");
+		publicationMService.delete(publicationMService.get(publicationId));
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
 	}

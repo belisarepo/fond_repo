@@ -27,7 +27,7 @@ public class ZayavkaFIDao extends DaoImpl<ZayavkaFI, Integer>{
 		Date today = new Date();
 		Date futureDate = new Date(today.getTime() + 100l * 365l * 24l * 60l * 60l * 1000l);
 		Session s = getSession();
-		Query q = s.createQuery("FROM ZayavkaFI WHERE fizInfo.id=:fizInfoId and coalesce(konkursy.tipKonkursa.finRazdel.id,0)<>1 and coalesce(konkursy.stopProject,:futureDate)>=coalesce(:startProject,:today)");
+		Query q = s.createQuery("FROM ZayavkaFI WHERE fizInfo.id=:fizInfoId and coalesce(konkursy.countIspolRukov,0)<>0 and coalesce(konkursy.stopProject,:futureDate)>=coalesce(:startProject,:today)");
 		q.setParameter("fizInfoId", fizInfoId);
 		q.setDate("startProject", startProject);
 		q.setDate("today", today);
@@ -40,7 +40,7 @@ public class ZayavkaFIDao extends DaoImpl<ZayavkaFI, Integer>{
 		Date today = new Date();
 		Date futureDate = new Date(today.getTime() + 100l * 365l * 24l * 60l * 60l * 1000l);
 		Session s = getSession();
-		Query q = s.createQuery("SELECT z FROM FizInfo f join f.zayavki z WHERE f.id=:fizInfoId and coalesce(z.konkursy.tipKonkursa.finRazdel.id,0)<>1 and coalesce(z.konkursy.stopProject,:futureDate)>=coalesce(:startProject,:today)");
+		Query q = s.createQuery("SELECT z FROM FizInfo f join f.zayavki z WHERE f.id=:fizInfoId and coalesce(z.konkursy.countIspolRukov,0)<>0 and coalesce(z.konkursy.stopProject,:futureDate)>=coalesce(:startProject,:today)");
 		q.setParameter("fizInfoId", fizInfoId);
 		q.setDate("startProject", startProject);
 		q.setDate("today", today);
@@ -53,7 +53,7 @@ public class ZayavkaFIDao extends DaoImpl<ZayavkaFI, Integer>{
 		Date today = new Date();
 		Date futureDate = new Date(today.getTime() + 100l * 365l * 24l * 60l * 60l * 1000l);
 		Session s = getSession();
-		Query q1 = s.createQuery("FROM ZayavkaFI WHERE fizInfo.id=:fizInfoId and coalesce(konkursy.tipKonkursa.id,0)=:tipKonkursaId and coalesce(konkursy.tipKonkursa.finRazdel.id,0)<>1 and coalesce(konkursy.stopProject,:futureDate)>=coalesce(:startProject,:today)");
+		Query q1 = s.createQuery("FROM ZayavkaFI WHERE fizInfo.id=:fizInfoId and coalesce(z.konkursy.tipKonkursa.id,0)=:tipKonkursaId and coalesce(konkursy.stopProject,:futureDate)>=coalesce(:startProject,:today)");
 		q1.setParameter("fizInfoId", fizInfoId);
 		q1.setParameter("tipKonkursaId", tipKonkursaId);
 		q1.setDate("startProject", startProject);
@@ -61,7 +61,7 @@ public class ZayavkaFIDao extends DaoImpl<ZayavkaFI, Integer>{
 		q1.setDate("futureDate", futureDate);
 		List<ZayavkaFI> list = (List<ZayavkaFI>) q1.list();
 		
-		Query q2 = s.createQuery("SELECT z FROM FizInfo f join f.zayavki z WHERE f.id=:fizInfoId and coalesce(z.konkursy.tipKonkursa.id,0)=:tipKonkursaId and coalesce(z.konkursy.tipKonkursa.finRazdel.id,0)<>1 and coalesce(z.konkursy.stopProject,:futureDate)>=coalesce(:startProject,:today)");
+		Query q2 = s.createQuery("SELECT z FROM FizInfo f join f.zayavki z WHERE f.id=:fizInfoId and coalesce(z.konkursy.tipKonkursa.id,0)=:tipKonkursaId and coalesce(z.konkursy.stopProject,:futureDate)>=coalesce(:startProject,:today)");
 		q2.setParameter("fizInfoId", fizInfoId);
 		q2.setParameter("tipKonkursaId", tipKonkursaId);
 		q2.setDate("startProject", startProject);
@@ -69,6 +69,16 @@ public class ZayavkaFIDao extends DaoImpl<ZayavkaFI, Integer>{
 		q2.setDate("futureDate", futureDate);
 		list.addAll((List<ZayavkaFI>)q2.list());
 			
+		return list;
+	}
+	
+	public List<ZayavkaFI> getAllTimeByKonkursType(Integer fizInfoId, Integer tipKonkursaId){
+		Session s = getSession();
+		Query q = s.createQuery("FROM ZayavkaFI WHERE fizInfo.id=:fizInfoId and coalesce(konkursy.tipKonkursa.id,0)=:tipKonkursaId");
+		q.setParameter("fizInfoId", fizInfoId);
+		q.setParameter("tipKonkursaId", tipKonkursaId);
+		List<ZayavkaFI> list = (List<ZayavkaFI>)q.list();
+		
 		return list;
 	}
 

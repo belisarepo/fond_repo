@@ -25,13 +25,14 @@ public class IspolnitelDTO implements Serializable{
 	private String uchZvaniyName;
 	private String post;
 	private Integer zayavkaFIId;
-	
+	private FizInfoDTO fizInfo;
+	private Integer fizInfoId;
 	public IspolnitelDTO(){
 		
 	}
 	
 	
-	public IspolnitelDTO(Ispolnitel entity) {
+	public IspolnitelDTO(Ispolnitel entity, boolean withPubl) {
 		if (entity!=null){
 			this.id = entity.getId();
 			this.name = entity.getName();
@@ -46,8 +47,23 @@ public class IspolnitelDTO implements Serializable{
 			this.uchZvaniyName = entity.getUchZvaniy()!=null ? entity.getUchZvaniy().getFullName() : "";
 			this.post = entity.getPost();
 			this.zayavkaFIId = entity.getZayavkaFI().getId();
+			this.fizInfoId = entity.getFizInfo().getId();
+			if (withPubl){
+				this.fizInfo = new FizInfoDTO(entity.getFizInfo());
+			}
+			
 		}
 		
+	}
+
+
+	public FizInfoDTO getFizInfo() {
+		return fizInfo;
+	}
+
+
+	public void setFizInfo(FizInfoDTO fizInfo) {
+		this.fizInfo = fizInfo;
 	}
 
 
@@ -128,6 +144,16 @@ public class IspolnitelDTO implements Serializable{
 	}
 	public void setZayavkaFIId(Integer zayavkaFIId) {
 		this.zayavkaFIId = zayavkaFIId;
+	}
+
+
+	public Integer getFizInfoId() {
+		return fizInfoId;
+	}
+
+
+	public void setFizInfoId(Integer fizInfoId) {
+		this.fizInfoId = fizInfoId;
 	}
 	
 	

@@ -58,7 +58,7 @@ public class IspolnitelService extends ServiceImpl<Ispolnitel, Integer>{
 		List<Ispolnitel> ispolnitelList = ispolniteliDao.getAllByZayavkaId(zayavkaId);
 		List<IspolnitelDTO> ispolnitelDTOList = new ArrayList<IspolnitelDTO>();
 		for (Ispolnitel i : ispolnitelList){
-			ispolnitelDTOList.add(new IspolnitelDTO(i));
+			ispolnitelDTOList.add(new IspolnitelDTO(i,false));
 		}
 		return ispolnitelDTOList;
 	}
@@ -82,6 +82,7 @@ public class IspolnitelService extends ServiceImpl<Ispolnitel, Integer>{
 		ispolnitel.setPatronymic(dto.getPatronymic());
 		ispolnitel.setPost(dto.getPost());
 		ispolnitel.setSurname(dto.getSurname());
+		ispolnitel.setFizInfo(fizInfoDao.get(dto.getFizInfoId()));
 		if (dto.getUchStepeniId()!=null){
 			ispolnitel.setUchStepeni(uchStepeniDao.get(dto.getUchStepeniId()));
 		}

@@ -86,9 +86,17 @@ public class KonkursyService extends ServiceImpl<Konkursy, Integer> {
 		int currentIsplCount=0;
 		int currentRukCount=0;
 		int currentIsplRuk=0;
+		int currentAllTime=0;
 		
 		if (countAllTime!=null){
-			
+			List<ZayavkaFI> list = zayavkaFIDao.getAllTimeByKonkursType(fizInfoId, konkurs.getTipKonkursa().getId());
+			currentAllTime = list.size();
+			if (currentAllTime>=countAllTime){
+				for (ZayavkaFI i : list){
+					result.getKonkursRuk().put(i.getKonkursy().getNameR(), i.getFizInfo().getSurname());
+				}
+				return result;
+			}
 		}
 		
 		if (countIsplRuk!=null){
