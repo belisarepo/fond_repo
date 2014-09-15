@@ -366,70 +366,76 @@ public class Rukovoditel implements Serializable, IValidaton {
 			vr.getErrMessages().add(message);
 		}
 		// Проверка долнжости
-		if (this.post.isEmpty()) {
+		if (this.post == null || this.post.isEmpty()) {
 			message = "Не заполнена должность" + " " + tabNameHeadProjectOfBelarus;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка кафедры, лаборатории
-		if (this.lab.isEmpty()) {
+		if (this.lab == null || this.lab.isEmpty()) {
 			message = "Не заполнена кафедра,лаборатория" + " " + tabNameHeadProjectOfBelarus;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка служебного телефона
-		if (this.jobPhone.isEmpty()) {
+		if (this.jobPhone == null || this.jobPhone.isEmpty()) {
 			message = "Не указан служебный телефон" + " " + tabNameHeadProjectOfBelarus;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка домашнего телефона
-		if (this.homePhone.isEmpty()) {
+		if (this.homePhone == null || this.homePhone.isEmpty()) {
 			message = "Не указан домашний телефон" + " " + tabNameHeadProjectOfBelarus;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка мобильного телефона
-		if (this.mobilePhone.isEmpty()) {
+		if (this.mobilePhone == null || this.mobilePhone.isEmpty()) {
 			message = "Не указан мобильный телефон" + " " + tabNameHeadProjectOfBelarus;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка электронной почты
-		if (this.email.isEmpty()) {
+		if (this.email == null || this.email.isEmpty()) {
 			message = "Не указана электронная почта" + " " + tabNameHeadProjectOfBelarus;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка почтового индекса и домашнего адреса
-		if (this.address.isEmpty()) {
+		if (this.address == null || this.address.isEmpty()) {
 			message = "Не заполнен почтовый индекс и домашний адрес" + " " + tabNameHeadProjectOfBelarus;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка количества публикаций
-		if (this.countPublicationISI.isEmpty() || this.countPublicationRINC.isEmpty() || this.countPublicationScopus.isEmpty()) {
+		if (this.countPublicationISI == null || this.countPublicationRINC == null || this.countPublicationScopus == null
+				|| this.countPublicationISI.isEmpty() || this.countPublicationRINC.isEmpty() || this.countPublicationScopus.isEmpty()) {
 			message = "Не заполенены количество публикаций" + " " + tabNameHeadScienceRating;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка индекса цитирования всех работ
-		if (this.citationIndexISI.isEmpty() || this.citationIndexRINC.isEmpty() || this.citationIndexScopus.isEmpty()) {
+		if (this.citationIndexISI == null || this.citationIndexRINC == null || this.citationIndexScopus == null || this.citationIndexISI.isEmpty()
+				|| this.citationIndexRINC.isEmpty() || this.citationIndexScopus.isEmpty()) {
 			message = "Не заполнены индексы цитирования всех работ" + " " + tabNameHeadScienceRating;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка индекса цитирования без самоцитирования
-		if (this.indexWithoutSelfISI.isEmpty() || this.indexWithoutSelfRINC.isEmpty() || this.indexWithoutSelfScopus.isEmpty()) {
+		if (this.indexWithoutSelfISI == null || this.indexWithoutSelfRINC == null || this.indexWithoutSelfScopus == null
+				|| this.indexWithoutSelfISI.isEmpty() || this.indexWithoutSelfRINC.isEmpty() || this.indexWithoutSelfScopus.isEmpty()) {
 			message = "Не заполнены индексы цитирования без самоцитирования" + " " + tabNameHeadScienceRating;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка индекса Хирши
-		if (this.indexHirshaISI.isEmpty() || this.indexHirshaRINC.isEmpty() || this.indexHirshaScopus.isEmpty()) {
+		if (this.indexHirshaISI == null || this.indexHirshaRINC == null || this.indexHirshaScopus == null || this.indexHirshaISI.isEmpty()
+				|| this.indexHirshaRINC.isEmpty() || this.indexHirshaScopus.isEmpty()) {
 			message = "Не заполнены индексы Хирша" + " " + tabNameHeadScienceRating;
 			vr.getErrMessages().add(message);
 		}
-		// Проверка организации
-		if (this.org == null) {
-			message = "Не выбрана организация" + " " + tabNameAplicantOrg;
-			vr.getErrMessages().add(message);
-		}
+
 		// Проверка перечня публикаций руководителя
-		if (this.publicationSet.isEmpty()){
+		if (this.publicationSet == null || this.publicationSet.isEmpty()) {
 			message = "Не заполнены публикиции" + " " + tabNameListOfPublications;
 			vr.getErrMessages().add(message);
 		}
+		// Проверка вкладки биографии руководителя
+		if (this.biography == null || this.biography.isEmpty()) {
+			message = "Не заполнена вкладка \"Научная биография руководителя\"";
+			vr.getErrMessages().add(message);
+		}
+
 		return vr;
 
 	}

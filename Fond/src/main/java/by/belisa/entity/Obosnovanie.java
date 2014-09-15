@@ -214,64 +214,64 @@ public class Obosnovanie implements Serializable, IValidaton {
 		String message = null;
 		String tabNameJustification = "во вкладке \"Обоснование\"";
 		// Проверка цели, задачи и её актуальности
-		if (this.goal.isEmpty()) {
+		if (this.goal == null || this.goal.isEmpty()) {
 			message = "Не заполнена цель и задачи работы" + " " + tabNameJustification;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка краткого анализа
-		if (this.analizResults.isEmpty()) {
+		if (this.analizResults == null || this.analizResults.isEmpty()) {
 			message = "Не заполен краткий анализ" + " " + tabNameJustification;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка научно-практического задела авторов
-		if (this.reserveAuthors.isEmpty()) {
+		if (this.reserveAuthors == null || this.reserveAuthors.isEmpty()) {
 			message = "Не заполнен научно-практический задел авторов" + " " + tabNameJustification;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка обоснования целесообразности проведения совместных условий
-		if (this.expediency.isEmpty()) {
+		if (this.expediency == null || this.expediency.isEmpty()) {
 			message = "Не заполнены обоснования целесообразности проведения совместных условий" + " " + tabNameJustification;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка формулировки и обоснование идеи
-		if (this.ideaFormulation.isEmpty()) {
+		if (this.ideaFormulation == null || this.ideaFormulation.isEmpty()) {
 			message = "Не заполнена формулировка и обоснование идеи" + " " + tabNameJustification;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка уровня новизны научной идеи (гипотезы)
-		if (this.ideaInnovation.isEmpty()) {
+		if (this.ideaInnovation == null || this.ideaInnovation.isEmpty()) {
 			message = "Не заполнен уровень новизны научной идеи" + " " + tabNameJustification;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка структуры исследования
-		if (this.structureOfStudy.isEmpty()) {
+		if (this.structureOfStudy == null || this.structureOfStudy.isEmpty()) {
 			message = "Не заполнена структура исследования" + " " + tabNameJustification;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка ожидаемых результатов НИР
-		if (this.resultsNir.isEmpty()) {
+		if (this.resultsNir == null || this.resultsNir.isEmpty()) {
 			message = "Не заполнены ожидаемые результаты НИР" + " " + tabNameJustification;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка возможные области использования результатов исследования
-		if (this.usingResults.isEmpty()) {
+		if (this.usingResults == null || this.usingResults.isEmpty()) {
 			message = "Не заполнены возможные области использования результатов исследования" + " " + tabNameJustification;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка характеристики научного коллектива
-		if (this.teamCharacteristic.isEmpty()) {
+		if (this.teamCharacteristic == null || this.teamCharacteristic.isEmpty()) {
 			message = "Не заполнены характеристики научного коллектива" + " " + tabNameJustification;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка обеспеченности работы основным оборудованием, необходимым
 		// для ее выполнения
-		if (this.provisionEquipment.isEmpty()) {
+		if (this.provisionEquipment == null || this.provisionEquipment.isEmpty()) {
 			message = "Не заполнена обеспеченность работы основным оборудованием, необходимым для её выполнения" + " " + tabNameJustification;
 			vr.getErrMessages().add(message);
 		}
-		//Проверка сведений об участии
-		if(this.previousKonkurs.isEmpty()){
-			message = "Не заполнены сведения об участии"+ " " + tabNameJustification;
+		// Проверка сведений об участии
+		if (this.previousKonkurs == null || this.previousKonkurs.isEmpty()) {
+			message = "Не заполнены сведения об участии" + " " + tabNameJustification;
 			vr.getErrMessages().add(message);
 		}
 		return vr;

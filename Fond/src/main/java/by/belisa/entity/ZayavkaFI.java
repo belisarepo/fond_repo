@@ -99,8 +99,8 @@ public class ZayavkaFI implements Serializable, IValidaton {
 	@JoinColumn(name = "FIZ_NR_INFO_ID")
 	private FizNRInfo fizNrInfo;
 
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="FIZ_INFO_ID")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "FIZ_INFO_ID")
 	private FizInfo fizInfo;
 	@ManyToMany(mappedBy = "zayavki")
 	private Set<Organization> soOrgs = new HashSet<Organization>();
@@ -415,48 +415,67 @@ public class ZayavkaFI implements Serializable, IValidaton {
 		String tabNameCalc = "во вкладке \"Калькуляция сметной стоимости проекта\"";
 		String tabNameCalcSalary = "во вкладке\"Расчёт затрат на заработную плату";
 		// Проверка списка "Секция Научного совета БРФФИ"
-		if (this.getSectionFond() == null) {
-			message = "Не выбрана секция научного совета БРФФИ"+" " + tabNameDataAboutTender;
+		if (this.sectionFond == null) {
+			message = "Не выбрана секция научного совета БРФФИ" + " " + tabNameDataAboutTender;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка списка "Научное направление"
-		if (this.getOtraslNauka() == null) {
-			message = "Не выбрано научное направление"+" " + tabNameDataAboutTender;
+		if (this.otraslNauka == null) {
+			message = "Не выбрано научное направление" + " " + tabNameDataAboutTender;
 			vr.getErrMessages().add(message);
 		}
-		//Проверка списка "Приоритетное направление"
-		if(this.getPrioritetNauka() == null){
-			message = "Не выбрано приоритетное направление"+" " + tabNameDataAboutTender;
+		// Проверка списка "Приоритетное направление"
+		if (this.prioritetNauka == null) {
+			message = "Не выбрано приоритетное направление" + " " + tabNameDataAboutTender;
 			vr.getErrMessages().add(message);
 		}
-		//Проверка заполнения темы заявляемого проекта
-		if(this.getTemaZName().isEmpty()){
-			message = "Не заполнена тема заявляемого объекта"+" " + tabNameDataAboutTender;
+		// Проверка заполнения темы заявляемого проекта
+		if (this.temaZName == null || this.temaZName.isEmpty()) {
+			message = "Не заполнена тема заявляемого объекта" + " " + tabNameDataAboutTender;
 			vr.getErrMessages().add(message);
 		}
-		//Проверка организации
-		if(this.getOrganization() == null){
-			message = "Не выбрана органицизация заявитель" + " "+ tabNameOrgFromBLR;
+		// Проверка организации
+		if (this.organization == null) {
+			message = "Не выбрана органицизация заявитель" + " " + tabNameOrgFromBLR;
 			vr.getErrMessages().add(message);
 		}
-		//Проверка калькуляции
-		if(this.calculation == null || this.calculation.getAllFull()==0){
-			message = "Не заполнена калькуляция" +" "+ tabNameCalc;
+		// Проверка калькуляции
+		if (this.calculation == null || this.calculation.getAllFull() == 0) {
+			message = "Не заполнена калькуляция" + " " + tabNameCalc;
 			vr.getErrMessages().add(message);
 		}
-		//Проверка расчёта зп
-		if(this.calcZpSet == null){
-			message="Не заполнен расчёт заработной платы"+" "+ tabNameCalcSalary;
+		// Проверка расчёта зп
+		if (this.calcZpSet == null) {
+			message = "Не заполнен расчёт заработной платы" + " " + tabNameCalcSalary;
 			vr.getErrMessages().add(message);
 		}
-		//Проверка иностранных организаций
-		//if(this.getKonkursy().get)
-		//Проверка вкладки аннотация
-		vr.getErrMessages().addAll(this.annotation.validate().getErrMessages());
-		//Проверка вкладки обоснование
-		vr.getErrMessages().addAll(this.obosnovanie.validate().getErrMessages());
-		//Проверка руководителя
-		vr.getErrMessages().addAll(this.rukovoditel.validate().getErrMessages());
+		// Проверка иностранных организаций
+		// if(this.konkursy().get)
+		// Проверка вкладки аннотация
+		if (this.annotation != null) {
+			vr.getErrMessages().addAll(this.annotation.validate().getErrMessages());
+		}
+		else{
+			message="Не заполнена вкладка \"Аннотация\"";
+			vr.getErrMessages().add(message);
+		}
+		// Проверка вкладки обоснование
+		if(this.obosnovanie!=null){
+			vr.getErrMessages().addAll(this.obosnovanie.validate().getErrMessages());	
+		}
+		else{
+			message="Не заполнена вкладка \"Обоснование\"";
+			vr.getErrMessages().add(message);
+		}
+		// Проверка руководителя
+		if(this.rukovoditel!=null){
+			vr.getErrMessages().addAll(this.rukovoditel.validate().getErrMessages());
+		}
+		else{
+			message="Не заполнена вкладка \"Руководитель проекта от РБ\"";
+			vr.getErrMessages().add(message);
+		}
+		
 		return vr;
 	}
 
