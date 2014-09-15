@@ -27,6 +27,7 @@ public class ZayavkaFIDTO implements Serializable {
 	private Integer konkursId;
 	private Integer tipKonkursaId;
 	private String tipKonkursaName;
+	private boolean molod;
 	private String sectionFondNameR;
 	private Integer sectionFondId;
 	private String otraslNaukaName;
@@ -159,7 +160,7 @@ public class ZayavkaFIDTO implements Serializable {
 	private int allFull;
 	private int allFirstYear;
 	
-	
+	private FizInfoDTO fizInfoDTO;
 	
 	
 
@@ -182,6 +183,7 @@ public class ZayavkaFIDTO implements Serializable {
 			this.temaName = zayavkaFI.getTemaZName();
 			this.tipKonkursaId = zayavkaFI.getKonkursy().getTipKonkursa()!=null ? zayavkaFI.getKonkursy().getTipKonkursa().getId() : null;
 			this.tipKonkursaName = zayavkaFI.getKonkursy().getTipKonkursa()!=null ? zayavkaFI.getKonkursy().getTipKonkursa().getName() : "";
+			this.molod = zayavkaFI.getKonkursy().getTipKonkursa()!=null ? zayavkaFI.getKonkursy().getTipKonkursa().isMolod() : false;
 			this.udk = zayavkaFI.getCodeUdk();
 			this.lastingDeadline = zayavkaFI.getLastingDeadline();
 			this.startDeadline = zayavkaFI.getStartDeadline()!=null ? dateFormat.format(zayavkaFI.getStartDeadline()): null;
@@ -189,6 +191,10 @@ public class ZayavkaFIDTO implements Serializable {
 			this.costAll = zayavkaFI.getCostAll();
 			this.costFirstYear = zayavkaFI.getCostFirstYear();
 			this.statusZayavkaId = zayavkaFI.getStatusZayavkaFI()!=null ? zayavkaFI.getStatusZayavkaFI().getId() : null;
+			
+			if (zayavkaFI.getFizInfo()!=null){
+				this.fizInfoDTO = new FizInfoDTO(zayavkaFI.getFizInfo());
+			}
 			
 			if (zayavkaFI.getOrganization() == null){
 				if (zayavkaFI.getAnketa() != null && zayavkaFI.getAnketa().getOrg()!=null){
@@ -288,8 +294,9 @@ public class ZayavkaFIDTO implements Serializable {
 				}
 			}
 			if (!zayavkaFI.getIspolniteli().isEmpty()){
+				boolean withPubl = zayavkaFI.getKonkursy().getTipKonkursa().isMolod();
 				for (Ispolnitel i : zayavkaFI.getIspolniteli()){
-					this.ispolniteliDTO.add(new IspolnitelDTO(i));
+					this.ispolniteliDTO.add(new IspolnitelDTO(i,withPubl));
 				}
 			}
 			
@@ -372,6 +379,23 @@ public class ZayavkaFIDTO implements Serializable {
 
 	}
 	
+	
+	public boolean isMolod() {
+		return molod;
+	}
+
+	public void setMolod(boolean molod) {
+		this.molod = molod;
+	}
+
+	public FizInfoDTO getFizInfoDTO() {
+		return fizInfoDTO;
+	}
+
+	public void setFizInfoDTO(FizInfoDTO fizInfoDTO) {
+		this.fizInfoDTO = fizInfoDTO;
+	}
+
 	public Integer getStatusZayavkaId() {
 		return statusZayavkaId;
 	}

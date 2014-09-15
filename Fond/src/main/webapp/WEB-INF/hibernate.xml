@@ -68,6 +68,8 @@
 				<value>by.belisa.entity.Obosnovanie</value>
 				<value>by.belisa.entity.FizNRInfo</value>
 				<value>by.belisa.entity.Publication</value>
+				<value>by.belisa.entity.PublicationM</value>
+				<value>by.belisa.entity.PublicationType</value>
 				<value>by.belisa.entity.Rukovoditel</value>
 				<value>by.belisa.entity.RukovoditelNR</value>
 				<value>by.belisa.entity.Okogu</value>

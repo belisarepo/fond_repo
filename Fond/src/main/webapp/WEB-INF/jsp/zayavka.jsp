@@ -87,9 +87,15 @@
 <center>
 	<div id="successMessageContainer"></div>
 </center>
-<center>
-	<div id="errorMessageContainer"></div>
-</center>
+
+<c:if test="${!empty errorMsg}">
+        <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <p>${errorMsg}</p>
+        </div>
+</c:if>
+
+
 <div id="myTab" class="tabs-left">
 
 	<ul class="nav nav-tabs ">
@@ -112,6 +118,7 @@
 		<li><a href="#tab-17"><spring:message code="zayavka.tab17" /></a></li>
 		<li><a href="#tab-18"><spring:message code="zayavka.tab18" /></a></li>
 		<li><a href="#tab-19"><spring:message code="zayavka.tab19" /></a></li>
+		<li><a href="#tab-20"><spring:message code="zayavka.tab20" /></a></li>
 	</ul>
 
 	<div class="tab-content">
@@ -172,6 +179,9 @@
 		</div>
 		<div id="tab-19" class="tab-pane">
 			<%@ include file="/WEB-INF/jsp/zayavka/form19.jsp"%>
+		</div>
+		<div id="tab-20" class="tab-pane">
+			<%@ include file="/WEB-INF/jsp/zayavka/form20.jsp"%>
 		</div>
 	</div>
 </div>
@@ -421,10 +431,10 @@ function showSuccess(save_result) {
 //==============================================================
 // Show error message
 //==============================================================	
-var errorMsg = '${errorMsg}';
-if (errorMsg) {
-	showError(errorMsg);
-}
+//var errorMsg = '${errorMsg}';
+//if (errorMsg) {
+//	showError(errorMsg);
+//}
 
 function showError(errorMsg) {
 
@@ -437,11 +447,10 @@ function showError(errorMsg) {
 
 		},
 		content : '<div class="alert alert-error">'+errorMsg+'</div>',
-		closeText : false,
+		closeText : 'Закрыть',
 		node : '#errorMessageContainer',
 		type : 'notice',
 		toggleText : false,
-		timeout : 5000,
 		useAnimation : false
 
 	});

@@ -12,6 +12,7 @@ import by.belisa.bean.CalcOtherCostsDTO;
 import by.belisa.bean.CalcTripDTO;
 import by.belisa.bean.CalcZpDTO;
 import by.belisa.bean.PublicationDTO;
+import by.belisa.bean.PublicationMDTO;
 import by.belisa.bean.ZayavkaFIDTO;
 import by.belisa.dao.AnketaDao;
 import by.belisa.dao.Dao;
@@ -22,6 +23,7 @@ import by.belisa.dao.OrgNrDao;
 import by.belisa.dao.OtraslNaukaDao;
 import by.belisa.dao.PrioritetNaukaDao;
 import by.belisa.dao.PublicationDao;
+import by.belisa.dao.PublicationTypeDao;
 import by.belisa.dao.SectionFondDao;
 import by.belisa.dao.StatusZayavkaFIDao;
 import by.belisa.dao.UchStepeniDao;
@@ -37,6 +39,7 @@ import by.belisa.entity.Calculation;
 import by.belisa.entity.FizInfo;
 import by.belisa.entity.Obosnovanie;
 import by.belisa.entity.Publication;
+import by.belisa.entity.PublicationM;
 import by.belisa.entity.Rukovoditel;
 import by.belisa.entity.RukovoditelNR;
 import by.belisa.entity.ZayavkaFI;
@@ -95,6 +98,9 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	@Autowired
 	@Qualifier(value="fizInfoDao")
 	private FizInfoDao fizInfoDao;
+	@Autowired
+	@Qualifier(value="publicationTypeDao")
+	private PublicationTypeDao publicationTypeDao;
 
 	public ZayavkaFIDTO getZayavkaFIDTO(int id) throws DaoException {
 		ZayavkaFI zayavkaFI = baseDao.get(id);
@@ -379,6 +385,29 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		ruk.getPublicationSet().add(publ);
 		zayavkaFI.setRukovoditel(ruk);
 		ruk.setZayavkaFI(zayavkaFI);
+		baseDao.saveOrUpdate(zayavkaFI);
+	}
+	
+	public void addPublicationM(ZayavkaFIDTO zayavkaDto, PublicationMDTO publDto) throws DaoException{
+		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
+		FizInfo fizInfo;
+		if (publDto.getFizInfoId()==0){
+			fizInfo = zayavkaFI.getFizInfo();
+		}else{
+			fizInfo = fizInfoDao.get(publDto.getFizInfoId());
+		}
+		
+		PublicationM publ = new PublicationM();
+		publ.setAuthors(publDto.getAuthors());
+		publ.setEdition(publDto.getEdition());
+		publ.setName(publDto.getName());
+		publ.setPages(publDto.getPages());
+		publ.setPublicationType(publicationTypeDao.get(publDto.getPublicationTypeId()));
+		publ.setFizInfo(fizInfo);
+		
+		fizInfo.getPublication().add(publ);
+		zayavkaFI.setFizInfo(fizInfo);
+		
 		baseDao.saveOrUpdate(zayavkaFI);
 	}
 	

@@ -13,7 +13,12 @@
 <portlet:defineObjects />
 
 
-
+<c:if test="${!empty errorMsg}">
+        <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <p>${errorMsg}</p>
+        </div>
+</c:if>
  <table class="table table-bordered table-striped table-hover">
  	<thead>
  		<tr><th>Наименование</th><th>Описание</th><th>Условия</th><th>Подать заявку</th></tr>

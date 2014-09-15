@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import by.belisa.bean.AnketaDTO;
+import by.belisa.bean.FizInfoDTO;
 import by.belisa.bean.IspolnitelDTO;
 import by.belisa.dao.Dao;
 import by.belisa.dao.FizInfoDao;
@@ -108,6 +109,11 @@ public class FizInfoService extends ServiceImpl<FizInfo, Integer>{
 		FizInfo fizInfo = fizInfoDao.getByFio(ispolnitel.getSurname(),ispolnitel.getName(),ispolnitel.getPatronymic(),ispolnitel.getBirthday());
 		fizInfo.getZayavki().remove(zayavkaFI);
 		fizInfoDao.saveOrUpdate(fizInfo);
+	}
+	
+	public FizInfoDTO getDTO(Integer id) throws DaoException{
+		FizInfo entity = baseDao.get(id);
+		return new FizInfoDTO(entity);
 	}
 
 }
