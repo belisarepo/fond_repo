@@ -12,9 +12,9 @@ public class CalcOtherCostsDTO implements Serializable{
 	private static final long serialVersionUID = -6106974998723299801L;
 	
 	private Integer id;
-	private int pn;
+	private float pn;
 	private String name;
-	private int sum;
+	private float sum;
 	private String note;
 	
 	
@@ -34,10 +34,10 @@ public class CalcOtherCostsDTO implements Serializable{
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public int getPn() {
+	public float getPn() {
 		return pn;
 	}
-	public void setPn(int pn) {
+	public void setPn(float pn) {
 		this.pn = pn;
 	}
 	public String getName() {
@@ -46,10 +46,10 @@ public class CalcOtherCostsDTO implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getSum() {
+	public float getSum() {
 		return sum;
 	}
-	public void setSum(int sum) {
+	public void setSum(float sum) {
 		this.sum = sum;
 	}
 	public String getNote() {

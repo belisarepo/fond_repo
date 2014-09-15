@@ -280,10 +280,11 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		obosnovanie.setIdeaInnovation(dto.getIdeaInnovation());
 		obosnovanie.setPreviousKonkurs(dto.getPreviousKonkurs());
 		obosnovanie.setProvisionEquipment(dto.getProvisionEquipment());
-		obosnovanie.setReserveAuthors(dto.getResults());
+		obosnovanie.setReserveAuthors(dto.getReserveAuthors());
 		obosnovanie.setResultsNir(dto.getResultsNir());
 		obosnovanie.setStructureOfStudy(dto.getStructureOfStudy());
 		obosnovanie.setTeamCharacteristic(dto.getTeamCharacteristic());
+		obosnovanie.setUsingResults(dto.getUsingResults());
 		obosnovanie.setZayavkaFI(zayavkaFI);
 		zayavkaFI.setObosnovanie(obosnovanie);
 		baseDao.saveOrUpdate(zayavkaFI);
@@ -404,6 +405,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		publ.setPages(publDto.getPages());
 		publ.setPublicationType(publicationTypeDao.get(publDto.getPublicationTypeId()));
 		publ.setFizInfo(fizInfo);
+		publ.setPn(publDto.getPn());
 		
 		fizInfo.getPublication().add(publ);
 		zayavkaFI.setFizInfo(fizInfo);

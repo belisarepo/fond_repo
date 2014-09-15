@@ -248,7 +248,7 @@ public class KonkursyController {
 
 			AnketaDTO anketaDTO = anketaService.getDTO(userId);
 			Integer fizInfoId = fizInfoService.addFizInfo(anketaDTO);
-			zayavkaFIDTO.setFizInfoDTO(fizInfoService.getDTO(fizInfoId));
+			zayavkaFIDTO.setFizInfoDTO(fizInfoService.getDTO(fizInfoId, Integer.parseInt(konkursId)));
 			CheckUslResult checkUslResult = konkursyService.checkUsloviyaRuk(Integer.parseInt(konkursId), fizInfoId);
 			if (!checkUslResult.isAvailable()){
 				String errorMsg = Utils.createErrorMsg(anketaDTO.getFio(), checkUslResult);

@@ -13,10 +13,10 @@ public class CalcZpDTO implements Serializable{
 	
 	private Integer id;
 	private String name;
-	private int salary;
+	private float salary;
 	private float rate;
-	private int duration;
-	private int fondZp;
+	private float duration;
+	private float fondZp;
 	private String note;
 
 	
@@ -47,10 +47,10 @@ public class CalcZpDTO implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getSalary() {
+	public float getSalary() {
 		return salary;
 	}
-	public void setSalary(int salary) {
+	public void setSalary(float salary) {
 		this.salary = salary;
 	}
 	public float getRate() {
@@ -59,16 +59,16 @@ public class CalcZpDTO implements Serializable{
 	public void setRate(float rate) {
 		this.rate = rate;
 	}
-	public int getDuration() {
+	public float getDuration() {
 		return duration;
 	}
-	public void setDuration(int duration) {
+	public void setDuration(float duration) {
 		this.duration = duration;
 	}
-	public int getFondZp() {
+	public float getFondZp() {
 		return fondZp;
 	}
-	public void setFondZp(int fondZp) {
+	public void setFondZp(float fondZp) {
 		this.fondZp = fondZp;
 	}
 	public String getNote() {

@@ -3,6 +3,7 @@ package by.belisa.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,12 +14,14 @@ import by.belisa.bean.FizInfoDTO;
 import by.belisa.bean.IspolnitelDTO;
 import by.belisa.dao.Dao;
 import by.belisa.dao.FizInfoDao;
+import by.belisa.dao.KonkursyDao;
 import by.belisa.dao.OrgDao;
 import by.belisa.dao.UchStepeniDao;
 import by.belisa.dao.UchZvanieDao;
 import by.belisa.dao.ZayavkaFIDao;
 import by.belisa.entity.FizInfo;
 import by.belisa.entity.Ispolnitel;
+import by.belisa.entity.PublicationM;
 import by.belisa.entity.ZayavkaFI;
 import by.belisa.exception.DaoException;
 
@@ -44,6 +47,9 @@ public class FizInfoService extends ServiceImpl<FizInfo, Integer>{
 	@Autowired
 	@Qualifier("zayavkaFIDao")
 	private ZayavkaFIDao zayavkaFIDao;
+	@Autowired
+	@Qualifier("konkursyDao")
+	private KonkursyDao konkursyDao;
 	
 	@Override
 	@Autowired
@@ -111,9 +117,11 @@ public class FizInfoService extends ServiceImpl<FizInfo, Integer>{
 		fizInfoDao.saveOrUpdate(fizInfo);
 	}
 	
-	public FizInfoDTO getDTO(Integer id) throws DaoException{
+	public FizInfoDTO getDTO(Integer id, Integer konkursId) throws DaoException{
 		FizInfo entity = baseDao.get(id);
-		return new FizInfoDTO(entity);
+		boolean isMolod = konkursyDao.get(konkursId).getTipKonkursa().isMolod();
+		
+		return new FizInfoDTO(entity, isMolod);
 	}
 
 }

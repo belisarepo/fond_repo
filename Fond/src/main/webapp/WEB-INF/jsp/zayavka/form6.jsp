@@ -47,22 +47,22 @@
 	<aui:input name="konkursId" type="hidden" value="${zayavkaModel.konkursId}" />
 	<aui:input name="userId" type="hidden" value="${zayavkaModel.userId}" />
 	<spring:message code="zayavka.surname" var='surnameLabel' />
-	<aui:input name="surname" label='${surnameLabel}' bean="ispolnitelModel">
+	<aui:input name="surname" label='${surnameLabel}' bean="ispolnitelModel" showRequiredLabel="">
 		<aui:validator name="required" />
 	</aui:input>
 
 	<spring:message code="zayavka.name" var='nameLabel' />
-	<aui:input name="name" label='${nameLabel}' bean="ispolnitelModel">
+	<aui:input name="name" label='${nameLabel}' bean="ispolnitelModel" showRequiredLabel="">
 		<aui:validator name="required" />
 	</aui:input>
 
 	<spring:message code="zayavka.patronymic" var='patronymicLabel' />
-	<aui:input name="patronymic" label='${patronymicLabel}' bean="ispolnitelModel">
+	<aui:input name="patronymic" label='${patronymicLabel}' bean="ispolnitelModel" showRequiredLabel="">
 		<aui:validator name="required" />
 	</aui:input>
 
 	<spring:message code="zayavka.birthdayManager" var='birthdayLabel' />
-	<aui:input name="birthday" label='${birthdayLabel}' bean="ispolnitelModel" cssClass="datapick">
+	<aui:input name="birthday" label='${birthdayLabel}' bean="ispolnitelModel" cssClass="datapick" showRequiredLabel="">
 		<aui:validator name="required" />
 		<aui:validator name="custom" errorMessage="Формат даты дд-мм-гггг">
 						function (val, fieldNode, ruleValue) {

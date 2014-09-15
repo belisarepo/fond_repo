@@ -131,34 +131,34 @@ public class ZayavkaFIDTO implements Serializable {
 	
 	
 	private Integer calcId;
-	private int zpFull;
-	private int zpFirstYear;
-	private int fsznFull;
-	private int fsznFirstYear;
-	private int insuranceFull;
-	private int insuranceFirstYear;
-	private int hardwareFull;
-	private int hardwareFirstYear;
-	private int fuelFull;
-	private int fuelFirstYear;
-	private int equipmentFull;
-	private int equipmentFirstYear;
-	private int businessTripFull;
-	private int businessTripFirstYear;
-	private int thirdPartyServicesFull;
-	private int thirdPartyServicesFirstYear;
-	private int otherFull;
-	private int otherFirstYear;
-	private int overheadFull;
-	private int overheadFirstYear;
-	private int innovationFondFull;
-	private int innovationFondFirstYear;
-	private int plannedCostFull;
-	private int plannedCostFirstYear;
-	private int profitFull;
-	private int profitFirstYear;
-	private int allFull;
-	private int allFirstYear;
+	private float zpFull;
+	private float zpFirstYear;
+	private float fsznFull;
+	private float fsznFirstYear;
+	private float insuranceFull;
+	private float insuranceFirstYear;
+	private float hardwareFull;
+	private float hardwareFirstYear;
+	private float fuelFull;
+	private float fuelFirstYear;
+	private float equipmentFull;
+	private float equipmentFirstYear;
+	private float businessTripFull;
+	private float businessTripFirstYear;
+	private float thirdPartyServicesFull;
+	private float thirdPartyServicesFirstYear;
+	private float otherFull;
+	private float otherFirstYear;
+	private float overheadFull;
+	private float overheadFirstYear;
+	private float innovationFondFull;
+	private float innovationFondFirstYear;
+	private float plannedCostFull;
+	private float plannedCostFirstYear;
+	private float profitFull;
+	private float profitFirstYear;
+	private float allFull;
+	private float allFirstYear;
 	
 	private FizInfoDTO fizInfoDTO;
 	
@@ -193,7 +193,7 @@ public class ZayavkaFIDTO implements Serializable {
 			this.statusZayavkaId = zayavkaFI.getStatusZayavkaFI()!=null ? zayavkaFI.getStatusZayavkaFI().getId() : null;
 			
 			if (zayavkaFI.getFizInfo()!=null){
-				this.fizInfoDTO = new FizInfoDTO(zayavkaFI.getFizInfo());
+				this.fizInfoDTO = new FizInfoDTO(zayavkaFI.getFizInfo(),molod);
 			}
 			
 			if (zayavkaFI.getOrganization() == null){
@@ -444,228 +444,228 @@ public class ZayavkaFIDTO implements Serializable {
 		this.calcId = calcId;
 	}
 
-	public int getZpFull() {
+	public float getZpFull() {
 		return zpFull;
 	}
 
-	public void setZpFull(int zpFull) {
+	public void setZpFull(float zpFull) {
 		this.zpFull = zpFull;
 	}
 
-	public int getZpFirstYear() {
+	public float getZpFirstYear() {
 		return zpFirstYear;
 	}
 
-	public void setZpFirstYear(int zpFirstYear) {
+	public void setZpFirstYear(float zpFirstYear) {
 		this.zpFirstYear = zpFirstYear;
 	}
 
-	public int getFsznFull() {
+	public float getFsznFull() {
 		return fsznFull;
 	}
 
-	public void setFsznFull(int fsznFull) {
+	public void setFsznFull(float fsznFull) {
 		this.fsznFull = fsznFull;
 	}
 
-	public int getFsznFirstYear() {
+	public float getFsznFirstYear() {
 		return fsznFirstYear;
 	}
 
-	public void setFsznFirstYear(int fsznFirstYear) {
+	public void setFsznFirstYear(float fsznFirstYear) {
 		this.fsznFirstYear = fsznFirstYear;
 	}
 
-	public int getInsuranceFull() {
+	public float getInsuranceFull() {
 		return insuranceFull;
 	}
 
-	public void setInsuranceFull(int insuranceFull) {
+	public void setInsuranceFull(float insuranceFull) {
 		this.insuranceFull = insuranceFull;
 	}
 
-	public int getInsuranceFirstYear() {
+	public float getInsuranceFirstYear() {
 		return insuranceFirstYear;
 	}
 
-	public void setInsuranceFirstYear(int insuranceFirstYear) {
+	public void setInsuranceFirstYear(float insuranceFirstYear) {
 		this.insuranceFirstYear = insuranceFirstYear;
 	}
 
-	public int getHardwareFull() {
+	public float getHardwareFull() {
 		return hardwareFull;
 	}
 
-	public void setHardwareFull(int hardwareFull) {
+	public void setHardwareFull(float hardwareFull) {
 		this.hardwareFull = hardwareFull;
 	}
 
-	public int getHardwareFirstYear() {
+	public float getHardwareFirstYear() {
 		return hardwareFirstYear;
 	}
 
-	public void setHardwareFirstYear(int hardwareFirstYear) {
+	public void setHardwareFirstYear(float hardwareFirstYear) {
 		this.hardwareFirstYear = hardwareFirstYear;
 	}
 
-	public int getFuelFull() {
+	public float getFuelFull() {
 		return fuelFull;
 	}
 
-	public void setFuelFull(int fuelFull) {
+	public void setFuelFull(float fuelFull) {
 		this.fuelFull = fuelFull;
 	}
 
-	public int getFuelFirstYear() {
+	public float getFuelFirstYear() {
 		return fuelFirstYear;
 	}
 
-	public void setFuelFirstYear(int fuelFirstYear) {
+	public void setFuelFirstYear(float fuelFirstYear) {
 		this.fuelFirstYear = fuelFirstYear;
 	}
 
-	public int getEquipmentFull() {
+	public float getEquipmentFull() {
 		return equipmentFull;
 	}
 
-	public void setEquipmentFull(int equipmentFull) {
+	public void setEquipmentFull(float equipmentFull) {
 		this.equipmentFull = equipmentFull;
 	}
 
 	
-	public int getEquipmentFirstYear() {
+	public float getEquipmentFirstYear() {
 		return equipmentFirstYear;
 	}
 
-	public void setEquipmentFirstYear(int equipmentFirstYear) {
+	public void setEquipmentFirstYear(float equipmentFirstYear) {
 		this.equipmentFirstYear = equipmentFirstYear;
 	}
 
-	public int getBusinessTripFull() {
+	public float getBusinessTripFull() {
 		return businessTripFull;
 	}
 
-	public void setBusinessTripFull(int businessTripFull) {
+	public void setBusinessTripFull(float businessTripFull) {
 		this.businessTripFull = businessTripFull;
 	}
 
-	public int getBusinessTripFirstYear() {
+	public float getBusinessTripFirstYear() {
 		return businessTripFirstYear;
 	}
 
-	public void setBusinessTripFirstYear(int businessTripFirstYear) {
+	public void setBusinessTripFirstYear(float businessTripFirstYear) {
 		this.businessTripFirstYear = businessTripFirstYear;
 	}
 
-	public int getThirdPartyServicesFull() {
+	public float getThirdPartyServicesFull() {
 		return thirdPartyServicesFull;
 	}
 
-	public void setThirdPartyServicesFull(int thirdPartyServicesFull) {
+	public void setThirdPartyServicesFull(float thirdPartyServicesFull) {
 		this.thirdPartyServicesFull = thirdPartyServicesFull;
 	}
 
-	public int getThirdPartyServicesFirstYear() {
+	public float getThirdPartyServicesFirstYear() {
 		return thirdPartyServicesFirstYear;
 	}
 
-	public void setThirdPartyServicesFirstYear(int thirdPartyServicesFirstYear) {
+	public void setThirdPartyServicesFirstYear(float thirdPartyServicesFirstYear) {
 		this.thirdPartyServicesFirstYear = thirdPartyServicesFirstYear;
 	}
 
-	public int getOtherFull() {
+	public float getOtherFull() {
 		return otherFull;
 	}
 
-	public void setOtherFull(int otherFull) {
+	public void setOtherFull(float otherFull) {
 		this.otherFull = otherFull;
 	}
 
-	public int getOtherFirstYear() {
+	public float getOtherFirstYear() {
 		return otherFirstYear;
 	}
 
-	public void setOtherFirstYear(int otherFirstYear) {
+	public void setOtherFirstYear(float otherFirstYear) {
 		this.otherFirstYear = otherFirstYear;
 	}
 
-	public int getOverheadFull() {
+	public float getOverheadFull() {
 		return overheadFull;
 	}
 
-	public void setOverheadFull(int overheadFull) {
+	public void setOverheadFull(float overheadFull) {
 		this.overheadFull = overheadFull;
 	}
 
-	public int getOverheadFirstYear() {
+	public float getOverheadFirstYear() {
 		return overheadFirstYear;
 	}
 
-	public void setOverheadFirstYear(int overheadFirstYear) {
+	public void setOverheadFirstYear(float overheadFirstYear) {
 		this.overheadFirstYear = overheadFirstYear;
 	}
 
-	public int getInnovationFondFull() {
+	public float getInnovationFondFull() {
 		return innovationFondFull;
 	}
 
-	public void setInnovationFondFull(int innovationFondFull) {
+	public void setInnovationFondFull(float innovationFondFull) {
 		this.innovationFondFull = innovationFondFull;
 	}
 
-	public int getInnovationFondFirstYear() {
+	public float getInnovationFondFirstYear() {
 		return innovationFondFirstYear;
 	}
 
-	public void setInnovationFondFirstYear(int innovationFondFirstYear) {
+	public void setInnovationFondFirstYear(float innovationFondFirstYear) {
 		this.innovationFondFirstYear = innovationFondFirstYear;
 	}
 
-	public int getPlannedCostFull() {
+	public float getPlannedCostFull() {
 		return plannedCostFull;
 	}
 
-	public void setPlannedCostFull(int plannedCostFull) {
+	public void setPlannedCostFull(float plannedCostFull) {
 		this.plannedCostFull = plannedCostFull;
 	}
 
-	public int getPlannedCostFirstYear() {
+	public float getPlannedCostFirstYear() {
 		return plannedCostFirstYear;
 	}
 
-	public void setPlannedCostFirstYear(int plannedCostFirstYear) {
+	public void setPlannedCostFirstYear(float plannedCostFirstYear) {
 		this.plannedCostFirstYear = plannedCostFirstYear;
 	}
 
-	public int getProfitFull() {
+	public float getProfitFull() {
 		return profitFull;
 	}
 
-	public void setProfitFull(int profitFull) {
+	public void setProfitFull(float profitFull) {
 		this.profitFull = profitFull;
 	}
 
-	public int getProfitFirstYear() {
+	public float getProfitFirstYear() {
 		return profitFirstYear;
 	}
 
-	public void setProfitFirstYear(int profitFirstYear) {
+	public void setProfitFirstYear(float profitFirstYear) {
 		this.profitFirstYear = profitFirstYear;
 	}
 
-	public int getAllFull() {
+	public float getAllFull() {
 		return allFull;
 	}
 
-	public void setAllFull(int allFull) {
+	public void setAllFull(float allFull) {
 		this.allFull = allFull;
 	}
 
-	public int getAllFirstYear() {
+	public float getAllFirstYear() {
 		return allFirstYear;
 	}
 
-	public void setAllFirstYear(int allFirstYear) {
+	public void setAllFirstYear(float allFirstYear) {
 		this.allFirstYear = allFirstYear;
 	}
 

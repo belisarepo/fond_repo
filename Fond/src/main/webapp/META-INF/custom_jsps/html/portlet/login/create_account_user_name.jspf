@@ -16,7 +16,7 @@
 
 
 
-<aui:input model="<%=User.class%>" name="lastName">
+<aui:input model="<%=User.class%>" name="lastName" showRequiredLabel="">
 	<c:if
 		test="<%=PrefsPropsUtil.getBoolean(company.getCompanyId(),
 							PropsKeys.USERS_LAST_NAME_REQUIRED,
@@ -25,8 +25,8 @@
 	</c:if>
 </aui:input>
 <aui:input autoFocus="<%=windowState.equals(WindowState.MAXIMIZED)%>"
-	model="<%=User.class%>" name="firstName" />
+	model="<%=User.class%>" name="firstName" showRequiredLabel=""/>
 
-<aui:input model="<%=User.class%>" name="middleName">
+<aui:input model="<%=User.class%>" name="middleName" showRequiredLabel="">
 	<aui:validator name="required" />
 </aui:input>

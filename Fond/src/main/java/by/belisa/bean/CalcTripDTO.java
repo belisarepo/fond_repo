@@ -14,9 +14,9 @@ public class CalcTripDTO implements Serializable{
 	private Integer id;
 	private String tripGoal;
 	private String tripPoint;
-	private int count;
-	private int duration;
-	private int costs;
+	private float count;
+	private float duration;
+	private float costs;
 	
 	public CalcTripDTO() {
 	}
@@ -54,27 +54,27 @@ public class CalcTripDTO implements Serializable{
 		this.tripPoint = tripPoint;
 	}
 
-	public int getCount() {
+	public float getCount() {
 		return count;
 	}
 
-	public void setCount(int count) {
+	public void setCount(float count) {
 		this.count = count;
 	}
 
-	public int getDuration() {
+	public float getDuration() {
 		return duration;
 	}
 
-	public void setDuration(int duration) {
+	public void setDuration(float duration) {
 		this.duration = duration;
 	}
 
-	public int getCosts() {
+	public float getCosts() {
 		return costs;
 	}
 
-	public void setCosts(int costs) {
+	public void setCosts(float costs) {
 		this.costs = costs;
 	}
 

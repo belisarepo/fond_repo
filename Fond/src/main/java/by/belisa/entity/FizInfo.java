@@ -1,9 +1,12 @@
 package by.belisa.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,8 +18,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 
 
 @Entity
@@ -57,8 +64,8 @@ public class FizInfo implements Serializable{
 	@OneToMany(mappedBy="fizInfo")
 	private Set<ZayavkaFI> zayavkiAsRuk = new HashSet<ZayavkaFI>();
 	@OneToMany(mappedBy="fizInfo",cascade=CascadeType.ALL)
-	private Set<PublicationM> publication = new HashSet<PublicationM>();
-	
+	@OrderBy("publicationType ASC")
+	private List<PublicationM> publication = new ArrayList<PublicationM>();
 	public Set<ZayavkaFI> getZayavki() {
 		return zayavki;
 	}
@@ -67,10 +74,10 @@ public class FizInfo implements Serializable{
 	}
 	
 	
-	public Set<PublicationM> getPublication() {
+	public List<PublicationM> getPublication() {
 		return publication;
 	}
-	public void setPublication(Set<PublicationM> publication) {
+	public void setPublication(List<PublicationM> publication) {
 		this.publication = publication;
 	}
 	public Integer getId() {

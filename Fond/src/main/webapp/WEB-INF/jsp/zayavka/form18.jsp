@@ -47,31 +47,31 @@
 	<aui:input name="zayavkaId" type="hidden" value="${zayavkaModel.id}" />
 
 	<spring:message code="zayavka.calcTrip.tripGoal" var='calcTripTripGoalLabel' />
-	<aui:input name="tripGoal" label='${calcTripTripGoalLabel}' bean="calcTripModel">
+	<aui:input name="tripGoal" label='${calcTripTripGoalLabel}' bean="calcTripModel" showRequiredLabel="">
 		<aui:validator name="required" />
 	</aui:input>
 
 	<spring:message code="zayavka.calcTrip.tripPoint" var='calcTripTripPointLabel' />
-	<aui:input name="tripPoint" label='${calcTripTripPointLabel}' bean="calcTripModel">
+	<aui:input name="tripPoint" label='${calcTripTripPointLabel}' bean="calcTripModel" showRequiredLabel="">
 		<aui:validator name="required" />
 	</aui:input>
 
 	<spring:message code="zayavka.calcTrip.count" var='calcTripCountLabel' />
-	<aui:input name="count" label='${calcTripCountLabel}' bean="calcTripModel">
+	<aui:input name="count" label='${calcTripCountLabel}' bean="calcTripModel" showRequiredLabel="">
 		<aui:validator name="required" />
-		<aui:validator name="digits" />
+		<aui:validator name="number" />
 	</aui:input>
 
 	<spring:message code="zayavka.calcTrip.duration" var='calcTripDurationLabel' />
-	<aui:input name="duration" label='${calcTripDurationLabel}' bean="calcTripModel">
+	<aui:input name="duration" label='${calcTripDurationLabel}' bean="calcTripModel" showRequiredLabel="">
 		<aui:validator name="required" />
-		<aui:validator name="digits" />
+		<aui:validator name="number" />
 	</aui:input>
 
 	<spring:message code="zayavka.calcTrip.costs" var='calcTripCostsZpLabel' />
-	<aui:input name="costs" label='${calcTripCostsZpLabel}' bean="calcTripModel">
+	<aui:input name="costs" label='${calcTripCostsZpLabel}' bean="calcTripModel" showRequiredLabel="">
 		<aui:validator name="required" />
-		<aui:validator name="digits" />
+		<aui:validator name="number" />
 	</aui:input>
 	
 	
@@ -97,7 +97,7 @@
 <aui:script>
 var calcTripSumAll = 0;
 $('.calcTripSum').each(function(){
-	calcTripSumAll += parseInt($(this).text(),10);
+	calcTripSumAll += parseFloat($(this).text());
 });
 $('#calcTripSumAll').text(calcTripSumAll);
 </aui:script>

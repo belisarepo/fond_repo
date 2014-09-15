@@ -47,20 +47,20 @@
 	<aui:input name="zayavkaId" type="hidden" value="${zayavkaModel.id}" />
 
 	<spring:message code="zayavka.calcOtherCosts.pn" var='calcOtherCostsPnLabel' />
-	<aui:input name="pn" label='${calcOtherCostsPnLabel}' bean="calcOtherCostsModel">
+	<aui:input name="pn" label='${calcOtherCostsPnLabel}' bean="calcOtherCostsModel" showRequiredLabel="">
 		<aui:validator name="required" />
-		<aui:validator name="digits" />
+		<aui:validator name="number" />
 	</aui:input>
 
 	<spring:message code="zayavka.calcOtherCosts.name" var='calcOtherCostsNameLabel' />
-	<aui:input name="name" label='${calcOtherCostsNameLabel}' bean="calcOtherCostsModel">
+	<aui:input name="name" label='${calcOtherCostsNameLabel}' bean="calcOtherCostsModel" showRequiredLabel="">
 		<aui:validator name="required" />
 	</aui:input>
 
 	<spring:message code="zayavka.calcOtherCosts.sum" var='calcOtherCostsSumLabel' />
-	<aui:input name="sum" label='${calcOtherCostsSumLabel}' bean="calcOtherCostsModel">
+	<aui:input name="sum" label='${calcOtherCostsSumLabel}' bean="calcOtherCostsModel" showRequiredLabel="">
 		<aui:validator name="required" />
-		<aui:validator name="digits" />
+		<aui:validator name="number" />
 	</aui:input>
 
 	<spring:message code="zayavka.calcOtherCosts.note" var='calcOtherCostsNoteLabel' />
@@ -89,7 +89,7 @@
 <aui:script>
 var calcOtherCostsAllSum = 0;
 $('.calcOtherCostsSum').each(function(){
-	calcOtherCostsAllSum += parseInt($(this).text(),10);
+	calcOtherCostsAllSum += parseFloat($(this).text());
 });
 $('#calcOtherCostsAllSum').text(calcOtherCostsAllSum);
 </aui:script>
