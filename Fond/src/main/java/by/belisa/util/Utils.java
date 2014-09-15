@@ -1,8 +1,10 @@
 package by.belisa.util;
 
+import java.util.List;
 import java.util.Map;
 
 import by.belisa.bean.CheckUslResult;
+import by.belisa.validation.ValidationResult;
 
 public class Utils {
 
@@ -16,6 +18,17 @@ public class Utils {
 			message.append(entry.getKey());
 			message.append(" - руководитель ");
 			message.append(entry.getValue());
+			message.append("</li>");
+		}
+		message.append("</ul>");
+		return message.toString();
+	}
+	public static String createErrorMsg(ValidationResult vr){
+		List<String> errors = vr.getErrMessages();
+		StringBuffer message = new StringBuffer("Заявка не подана, потому что :");
+		for (String entry : errors){
+			message.append("<li>");
+			message.append(entry);
 			message.append("</li>");
 		}
 		message.append("</ul>");

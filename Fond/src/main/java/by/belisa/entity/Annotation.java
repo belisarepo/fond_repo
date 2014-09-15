@@ -112,17 +112,17 @@ public class Annotation implements Serializable, IValidaton {
 			vr.getErrMessages().add(message);
 		}
 		// Проверка цели работы
-		if (this.jobGoal.isEmpty()) {
+		if (this.jobGoal == null ||this.jobGoal.isEmpty()) {
 			message = "Не заполнена цель работы" + " " + tabNameAnnotation;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка научной идеи
-		if (this.getIdea().isEmpty()) {
+		if (this.idea == null || this.idea.isEmpty()) {
 			message = "Не указана научная идея" + " " + tabNameAnnotation;
 			vr.getErrMessages().add(message);
 		}
 		//Проверка основных планируемых результатов
-		if(this.getResults().isEmpty()){
+		if(this.results == null || this.results.isEmpty()){
 			message = "Не заполенены основные планируемые результаты" +" "+ tabNameAnnotation;
 			vr.getErrMessages().add(message);
 		}

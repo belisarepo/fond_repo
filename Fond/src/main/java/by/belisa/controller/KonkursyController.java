@@ -272,11 +272,13 @@ public class KonkursyController {
 		if (!zayavkaId.isEmpty()){
 			
 			vr = zayavkaFIService.checkZayavkaFI(Integer.parseInt(zayavkaId));
-			for (String errMessage : vr.getErrMessages()) {	
-				System.out.println(errMessage);
+			
+			if (vr.isOk()){
+				zayavkaFIService.changeStatus(3, Integer.parseInt(zayavkaId));
+				model.addAttribute("save_result", "Заявка подана");
+			}else{
+				model.addAttribute("errorMsg", Utils.createErrorMsg(vr));
 			}
-			//zayavkaFIService.changeStatus(3, Integer.parseInt(zayavkaId));
-			model.addAttribute("save_result", "Заявка подана");
 		}else{
 			model.addAttribute("errorMsg", "Заявка не заполнена");
 		}
