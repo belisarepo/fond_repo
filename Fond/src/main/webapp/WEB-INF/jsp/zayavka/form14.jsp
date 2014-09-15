@@ -43,17 +43,17 @@
 	<aui:input name="zayavkaId" type="hidden" value="${zayavkaModel.id}" />
 
 	<spring:message code="zayavka.publName" var='publNameLabel' />
-	<aui:input name="name" label='${publNameLabel}' bean="publicationModel">
+	<aui:input name="name" label='${publNameLabel}' bean="publicationModel" showRequiredLabel="">
 		<aui:validator name="required" />
 	</aui:input>
 
 	<spring:message code="zayavka.publIzdanie" var='publIzdanieLabel' />
-	<aui:input name="edition" label='${publIzdanieLabel}' bean="publicationModel">
+	<aui:input name="edition" label='${publIzdanieLabel}' bean="publicationModel" showRequiredLabel="">
 		<aui:validator name="required" />
 	</aui:input>
 
 	<spring:message code="zayavka.fullListAutors" var='fullListAutorsLabel' />
-	<aui:input name="authors" label='${fullListAutorsLabel}' bean="publicationModel">
+	<aui:input name="authors" label='${fullListAutorsLabel}' bean="publicationModel" showRequiredLabel="">
 		<aui:validator name="required" />
 	</aui:input>
 

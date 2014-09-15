@@ -12,11 +12,11 @@ public class CalcMaterialsDTO implements Serializable{
 	private static final long serialVersionUID = -985597745797207415L;
 	
 	private Integer id;
-	private int pn;
+	private float pn;
 	private String name;
 	private String unit;
-	private int count;
-	private int sum;
+	private float count;
+	private float sum;
 	
 	public CalcMaterialsDTO() {
 	}
@@ -38,11 +38,11 @@ public class CalcMaterialsDTO implements Serializable{
 		this.id = id;
 	}
 
-	public int getPn() {
+	public float getPn() {
 		return pn;
 	}
 
-	public void setPn(int pn) {
+	public void setPn(float pn) {
 		this.pn = pn;
 	}
 
@@ -62,19 +62,19 @@ public class CalcMaterialsDTO implements Serializable{
 		this.unit = unit;
 	}
 
-	public int getCount() {
+	public float getCount() {
 		return count;
 	}
 
-	public void setCount(int count) {
+	public void setCount(float count) {
 		this.count = count;
 	}
 
-	public int getSum() {
+	public float getSum() {
 		return sum;
 	}
 
-	public void setSum(int sum) {
+	public void setSum(float sum) {
 		this.sum = sum;
 	}
 	

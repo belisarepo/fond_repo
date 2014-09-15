@@ -30,11 +30,11 @@ public class CalcTrip implements Serializable{
 	@Column(name="TRIP_POINT")
 	private String tripPoint;
 	@Column
-	private int count;
+	private float count;
 	@Column
-	private int duration;
+	private float duration;
 	@Column
-	private int costs;
+	private float costs;
 	
 	
 	
@@ -68,32 +68,32 @@ public class CalcTrip implements Serializable{
 	}
 
 
-	public int getCount() {
+	public float getCount() {
 		return count;
 	}
 
 
-	public void setCount(int count) {
+	public void setCount(float count) {
 		this.count = count;
 	}
 
 
-	public int getDuration() {
+	public float getDuration() {
 		return duration;
 	}
 
 
-	public void setDuration(int duration) {
+	public void setDuration(float duration) {
 		this.duration = duration;
 	}
 
 
-	public int getCosts() {
+	public float getCosts() {
 		return costs;
 	}
 
 
-	public void setCosts(int costs) {
+	public void setCosts(float costs) {
 		this.costs = costs;
 	}
 

@@ -47,31 +47,31 @@
 	<aui:input name="zayavkaId" type="hidden" value="${zayavkaModel.id}" />
 
 	<spring:message code="zayavka.calcMaterials.pn" var='calcMaterialsPnLabel' />
-	<aui:input name="pn" label='${calcMaterialsPnLabel}' bean="calcMaterialsModel">
+	<aui:input name="pn" label='${calcMaterialsPnLabel}' bean="calcMaterialsModel" showRequiredLabel="">
 		<aui:validator name="required" />
-		<aui:validator name="digits" />
+		<aui:validator name="number" />
 	</aui:input>
 
 	<spring:message code="zayavka.calcMaterials.name" var='calcMaterialsNameLabel' />
-	<aui:input name="name" label='${calcMaterialsNameLabel}' bean="calcMaterialsModel">
+	<aui:input name="name" label='${calcMaterialsNameLabel}' bean="calcMaterialsModel" showRequiredLabel="">
 		<aui:validator name="required" />
 	</aui:input>
 
 	<spring:message code="zayavka.calcMaterials.unit" var='calcMaterialsUnitLabel' />
-	<aui:input name="unit" label='${calcMaterialsUnitLabel}' bean="calcMaterialsModel">
+	<aui:input name="unit" label='${calcMaterialsUnitLabel}' bean="calcMaterialsModel" showRequiredLabel="">
 		<aui:validator name="required" />
 	</aui:input>
 
 	<spring:message code="zayavka.calcMaterials.count" var='calcMaterialsCountLabel' />
-	<aui:input name="count" label='${calcMaterialsCountLabel}' bean="calcMaterialsModel">
+	<aui:input name="count" label='${calcMaterialsCountLabel}' bean="calcMaterialsModel" showRequiredLabel="">
 		<aui:validator name="required" />
-		<aui:validator name="digits" />
+		<aui:validator name="number" />
 	</aui:input>
 
 	<spring:message code="zayavka.calcMaterials.sum" var='calcMaterialsSumZpLabel' />
-	<aui:input name="sum" label='${calcMaterialsSumZpLabel}' bean="calcMaterialsModel">
+	<aui:input name="sum" label='${calcMaterialsSumZpLabel}' bean="calcMaterialsModel" showRequiredLabel="">
 		<aui:validator name="required" />
-		<aui:validator name="digits" />
+		<aui:validator name="number" />
 	</aui:input>
 	
 	
@@ -97,7 +97,7 @@
 <aui:script>
 var calcMaterialsSumAll = 0;
 $('.calcMaterialsSum').each(function(){
-	calcMaterialsSumAll += parseInt($(this).text(),10);
+	calcMaterialsSumAll += parseFloat($(this).text());
 });
 $('#calcMaterialsSumAll').text(calcMaterialsSumAll);
 </aui:script>

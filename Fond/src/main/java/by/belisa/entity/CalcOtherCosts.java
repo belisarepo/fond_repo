@@ -25,11 +25,11 @@ public class CalcOtherCosts implements Serializable{
 	@GeneratedValue(generator="PK")
 	private Integer id;
 	@Column
-	private int pn;
+	private float pn;
 	@Column
 	private String name;
 	@Column
-	private int sum;
+	private float sum;
 	@Column
 	private String note;
 	public Integer getId() {
@@ -38,10 +38,10 @@ public class CalcOtherCosts implements Serializable{
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public int getPn() {
+	public float getPn() {
 		return pn;
 	}
-	public void setPn(int pn) {
+	public void setPn(float pn) {
 		this.pn = pn;
 	}
 	public String getName() {
@@ -50,10 +50,10 @@ public class CalcOtherCosts implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getSum() {
+	public float getSum() {
 		return sum;
 	}
-	public void setSum(int sum) {
+	public void setSum(float sum) {
 		this.sum = sum;
 	}
 	public String getNote() {

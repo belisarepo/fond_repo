@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Date;
 
+import by.belisa.validation.ValidationResult;
+
 public class TestHibernate {
 	
 	public static void main(String args[]) throws ClassNotFoundException, SQLException{
@@ -30,12 +32,10 @@ public class TestHibernate {
 //			s.close();
 //		}
 //		
-		Date today = new Date();
-		Date futureDate = new Date(today.getTime() +100l * 365l * 24l * 60l * 60l * 1000l);
-		System.out.println(32 * 24 * 60 * 60 * 1000);
-		System.out.println(22 * 24 * 60 * 60 * 1000);
-		System.out.println(today);
-		System.out.println(futureDate);
+		ValidationResult vr=null;
+		vr.getErrMessages();
+		String str=null;
+		System.out.println(str);
 		
 	}
 

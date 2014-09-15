@@ -49,7 +49,7 @@ public class IspolnitelDTO implements Serializable{
 			this.zayavkaFIId = entity.getZayavkaFI().getId();
 			this.fizInfoId = entity.getFizInfo().getId();
 			if (withPubl){
-				this.fizInfo = new FizInfoDTO(entity.getFizInfo());
+				this.fizInfo = new FizInfoDTO(entity.getFizInfo(),true);
 			}
 			
 		}

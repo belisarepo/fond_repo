@@ -68,6 +68,7 @@ import by.belisa.service.UchZvaniyService;
 import by.belisa.service.UserService;
 import by.belisa.service.ZayavkaFIService;
 import by.belisa.util.Utils;
+import by.belisa.validation.ValidationResult;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -247,7 +248,7 @@ public class KonkursyController {
 
 			AnketaDTO anketaDTO = anketaService.getDTO(userId);
 			Integer fizInfoId = fizInfoService.addFizInfo(anketaDTO);
-			zayavkaFIDTO.setFizInfoDTO(fizInfoService.getDTO(fizInfoId));
+			zayavkaFIDTO.setFizInfoDTO(fizInfoService.getDTO(fizInfoId, Integer.parseInt(konkursId)));
 			CheckUslResult checkUslResult = konkursyService.checkUsloviyaRuk(Integer.parseInt(konkursId), fizInfoId);
 			if (!checkUslResult.isAvailable()){
 				String errorMsg = Utils.createErrorMsg(anketaDTO.getFio(), checkUslResult);
@@ -266,14 +267,14 @@ public class KonkursyController {
 	@ActionMapping(params="action=send")
 	public void sendZayavka(ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException, NumberFormatException, ServiceException {
 		String zayavkaId = ParamUtil.getString(req, "zayavkaId");
-		//ValidationResult vr = null;
+		ValidationResult vr = null;
 		
 		if (!zayavkaId.isEmpty()){
 			
-			/*vr = zayavkaFIService.checkZayavkaFI(Integer.parseInt(zayavkaId));
+			vr = zayavkaFIService.checkZayavkaFI(Integer.parseInt(zayavkaId));
 			for (String errMessage : vr.getErrMessages()) {	
 				System.out.println(errMessage);
-			}*/
+			}
 			//zayavkaFIService.changeStatus(3, Integer.parseInt(zayavkaId));
 			model.addAttribute("save_result", "Заявка подана");
 		}else{

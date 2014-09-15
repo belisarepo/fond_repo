@@ -125,10 +125,10 @@ birthdayCalendar.set(Calendar.YEAR, 1970);
 			<%@ include file="/html/portlet/login/create_account_user_name.jspf" %>
 
 			<c:if test="<%= !PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.USERS_SCREEN_NAME_ALWAYS_AUTOGENERATE) %>">
-				<aui:input model="<%= User.class %>" name="screenName" />
+				<aui:input model="<%= User.class %>" name="screenName" showRequiredLabel=""/>
 			</c:if>
 
-			<aui:input autoFocus="<%= false %>" model="<%= User.class %>" name="emailAddress">
+			<aui:input autoFocus="<%= false %>" model="<%= User.class %>" name="emailAddress" showRequiredLabel="">
 				<c:if test="<%= PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.USERS_EMAIL_ADDRESS_REQUIRED) %>">
 					<aui:validator name="required" />
 				</c:if>
@@ -137,9 +137,9 @@ birthdayCalendar.set(Calendar.YEAR, 1970);
 
 		<aui:col width="<%= 50 %>">
 			<c:if test="<%= PropsValues.LOGIN_CREATE_ACCOUNT_ALLOW_CUSTOM_PASSWORD %>">
-				<aui:input label="password" name="password1" size="30" type="password" value="" />
+				<aui:input label="password" name="password1" size="30" type="password" value="" showRequiredLabel=""/>
 
-				<aui:input label="enter-again" name="password2" size="30" type="password" value="">
+				<aui:input label="enter-again" name="password2" size="30" type="password" value="" showRequiredLabel="">
 					<aui:validator name="equalTo">
 						'#<portlet:namespace />password1'
 					</aui:validator>
@@ -148,7 +148,7 @@ birthdayCalendar.set(Calendar.YEAR, 1970);
 
 			<c:choose>
 				<c:when test="<%= PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.FIELD_ENABLE_COM_LIFERAY_PORTAL_MODEL_CONTACT_BIRTHDAY) %>">
-					<aui:input name="birthday" value="<%= birthdayCalendar %>" />
+					<aui:input name="birthday" value="<%= birthdayCalendar %>" showRequiredLabel=""/>
 				</c:when>
 				<c:otherwise>
 					<aui:input name="birthdayMonth" type="hidden" value="<%= Calendar.JANUARY %>" />

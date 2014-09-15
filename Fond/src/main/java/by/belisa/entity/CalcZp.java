@@ -26,13 +26,13 @@ public class CalcZp implements Serializable{
 	@Column
 	private String name;
 	@Column
-	private int salary;
+	private float salary;
 	@Column
 	private float rate;
 	@Column
-	private int duration;
+	private float duration;
 	@Column(name="FOND_ZP")
-	private int fondZp;
+	private float fondZp;
 	@Column
 	private String note;
 	
@@ -53,11 +53,11 @@ public class CalcZp implements Serializable{
 		this.name = name;
 	}
 
-	public int getSalary() {
+	public float getSalary() {
 		return salary;
 	}
 
-	public void setSalary(int salary) {
+	public void setSalary(float salary) {
 		this.salary = salary;
 	}
 
@@ -69,19 +69,19 @@ public class CalcZp implements Serializable{
 		this.rate = rate;
 	}
 
-	public int getDuration() {
+	public float getDuration() {
 		return duration;
 	}
 
-	public void setDuration(int duration) {
+	public void setDuration(float duration) {
 		this.duration = duration;
 	}
 
-	public int getFondZp() {
+	public float getFondZp() {
 		return fondZp;
 	}
 
-	public void setFondZp(int fondZp) {
+	public void setFondZp(float fondZp) {
 		this.fondZp = fondZp;
 	}
 

@@ -20,18 +20,7 @@
 	<aui:input name="fullFioRk" value="${zayavkaModel.fullFioRk}" disabled="true" label="${fioFullRukLabel}" bean="zayavkaModel" />
 
 	<spring:message code="zayavka.birthdayManager" var='birthdayLabel' />
-	<aui:input name="birthdayRk" value="${zayavkaModel.birthdayRk}" label='${birthdayLabel}' bean="zayavkaModel" cssClass="datapick">
-		<aui:validator name="required" />
-		<aui:validator name="custom" errorMessage="Формат даты дд-мм-гггг">
-						function (val, fieldNode, ruleValue) {
-							var result = false;
-							
-							if (val == '' || val.search(/^\d{2}-\d{2}-\d{4}$/)!=-1){
-								result = true;
-							}
-							return result;
-						}
-					</aui:validator>
+	<aui:input name="birthdayRk" value="${zayavkaModel.birthdayRk}" label='${birthdayLabel}' bean="zayavkaModel" cssClass="datapick" disabled="true" showRequiredLabel="">
 	</aui:input>
 
 	<spring:message code="zayavka.degree" var='degreeLabel' />
@@ -80,29 +69,4 @@
 		</div>
 	</aui:button-row>
 </aui:form>
-<%-- <form:form modelAttribute='${ns}zayavkaModel' method="POST" action="${saveZayavka}" name="zayavka">
-				<form:hidden path="id" />
-				<form:hidden path="konkursId" />
-				<form:hidden path="userId" />
-				<form:label path="konkursNameR">Название конкурса</form:label>
-				<form:input path="konkursNameR" disabled="true" />
-				<form:label path="temaName">Тема заявки</form:label>
-				<form:input path="temaName" id="temaName" onclick="showPopup('Тема заявки','temaName','${strUrl}')" />
-				<form:label path="sectionFondId">Секция фонда</form:label>
-				<form:select path="sectionFondId" items="${sectionFondList}" itemValue="id" itemLabel="nameR" class="chosen"></form:select>
-				<form:label path="otraslNaukaId">Отрасль науки</form:label>
-				<form:select path="otraslNaukaId" items="${otraslNaukaList}" itemLabel="name" itemValue="id" class="chosen"></form:select>
-				<form:label path="prioritetNaukaId">Приоритет науки</form:label>
-				<form:select path="prioritetNaukaId" items="${prioritetNaukaList}" itemLabel="name" itemValue="id" class="chosen"></form:select>
-				<form:label path="orgId">Организация заявитель</form:label>
-				<form:select path="orgId" items="${listOrg}" itemValue="id" itemLabel="name" class="chosen">
-					<option></option>
-				</form:select>
-				<form:label path="ispolniteli">Исполнители</form:label>
-				<form:select path="ispolniteli" items="${fizInfoList}" itemValue="id" itemLabel="surname" class="chosen" multiple="true"></form:select>
-				<aui:button-row>
-					<div align="left">
-						<aui:button type="submit" />
-					</div>
-				</aui:button-row>
-			</form:form> --%>
+

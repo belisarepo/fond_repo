@@ -50,32 +50,32 @@
 	<aui:input name="zayavkaId" type="hidden" value="${zayavkaModel.id}" />
 
 	<spring:message code="zayavka.calcZp.name" var='calcZpNameLabel' />
-	<aui:input name="name" label='${calcZpNameLabel}' bean="calcZpModel">
+	<aui:input name="name" label='${calcZpNameLabel}' bean="calcZpModel" showRequiredLabel="">
 		<aui:validator name="required" />
 	</aui:input>
 
 	<spring:message code="zayavka.calcZp.salary" var='calcZpSalaryLabel' />
-	<aui:input name="salary" label='${calcZpSalaryLabel}' bean="calcZpModel">
+	<aui:input name="salary" label='${calcZpSalaryLabel}' bean="calcZpModel" showRequiredLabel="">
 		<aui:validator name="required" />
-		<aui:validator name="digits" />
+		<aui:validator name="number" />
 	</aui:input>
 
 	<spring:message code="zayavka.calcZp.rate" var='calcZpRateLabel' />
-	<aui:input name="rate" label='${calcZpRateLabel}' bean="calcZpModel">
+	<aui:input name="rate" label='${calcZpRateLabel}' bean="calcZpModel" showRequiredLabel="">
 		<aui:validator name="required" />
-		<aui:validator name="digits" />
+		<aui:validator name="number" />
 	</aui:input>
 
 	<spring:message code="zayavka.calcZp.duration" var='calcZpDurationLabel' />
-	<aui:input name="duration" label='${calcZpDurationLabel}' bean="calcZpModel">
+	<aui:input name="duration" label='${calcZpDurationLabel}' bean="calcZpModel" showRequiredLabel="">
 		<aui:validator name="required" />
 		<aui:validator name="number" />
 	</aui:input>
 
 	<spring:message code="zayavka.calcZp.fondZp" var='calcZpFondZpLabel' />
-	<aui:input name="fondZp" label='${calcZpFondZpLabel}' bean="calcZpModel">
+	<aui:input name="fondZp" label='${calcZpFondZpLabel}' bean="calcZpModel" showRequiredLabel="">
 		<aui:validator name="required" />
-		<aui:validator name="digits" />
+		<aui:validator name="number" />
 	</aui:input>
 	
 	<spring:message code="zayavka.calcZp.note" var='calcZpNoteLabel' />
@@ -105,7 +105,7 @@
 <aui:script>
 var calcZpSumAll = 0;
 $('.calcZpSum').each(function(){
-	calcZpSumAll += parseInt($(this).text(),10);
+	calcZpSumAll += parseFloat($(this).text());
 });
 $('#calcZpSumAll').text(calcZpSumAll);
 </aui:script>

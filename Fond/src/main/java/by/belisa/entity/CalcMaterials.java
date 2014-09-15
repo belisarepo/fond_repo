@@ -26,15 +26,15 @@ public class CalcMaterials implements Serializable{
 	@GeneratedValue(generator="PK")
 	private Integer id;
 	@Column
-	private int pn;
+	private float pn;
 	@Column
 	private String name;
 	@Column
 	private String unit;
 	@Column
-	private int count;
+	private float count;
 	@Column
-	private int sum;
+	private float sum;
 	
 	
 	public Integer getId() {
@@ -45,11 +45,11 @@ public class CalcMaterials implements Serializable{
 		this.id = id;
 	}
 
-	public int getPn() {
+	public float getPn() {
 		return pn;
 	}
 
-	public void setPn(int pn) {
+	public void setPn(float pn) {
 		this.pn = pn;
 	}
 
@@ -69,19 +69,19 @@ public class CalcMaterials implements Serializable{
 		this.unit = unit;
 	}
 
-	public int getCount() {
+	public float getCount() {
 		return count;
 	}
 
-	public void setCount(int count) {
+	public void setCount(float count) {
 		this.count = count;
 	}
 
-	public int getSum() {
+	public float getSum() {
 		return sum;
 	}
 
-	public void setSum(int sum) {
+	public void setSum(float sum) {
 		this.sum = sum;
 	}
 
