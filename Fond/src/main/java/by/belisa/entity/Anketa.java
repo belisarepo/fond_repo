@@ -19,6 +19,9 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import by.belisa.validation.IValidaton;
+import by.belisa.validation.ValidationResult;
+
 @Entity
 @Table(name="ANKETA")
 public class Anketa implements Serializable{

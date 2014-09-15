@@ -15,73 +15,76 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-@Entity
-@Table(name="OBOSNOVANIE")
-@GenericGenerator(name = "gen", strategy = "foreign", parameters = @Parameter(name = "property", value = "zayavkaFI"))
 
-public class Obosnovanie implements Serializable{
+import by.belisa.validation.IValidaton;
+import by.belisa.validation.ValidationResult;
+
+@Entity
+@Table(name = "OBOSNOVANIE")
+@GenericGenerator(name = "gen", strategy = "foreign", parameters = @Parameter(name = "property", value = "zayavkaFI"))
+public class Obosnovanie implements Serializable, IValidaton {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2437192977268123834L;
 	@Id
-	@Column(name = "id")  
-	@GeneratedValue(generator = "gen")  
+	@Column(name = "id")
+	@GeneratedValue(generator = "gen")
 	private Integer id;
-	
-	@Column(name="TEMA")
+
+	@Column(name = "TEMA")
 	private String tema;
-	
+
 	@Lob
-	@Column(name="GOAL")
+	@Column(name = "GOAL")
 	private String goal;
-	
+
 	@Lob
-	@Column(name="ANALIZ_RESULTS")
+	@Column(name = "ANALIZ_RESULTS")
 	private String analizResults;
-	
+
 	@Lob
-	@Column(name="RESERVE_AUTHORS")
+	@Column(name = "RESERVE_AUTHORS")
 	private String reserveAuthors;
-	
+
 	@Lob
-	@Column(name="EXPEDIENCY")
+	@Column(name = "EXPEDIENCY")
 	private String expediency;
-	
+
 	@Lob
-	@Column(name="IDEA_FORMULATION")
+	@Column(name = "IDEA_FORMULATION")
 	private String ideaFormulation;
-	
+
 	@Lob
-	@Column(name="IDEA_INNOVATION")
+	@Column(name = "IDEA_INNOVATION")
 	private String ideaInnovation;
-	
+
 	@Lob
-	@Column(name="STRUCTURE_OF_STUDY")
+	@Column(name = "STRUCTURE_OF_STUDY")
 	private String structureOfStudy;
-	
+
 	@Lob
-	@Column(name="NIR_RESULTS")
+	@Column(name = "NIR_RESULTS")
 	private String resultsNir;
-	
+
 	@Lob
-	@Column(name="USING_RESULTS")
+	@Column(name = "USING_RESULTS")
 	private String usingResults;
-	
+
 	@Lob
-	@Column(name="TEAM_CHARACTERISTIC")
+	@Column(name = "TEAM_CHARACTERISTIC")
 	private String teamCharacteristic;
-	
+
 	@Lob
-	@Column(name="PROVISION_EQUIPMENT")
+	@Column(name = "PROVISION_EQUIPMENT")
 	private String provisionEquipment;
-	
+
 	@Lob
-	@Column(name="PREVIOUS_KONKURS")
+	@Column(name = "PREVIOUS_KONKURS")
 	private String previousKonkurs;
-	
-	@OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL, optional=false)  
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
 	@PrimaryKeyJoinColumn()
 	private ZayavkaFI zayavkaFI;
 
@@ -204,6 +207,74 @@ public class Obosnovanie implements Serializable{
 	public void setZayavkaFI(ZayavkaFI zayavkaFI) {
 		this.zayavkaFI = zayavkaFI;
 	}
-	
-	
+
+	@Override
+	public ValidationResult validate() {
+		ValidationResult vr = new ValidationResult();
+		String message = null;
+		String tabNameJustification = "во вкладке \"Обоснование\"";
+		// Проверка цели, задачи и её актуальности
+		if (this.goal.isEmpty()) {
+			message = "Не заполнена цель и задачи работы" + " " + tabNameJustification;
+			vr.getErrMessages().add(message);
+		}
+		// Проверка краткого анализа
+		if (this.analizResults.isEmpty()) {
+			message = "Не заполен краткий анализ" + " " + tabNameJustification;
+			vr.getErrMessages().add(message);
+		}
+		// Проверка научно-практического задела авторов
+		if (this.reserveAuthors.isEmpty()) {
+			message = "Не заполнен научно-практический задел авторов" + " " + tabNameJustification;
+			vr.getErrMessages().add(message);
+		}
+		// Проверка обоснования целесообразности проведения совместных условий
+		if (this.expediency.isEmpty()) {
+			message = "Не заполнены обоснования целесообразности проведения совместных условий" + " " + tabNameJustification;
+			vr.getErrMessages().add(message);
+		}
+		// Проверка формулировки и обоснование идеи
+		if (this.ideaFormulation.isEmpty()) {
+			message = "Не заполнена формулировка и обоснование идеи" + " " + tabNameJustification;
+			vr.getErrMessages().add(message);
+		}
+		// Проверка уровня новизны научной идеи (гипотезы)
+		if (this.ideaInnovation.isEmpty()) {
+			message = "Не заполнен уровень новизны научной идеи" + " " + tabNameJustification;
+			vr.getErrMessages().add(message);
+		}
+		// Проверка структуры исследования
+		if (this.structureOfStudy.isEmpty()) {
+			message = "Не заполнена структура исследования" + " " + tabNameJustification;
+			vr.getErrMessages().add(message);
+		}
+		// Проверка ожидаемых результатов НИР
+		if (this.resultsNir.isEmpty()) {
+			message = "Не заполнены ожидаемые результаты НИР" + " " + tabNameJustification;
+			vr.getErrMessages().add(message);
+		}
+		// Проверка возможные области использования результатов исследования
+		if (this.usingResults.isEmpty()) {
+			message = "Не заполнены возможные области использования результатов исследования" + " " + tabNameJustification;
+			vr.getErrMessages().add(message);
+		}
+		// Проверка характеристики научного коллектива
+		if (this.teamCharacteristic.isEmpty()) {
+			message = "Не заполнены характеристики научного коллектива" + " " + tabNameJustification;
+			vr.getErrMessages().add(message);
+		}
+		// Проверка обеспеченности работы основным оборудованием, необходимым
+		// для ее выполнения
+		if (this.provisionEquipment.isEmpty()) {
+			message = "Не заполнена обеспеченность работы основным оборудованием, необходимым для её выполнения" + " " + tabNameJustification;
+			vr.getErrMessages().add(message);
+		}
+		//Проверка сведений об участии
+		if(this.previousKonkurs.isEmpty()){
+			message = "Не заполнены сведения об участии"+ " " + tabNameJustification;
+			vr.getErrMessages().add(message);
+		}
+		return vr;
+	}
+
 }

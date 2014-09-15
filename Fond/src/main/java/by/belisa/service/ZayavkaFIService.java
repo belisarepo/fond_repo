@@ -41,6 +41,7 @@ import by.belisa.entity.Rukovoditel;
 import by.belisa.entity.RukovoditelNR;
 import by.belisa.entity.ZayavkaFI;
 import by.belisa.exception.DaoException;
+import by.belisa.validation.ValidationResult;
 
 @Service
 public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
@@ -118,6 +119,12 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		ZayavkaFI zayavka = baseDao.get(zayavkaId);
 		zayavka.setStatusZayavkaFI(statusZayavkaFIDao.get(newStatus));
 		baseDao.update(zayavka);
+	}
+	
+	public ValidationResult checkZayavkaFI(Integer zayavkaId) throws DaoException{
+		ZayavkaFI zayavka = baseDao.get(zayavkaId);
+		return zayavka.validate();
+		
 	}
 	
 	public Integer saveForm1(ZayavkaFIDTO dto) throws DaoException {
