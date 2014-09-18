@@ -27,7 +27,6 @@ public class ZayavkaFIDTO implements Serializable {
 	private Integer konkursId;
 	private Integer tipKonkursaId;
 	private String tipKonkursaName;
-	private boolean molod;
 	private String sectionFondNameR;
 	private Integer sectionFondId;
 	private String otraslNaukaName;
@@ -160,6 +159,11 @@ public class ZayavkaFIDTO implements Serializable {
 	private float allFull;
 	private float allFirstYear;
 	
+	private int vidFormaZId;
+	
+	private boolean young;
+	private boolean intl;
+	
 	private FizInfoDTO fizInfoDTO;
 	
 	
@@ -183,7 +187,9 @@ public class ZayavkaFIDTO implements Serializable {
 			this.temaName = zayavkaFI.getTemaZName();
 			this.tipKonkursaId = zayavkaFI.getKonkursy().getTipKonkursa()!=null ? zayavkaFI.getKonkursy().getTipKonkursa().getId() : null;
 			this.tipKonkursaName = zayavkaFI.getKonkursy().getTipKonkursa()!=null ? zayavkaFI.getKonkursy().getTipKonkursa().getName() : "";
-			this.molod = zayavkaFI.getKonkursy().getTipKonkursa()!=null ? zayavkaFI.getKonkursy().getTipKonkursa().isMolod() : false;
+			this.vidFormaZId = zayavkaFI.getKonkursy().getTipKonkursa()!=null ? zayavkaFI.getKonkursy().getTipKonkursa().getVidFormaZ().getId() : 1;
+			this.young = this.vidFormaZId==2 || this.vidFormaZId==4 ? true : false;
+			this.intl = this.vidFormaZId==3 || this.vidFormaZId==4 ? true : false;
 			this.udk = zayavkaFI.getCodeUdk();
 			this.lastingDeadline = zayavkaFI.getLastingDeadline();
 			this.startDeadline = zayavkaFI.getStartDeadline()!=null ? dateFormat.format(zayavkaFI.getStartDeadline()): null;
@@ -193,7 +199,7 @@ public class ZayavkaFIDTO implements Serializable {
 			this.statusZayavkaId = zayavkaFI.getStatusZayavkaFI()!=null ? zayavkaFI.getStatusZayavkaFI().getId() : null;
 			
 			if (zayavkaFI.getFizInfo()!=null){
-				this.fizInfoDTO = new FizInfoDTO(zayavkaFI.getFizInfo(),molod);
+				this.fizInfoDTO = new FizInfoDTO(zayavkaFI.getFizInfo(),this.young);
 			}
 			
 			if (zayavkaFI.getOrganization() == null){
@@ -294,9 +300,8 @@ public class ZayavkaFIDTO implements Serializable {
 				}
 			}
 			if (!zayavkaFI.getIspolniteli().isEmpty()){
-				boolean withPubl = zayavkaFI.getKonkursy().getTipKonkursa().isMolod();
 				for (Ispolnitel i : zayavkaFI.getIspolniteli()){
-					this.ispolniteliDTO.add(new IspolnitelDTO(i,withPubl));
+					this.ispolniteliDTO.add(new IspolnitelDTO(i,this.young));
 				}
 			}
 			
@@ -380,13 +385,7 @@ public class ZayavkaFIDTO implements Serializable {
 	}
 	
 	
-	public boolean isMolod() {
-		return molod;
-	}
-
-	public void setMolod(boolean molod) {
-		this.molod = molod;
-	}
+	
 
 	public FizInfoDTO getFizInfoDTO() {
 		return fizInfoDTO;
@@ -1371,6 +1370,30 @@ public class ZayavkaFIDTO implements Serializable {
 
 	public void setSectionFondId(Integer sectionFondId) {
 		this.sectionFondId = sectionFondId;
+	}
+
+	public int getVidFormaZId() {
+		return vidFormaZId;
+	}
+
+	public void setVidFormaZId(int vidFormaZId) {
+		this.vidFormaZId = vidFormaZId;
+	}
+
+	public boolean isYoung() {
+		return young;
+	}
+
+	public void setYoung(boolean young) {
+		this.young = young;
+	}
+
+	public boolean isIntl() {
+		return intl;
+	}
+
+	public void setIntl(boolean intl) {
+		this.intl = intl;
 	}
 
 }

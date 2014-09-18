@@ -119,9 +119,10 @@ public class FizInfoService extends ServiceImpl<FizInfo, Integer>{
 	
 	public FizInfoDTO getDTO(Integer id, Integer konkursId) throws DaoException{
 		FizInfo entity = baseDao.get(id);
-		boolean isMolod = konkursyDao.get(konkursId).getTipKonkursa().isMolod();
+		int vidFormaZId = konkursyDao.get(konkursId).getTipKonkursa().getVidFormaZ().getId();
+		boolean young = vidFormaZId==2 || vidFormaZId==4;
 		
-		return new FizInfoDTO(entity, isMolod);
+		return new FizInfoDTO(entity, young);
 	}
 
 }

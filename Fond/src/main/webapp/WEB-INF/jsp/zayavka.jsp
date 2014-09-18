@@ -89,10 +89,10 @@
 </center>
 
 <c:if test="${!empty errorMsg}">
-        <div class="alert alert-error">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <p>${errorMsg}</p>
-        </div>
+	<div class="alert alert-error">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<p>${errorMsg}</p>
+	</div>
 </c:if>
 
 
@@ -102,17 +102,24 @@
 		<li><a href="#tab-1"><spring:message code="zayavka.tab1" /></a></li>
 		<li><a href="#tab-2"><spring:message code="zayavka.tab2" /></a></li>
 		<li><a href="#tab-3"><spring:message code="zayavka.tab3" /></a></li>
-		<li><a href="#tab-4"><spring:message code="zayavka.tab4" /></a></li>
-		<li><a href="#tab-5"><spring:message code="zayavka.tab5" /></a></li>
+		<c:if test="${zayavkaModel.intl}">
+			<li><a href="#tab-4"><spring:message code="zayavka.tab4" /></a></li>
+			<li><a href="#tab-5"><spring:message code="zayavka.tab5" /></a></li>
+		</c:if>
+
 		<li><a href="#tab-6"><spring:message code="zayavka.tab6" /></a></li>
 		<li><a href="#tab-7"><spring:message code="zayavka.tab7" /></a></li>
 		<li><a href="#tab-8"><spring:message code="zayavka.tab8" /></a></li>
 		<li><a href="#tab-9"><spring:message code="zayavka.tab9" /></a></li>
-		<li><a href="#tab-10"><spring:message code="zayavka.tab10" /></a></li>
+		<c:if test="${not zayavkaModel.young}">
+			<li><a href="#tab-10"><spring:message code="zayavka.tab10" /></a></li>
+		</c:if>
 		<li><a href="#tab-11"><spring:message code="zayavka.tab11" /></a></li>
 		<li><a href="#tab-12"><spring:message code="zayavka.tab12" /></a></li>
-		<li><a href="#tab-13"><spring:message code="zayavka.tab13" /></a></li>
-		<li><a href="#tab-14"><spring:message code="zayavka.tab14" /></a></li>
+		<c:if test="${not zayavkaModel.young}">
+			<li><a href="#tab-13"><spring:message code="zayavka.tab13" /></a></li>
+			<li><a href="#tab-14"><spring:message code="zayavka.tab14" /></a></li>
+		</c:if>
 		<li><a href="#tab-15"><spring:message code="zayavka.tab15" /></a></li>
 		<li><a href="#tab-16"><spring:message code="zayavka.tab16" /></a></li>
 		<li><a href="#tab-17"><spring:message code="zayavka.tab17" /></a></li>
@@ -132,12 +139,14 @@
 		<div id="tab-3" class="tab-pane">
 			<%@ include file="/WEB-INF/jsp/zayavka/form3.jsp"%>
 		</div>
-		<div id="tab-4" class="tab-pane">
-			<%@ include file="/WEB-INF/jsp/zayavka/form4.jsp"%>
-		</div>
-		<div id="tab-5" class="tab-pane">
-			<%@ include file="/WEB-INF/jsp/zayavka/form5.jsp"%>
-		</div>
+		<c:if test="${zayavkaModel.intl}">
+			<div id="tab-4" class="tab-pane">
+				<%@ include file="/WEB-INF/jsp/zayavka/form4.jsp"%>
+			</div>
+			<div id="tab-5" class="tab-pane">
+				<%@ include file="/WEB-INF/jsp/zayavka/form5.jsp"%>
+			</div>
+		</c:if>
 		<div id="tab-6" class="tab-pane">
 			<%@ include file="/WEB-INF/jsp/zayavka/form6.jsp"%>
 		</div>
@@ -150,21 +159,27 @@
 		<div id="tab-9" class="tab-pane">
 			<%@ include file="/WEB-INF/jsp/zayavka/form9.jsp"%>
 		</div>
-		<div id="tab-10" class="tab-pane">
-			<%@ include file="/WEB-INF/jsp/zayavka/form10.jsp"%>
-		</div>
+		<c:if test="${not zayavkaModel.young}">
+			<div id="tab-10" class="tab-pane">
+				<%@ include file="/WEB-INF/jsp/zayavka/form10.jsp"%>
+			</div>
+		</c:if>
+
 		<div id="tab-11" class="tab-pane">
 			<%@ include file="/WEB-INF/jsp/zayavka/form11.jsp"%>
 		</div>
 		<div id="tab-12" class="tab-pane">
 			<%@ include file="/WEB-INF/jsp/zayavka/form12.jsp"%>
 		</div>
-		<div id="tab-13" class="tab-pane">
-			<%@ include file="/WEB-INF/jsp/zayavka/form13.jsp"%>
-		</div>
-		<div id="tab-14" class="tab-pane">
-			<%@ include file="/WEB-INF/jsp/zayavka/form14.jsp"%>
-		</div>
+		<c:if test="${not zayavkaModel.young}">
+			<div id="tab-13" class="tab-pane">
+				<%@ include file="/WEB-INF/jsp/zayavka/form13.jsp"%>
+			</div>
+			<div id="tab-14" class="tab-pane">
+				<%@ include file="/WEB-INF/jsp/zayavka/form14.jsp"%>
+			</div>
+		</c:if>
+
 		<div id="tab-15" class="tab-pane">
 			<%@ include file="/WEB-INF/jsp/zayavka/form15.jsp"%>
 		</div>
@@ -218,56 +233,11 @@ $(document).ready(function() {
 		}
 	});
 	
-	$('#${ns}orgSelect').on('change', function(evt, params) {
-		var orgId = $(evt.target).val();
-
-		$.ajax({
-			dataType : 'json',
-			url : '<portlet:resourceURL id="getOrgById" />',
-			data : {
-				<portlet:namespace />orgId : orgId
-			},
-			success : function(jsondata) {
-				$('#${ns}orgEmailRb').val(jsondata.email);
-				$('#${ns}orgAddressRb').val(jsondata.address);
-				$('#${ns}okoguRb').val(jsondata.okoguName);
-
-			}
-		});
-	});
 	
-	$('#${ns}orgNrSelect').on('change', function(evt, params) {
-		var orgId = $(evt.target).val();
-
-		$.ajax({
-			dataType : 'json',
-			url : '<portlet:resourceURL id="getOrgNrById" />',
-			data : {
-				<portlet:namespace />orgId : orgId
-			},
-			success : function(jsondata) {
-				$('#${ns}orgNrEmail').val(jsondata.email);
-				$('#${ns}orgNrAddress').val(jsondata.address);
-			}
-		});
-	});
 	
-	$('#${ns}soOrgSelect').on('change', function(evt, params) {
-		var orgId = $(evt.target).val();
-
-		$.ajax({
-			dataType : 'json',
-			url : '<portlet:resourceURL id="getOrgById" />',
-			data : {
-				<portlet:namespace />orgId : orgId
-			},
-			success : function(jsondata) {
-				$('#${ns}soOrgAddress').val(jsondata.address);
-				$('#${ns}soOrgOkogu').val(jsondata.okoguName);
-
-			}
-		});
-	});
+	
+	
+	
 });
 //=============================================================================
 //Show Popup Function
@@ -331,18 +301,7 @@ AUI().use(
 Y.one('#${ns}temaName').on('click', function(event){
    showPopup('Тема заявки','temaName','${strPopupTemaNameUrl}');
 });
-Y.one('#${ns}keyWords').on('click', function(event){
-   showPopup('Ключевые слова','keyWords','${strPopupKeyWordsUrl}');
-});
-Y.one('#${ns}jobGoal').on('click', function(event){
-   showPopup('Цель работы','jobGoal','${strPopupJobGoalUrl}');
-});
-Y.one('#${ns}idea').on('click', function(event){
-   showPopup('Научная идея (гипотеза) авторов','idea','${strPopupIdeaUrl}');
-});
-Y.one('#${ns}results').on('click', function(event){
-   showPopup('Основные планируемые результаты, их научная и практическая значимость','results','${strPopupResultsUrl}');
-});
+
 
 Y.one('#${ns}goal').on('click', function(event){
    showPopup('Цель и задачи работы, ее актуальность','goal','${strPopupGoalURL}');

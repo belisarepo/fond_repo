@@ -71,3 +71,21 @@
 <br />
 <br />
 <br />
+<aui:script>
+$('#${ns}soOrgSelect').on('change', function(evt, params) {
+		var orgId = $(evt.target).val();
+
+		$.ajax({
+			dataType : 'json',
+			url : '<portlet:resourceURL id="getOrgById" />',
+			data : {
+				<portlet:namespace />orgId : orgId
+			},
+			success : function(jsondata) {
+				$('#${ns}soOrgAddress').val(jsondata.address);
+				$('#${ns}soOrgOkogu').val(jsondata.okoguName);
+
+			}
+		});
+	});
+</aui:script>

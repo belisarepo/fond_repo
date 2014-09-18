@@ -46,3 +46,20 @@
 <br />
 <br />
 <br />
+<aui:script>
+$('#${ns}orgNrSelect').on('change', function(evt, params) {
+		var orgId = $(evt.target).val();
+
+		$.ajax({
+			dataType : 'json',
+			url : '<portlet:resourceURL id="getOrgNrById" />',
+			data : {
+				<portlet:namespace />orgId : orgId
+			},
+			success : function(jsondata) {
+				$('#${ns}orgNrEmail').val(jsondata.email);
+				$('#${ns}orgNrAddress').val(jsondata.address);
+			}
+		});
+	});
+</aui:script>

@@ -54,10 +54,10 @@
 			<aui:validator name="required" />
 		</aui:input> --%>
 		<c:forEach items="${publicationTypes}" var="i" varStatus="n">
-			<c:if test="${zayavkaModel.molod}">
+			<c:if test="${zayavkaModel.young}">
 				<aui:input type="radio" name="publicationTypeId" bean="publicationMModel" label="${i.name}" value="${i.id}" checked="${i.id==1}"></aui:input>
 			</c:if>
-			<c:if test="${!zayavkaModel.molod}">
+			<c:if test="${!zayavkaModel.young}">
 				<c:if test="${n.index<3}">
 					<aui:input type="radio" name="publicationTypeId" bean="publicationMModel" label="${i.name}" value="${i.id}" checked="${i.id==1}"></aui:input>
 				</c:if>
@@ -93,7 +93,7 @@
 
 	</aui:form>
 </div>
-<c:if test="${zayavkaModel.molod}">
+<c:if test="${zayavkaModel.young}">
 	<c:forEach items="${zayavkaModel.ispolniteliDTO}" var="ispl" varStatus="n">
 		<div id="publIsp${n}">
 			<h3>Список публикаций ${ispl.surname} ${ispl.name} ${ispl.patronymic}</h3>

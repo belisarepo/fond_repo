@@ -58,3 +58,21 @@
 
 	</aui:button-row>
 </aui:form>
+<aui:script>
+// add Show Popup
+//===============================================================
+$('#${ns}keyWords').on('click', function(event){
+   showPopup('Ключевые слова','keyWords','${strPopupKeyWordsUrl}');
+});
+$('#${ns}jobGoal').on('click', function(event){
+   showPopup('Цель работы','jobGoal','${strPopupJobGoalUrl}');
+});
+$('#${ns}idea').on('click', function(event){
+   showPopup('Научная идея (гипотеза) авторов','idea','${strPopupIdeaUrl}');
+});
+$('#${ns}results').on('click', function(event){
+   showPopup('Основные планируемые результаты, их научная и практическая значимость','results','${strPopupResultsUrl}');
+});
+//==============================================================
+
+</aui:script>

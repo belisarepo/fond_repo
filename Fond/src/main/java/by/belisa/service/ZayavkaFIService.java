@@ -116,6 +116,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 			zayavkaFI.setAnketa(anketa);
 			zayavkaFI.setOrganization(anketa.getOrg());
 			zayavkaFI.setKonkursy(konkursyDao.get(konkursId));
+			
 		}
 		ZayavkaFIDTO zayavkaFIDTO = new ZayavkaFIDTO(zayavkaFI);
 		return zayavkaFIDTO;
