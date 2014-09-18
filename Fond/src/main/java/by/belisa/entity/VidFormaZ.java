@@ -11,18 +11,18 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="ROLE_", schema="LPORTAL")
-@SequenceGenerator(name="PK", sequenceName="SEQ_ROLE")
-public class Role implements Serializable{
+@Table(name="VID_FORMA_Z")
+@SequenceGenerator(name="PK", sequenceName="SEQ_VID_FORMA_Z")
+public class VidFormaZ implements Serializable{
 
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7817371786874409904L;
-	
+	private static final long serialVersionUID = 8319504016296259152L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PK")
-	@Column(name="roleid")
+	@Column(name="id")
 	private long id;
 	@Column(name="name")
 	private String name;
@@ -38,5 +38,4 @@ public class Role implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-
 }

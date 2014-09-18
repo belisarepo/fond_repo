@@ -1,7 +1,11 @@
 package by.belisa.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.ParseException;
 import java.util.List;
 
@@ -73,6 +77,7 @@ import by.belisa.validation.ValidationResult;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
+import com.liferay.portal.kernel.util.Base64;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.util.PortalUtil;
 
@@ -642,6 +647,37 @@ public class KonkursyController {
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonString = mapper.writeValueAsString(orgNr);
 	    outStream.write(jsonString.getBytes());
+	}
+	
+	@ResourceMapping(value="report")
+	public void getReport(ResourceRequest request, ResourceResponse response) throws IOException{
+		int zayavkaId = ParamUtil.getInteger(request,"zayavkaId");
+		String strUrl1 = "http://192.168.11.71:7001/xmlpserver/fond/test/test.xdo?_xpf=&_xpt=1&_xdo=%2Ffond%2Ftest%2Ftest.xdo&s=&_xt=1&_xf=rtf&_xmode=4";
+		String strUrl = "http://192.168.11.71:7001/xmlpserver/fond/primer/primer.xdo?_xpf=&_xpt=1&_xdo=%2Ffond%2Fprimer%2Fprimer.xdo&src=99&_xt=test&_xf=rtf&_xmode=4";
+		
+		String name = "test";
+		String password = "test";
+
+		String authString = name + ":" + password;
+		String authStringEnc = Base64.encode(authString.getBytes());
+		URL url = new URL(strUrl);
+		URLConnection urlConnection = url.openConnection();
+//		urlConnection.setRequestProperty("Authorization", "Basic " + authStringEnc);
+		InputStream is = urlConnection.getInputStream();
+		
+		response.setContentType("application/rtf");
+		response.setContentLength(is.available());
+		response.setProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=zayavka.rtf");
+		
+		OutputStream outStream = response.getPortletOutputStream();
+		byte[] buffer = new byte[1024];
+		int len;
+		while ((len = is.read(buffer)) != -1) {
+		    outStream.write(buffer, 0, len);
+		}
+		outStream.flush();
+		outStream.close();
+		is.close();
 	}
 	
 	/*@InitBinder

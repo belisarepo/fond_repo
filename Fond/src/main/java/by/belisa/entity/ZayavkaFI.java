@@ -450,7 +450,7 @@ public class ZayavkaFI implements Serializable, IValidaton {
 			vr.getErrMessages().add(message);
 		}
 		// Проверка иностранных организаций
-		// if(this.konkursy().get)
+		//if(this.konkursy)
 		// Проверка вкладки аннотация
 		if (this.annotation != null) {
 			vr.getErrMessages().addAll(this.annotation.validate().getErrMessages());
