@@ -413,7 +413,8 @@ public class ZayavkaFI implements Serializable, IValidaton {
 		String tabNameDataAboutTender = "во вкладке \"Данные о заявке\"";
 		String tabNameOrgFromBLR = "во вкладке \"Организация-заявитель от РБ\"";
 		String tabNameCalc = "во вкладке \"Калькуляция сметной стоимости проекта\"";
-		String tabNameCalcSalary = "во вкладке\"Расчёт затрат на заработную плату";
+		String tabNameCalcSalary = "во вкладке\"Расчёт затрат на заработную плату\"";
+		String tabNameOrgFromInternational = "во вкладке\"Организация-заявитель от зарубежной стороны\"";
 		// Проверка списка "Секция Научного совета БРФФИ"
 		if (this.sectionFond == null) {
 			message = "Не выбрана секция научного совета БРФФИ" + " " + tabNameDataAboutTender;
@@ -450,7 +451,26 @@ public class ZayavkaFI implements Serializable, IValidaton {
 			vr.getErrMessages().add(message);
 		}
 		// Проверка иностранных организаций
-		//if(this.konkursy)
+
+		if(this.konkursy !=null){
+			final int INTERNATIONAL_ID=4;
+			int konkursVidId = this.konkursy.getTipKonkursa().getVidKonkursa().getId();
+			if(INTERNATIONAL_ID == konkursVidId){
+				//Если тип конкурса международный, то должна быть указана организация заявитель от зарубежной стороны
+				if (this.orgNR == null){
+					message = "Не выбрана организация-заявитель от зарубуженой стороны" + " "+ tabNameOrgFromInternational;
+					vr.getErrMessages().add(message);
+				}
+				//Если тип конкурса международный, то должен быть заполнен руководитель от зарубежной стороны
+				if(this.rukovoditelNr==null){
+					message = "Не заполнена вкладка \"Руководитель проекта от зарубежной стороны\"";
+					vr.getErrMessages().add(message);
+				}
+				else{
+					vr.getErrMessages().addAll(this.rukovoditelNr.validate().getErrMessages());
+				}
+			}
+		}
 		// Проверка вкладки аннотация
 		if (this.annotation != null) {
 			vr.getErrMessages().addAll(this.annotation.validate().getErrMessages());
