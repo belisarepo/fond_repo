@@ -158,9 +158,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		}
 		rukovoditel.setAddress(dto.getAddressRk());
 //		rukovoditel.setBiography(dto.getBiographyRk());
-		if (dto.getBirthdayRk() != null && !dto.getBirthdayRk().isEmpty()) {
-			rukovoditel.setBirthday(dateFormat.parse(dto.getBirthdayRk()));
-		}
+		rukovoditel.setBirthday(zayavkaFI.getAnketa().getBirthday());
 		// rukovoditel.setCitationIndexISI(citationIndexISI);
 		// rukovoditel.setCitationIndexRINC(citationIndexRINC);
 		// rukovoditel.setCitationIndexScopus(citationIndexScopus);

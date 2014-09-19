@@ -61,8 +61,6 @@
 	<aui:button-row>
 		<div align="left">
 			<aui:button type="submit" value="Сохранить" />
-			<a class="btn" href="${sendZayavka}">Подать</a>
-			<a class="btn" onclick="window.open('<portlet:resourceURL id="report"><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:resourceURL>')">Печать</a>
 		</div>
 
 	</aui:button-row>

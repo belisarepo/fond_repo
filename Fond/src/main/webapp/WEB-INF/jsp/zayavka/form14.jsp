@@ -69,7 +69,6 @@
 	<aui:button-row>
 		<div align="left">
 			<aui:button type="submit" value="Добавить" />
-			<a class="btn" href="${sendZayavka}">Подать</a>
 		</div>
 		
 	</aui:button-row>

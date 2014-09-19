@@ -3,11 +3,11 @@ package by.belisa.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Locale;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -86,6 +87,8 @@ import com.liferay.portal.util.PortalUtil;
 @RequestMapping(value = "VIEW")
 public class KonkursyController {
 	private static Logger log = Logger.getLogger(KonkursyController.class);
+	 @Autowired
+	 private MessageSource messageSource;
 	@Autowired
 	@Qualifier(value = "statusZayavkaFIDao")
 	private StatusZayavkaFIDao statusZayavkaFIDao;
@@ -200,9 +203,9 @@ public class KonkursyController {
 	}
 
 	@ModelAttribute(value = "prioritetNaukaList")
-	public List<PrioritetNauka> initPrioritetNaukaList() throws ServiceException {
+	public List<PrioritetNauka> initPrioritetNaukaList() throws ServiceException, DaoException {
 		if (prioritetNaukaList == null) {
-			prioritetNaukaList = prioritetNaukaService.getAll();
+			prioritetNaukaList = prioritetNaukaService.getAllActual();
 		}
 		return prioritetNaukaList;
 	}
@@ -679,17 +682,10 @@ public class KonkursyController {
 	@ResourceMapping(value="report")
 	public void getReport(ResourceRequest request, ResourceResponse response) throws IOException{
 		int zayavkaId = ParamUtil.getInteger(request,"zayavkaId");
-		String strUrl1 = "http://192.168.11.71:7001/xmlpserver/fond/test/test.xdo?_xpf=&_xpt=1&_xdo=%2Ffond%2Ftest%2Ftest.xdo&s=&_xt=1&_xf=rtf&_xmode=4";
-		String strUrl = "http://192.168.11.71:7001/xmlpserver/fond/primer/primer.xdo?_xpf=&_xpt=1&_xdo=%2Ffond%2Fprimer%2Fprimer.xdo&src=99&_xt=test&_xf=rtf&_xmode=4";
-		
-		String name = "test";
-		String password = "test";
+		String strUrl = messageSource.getMessage("zayavka.reportUrl", new Object[]{zayavkaId}, Locale.getDefault());
 
-		String authString = name + ":" + password;
-		String authStringEnc = Base64.encode(authString.getBytes());
 		URL url = new URL(strUrl);
 		URLConnection urlConnection = url.openConnection();
-//		urlConnection.setRequestProperty("Authorization", "Basic " + authStringEnc);
 		InputStream is = urlConnection.getInputStream();
 		
 		response.setContentType("application/rtf");

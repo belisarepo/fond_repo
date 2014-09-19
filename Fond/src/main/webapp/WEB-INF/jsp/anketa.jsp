@@ -40,30 +40,30 @@
 		</div>
 	</aui:button-row>
 </aui:form> --%>
-<form:form modelAttribute='${ns}anketa' method="POST"
-	action="${sendForm}" name="anketa">
+<form:form modelAttribute='${ns}anketa' method="POST" action="${sendForm}" name="anketa">
 	<form:label path="fio">ФИО краткое</form:label>
-	<form:input path="fio" />
+	<form:input path="fio" disabled="true"/>
 	<br />
 	<form:label path="fullFio">ФИО полное</form:label>
-	<form:input path="fullFio" />
+	<form:input path="fullFio" disabled="true"/>
+	<br />
+	<form:label path="birthday" placeholder="dd-MM-yyyy">Дата рождения</form:label>
+	<form:input path="birthday" disabled="true"/>
 	<br />
 	<form:label path="orgId">Организация</form:label>
-	<form:select path="orgId"  class="chosen">
+	<form:select path="orgId" class="chosen">
 		<form:option value=""></form:option>
 		<form:options items="${orgList}" itemLabel="name" itemValue="id" />
 	</form:select>
 	<form:label path="uchStepenId">Ученая степень</form:label>
 	<form:select path="uchStepenId">
 		<form:option value=""></form:option>
-		<form:options items="${uchStepeniList}" itemLabel="fullName"
-			itemValue="id" />
+		<form:options items="${uchStepeniList}" itemLabel="fullName" itemValue="id" />
 	</form:select>
 	<form:label path="uchZvaniyId">Ученое звание</form:label>
 	<form:select path="uchZvaniyId" class="chosen">
 		<form:option value=""></form:option>
-		<form:options items="${uchZvaniyList}" itemLabel="fullName"
-			itemValue="id" />
+		<form:options items="${uchZvaniyList}" itemLabel="fullName" itemValue="id" />
 	</form:select>
 	<form:label path="post">Должность</form:label>
 	<form:input path="post" />
@@ -71,12 +71,6 @@
 	<form:label path="lab">Кафедра</form:label>
 	<form:input path="lab" />
 	<br />
-
-	<form:label path="birthday" placeholder="dd-MM-yyyy">Дата рождения</form:label>
-	
-		<form:input path="birthday" class="datepicker"/>
-		<br />
-
 
 	<form:label path="homePhone">Тел домашний</form:label>
 	<form:input path="homePhone" />
@@ -93,8 +87,8 @@
 	<form:label path="email">Email</form:label>
 	<form:input path="email" />
 	<br />
-	
-	
+
+
 	<input type="submit" value="Save" />
 </form:form>
 
@@ -104,15 +98,6 @@ $(document).ready(function() {
 		no_results_text : "Извините, нет совпадений!",
 		placeholder_text_single : "Выберите из списка...",
 		width : '206px'
-	});
-
-	$('.datapick').datepick({
-		dateFormat : 'dd-mm-yyyy',
-		onClose : function(dates) {
-			$(this).focus();
-			$(this).datepick('performAction', 'close');
-			$(this).blur();$(this).focus();
-		}
 	});
 });
 YUI().use(

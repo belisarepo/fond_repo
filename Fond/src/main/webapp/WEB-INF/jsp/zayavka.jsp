@@ -211,6 +211,16 @@
 		</div>
 	</div>
 </div>
+<hr />
+<aui:button-row>
+	<div align="right">
+		<a class="btn" id="send_btn" href="${sendZayavka}">Подать</a> 
+		<c:if test="${zayavkaModel.statusZayavkaId==3}">
+			<a class="btn"
+			onclick="window.open('<portlet:resourceURL id="report"><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:resourceURL>')">Печать</a>
+		</c:if>
+		</div>
+</aui:button-row>
 
 
 
@@ -223,6 +233,7 @@ $(document).ready(function() {
 		$('input').prop('disabled', true);
 		$('button').prop('disabled', true);
 		$('select').prop('disabled', true);
+		$('#send_btn').css('display','none');
 		
 	}
 	if ('${zayavkaModel.statusZayavkaId}'==3){

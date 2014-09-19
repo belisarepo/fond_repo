@@ -30,6 +30,15 @@ public class PrioritetNauka implements Serializable{
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="SECTION_FOND_ID")
 	private SectionFond sectionFond;
+	@Column(name="PRIZNAK")
+	private int priznak;
+	
+	public int getPriznak() {
+		return priznak;
+	}
+	public void setPriznak(int priznak) {
+		this.priznak = priznak;
+	}
 	public int getId() {
 		return id;
 	}
