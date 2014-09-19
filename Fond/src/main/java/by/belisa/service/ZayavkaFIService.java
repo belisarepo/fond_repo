@@ -38,6 +38,7 @@ import by.belisa.entity.CalcZp;
 import by.belisa.entity.Calculation;
 import by.belisa.entity.FizInfo;
 import by.belisa.entity.Obosnovanie;
+import by.belisa.entity.Petition;
 import by.belisa.entity.Publication;
 import by.belisa.entity.PublicationM;
 import by.belisa.entity.Rukovoditel;
@@ -390,6 +391,13 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		baseDao.saveOrUpdate(zayavkaFI);
 	}
 	
+	public void addPetition(ZayavkaFIDTO zayavkaDto, String petitionName) throws DaoException{
+		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
+		Petition petition = new Petition(petitionName);
+		zayavkaFI.getPetitionSet().add(petition);
+		baseDao.saveOrUpdate(zayavkaFI);
+	}
+	
 	public void addPublicationM(ZayavkaFIDTO zayavkaDto, PublicationMDTO publDto) throws DaoException{
 		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
 		FizInfo fizInfo;
@@ -471,9 +479,9 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 
 	private ZayavkaFI commonSave(ZayavkaFIDTO dto) throws DaoException {
 		ZayavkaFI zayavkaFI;
-		Anketa anketa = anketaDao.get(dto.getUserId());
-		FizInfo fizInfo = fizInfoDao.getByFio(anketa.getSurname(),anketa.getName(),anketa.getPatronymic(),anketa.getBirthday());
-		if (dto.getId()==null){
+		if (dto.getId()==null || dto.getId()==0){
+			Anketa anketa = anketaDao.get(dto.getUserId());
+			FizInfo fizInfo = fizInfoDao.getByFio(anketa.getSurname(),anketa.getName(),anketa.getPatronymic(),anketa.getBirthday());
 			zayavkaFI = new ZayavkaFI();
 			zayavkaFI.setAnketa(anketa);
 			zayavkaFI.setFizInfo(fizInfo);

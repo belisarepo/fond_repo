@@ -119,6 +119,10 @@ public class ZayavkaFI implements Serializable, IValidaton {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ZAYAVKA_ID")
 	Set<CalcOtherCosts> calcOtherCostsSet = new HashSet<CalcOtherCosts>();
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ZAYAVKA_ID")
+	Set<Petition> petitionSet = new HashSet<Petition>();
 
 	// @ManyToMany(cascade=CascadeType.ALL)
 	// @JoinTable(name="ZAYAVKA_FI_FIZ_INFO",
@@ -404,6 +408,15 @@ public class ZayavkaFI implements Serializable, IValidaton {
 
 	public void setRukovoditelNr(RukovoditelNR rukovoditelNr) {
 		this.rukovoditelNr = rukovoditelNr;
+	}
+	
+
+	public Set<Petition> getPetitionSet() {
+		return petitionSet;
+	}
+
+	public void setPetitionSet(Set<Petition> petitionSet) {
+		this.petitionSet = petitionSet;
 	}
 
 	@Override

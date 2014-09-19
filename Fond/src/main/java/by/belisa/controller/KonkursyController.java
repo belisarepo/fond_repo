@@ -62,6 +62,7 @@ import by.belisa.service.KonkursyService;
 import by.belisa.service.OrgNrService;
 import by.belisa.service.OrgService;
 import by.belisa.service.OtraslNaukaService;
+import by.belisa.service.PetitionService;
 import by.belisa.service.PrioritetNaukaService;
 import by.belisa.service.PublicationMService;
 import by.belisa.service.PublicationService;
@@ -106,6 +107,9 @@ public class KonkursyController {
 	@Autowired
 	@Qualifier(value = "orgService")
 	private OrgService orgService;
+	@Autowired
+	@Qualifier(value = "petitionService")
+	private PetitionService petitionService;
 	@Autowired
 	@Qualifier(value = "orgNrService")
 	private OrgNrService orgNrService;
@@ -437,6 +441,23 @@ public class KonkursyController {
 			resp.setRenderParameter("konkursId", konkursId.toString());
 	}
 	
+	@ActionMapping(params = "action=addPetition")
+	public void addPetition(ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+			
+		Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
+		Integer konkursId = ParamUtil.getInteger(req, "konkursId");
+		Long userId = PortalUtil.getUser(req).getUserId();
+		String petitionName = ParamUtil.getString(req, "petitionName");
+		
+		ZayavkaFIDTO zayavkaFIDTO = new ZayavkaFIDTO();
+		zayavkaFIDTO.setId(zayavkaId);
+		zayavkaFIDTO.setKonkursId(konkursId);
+		zayavkaFIDTO.setUserId(userId);
+		zayavkaFIService.addPetition(zayavkaFIDTO,petitionName);
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", konkursId.toString());
+	}
+	
 	@ActionMapping(params = "action=addPublication")
 	public void addPublication(@ModelAttribute(value="publicationModel") PublicationDTO publication, ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
 			Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
@@ -535,7 +556,13 @@ public class KonkursyController {
 		
 		
 	}
-	
+	@ActionMapping(params = "action=deletePetition")
+	public void deletePetition(ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+		Integer petitionId = ParamUtil.getInteger(req, "petitionId");
+		petitionService.delete(petitionService.get(petitionId));
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
+	}
 	@ActionMapping(params = "action=deletePublication")
 	public void deletePublication(ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
 		Integer publicationId = ParamUtil.getInteger(req, "publicationId");

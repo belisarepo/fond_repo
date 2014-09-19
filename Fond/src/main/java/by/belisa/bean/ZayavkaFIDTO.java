@@ -11,6 +11,7 @@ import by.belisa.entity.CalcTrip;
 import by.belisa.entity.CalcZp;
 import by.belisa.entity.Ispolnitel;
 import by.belisa.entity.Organization;
+import by.belisa.entity.Petition;
 import by.belisa.entity.Publication;
 import by.belisa.entity.ZayavkaFI;
 
@@ -50,6 +51,8 @@ public class ZayavkaFIDTO implements Serializable {
 	private Set<CalcMaterialsDTO> calcMaterialsSet = new HashSet<CalcMaterialsDTO>();
 	private Set<CalcTripDTO> calcTripSet = new HashSet<CalcTripDTO>();
 	private Set<CalcOtherCostsDTO> calcOtherCostsSet = new HashSet<CalcOtherCostsDTO>();
+	
+	private Set<PetitionDTO> petitionSet = new HashSet<PetitionDTO>();
 	
 	
 	private Integer idRk;
@@ -379,13 +382,23 @@ public class ZayavkaFIDTO implements Serializable {
 					this.calcMaterialsSet.add(new CalcMaterialsDTO(i));
 				}
 			}
+			if (!zayavkaFI.getPetitionSet().isEmpty()){
+				for (Petition i : zayavkaFI.getPetitionSet()){
+					this.petitionSet.add(new PetitionDTO(i));
+				}
+			}
 			
 		}
 
 	}
 	
-	
-	
+	public Set<PetitionDTO> getPetitionSet() {
+		return petitionSet;
+	}
+
+	public void setPetitionSet(Set<PetitionDTO> petitionSet) {
+		this.petitionSet = petitionSet;
+	}
 
 	public FizInfoDTO getFizInfoDTO() {
 		return fizInfoDTO;

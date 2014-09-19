@@ -70,6 +70,9 @@
 <portlet:actionURL var="addSoOrgAction">
 	<portlet:param name="action" value="addSoOrg" />
 </portlet:actionURL>
+<portlet:actionURL var="addPetitionAction">
+	<portlet:param name="action" value="addPetition" />
+</portlet:actionURL>
 <portlet:actionURL var="addCalcZpAction">
 	<portlet:param name="action" value="addCalcZp" />
 </portlet:actionURL>
@@ -111,6 +114,9 @@
 		<li><a href="#tab-7"><spring:message code="zayavka.tab7" /></a></li>
 		<li><a href="#tab-8"><spring:message code="zayavka.tab8" /></a></li>
 		<li><a href="#tab-9"><spring:message code="zayavka.tab9" /></a></li>
+		<c:if test="${zayavkaModel.young}">
+			<li><a href="#tab-21"><spring:message code="zayavka.tab21" /></a></li>
+		</c:if>
 		<c:if test="${not zayavkaModel.young}">
 			<li><a href="#tab-10"><spring:message code="zayavka.tab10" /></a></li>
 		</c:if>
@@ -159,6 +165,11 @@
 		<div id="tab-9" class="tab-pane">
 			<%@ include file="/WEB-INF/jsp/zayavka/form9.jsp"%>
 		</div>
+		<c:if test="${zayavkaModel.young}">
+			<div id="tab-21" class="tab-pane">
+				<%@ include file="/WEB-INF/jsp/zayavka/form21.jsp"%>
+			</div>
+		</c:if>
 		<c:if test="${not zayavkaModel.young}">
 			<div id="tab-10" class="tab-pane">
 				<%@ include file="/WEB-INF/jsp/zayavka/form10.jsp"%>
@@ -303,42 +314,7 @@ Y.one('#${ns}temaName').on('click', function(event){
 });
 
 
-Y.one('#${ns}goal').on('click', function(event){
-   showPopup('Цель и задачи работы, ее актуальность','goal','${strPopupGoalURL}');
-});
-Y.one('#${ns}analizResults').on('click', function(event){
-   showPopup('Краткий анализ результатов, полученных специалистами в мире в данной области','analizResults','${strPopupAnalizResultsURL}');
-});
-Y.one('#${ns}reserveAuthors').on('click', function(event){
-   showPopup('Научно-практический задел авторов проекта','reserveAuthors','${strPopupReserveAuthorsURL}');
-});
-Y.one('#${ns}expediency').on('click', function(event){
-   showPopup('Обоснование целесообразности проведения совместных исследований','expediency','${strPopupExpediencyURL}');
-});
-Y.one('#${ns}ideaFormulation').on('click', function(event){
-   showPopup('Формулировка и обоснование идеи','ideaFormulation','${strPopupIdeaFormulationURL}');
-});
-Y.one('#${ns}ideaInnovation').on('click', function(event){
-   showPopup('Уровень новизны научной идеи (гипотезы)','ideaInnovation','${strPopupIdeaInnovationURL}');
-});
-Y.one('#${ns}structureOfStudy').on('click', function(event){
-   showPopup('Структура исследования','structureOfStudy','${strPopupStructureOfStudyURL}');
-});
-Y.one('#${ns}resultsNir').on('click', function(event){
-   showPopup('Ожидаемые результаты НИР, их научная и практическая значимость','resultsNir','${strPopupResultsNirURL}');
-});
-Y.one('#${ns}usingResults').on('click', function(event){
-   showPopup('Возможные области использования результатов исследования','usingResults','${strPopupUsingResultsURL}');
-});
-Y.one('#${ns}teamCharacteristic').on('click', function(event){
-   showPopup('Характеристика научного коллектива','teamCharacteristic','${strPopupTeamCharacteristicURL}');
-});
-Y.one('#${ns}provisionEquipment').on('click', function(event){
-   showPopup('Обеспеченность работы основным оборудованием, необходимым для ее выполнения','provisionEquipment','${strPopupProvisionEquipmentURL}');
-});
-Y.one('#${ns}previousKonkurs').on('click', function(event){
-   showPopup('Сведения об участии руководителя и основных исполнителей проекта с белорусской стороны в предыдущих конкурсах Фонда','previousKonkurs','${strPopupPreviousKonkursURL}');
-});
+
 
 Y.one('#${ns}biography').on('click', function(event){
    showPopup('Научная биография руководителя','biography','${strPopupBiographyURL}');
