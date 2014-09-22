@@ -87,6 +87,17 @@
 </portlet:actionURL>
 
 
+
+	<aui:button-row>
+		<div align="right">
+			<a class="btn" id="send_btn" href="${sendZayavka}">Подать</a>
+			<c:if test="${zayavkaModel.statusZayavkaId==3}">
+				<a class="btn"
+					onclick="window.open('<portlet:resourceURL id="report"><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:resourceURL>')">Печать</a>
+			</c:if>
+		</div>
+	</aui:button-row>
+<hr />
 <center>
 	<div id="successMessageContainer"></div>
 </center>
@@ -211,16 +222,7 @@
 		</div>
 	</div>
 </div>
-<hr />
-<aui:button-row>
-	<div align="right">
-		<a class="btn" id="send_btn" href="${sendZayavka}">Подать</a> 
-		<c:if test="${zayavkaModel.statusZayavkaId==3}">
-			<a class="btn"
-			onclick="window.open('<portlet:resourceURL id="report"><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:resourceURL>')">Печать</a>
-		</c:if>
-		</div>
-</aui:button-row>
+
 
 
 

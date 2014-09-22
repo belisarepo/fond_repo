@@ -2,6 +2,9 @@ package by.belisa.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -491,5 +494,14 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 			zayavkaFI = baseDao.get(dto.getId());
 		}
 		return zayavkaFI;
+	}
+	
+	public Map<Integer,String[]> getUserZayavki(Long userId){
+		List<Object[]> list = ((ZayavkaFIDao)baseDao).getUserZayavki(userId);
+		Map<Integer,String[]> userZayavki = new HashMap<Integer,String[]>();
+		for (Object[] i : list){
+			userZayavki.put((Integer) i[0], new String[]{(String) i[1],(String) i[2]});
+		}
+		return userZayavki;
 	}
 }

@@ -2,6 +2,7 @@ package by.belisa.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -79,6 +80,14 @@ public class ZayavkaFIDao extends DaoImpl<ZayavkaFI, Integer>{
 		q.setParameter("tipKonkursaId", tipKonkursaId);
 		List<ZayavkaFI> list = (List<ZayavkaFI>)q.list();
 		
+		return list;
+	}
+
+	public List<Object[]> getUserZayavki(Long userId) {
+		Session s = getSession();
+		Query q = s.createQuery("SELECT id, konkursy.nameR,statusZayavkaFI.name FROM ZayavkaFI WHERE anketa.id=:userId");
+		q.setParameter("userId", userId);
+		List<Object[]> list = q.list();
 		return list;
 	}
 

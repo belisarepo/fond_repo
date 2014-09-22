@@ -242,6 +242,13 @@ public class KonkursyController {
 		return new CalcOtherCostsDTO();
 	}
 
+	@RenderMapping(params="view=userZayavki")
+	public String renderUserZayavki(Model model, PortletRequest request) throws PortalException, SystemException{
+		Long userId = PortalUtil.getUser(request).getUserId();
+		model.addAttribute("zayavkiMap",zayavkaFIService.getUserZayavki(userId));
+		return "userZayavki";
+	}
+	
 	@RenderMapping
 	public String renderView(Model model, PortletRequest request) throws ServiceException, DaoException {
 		List<KonkursyDTO> konkursyList = konkursyService.getActiveKonkursy();
@@ -252,20 +259,27 @@ public class KonkursyController {
 	@RenderMapping(params = "view=zayavka")
 	public String renderZayavkaForm(Model model, PortletRequest request) throws ServiceException, NumberFormatException, PortalException,
 			SystemException, DaoException, ParseException {
-		Long userId = PortalUtil.getUser(request).getUserId();
-		anketaService.checkUser(PortalUtil.getUser(request));
-		String konkursId = ParamUtil.getString(request, "konkursId");
-		ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(userId, Integer.parseInt(konkursId));
-		if (zayavkaFIDTO.getId()==null){
+		ZayavkaFIDTO zayavkaFIDTO = null;
+		Integer zayavkaId = ParamUtil.getInteger(request, "zayavkaId");
+		if (zayavkaId!=0){
+			zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTO(zayavkaId);
+		}else{
+			Long userId = PortalUtil.getUser(request).getUserId();
+			anketaService.checkUser(PortalUtil.getUser(request));
+			String konkursId = ParamUtil.getString(request, "konkursId");
+			zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(userId, Integer.parseInt(konkursId));
+			if (zayavkaFIDTO.getId()==null){
 
-			AnketaDTO anketaDTO = anketaService.getDTO(userId);
-			Integer fizInfoId = fizInfoService.addFizInfo(anketaDTO);
-			zayavkaFIDTO.setFizInfoDTO(fizInfoService.getDTO(fizInfoId, Integer.parseInt(konkursId)));
-			CheckUslResult checkUslResult = konkursyService.checkUsloviyaRuk(Integer.parseInt(konkursId), fizInfoId);
-			if (!checkUslResult.isAvailable()){
-				String errorMsg = Utils.createErrorMsg(anketaDTO.getFio(), checkUslResult);
-				model.addAttribute("errorMsg", errorMsg);
-				return renderView(model,request);
+				AnketaDTO anketaDTO = anketaService.getDTO(userId);
+				Integer fizInfoId = fizInfoService.addFizInfo(anketaDTO);
+				zayavkaFIDTO.setFizInfoDTO(fizInfoService.getDTO(fizInfoId, Integer.parseInt(konkursId)));
+				CheckUslResult checkUslResult = konkursyService.checkUsloviyaRuk(Integer.parseInt(konkursId), fizInfoId);
+				if (!checkUslResult.isAvailable()){
+					String errorMsg = Utils.createErrorMsg(anketaDTO.getFio(), checkUslResult);
+					model.addAttribute("errorMsg", errorMsg);
+					return renderView(model,request);
+				}
+				
 			}
 		}
 		model.addAttribute("zayavkaModel", zayavkaFIDTO);
