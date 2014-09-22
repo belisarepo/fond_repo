@@ -344,12 +344,17 @@ public class Rukovoditel implements Serializable, IValidaton {
 
 	@Override
 	public ValidationResult validate() {
+		final int BELARUS_FORM_ID = 1;
+		final int BELARUS_JUNIOR_FORM_ID = 2;
+		final int COOPERATIVE_FORM_ID = 3;
+		final int COOPERATIVE_JUNIOR_FORM_ID = 4;
 		ValidationResult vr = new ValidationResult();
 		String message = null;
 		String tabNameHeadProjectOfBelarus = "во вкладке \"Руководитель проекта от РБ\"";
 		String tabNameHeadScienceRating = "во вкладке \"Научный рейтинг руководителя\"";
 		String tabNameAplicantOrg = "во вкладке \"Организация-заявитель от РБ\"";
 		String tabNameListOfPublications = "во вкладке \"Перечень публикации руководителя\"";
+		int VidFormId = zayavkaFI.getKonkursy().getTipKonkursa().getVidFormaZ().getId();
 		// Проверка даты рождения
 		if (this.birthday == null) {
 			message = "Не заполнена дата рождения" + " " + tabNameHeadProjectOfBelarus;
@@ -400,35 +405,38 @@ public class Rukovoditel implements Serializable, IValidaton {
 			message = "Не заполнен почтовый индекс и домашний адрес" + " " + tabNameHeadProjectOfBelarus;
 			vr.getErrMessages().add(message);
 		}
-		// Проверка количества публикаций
-		if (this.countPublicationISI == null || this.countPublicationRINC == null || this.countPublicationScopus == null
-				|| this.countPublicationISI.isEmpty() || this.countPublicationRINC.isEmpty() || this.countPublicationScopus.isEmpty()) {
-			message = "Не заполенены количество публикаций" + " " + tabNameHeadScienceRating;
-			vr.getErrMessages().add(message);
+		if (VidFormId == BELARUS_FORM_ID || VidFormId == COOPERATIVE_FORM_ID) {
+			// Проверка количества публикаций
+			if (this.countPublicationISI == null || this.countPublicationRINC == null || this.countPublicationScopus == null
+					|| this.countPublicationISI.isEmpty() || this.countPublicationRINC.isEmpty() || this.countPublicationScopus.isEmpty()) {
+				message = "Не заполенены количество публикаций" + " " + tabNameHeadScienceRating;
+				vr.getErrMessages().add(message);
+			}
+			// Проверка индекса цитирования всех работ
+			if (this.citationIndexISI == null || this.citationIndexRINC == null || this.citationIndexScopus == null
+					|| this.citationIndexISI.isEmpty() || this.citationIndexRINC.isEmpty() || this.citationIndexScopus.isEmpty()) {
+				message = "Не заполнены индексы цитирования всех работ" + " " + tabNameHeadScienceRating;
+				vr.getErrMessages().add(message);
+			}
+			// Проверка индекса цитирования без самоцитирования
+			if (this.indexWithoutSelfISI == null || this.indexWithoutSelfRINC == null || this.indexWithoutSelfScopus == null
+					|| this.indexWithoutSelfISI.isEmpty() || this.indexWithoutSelfRINC.isEmpty() || this.indexWithoutSelfScopus.isEmpty()) {
+				message = "Не заполнены индексы цитирования без самоцитирования" + " " + tabNameHeadScienceRating;
+				vr.getErrMessages().add(message);
+			}
+			// Проверка индекса Хирши
+			if (this.indexHirshaISI == null || this.indexHirshaRINC == null || this.indexHirshaScopus == null || this.indexHirshaISI.isEmpty()
+					|| this.indexHirshaRINC.isEmpty() || this.indexHirshaScopus.isEmpty()) {
+				message = "Не заполнены индексы Хирша" + " " + tabNameHeadScienceRating;
+				vr.getErrMessages().add(message);
+			}
 		}
-		// Проверка индекса цитирования всех работ
-		if (this.citationIndexISI == null || this.citationIndexRINC == null || this.citationIndexScopus == null || this.citationIndexISI.isEmpty()
-				|| this.citationIndexRINC.isEmpty() || this.citationIndexScopus.isEmpty()) {
-			message = "Не заполнены индексы цитирования всех работ" + " " + tabNameHeadScienceRating;
-			vr.getErrMessages().add(message);
-		}
-		// Проверка индекса цитирования без самоцитирования
-		if (this.indexWithoutSelfISI == null || this.indexWithoutSelfRINC == null || this.indexWithoutSelfScopus == null
-				|| this.indexWithoutSelfISI.isEmpty() || this.indexWithoutSelfRINC.isEmpty() || this.indexWithoutSelfScopus.isEmpty()) {
-			message = "Не заполнены индексы цитирования без самоцитирования" + " " + tabNameHeadScienceRating;
-			vr.getErrMessages().add(message);
-		}
-		// Проверка индекса Хирши
-		if (this.indexHirshaISI == null || this.indexHirshaRINC == null || this.indexHirshaScopus == null || this.indexHirshaISI.isEmpty()
-				|| this.indexHirshaRINC.isEmpty() || this.indexHirshaScopus.isEmpty()) {
-			message = "Не заполнены индексы Хирша" + " " + tabNameHeadScienceRating;
-			vr.getErrMessages().add(message);
-		}
-
-		// Проверка перечня публикаций руководителя
-		if (this.publicationSet == null || this.publicationSet.isEmpty()) {
-			message = "Не заполнены публикиции" + " " + tabNameListOfPublications;
-			vr.getErrMessages().add(message);
+		if (VidFormId == BELARUS_FORM_ID || VidFormId == COOPERATIVE_FORM_ID) {
+			// Проверка перечня публикаций руководителя
+			if (this.publicationSet == null || this.publicationSet.isEmpty()) {
+				message = "Не заполнены публикиции" + " " + tabNameListOfPublications;
+				vr.getErrMessages().add(message);
+			}
 		}
 		// Проверка вкладки биографии руководителя
 		if (this.biography == null || this.biography.isEmpty()) {

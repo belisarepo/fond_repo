@@ -210,9 +210,14 @@ public class Obosnovanie implements Serializable, IValidaton {
 
 	@Override
 	public ValidationResult validate() {
+		final int BELARUS_FORM_ID = 1;
+		final int BELARUS_JUNIOR_FORM_ID = 2;
+		final int COOPERATIVE_FORM_ID = 3;
+		final int COOPERATIVE_JUNIOR_FORM_ID = 4;
 		ValidationResult vr = new ValidationResult();
 		String message = null;
 		String tabNameJustification = "во вкладке \"Обоснование\"";
+		int VidFormId = this.zayavkaFI.getKonkursy().getTipKonkursa().getVidFormaZ().getId();
 		// Проверка цели, задачи и её актуальности
 		if (this.goal == null || this.goal.isEmpty()) {
 			message = "Не заполнена цель и задачи работы" + " " + tabNameJustification;
@@ -228,10 +233,14 @@ public class Obosnovanie implements Serializable, IValidaton {
 			message = "Не заполнен научно-практический задел авторов" + " " + tabNameJustification;
 			vr.getErrMessages().add(message);
 		}
-		// Проверка обоснования целесообразности проведения совместных условий
-		if (this.expediency == null || this.expediency.isEmpty()) {
-			message = "Не заполнены обоснования целесообразности проведения совместных условий" + " " + tabNameJustification;
-			vr.getErrMessages().add(message);
+		// Если конкурс совместный или совместный молодёжный
+		if (VidFormId == COOPERATIVE_FORM_ID || VidFormId == COOPERATIVE_JUNIOR_FORM_ID) {
+			// Проверка обоснования целесообразности проведения совместных
+			// условий
+			if (this.expediency == null || this.expediency.isEmpty()) {
+				message = "Не заполнены обоснования целесообразности проведения совместных условий" + " " + tabNameJustification;
+				vr.getErrMessages().add(message);
+			}
 		}
 		// Проверка формулировки и обоснование идеи
 		if (this.ideaFormulation == null || this.ideaFormulation.isEmpty()) {
