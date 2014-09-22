@@ -119,7 +119,7 @@ public class ZayavkaFI implements Serializable, IValidaton {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ZAYAVKA_ID")
 	Set<CalcOtherCosts> calcOtherCostsSet = new HashSet<CalcOtherCosts>();
-	
+
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ZAYAVKA_ID")
 	Set<Petition> petitionSet = new HashSet<Petition>();
@@ -409,7 +409,6 @@ public class ZayavkaFI implements Serializable, IValidaton {
 	public void setRukovoditelNr(RukovoditelNR rukovoditelNr) {
 		this.rukovoditelNr = rukovoditelNr;
 	}
-	
 
 	public Set<Petition> getPetitionSet() {
 		return petitionSet;
@@ -421,6 +420,10 @@ public class ZayavkaFI implements Serializable, IValidaton {
 
 	@Override
 	public ValidationResult validate() {
+		final int BELARUS_FORM_ID = 1;
+		final int BELARUS_JUNIOR_FORM_ID = 2;
+		final int COOPERATIVE_FORM_ID = 3;
+		final int COOPERATIVE_JUNIOR_FORM_ID = 4;
 		ValidationResult vr = new ValidationResult();
 		String message = null;
 		String tabNameDataAboutTender = "во вкладке \"Данные о заявке\"";
@@ -428,6 +431,8 @@ public class ZayavkaFI implements Serializable, IValidaton {
 		String tabNameCalc = "во вкладке \"Калькуляция сметной стоимости проекта\"";
 		String tabNameCalcSalary = "во вкладке\"Расчёт затрат на заработную плату\"";
 		String tabNameOrgFromInternational = "во вкладке\"Организация-заявитель от зарубежной стороны\"";
+		int VidFormId = this.konkursy.getTipKonkursa().getVidFormaZ().getId();
+
 		// Проверка списка "Секция Научного совета БРФФИ"
 		if (this.sectionFond == null) {
 			message = "Не выбрана секция научного совета БРФФИ" + " " + tabNameDataAboutTender;
@@ -463,52 +468,66 @@ public class ZayavkaFI implements Serializable, IValidaton {
 			message = "Не заполнен расчёт заработной платы" + " " + tabNameCalcSalary;
 			vr.getErrMessages().add(message);
 		}
-		// Проверка иностранных организаций
-
-		if(this.konkursy !=null){
-			final int INTERNATIONAL_ID=4;
-			int konkursVidId = this.konkursy.getTipKonkursa().getVidKonkursa().getId();
-			if(INTERNATIONAL_ID == konkursVidId){
-				//Если тип конкурса международный, то должна быть указана организация заявитель от зарубежной стороны
-				if (this.orgNR == null){
-					message = "Не выбрана организация-заявитель от зарубуженой стороны" + " "+ tabNameOrgFromInternational;
-					vr.getErrMessages().add(message);
-				}
-				//Если тип конкурса международный, то должен быть заполнен руководитель от зарубежной стороны
-				if(this.rukovoditelNr==null){
-					message = "Не заполнена вкладка \"Руководитель проекта от зарубежной стороны\"";
-					vr.getErrMessages().add(message);
-				}
-				else{
-					vr.getErrMessages().addAll(this.rukovoditelNr.validate().getErrMessages());
+		// Проверка списка публикации
+		if (this.fizInfo.getPublication() == null || this.fizInfo.getPublication().isEmpty()) {
+			message = "Не заполнена вкладка \"Список публикации\"";
+			vr.getErrMessages().add(message);
+		}
+		//Проверка кто вносит ходатайство 
+		if(VidFormId == BELARUS_JUNIOR_FORM_ID || VidFormId == COOPERATIVE_JUNIOR_FORM_ID){
+			if(this.petitionSet.isEmpty() || this.petitionSet == null){
+				message = "Не заполнена вкладка \"Кто вносит ходатайство\"";
+				vr.getErrMessages().add(message);
+			}
+		}
+		// Если форма для совместных и совместных молодёжных
+		if (VidFormId == COOPERATIVE_FORM_ID || VidFormId == COOPERATIVE_JUNIOR_FORM_ID) {
+			// Проверка иностранных организаций
+			if (this.konkursy != null) {
+				final int INTERNATIONAL_ID = 4;
+				int konkursVidId = this.konkursy.getTipKonkursa().getVidKonkursa().getId();
+				if (INTERNATIONAL_ID == konkursVidId) {
+					// Если тип конкурса международный, то должна быть указана
+					// организация заявитель от зарубежной стороны
+					if (this.orgNR == null) {
+						message = "Не выбрана организация-заявитель от зарубуженой стороны" + " " + tabNameOrgFromInternational;
+						vr.getErrMessages().add(message);
+					}
+					// Если тип конкурса международный, то должен быть заполнен
+					// руководитель от зарубежной стороны
+					if (this.rukovoditelNr == null) {
+						message = "Не заполнена вкладка \"Руководитель проекта от зарубежной стороны\"";
+						vr.getErrMessages().add(message);
+					} else {
+						vr.getErrMessages().addAll(this.rukovoditelNr.validate().getErrMessages());
+					}
 				}
 			}
 		}
-		// Проверка вкладки аннотация
-		if (this.annotation != null) {
-			vr.getErrMessages().addAll(this.annotation.validate().getErrMessages());
-		}
-		else{
-			message="Не заполнена вкладка \"Аннотация\"";
-			vr.getErrMessages().add(message);
+		if (VidFormId != BELARUS_JUNIOR_FORM_ID) {
+			// Проверка вкладки аннотация
+			if (this.annotation != null) {
+				vr.getErrMessages().addAll(this.annotation.validate().getErrMessages());
+			} else {
+				message = "Не заполнена вкладка \"Аннотация\"";
+				vr.getErrMessages().add(message);
+			}
 		}
 		// Проверка вкладки обоснование
-		if(this.obosnovanie!=null){
-			vr.getErrMessages().addAll(this.obosnovanie.validate().getErrMessages());	
-		}
-		else{
-			message="Не заполнена вкладка \"Обоснование\"";
+		if (this.obosnovanie != null) {
+			vr.getErrMessages().addAll(this.obosnovanie.validate().getErrMessages());
+		} else {
+			message = "Не заполнена вкладка \"Обоснование\"";
 			vr.getErrMessages().add(message);
 		}
 		// Проверка руководителя
-		if(this.rukovoditel!=null){
+		if (this.rukovoditel != null) {
 			vr.getErrMessages().addAll(this.rukovoditel.validate().getErrMessages());
-		}
-		else{
-			message="Не заполнена вкладка \"Руководитель проекта от РБ\"";
+		} else {
+			message = "Не заполнена вкладка \"Руководитель проекта от РБ\"";
 			vr.getErrMessages().add(message);
 		}
-		
+
 		return vr;
 	}
 
