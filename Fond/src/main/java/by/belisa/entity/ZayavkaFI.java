@@ -504,7 +504,7 @@ public class ZayavkaFI implements Serializable, IValidaton {
 				}
 			}
 		}
-		if (VidFormId != BELARUS_JUNIOR_FORM_ID || VidFormId != COOPERATIVE_JUNIOR_FORM_ID) {
+		if (VidFormId ==COOPERATIVE_FORM_ID || VidFormId == BELARUS_FORM_ID) {
 			// Проверка вкладки аннотация
 			if (this.annotation != null) {
 				vr.getErrMessages().addAll(this.annotation.validate().getErrMessages());
