@@ -34,4 +34,12 @@ public class KonkursyDao extends DaoImpl<Konkursy, Integer> {
 	    q.setParameter("id", 4);
 	    return q.list();
 	}
+	public List<Konkursy> getActiveKonkursy(int page){
+		Session s = getSession();
+	    Query q = s.createQuery("FROM Konkursy where konkursStatus.id=:id");
+	    q.setParameter("id", 4);
+	    q.setFirstResult((page-1)*3);
+	    q.setMaxResults(3);
+	    return q.list();
+	}
 }

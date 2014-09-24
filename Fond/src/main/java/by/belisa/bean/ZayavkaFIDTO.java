@@ -43,6 +43,7 @@ public class ZayavkaFIDTO implements Serializable {
 	private String orgAddress;
 	private String udk;
 	private Integer statusZayavkaId;
+	private String statusZayavkaName;
 	private Set<IspolnitelDTO> ispolniteliDTO = new HashSet<IspolnitelDTO>();
 	private Set<OrgDTO> soOrg = new HashSet<OrgDTO>();
 	private Set<PublicationDTO> publications = new HashSet<PublicationDTO>();
@@ -200,6 +201,7 @@ public class ZayavkaFIDTO implements Serializable {
 			this.costAll = zayavkaFI.getCostAll();
 			this.costFirstYear = zayavkaFI.getCostFirstYear();
 			this.statusZayavkaId = zayavkaFI.getStatusZayavkaFI()!=null ? zayavkaFI.getStatusZayavkaFI().getId() : null;
+			this.statusZayavkaName = zayavkaFI.getStatusZayavkaFI()!=null ? zayavkaFI.getStatusZayavkaFI().getName() : "";
 			
 			if (zayavkaFI.getFizInfo()!=null){
 				this.fizInfoDTO = new FizInfoDTO(zayavkaFI.getFizInfo(),this.young);
@@ -1407,6 +1409,14 @@ public class ZayavkaFIDTO implements Serializable {
 
 	public void setIntl(boolean intl) {
 		this.intl = intl;
+	}
+
+	public String getStatusZayavkaName() {
+		return statusZayavkaName;
+	}
+
+	public void setStatusZayavkaName(String statusZayavkaName) {
+		this.statusZayavkaName = statusZayavkaName;
 	}
 
 }

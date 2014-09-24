@@ -29,7 +29,7 @@
 					<td>${i.count}</td>
 					<td class="calcMaterialsSum">${i.sum}</td>
 					<td><a
-						href="<portlet:actionURL><portlet:param name="action" value="deleteCalcMaterials"/><portlet:param name="calcMaterialsId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /></portlet:actionURL>">Удалить</a></td>
+						href="<portlet:actionURL><portlet:param name="action" value="deleteCalcMaterials"/><portlet:param name="calcMaterialsId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:actionURL>">Удалить</a></td>
 				</tr>
 			</c:forEach>
 			<tr>

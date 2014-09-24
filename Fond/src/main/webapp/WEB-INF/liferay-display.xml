@@ -7,5 +7,6 @@
 		<portlet id="request" />
 		<portlet id="konkursy" />
 		<portlet id="organization" />
+		<portlet id="adminZayavki" />
 	</category>
 </display>

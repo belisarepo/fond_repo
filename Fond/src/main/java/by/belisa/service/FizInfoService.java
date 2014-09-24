@@ -110,8 +110,8 @@ public class FizInfoService extends ServiceImpl<FizInfo, Integer>{
 	public void addZayavkaFI(Integer fizInfoId, Integer zayavkaId) throws DaoException{
 		fizInfoDao.get(fizInfoId).getZayavki().add(zayavkaFIDao.get(zayavkaId));
 	}
-	public void removeZayavkaFI(Long userId, Integer konkursId, Ispolnitel ispolnitel) throws DaoException{
-		ZayavkaFI zayavkaFI = zayavkaFIDao.getZayavkaFIByUserId(userId, konkursId);
+	public void removeZayavkaFI(Integer zayavkaId, Ispolnitel ispolnitel) throws DaoException{
+		ZayavkaFI zayavkaFI = zayavkaFIDao.get(zayavkaId);
 		FizInfo fizInfo = fizInfoDao.getByFio(ispolnitel.getSurname(),ispolnitel.getName(),ispolnitel.getPatronymic(),ispolnitel.getBirthday());
 		fizInfo.getZayavki().remove(zayavkaFI);
 		fizInfoDao.saveOrUpdate(fizInfo);

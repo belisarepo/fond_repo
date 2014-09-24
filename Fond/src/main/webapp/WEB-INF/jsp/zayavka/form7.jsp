@@ -33,7 +33,7 @@
 	</table>
 </c:if>
 <aui:form action="${addSoOrgAction}" method="POST" name="form7">
-	<aui:input name="id" bean="zayavkaModel" type="hidden" value="${zayavkaModel.id}" />
+	<aui:input name="zayavkaId" type="hidden" value="${zayavkaModel.id}" />
 	<aui:input name="konkursId" type="hidden" value="${zayavkaModel.konkursId}" />
 	<aui:input name="userId" type="hidden" value="${zayavkaModel.userId}" />
 

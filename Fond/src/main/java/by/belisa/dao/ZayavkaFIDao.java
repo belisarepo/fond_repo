@@ -90,5 +90,12 @@ public class ZayavkaFIDao extends DaoImpl<ZayavkaFI, Integer>{
 		List<Object[]> list = q.list();
 		return list;
 	}
+	
+	public List<ZayavkaFI> getAllByKonkursId(int id){
+		Session s = getSession();
+		Query q = s.createQuery("FROM ZayavkaFI WHERE konkursy.id=:konkursId");
+		q.setParameter("konkursId", id);
+		return q.list();
+	}
 
 }
