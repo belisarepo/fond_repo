@@ -19,6 +19,10 @@ import by.belisa.bean.PublicationDTO;
 import by.belisa.bean.PublicationMDTO;
 import by.belisa.bean.ZayavkaFIDTO;
 import by.belisa.dao.AnketaDao;
+import by.belisa.dao.CalcMaterialsSumDao;
+import by.belisa.dao.CalcOtherCostsSumDao;
+import by.belisa.dao.CalcTripSumDao;
+import by.belisa.dao.CalcZpSumDao;
 import by.belisa.dao.Dao;
 import by.belisa.dao.FizInfoDao;
 import by.belisa.dao.KonkursyDao;
@@ -36,9 +40,13 @@ import by.belisa.dao.ZayavkaFIDao;
 import by.belisa.entity.Anketa;
 import by.belisa.entity.Annotation;
 import by.belisa.entity.CalcMaterials;
+import by.belisa.entity.CalcMaterialsSum;
 import by.belisa.entity.CalcOtherCosts;
+import by.belisa.entity.CalcOtherCostsSum;
 import by.belisa.entity.CalcTrip;
+import by.belisa.entity.CalcTripSum;
 import by.belisa.entity.CalcZp;
+import by.belisa.entity.CalcZpSum;
 import by.belisa.entity.Calculation;
 import by.belisa.entity.FizInfo;
 import by.belisa.entity.Obosnovanie;
@@ -106,6 +114,18 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	@Autowired
 	@Qualifier(value="publicationTypeDao")
 	private PublicationTypeDao publicationTypeDao;
+	@Autowired
+	@Qualifier(value = "calcZpSumDao")
+	private CalcZpSumDao calcZpSumDao;
+	@Autowired
+	@Qualifier(value = "calcOtherCostsSumDao")
+	private CalcOtherCostsSumDao calcOtherCostsSumDao;
+	@Autowired
+	@Qualifier(value = "calcTripSumDao")
+	private CalcTripSumDao calcTripSumDao;
+	@Autowired
+	@Qualifier(value = "calcMaterialsSumDao")
+	private CalcMaterialsSumDao calcMaterialsSumDao;
 
 	public ZayavkaFIDTO getZayavkaFIDTO(int id) throws DaoException {
 		ZayavkaFI zayavkaFI = baseDao.get(id);
@@ -446,6 +466,17 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		calcZp.setRate(calcZpDto.getRate());
 		calcZp.setSalary(calcZpDto.getSalary());
 		zayavkaFI.getCalcZpSet().add(calcZp);
+		Float sum = 0f;
+		for (CalcZp i: zayavkaFI.getCalcZpSet()){
+			sum = sum + i.getFondZp();
+		}
+		Integer zayavkaId = zayavkaFI.getId()!=null ? zayavkaFI.getId() : -1;
+		CalcZpSum calcZpSum = calcZpSumDao.get(zayavkaId);
+		if (calcZpSum==null){
+			calcZpSum = new CalcZpSum(zayavkaFI);
+		}
+		calcZpSum.setSum(sum);
+		zayavkaFI.setCalcZpSum(calcZpSum); 
 		baseDao.saveOrUpdate(zayavkaFI);
 		return zayavkaFI.getId();
 	}
@@ -459,6 +490,17 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		calcMaterials.setSum(calcMaterialsDto.getSum());
 		calcMaterials.setUnit(calcMaterialsDto.getUnit());
 		zayavkaFI.getCalcMaterialsSet().add(calcMaterials);
+		Float sum = 0f;
+		for (CalcMaterials i: zayavkaFI.getCalcMaterialsSet()){
+			sum = sum + i.getSum();
+		}
+		Integer zayavkaId = zayavkaFI.getId()!=null ? zayavkaFI.getId() : -1;
+		CalcMaterialsSum calcMaterialsSum = calcMaterialsSumDao.get(zayavkaId);
+		if (calcMaterialsSum==null){
+			calcMaterialsSum = new CalcMaterialsSum(zayavkaFI);
+		}
+		calcMaterialsSum.setSum(sum);
+		zayavkaFI.setCalcMaterialsSum(calcMaterialsSum);
 		baseDao.saveOrUpdate(zayavkaFI);
 		return zayavkaFI.getId();
 	}
@@ -472,6 +514,17 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		calcTrip.setTripGoal(calcTripDto.getTripGoal());
 		calcTrip.setTripPoint(calcTripDto.getTripPoint());
 		zayavkaFI.getCalcTripSet().add(calcTrip);
+		Float sum = 0f;
+		for (CalcTrip i: zayavkaFI.getCalcTripSet()){
+			sum = sum + i.getCosts();
+		}
+		Integer zayavkaId = zayavkaFI.getId()!=null ? zayavkaFI.getId() : -1;
+		CalcTripSum calcTripSum = calcTripSumDao.get(zayavkaId);
+		if (calcTripSum==null){
+			calcTripSum = new CalcTripSum(zayavkaFI);
+		}
+		calcTripSum.setSum(sum);
+		zayavkaFI.setCalcTripSum(calcTripSum);
 		baseDao.saveOrUpdate(zayavkaFI);
 		return zayavkaFI.getId();
 	}
@@ -484,6 +537,17 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		calcOtherCosts.setPn(calcOtherCostsDto.getPn());
 		calcOtherCosts.setSum(calcOtherCostsDto.getSum());
 		zayavkaFI.getCalcOtherCostsSet().add(calcOtherCosts);
+		Float sum = 0f;
+		for (CalcOtherCosts i: zayavkaFI.getCalcOtherCostsSet()){
+			sum = sum + i.getSum();
+		}
+		Integer zayavkaId = zayavkaFI.getId()!=null ? zayavkaFI.getId() : -1;
+		CalcOtherCostsSum calcOtherCostsSum = calcOtherCostsSumDao.get(zayavkaId);
+		if (calcOtherCostsSum==null){
+			calcOtherCostsSum = new CalcOtherCostsSum(zayavkaFI);
+		}
+		calcOtherCostsSum.setSum(sum);
+		zayavkaFI.setCalcOtherCostsSum(calcOtherCostsSum);
 		baseDao.saveOrUpdate(zayavkaFI);
 		return zayavkaFI.getId();
 	}

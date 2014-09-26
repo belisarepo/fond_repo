@@ -92,6 +92,15 @@ public class ZayavkaFI implements Serializable, IValidaton {
 	private Rukovoditel rukovoditel;
 	@OneToOne(mappedBy = "zayavkaFI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Calculation calculation;
+	
+	@OneToOne(mappedBy = "zayavkaFI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private CalcZpSum calcZpSum;
+	@OneToOne(mappedBy = "zayavkaFI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private CalcMaterialsSum calcMaterialsSum;
+	@OneToOne(mappedBy = "zayavkaFI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private CalcTripSum calcTripSum;
+	@OneToOne(mappedBy = "zayavkaFI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private CalcOtherCostsSum calcOtherCostsSum;
 
 	@OneToOne(mappedBy = "zayavkaFI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private RukovoditelNR rukovoditelNr;
@@ -416,6 +425,39 @@ public class ZayavkaFI implements Serializable, IValidaton {
 
 	public void setPetitionSet(Set<Petition> petitionSet) {
 		this.petitionSet = petitionSet;
+	}
+	
+
+	public CalcZpSum getCalcZpSum() {
+		return calcZpSum;
+	}
+
+	public void setCalcZpSum(CalcZpSum calcZpSum) {
+		this.calcZpSum = calcZpSum;
+	}
+
+	public CalcMaterialsSum getCalcMaterialsSum() {
+		return calcMaterialsSum;
+	}
+
+	public void setCalcMaterialsSum(CalcMaterialsSum calcMaterialsSum) {
+		this.calcMaterialsSum = calcMaterialsSum;
+	}
+
+	public CalcTripSum getCalcTripSum() {
+		return calcTripSum;
+	}
+
+	public void setCalcTripSum(CalcTripSum calcTripSum) {
+		this.calcTripSum = calcTripSum;
+	}
+
+	public CalcOtherCostsSum getCalcOtherCostsSum() {
+		return calcOtherCostsSum;
+	}
+
+	public void setCalcOtherCostsSum(CalcOtherCostsSum calcOtherCostsSum) {
+		this.calcOtherCostsSum = calcOtherCostsSum;
 	}
 
 	@Override

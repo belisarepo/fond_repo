@@ -49,9 +49,13 @@ import by.belisa.exception.DaoException;
 import by.belisa.exception.ServiceException;
 import by.belisa.service.AnketaService;
 import by.belisa.service.CalcMaterialsService;
+import by.belisa.service.CalcMaterialsSumService;
 import by.belisa.service.CalcOtherCostsService;
+import by.belisa.service.CalcOtherCostsSumService;
 import by.belisa.service.CalcTripService;
+import by.belisa.service.CalcTripSumService;
 import by.belisa.service.CalcZpService;
+import by.belisa.service.CalcZpSumService;
 import by.belisa.service.FizInfoService;
 import by.belisa.service.IspolnitelService;
 import by.belisa.service.KonkursyService;
@@ -129,14 +133,26 @@ public abstract class SaveZayavkaController {
 	@Qualifier("calcZpService")
 	protected CalcZpService calcZpService;
 	@Autowired
+	@Qualifier("calcZpSumService")
+	protected CalcZpSumService calcZpSumService;
+	@Autowired
 	@Qualifier("calcTripService")
 	protected CalcTripService calcTripService;
+	@Autowired
+	@Qualifier("calcTripSumService")
+	protected CalcTripSumService calcTripSumService;
 	@Autowired
 	@Qualifier("calcOtherCostsService")
 	protected CalcOtherCostsService calcOtherCostsService;
 	@Autowired
+	@Qualifier("calcOtherCostsSumService")
+	protected CalcOtherCostsSumService calcOtherCostsSumService;
+	@Autowired
 	@Qualifier("calcMaterialsService")
 	protected CalcMaterialsService calcMaterialsService;
+	@Autowired
+	@Qualifier("calcMaterialsSumService")
+	protected CalcMaterialsSumService calcMaterialsSumService;
 	@Autowired
 	@Qualifier("anketaService")
 	protected AnketaService anketaService;
@@ -577,6 +593,7 @@ public abstract class SaveZayavkaController {
 		Integer calcZpId = ParamUtil.getInteger(req, "calcZpId");
 		Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
 		calcZpService.delete(calcZpService.get(calcZpId));
+		calcZpSumService.recalculate(zayavkaId);
 		resp.setRenderParameter("zayavkaId", zayavkaId.toString());
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
@@ -586,6 +603,7 @@ public abstract class SaveZayavkaController {
 		Integer calcTripId = ParamUtil.getInteger(req, "calcTripId");
 		Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
 		calcTripService.delete(calcTripService.get(calcTripId));
+		calcTripSumService.recalculate(zayavkaId);
 		resp.setRenderParameter("zayavkaId", zayavkaId.toString());
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
@@ -595,6 +613,7 @@ public abstract class SaveZayavkaController {
 		Integer calcOtherCostsId = ParamUtil.getInteger(req, "calcOtherCostsId");
 		Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
 		calcOtherCostsService.delete(calcOtherCostsService.get(calcOtherCostsId));
+		calcOtherCostsSumService.recalculate(zayavkaId);
 		resp.setRenderParameter("zayavkaId", zayavkaId.toString());
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
@@ -604,6 +623,7 @@ public abstract class SaveZayavkaController {
 		Integer calcMaterialsId = ParamUtil.getInteger(req, "calcMaterialsId");
 		Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
 		calcMaterialsService.delete(calcMaterialsService.get(calcMaterialsId));
+		calcMaterialsSumService.recalculate(zayavkaId);
 		resp.setRenderParameter("zayavkaId", zayavkaId.toString());
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
