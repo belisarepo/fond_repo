@@ -521,10 +521,10 @@ public class ZayavkaFI implements Serializable, IValidaton {
 		if (this.calculation == null || this.calculation.getAllFull() == 0) {
 			message = "Не заполнена калькуляция" + " " + tabNameCalc;
 			vr.getErrMessages().add(message);
-		}
-		else{
-			//Сумма всего по проекту должны быть больше или равна чем за первый год
-			if(this.calculation.getAllFull()<this.calculation.getAllFirstYear()){
+		} else {
+			// Сумма всего по проекту должны быть больше или равна чем за первый
+			// год
+			if (this.calculation.getAllFull() < this.calculation.getAllFirstYear()) {
 				message = "Всего стоимость по проекту меньше чем за первый год " + tabNameCalc;
 				vr.getErrMessages().add(message);
 			}
@@ -537,19 +537,26 @@ public class ZayavkaFI implements Serializable, IValidaton {
 		// Проверка итоговый сумм калькуляций
 		if (this.calculation != null && this.calcZpSet != null) {
 			if (this.calculation.getAllFull() != this.calcZpSum.getSum()) {
-				message = "Не совпадают суммы \"Заработная плата(основаная и дополнительная) научно-производственного персонала\" "+tabNameCalc+" и \"Итого затрат\" "+tabNameCalcSalary;
+				message = "Не совпадают суммы \"Заработная плата(основаная и дополнительная) научно-производственного персонала\" " + tabNameCalc
+						+ " и \"Итого затрат\" " + tabNameCalcSalary;
 				vr.getErrMessages().add(message);
 			}
-			if((this.calcMaterialsSet==null && this.calculation.getHardwareFull()!=0) ||(this.calculation.getHardwareFull()!=this.calcMaterialsSum.getSum())){
-				message ="Не совпадают суммы \"Материалы,покупные полуфабрикаты и комплектующие изделия\" " + tabNameCalc+" и \"Итого затрат\" во вкладке \"Расчёт затрат на материалы\"";
+			if ((this.calcMaterialsSet == null && this.calculation.getHardwareFull() != 0)
+					|| (this.calculation.getHardwareFull() != this.calcMaterialsSum.getSum())) {
+				message = "Не совпадают суммы \"Материалы,покупные полуфабрикаты и комплектующие изделия\" " + tabNameCalc
+						+ " и \"Итого затрат\" во вкладке \"Расчёт затрат на материалы\"";
 				vr.getErrMessages().add(message);
 			}
-			if((this.calcTripSet==null && this.calculation.getBusinessTripFull()!=0) ||(this.calculation.getBusinessTripFull()!=this.calcTripSum.getSum())){
-				message ="Не совпадают суммы \"Научно-производственные командировки\" "+tabNameCalc+" и \"Итого затрат\" во вкладке \"Расчёт затрат на командировки\"";
+			if ((this.calcTripSet == null && this.calculation.getBusinessTripFull() != 0)
+					|| (this.calculation.getBusinessTripFull() != this.calcTripSum.getSum())) {
+				message = "Не совпадают суммы \"Научно-производственные командировки\" " + tabNameCalc
+						+ " и \"Итого затрат\" во вкладке \"Расчёт затрат на командировки\"";
 				vr.getErrMessages().add(message);
 			}
-			if((this.calcOtherCostsSet == null && this.calculation.getOtherFull()!=0) || (this.calculation.getOtherFull()!=this.calcOtherCostsSum.getSum())){
-				message = "Не совпадают суммы \"Прочие прямые расходы\" "+tabNameCalc+" и \"Итого затрат\" во вкладке \"Расчёт затрат по статье\"Прочие прямые затраты\"\"";
+			if ((this.calcOtherCostsSet == null && this.calculation.getOtherFull() != 0)
+					|| (this.calculation.getOtherFull() != this.calcOtherCostsSum.getSum())) {
+				message = "Не совпадают суммы \"Прочие прямые расходы\" " + tabNameCalc
+						+ " и \"Итого затрат\" во вкладке \"Расчёт затрат по статье\"Прочие прямые затраты\"\"";
 				vr.getErrMessages().add(message);
 			}
 		}
