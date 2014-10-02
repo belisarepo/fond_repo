@@ -38,7 +38,7 @@
 		}
 		%>
 
-		<%= LanguageUtil.format(pageContext, "you-are-signed-in-as-x", signedInAs, false) %>  <a href="/c/portal/logout"><%=LanguageUtil.get(pageContext, "leave") %></a>
+		<%= LanguageUtil.format(pageContext, "you-are-signed-in-as-x", signedInAs, false) %> <%--  <a href="/c/portal/logout"><%=LanguageUtil.get(pageContext, "leave") %></a> --%>
 	</c:when>
 	<c:otherwise>
 

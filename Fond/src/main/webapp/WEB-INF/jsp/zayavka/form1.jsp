@@ -33,15 +33,16 @@
 			<aui:option value="${i.id}" label="${i.nameR}" selected="${i.id==zayavkaModel.sectionFondId}" />
 		</c:forEach>
 	</aui:select>
-
-	<spring:message code="zayavka.prioritetNauka" var='prioritetNaukaLabel' />
-	<aui:select name="prioritetNaukaId" label="${prioritetNaukaLabel}" bean="zayavkaModel">
-		<option value="" />
-		<c:forEach var="i" items="${prioritetNaukaList}">
-			<aui:option value="${i.id}" label="${i.name}" selected="${i.id==zayavkaModel.prioritetNaukaId}" />
-		</c:forEach>
-	</aui:select>
-	<c:if test="${not empty otraslNaukaList}">
+	<c:if test="${zayavkaModel.prioritetN}">
+		<spring:message code="zayavka.prioritetNauka" var='prioritetNaukaLabel' />
+		<aui:select name="prioritetNaukaId" label="${prioritetNaukaLabel}" bean="zayavkaModel">
+			<option value="" />
+			<c:forEach var="i" items="${prioritetNaukaList}">
+				<aui:option value="${i.id}" label="${i.name}" selected="${i.id==zayavkaModel.prioritetNaukaId}" />
+			</c:forEach>
+		</aui:select>
+	</c:if>
+	<c:if test="${zayavkaModel.otraslN}">
 		<spring:message code="zayavka.otraslNauka" var='otraslNaukaLabel' />
 		<aui:select name="otraslNaukaId" label="${otraslNaukaLabel}" bean="zayavkaModel">
 			<option value="" />
@@ -50,10 +51,20 @@
 			</c:forEach>
 		</aui:select>
 	</c:if>
+	
+	<c:if test="${zayavkaModel.napravl}">
+		<spring:message code="zayavka.napravl" var='napravlLabel' />
+		<aui:input name="napravlName" value="${zayavkaModel.napravlName}" label="${napravlLabel}" bean="zayavkaModel" cssClass="input-large"/>
+	</c:if>
+	
+	<c:if test="${zayavkaModel.vidProject}">
+		<spring:message code="zayavka.vidProject" var='vidProjectLabel' />
+		<aui:input name="vidProjectName" value="${zayavkaModel.vidProjectName}" label="${vidProjectLabel}" bean="zayavkaModel" cssClass="input-large"/>
+	</c:if>
 
 
 	<spring:message code="zayavka.temaName" var='temaNameLabel' />
-	<aui:input name="temaName" value="${zayavkaModel.temaName}" id="temaName" label="${temaNameLabel}" bean="zayavkaModel" />
+	<aui:input name="temaName" value="${zayavkaModel.temaName}" id="temaName" label="${temaNameLabel}" bean="zayavkaModel" type="textarea" />
 
 	<spring:message code="zayavka.udk" var='udkLabel' />
 	<aui:input name="udk" value="${zayavkaModel.udk}" label="${udkLabel}" bean="zayavkaModel" />

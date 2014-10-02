@@ -274,7 +274,8 @@ $(document).ready(function() {
 	$('select').chosen({
 		no_results_text : "Извините, нет совпадений!",
 		placeholder_text_single : "Выберите из списка...",
-		width : '206px'
+		width : '91%',
+		search_contains:true
 	});
 
 	$('.datapick').datepick({

@@ -4,12 +4,16 @@
 <%@ taglib uri="http://alloy.liferay.com/tld/aui" prefix="aui"%>
 
 <liferay-ui:input-editor />
+
 <center><div id="successMessageContainer" /></center>
 
 
 <%-- <input id="<portlet:namespace />text" type="hidden" value="" />  --%>
 <aui:script>
 
+CKEDITOR.editorConfig = function( config ) {
+    config.extraPlugins = 'mathjax';
+};
 function <portlet:namespace />initEditor() {
                         return Liferay.Util.getOpener().document.getElementById('<portlet:namespace />${input_id}').value;
             }

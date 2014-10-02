@@ -79,7 +79,7 @@
 	</aui:input>
 	
 	<spring:message code="zayavka.calcZp.note" var='calcZpNoteLabel' />
-	<aui:input name="note" label='${calcZpNoteLabel}' bean="calcZpModel">
+	<aui:input name="note" label='${calcZpNoteLabel}' bean="calcZpModel" type="textarea">
 	</aui:input>
 
 

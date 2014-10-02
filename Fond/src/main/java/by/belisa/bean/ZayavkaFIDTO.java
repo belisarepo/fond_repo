@@ -2,14 +2,15 @@ package by.belisa.bean;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import by.belisa.entity.CalcMaterials;
 import by.belisa.entity.CalcOtherCosts;
 import by.belisa.entity.CalcTrip;
 import by.belisa.entity.CalcZp;
 import by.belisa.entity.Ispolnitel;
+import by.belisa.entity.Konkursy;
 import by.belisa.entity.Organization;
 import by.belisa.entity.Petition;
 import by.belisa.entity.Publication;
@@ -24,16 +25,26 @@ public class ZayavkaFIDTO implements Serializable {
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
 	private Integer id;
+//	данные о конкурсе
 	private String konkursNameR;
 	private Integer konkursId;
 	private Integer tipKonkursaId;
 	private String tipKonkursaName;
 	private String sectionFondNameR;
 	private Integer sectionFondId;
+	private Boolean otraslN;
 	private String otraslNaukaName;
 	private Integer otraslNaukaId;
+	private Boolean prioritetN;
 	private String prioritetNaukaName;
 	private Integer prioritetNaukaId;
+	private Boolean vidProject;
+	private String vidProjectName;
+	private Boolean napravl;
+	private String napravlName;
+	
+	
+	
 	private Long userId;
 	private String temaName;
 	private String orgName;
@@ -44,16 +55,16 @@ public class ZayavkaFIDTO implements Serializable {
 	private String udk;
 	private Integer statusZayavkaId;
 	private String statusZayavkaName;
-	private Set<IspolnitelDTO> ispolniteliDTO = new HashSet<IspolnitelDTO>();
-	private Set<OrgDTO> soOrg = new HashSet<OrgDTO>();
-	private Set<PublicationDTO> publications = new HashSet<PublicationDTO>();
+	private List<IspolnitelDTO> ispolniteliDTO = new ArrayList<IspolnitelDTO>();
+	private List<OrgDTO> soOrg = new ArrayList<OrgDTO>();
+	private List<PublicationDTO> publications = new ArrayList<PublicationDTO>();
 	
-	private Set<CalcZpDTO> calcZpSet = new HashSet<CalcZpDTO>();
-	private Set<CalcMaterialsDTO> calcMaterialsSet = new HashSet<CalcMaterialsDTO>();
-	private Set<CalcTripDTO> calcTripSet = new HashSet<CalcTripDTO>();
-	private Set<CalcOtherCostsDTO> calcOtherCostsSet = new HashSet<CalcOtherCostsDTO>();
+	private List<CalcZpDTO> calcZpSet = new ArrayList<CalcZpDTO>();
+	private List<CalcMaterialsDTO> calcMaterialsSet = new ArrayList<CalcMaterialsDTO>();
+	private List<CalcTripDTO> calcTripSet = new ArrayList<CalcTripDTO>();
+	private List<CalcOtherCostsDTO> calcOtherCostsSet = new ArrayList<CalcOtherCostsDTO>();
 	
-	private Set<PetitionDTO> petitionSet = new HashSet<PetitionDTO>();
+	private List<PetitionDTO> petitionSet = new ArrayList<PetitionDTO>();
 	
 	
 	private Integer idRk;
@@ -179,19 +190,38 @@ public class ZayavkaFIDTO implements Serializable {
 	public ZayavkaFIDTO(ZayavkaFI zayavkaFI) {
 		if (zayavkaFI != null) {
 			this.id = zayavkaFI.getId();
-			this.konkursId = zayavkaFI.getKonkursy() != null ? zayavkaFI.getKonkursy().getId() : null;
-			this.konkursNameR = zayavkaFI.getKonkursy() != null ? zayavkaFI.getKonkursy().getNameR() : "";
+			Konkursy k = zayavkaFI.getKonkursy();
+			if (k != null){
+				this.konkursId = k.getId();
+				this.konkursNameR = k.getNameR();
+				this.tipKonkursaId = k.getTipKonkursa().getId();
+				this.tipKonkursaName = k.getTipKonkursa().getName();
+				this.otraslN = k.getOtraslN();
+				if (this.otraslN){
+					this.otraslNaukaId = zayavkaFI.getOtraslNauka() != null ? zayavkaFI.getOtraslNauka().getId() : 0;
+					this.otraslNaukaName = zayavkaFI.getOtraslNauka() != null ? zayavkaFI.getOtraslNauka().getName() : "";
+				}
+				this.prioritetN = k.getPrioritetN();
+				if (this.prioritetN){
+					this.prioritetNaukaId = zayavkaFI.getPrioritetNauka() != null ? zayavkaFI.getPrioritetNauka().getId() : 0;
+					this.prioritetNaukaName = zayavkaFI.getPrioritetNauka() != null ? zayavkaFI.getPrioritetNauka().getName() : "";
+				}
+				this.napravl = k.getNapravl();
+				this.napravlName = zayavkaFI.getNaprNauka();
+				this.vidProject = k.getVidProject();
+				this.vidProjectName = zayavkaFI.getVidProject();
+				
+				if (k.getTipKonkursa()!=null){
+					this.vidFormaZId = k.getTipKonkursa().getVidFormaZ()!=null ? k.getTipKonkursa().getVidFormaZ().getId() : 1;
+				}
+			}
+			
 			this.sectionFondId = zayavkaFI.getSectionFond() != null ? zayavkaFI.getSectionFond().getId() : 0;
 			this.sectionFondNameR = zayavkaFI.getSectionFond() != null ? zayavkaFI.getSectionFond().getNameR() : "";
-			this.otraslNaukaId = zayavkaFI.getOtraslNauka() != null ? zayavkaFI.getOtraslNauka().getId() : 0;
-			this.otraslNaukaName = zayavkaFI.getOtraslNauka() != null ? zayavkaFI.getOtraslNauka().getName() : "";
-			this.prioritetNaukaId = zayavkaFI.getPrioritetNauka() != null ? zayavkaFI.getPrioritetNauka().getId() : 0;
-			this.prioritetNaukaName = zayavkaFI.getPrioritetNauka() != null ? zayavkaFI.getPrioritetNauka().getName() : "";
+			
+			
 			this.userId = zayavkaFI.getAnketa() !=null ? zayavkaFI.getAnketa().getId() : null;
 			this.temaName = zayavkaFI.getTemaZName();
-			this.tipKonkursaId = zayavkaFI.getKonkursy().getTipKonkursa()!=null ? zayavkaFI.getKonkursy().getTipKonkursa().getId() : null;
-			this.tipKonkursaName = zayavkaFI.getKonkursy().getTipKonkursa()!=null ? zayavkaFI.getKonkursy().getTipKonkursa().getName() : "";
-			this.vidFormaZId = zayavkaFI.getKonkursy().getTipKonkursa()!=null ? zayavkaFI.getKonkursy().getTipKonkursa().getVidFormaZ().getId() : 1;
 			this.young = this.vidFormaZId==2 || this.vidFormaZId==4 ? true : false;
 			this.intl = this.vidFormaZId==3 || this.vidFormaZId==4 ? true : false;
 			this.udk = zayavkaFI.getCodeUdk();
@@ -394,11 +424,11 @@ public class ZayavkaFIDTO implements Serializable {
 
 	}
 	
-	public Set<PetitionDTO> getPetitionSet() {
+	public List<PetitionDTO> getPetitionSet() {
 		return petitionSet;
 	}
 
-	public void setPetitionSet(Set<PetitionDTO> petitionSet) {
+	public void setPetitionSet(List<PetitionDTO> petitionSet) {
 		this.petitionSet = petitionSet;
 	}
 
@@ -418,35 +448,35 @@ public class ZayavkaFIDTO implements Serializable {
 		this.statusZayavkaId = statusZayavkaId;
 	}
 
-	public Set<CalcZpDTO> getCalcZpSet() {
+	public List<CalcZpDTO> getCalcZpSet() {
 		return calcZpSet;
 	}
 
-	public void setCalcZpSet(Set<CalcZpDTO> calcZpSet) {
+	public void setCalcZpSet(List<CalcZpDTO> calcZpSet) {
 		this.calcZpSet = calcZpSet;
 	}
 
-	public Set<CalcMaterialsDTO> getCalcMaterialsSet() {
+	public List<CalcMaterialsDTO> getCalcMaterialsSet() {
 		return calcMaterialsSet;
 	}
 
-	public void setCalcMaterialsSet(Set<CalcMaterialsDTO> calcMaterialsSet) {
+	public void setCalcMaterialsSet(List<CalcMaterialsDTO> calcMaterialsSet) {
 		this.calcMaterialsSet = calcMaterialsSet;
 	}
 
-	public Set<CalcTripDTO> getCalcTripSet() {
+	public List<CalcTripDTO> getCalcTripSet() {
 		return calcTripSet;
 	}
 
-	public void setCalcTripSet(Set<CalcTripDTO> calcTripSet) {
+	public void setCalcTripSet(List<CalcTripDTO> calcTripSet) {
 		this.calcTripSet = calcTripSet;
 	}
 
-	public Set<CalcOtherCostsDTO> getCalcOtherCostsSet() {
+	public List<CalcOtherCostsDTO> getCalcOtherCostsSet() {
 		return calcOtherCostsSet;
 	}
 
-	public void setCalcOtherCostsSet(Set<CalcOtherCostsDTO> calcOtherCostsSet) {
+	public void setCalcOtherCostsSet(List<CalcOtherCostsDTO> calcOtherCostsSet) {
 		this.calcOtherCostsSet = calcOtherCostsSet;
 	}
 
@@ -683,11 +713,11 @@ public class ZayavkaFIDTO implements Serializable {
 		this.allFirstYear = allFirstYear;
 	}
 
-	public Set<PublicationDTO> getPublications() {
+	public List<PublicationDTO> getPublications() {
 		return publications;
 	}
 
-	public void setPublications(Set<PublicationDTO> publications) {
+	public void setPublications(List<PublicationDTO> publications) {
 		this.publications = publications;
 	}
 
@@ -955,11 +985,11 @@ public class ZayavkaFIDTO implements Serializable {
 		this.costFirstYear = costFirstYear;
 	}
 
-	public Set<OrgDTO> getSoOrg() {
+	public List<OrgDTO> getSoOrg() {
 		return soOrg;
 	}
 
-	public void setSoOrg(Set<OrgDTO> soOrg) {
+	public void setSoOrg(List<OrgDTO> soOrg) {
 		this.soOrg = soOrg;
 	}
 
@@ -1131,11 +1161,11 @@ public class ZayavkaFIDTO implements Serializable {
 		this.udk = udk;
 	}
 
-	public Set<IspolnitelDTO> getIspolniteliDTO() {
+	public List<IspolnitelDTO> getIspolniteliDTO() {
 		return ispolniteliDTO;
 	}
 
-	public void setIspolniteliDTO(Set<IspolnitelDTO> ispolniteliDTO) {
+	public void setIspolniteliDTO(List<IspolnitelDTO> ispolniteliDTO) {
 		this.ispolniteliDTO = ispolniteliDTO;
 	}
 
@@ -1417,6 +1447,54 @@ public class ZayavkaFIDTO implements Serializable {
 
 	public void setStatusZayavkaName(String statusZayavkaName) {
 		this.statusZayavkaName = statusZayavkaName;
+	}
+
+	public Boolean getOtraslN() {
+		return otraslN;
+	}
+
+	public void setOtraslN(Boolean otraslN) {
+		this.otraslN = otraslN;
+	}
+
+	public Boolean getPrioritetN() {
+		return prioritetN;
+	}
+
+	public void setPrioritetN(Boolean prioritetN) {
+		this.prioritetN = prioritetN;
+	}
+
+	public Boolean getVidProject() {
+		return vidProject;
+	}
+
+	public void setVidProject(Boolean vidProject) {
+		this.vidProject = vidProject;
+	}
+
+	public String getVidProjectName() {
+		return vidProjectName;
+	}
+
+	public void setVidProjectName(String vidProjectName) {
+		this.vidProjectName = vidProjectName;
+	}
+
+	public Boolean getNapravl() {
+		return napravl;
+	}
+
+	public void setNapravl(Boolean napravl) {
+		this.napravl = napravl;
+	}
+
+	public String getNapravlName() {
+		return napravlName;
+	}
+
+	public void setNapravlName(String napravlName) {
+		this.napravlName = napravlName;
 	}
 
 }

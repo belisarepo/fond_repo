@@ -152,23 +152,20 @@
 			</tr>
 			<tr>
 				<td><spring:message code="zayavka.plannedCost" /></td>
-				<td><aui:input cssClass="full" name="plannedCostFull" value="${zayavkaModel.plannedCostFull}" bean="zayavkaModel" label="" showRequiredLabel="">
-						<aui:validator name="required" />
-						<aui:validator name="number" />
-					</aui:input></td>
-				<td><aui:input cssClass="firstYear" name="plannedCostFirstYear" value="${zayavkaModel.plannedCostFirstYear}" bean="zayavkaModel"
-						label="">
-						<aui:validator name="required" />
-						<aui:validator name="number" />
-					</aui:input></td>
+				<td><aui:input id="plannedFull" disabled="true" name="plannedCostFull" value="${zayavkaModel.plannedCostFull}" bean="zayavkaModel" label="" showRequiredLabel=""/>
+					<aui:input id="plannedFullHidden" name="plannedCostFull" type="hidden" value="${zayavkaModel.plannedCostFull}" bean="zayavkaModel" label="" showRequiredLabel=""/>	
+				</td>
+				<td><aui:input id="plannedFirstYear" disabled="true" name="plannedCostFirstYear" value="${zayavkaModel.plannedCostFirstYear}" bean="zayavkaModel" label=""/>
+					<aui:input id="plannedFirstYearHidden" type="hidden" name="plannedCostFirstYear" value="${zayavkaModel.plannedCostFirstYear}" bean="zayavkaModel" label=""/>	
+				</td>
 			</tr>
 			<tr>
 				<td><spring:message code="zayavka.profit" /></td>
-				<td><aui:input cssClass="full" name="profitFull" value="${zayavkaModel.profitFull}" bean="zayavkaModel" label="" showRequiredLabel="">
+				<td><aui:input id="profitFull" name="profitFull" value="${zayavkaModel.profitFull}" bean="zayavkaModel" label="" showRequiredLabel="">
 						<aui:validator name="required" />
 						<aui:validator name="number" />
 					</aui:input></td>
-				<td><aui:input cssClass="firstYear" name="profitFirstYear" value="${zayavkaModel.profitFirstYear}" bean="zayavkaModel" label="" showRequiredLabel="">
+				<td><aui:input id="profitFirstYear" name="profitFirstYear" value="${zayavkaModel.profitFirstYear}" bean="zayavkaModel" label="" showRequiredLabel="">
 						<aui:validator name="required" />
 						<aui:validator name="number" />
 					</aui:input></td>
@@ -204,8 +201,8 @@ $('#calcTable .full').on('change',function() {
 		
 		fullSum += parseFloat($(this).val());
 	});  
-	$('#${ns}allFull').val(fullSum);
-	$('#${ns}allFullHidden').val(fullSum);
+	$('#${ns}plannedFull').val(fullSum.toFixed(2));
+	$('#${ns}plannedFullHidden').val(fullSum.toFixed(2));
 }); 
 
 $('#calcTable .firstYear').on('change',function() { 
@@ -214,7 +211,15 @@ $('#calcTable .firstYear').on('change',function() {
 		
 		firstYearSum += parseFloat($(this).val());
 	});  
-	$('#${ns}allFirstYear').val(firstYearSum);
-	$('#${ns}allFirstYearHidden').val(firstYearSum);
+	$('#${ns}plannedFirstYear').val(firstYearSum.toFixed(2));
+	$('#${ns}plannedFirstYearHidden').val(firstYearSum.toFixed(2));
+}); 
+$('#${ns}profitFull').on('change',function() {
+	$('#${ns}allFull').val((parseFloat($(this).val())+parseFloat($('#${ns}plannedFull').val())).toFixed(2));
+	$('#${ns}allFullHidden').val((parseFloat($(this).val())+parseFloat($('#${ns}plannedFullHidden').val())).toFixed(2));
+}); 
+$('#${ns}profitFirstYear').on('change',function() {
+	$('#${ns}allFirstYear').val((parseFloat($(this).val())+parseFloat($('#${ns}plannedFirstYear').val())).toFixed(2));
+	$('#${ns}allFirstYearHidden').val((parseFloat($(this).val())+parseFloat($('#${ns}plannedFirstYearHidden').val())).toFixed(2));
 }); 
 </aui:script>

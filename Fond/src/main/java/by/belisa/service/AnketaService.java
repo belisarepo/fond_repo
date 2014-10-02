@@ -82,9 +82,12 @@ public class AnketaService extends ServiceImpl<Anketa,Long>{
 		anketa.setJobPhone(anketaDTO.getJobPhone());
 		anketa.setLab(anketaDTO.getLab());
 		anketa.setMobilePhone(anketaDTO.getMobilePhone());
+		if (anketaDTO.getOrgId()!=null)
 		anketa.setOrg(orgDao.get(anketaDTO.getOrgId()));
 		anketa.setPost(anketaDTO.getPost());
+		if (anketaDTO.getUchStepenId()!=null)
 		anketa.setUchStepeni(uchStepeniDao.get(anketaDTO.getUchStepenId()));
+		if (anketaDTO.getUchZvaniyId()!=null)
 		anketa.setUchZvanie(uchZvanieDao.get(anketaDTO.getUchZvaniyId()));
 		anketa.setUser(userDao.get(anketaDTO.getId()));
 		baseDao.saveOrUpdate(anketa);

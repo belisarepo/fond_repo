@@ -23,7 +23,7 @@ public class CalcMaterialsSumService extends ServiceImpl<CalcMaterialsSum, Integ
 	
 	@Override
 	@Autowired
-	@Qualifier(value="calcZpSumDao")
+	@Qualifier(value="calcMaterialsSumDao")
 	protected void setBaseDao(Dao<CalcMaterialsSum, Integer> baseDao) {
 		super.setBaseDao(baseDao);
 	}

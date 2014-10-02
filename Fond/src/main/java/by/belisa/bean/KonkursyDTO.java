@@ -3,6 +3,8 @@ package by.belisa.bean;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
+import javax.persistence.Column;
+
 import by.belisa.entity.Konkursy;
 
 
@@ -27,8 +29,7 @@ public class KonkursyDTO implements Serializable{
 	private String formaZR;
 	private String formaZE;
 	private String reshenieNS;
-	private String uslKonkursaR;
-	private String uslKonkursaE;
+	
 	private String stopKonkurs;
 	private String startProject;
 	private String stopProject;
@@ -37,6 +38,7 @@ public class KonkursyDTO implements Serializable{
 	private Integer countIspolRukov;
 	private String konkursStatusName;
 	private Integer konkursStatusId;
+	
 	
 	public KonkursyDTO(){
 		
@@ -67,6 +69,8 @@ public class KonkursyDTO implements Serializable{
 		
 		this.konkursStatusId = konkursy.getKonkursStatus().getId();
 		this.konkursStatusName = konkursy.getKonkursStatus().getName();
+		
+		
 	}
 
 	
@@ -150,18 +154,7 @@ public class KonkursyDTO implements Serializable{
 	public void setReshenieNS(String reshenieNS) {
 		this.reshenieNS = reshenieNS;
 	}
-	public String getUslKonkursaR() {
-		return uslKonkursaR;
-	}
-	public void setUslKonkursaR(String uslKonkursaR) {
-		this.uslKonkursaR = uslKonkursaR;
-	}
-	public String getUslKonkursaE() {
-		return uslKonkursaE;
-	}
-	public void setUslKonkursaE(String uslKonkursaE) {
-		this.uslKonkursaE = uslKonkursaE;
-	}
+	
 	public String getStopKonkurs() {
 		return stopKonkurs;
 	}
@@ -214,6 +207,7 @@ public class KonkursyDTO implements Serializable{
 	public void setKonkursStatusId(Integer konkursStatusId) {
 		this.konkursStatusId = konkursStatusId;
 	}
+
 	
 	
 }

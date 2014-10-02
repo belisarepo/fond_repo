@@ -53,7 +53,7 @@ public class Ispolnitel implements Serializable{
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ZAYAVKA_FI_ID")
 	private ZayavkaFI zayavkaFI;
-	@OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL, optional=false)
+	@OneToOne(fetch=FetchType.LAZY, optional=false)
 	@PrimaryKeyJoinColumn()
 	private FizInfo fizInfo;
 	public Integer getId() {

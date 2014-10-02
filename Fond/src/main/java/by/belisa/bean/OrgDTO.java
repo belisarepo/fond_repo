@@ -21,7 +21,8 @@ public class OrgDTO implements Serializable{
 	//Accounting code
 	private String kod_booker;
 	//Classifier  OKOGU code
-	private Integer okoguName;
+	private Integer okoguId;
+	private String okoguName;
 	private String full_name_rus;
 	private String full_name_eng;
 	private int cityId;
@@ -43,6 +44,8 @@ public class OrgDTO implements Serializable{
 		this.address=org.getAddress();
 		this.email=org.getEmail();
 		this.name=org.getName();
+		this.okoguId = org.getOkogu()!=null ? org.getOkogu().getId() : null;
+		this.okoguName = org.getOkogu()!=null ? org.getOkogu().getName() : "";
 	}
 
 	public Integer getId() {
@@ -102,11 +105,20 @@ public class OrgDTO implements Serializable{
 	}
 
 
-	public Integer getOkoguName() {
+	
+	public Integer getOkoguId() {
+		return okoguId;
+	}
+
+	public void setOkoguId(Integer okoguId) {
+		this.okoguId = okoguId;
+	}
+
+	public String getOkoguName() {
 		return okoguName;
 	}
 
-	public void setOkoguName(Integer okoguName) {
+	public void setOkoguName(String okoguName) {
 		this.okoguName = okoguName;
 	}
 

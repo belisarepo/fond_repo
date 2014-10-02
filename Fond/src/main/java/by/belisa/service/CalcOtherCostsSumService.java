@@ -23,7 +23,7 @@ public class CalcOtherCostsSumService extends ServiceImpl<CalcOtherCostsSum, Int
 	
 	@Override
 	@Autowired
-	@Qualifier(value="calcZpSumDao")
+	@Qualifier(value="calcOtherCostsSumDao")
 	protected void setBaseDao(Dao<CalcOtherCostsSum, Integer> baseDao) {
 		super.setBaseDao(baseDao);
 	}

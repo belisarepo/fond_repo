@@ -176,6 +176,8 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 			zayavkaFI.setPrioritetNauka(prioritetNaukaDao.get(dto.getPrioritetNaukaId()));
 		if (dto.getSectionFondId() != null)
 			zayavkaFI.setSectionFond(sectionFondDao.get(dto.getSectionFondId()));
+		zayavkaFI.setNaprNauka(dto.getNapravlName());
+		zayavkaFI.setVidProject(dto.getVidProjectName());
 		zayavkaFI.setTemaZName(dto.getTemaName());
 		zayavkaFI.setCodeUdk(dto.getUdk());
 		baseDao.saveOrUpdate(zayavkaFI);

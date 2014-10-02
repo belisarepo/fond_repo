@@ -1,6 +1,7 @@
 package by.belisa.controller;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.portlet.ActionRequest;
@@ -106,6 +107,8 @@ public class AnketaController {
 					anketaDTO.setName(user.getFirstName());
 					anketaDTO.setSurname(user.getLastName());
 					anketaDTO.setPatronymic(user.getMiddleName());
+					SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+					anketaDTO.setBirthday(df.format(user.getBirthday()));
 				}
 
 			} else {
@@ -133,7 +136,7 @@ public class AnketaController {
 	public void getFormData(@ModelAttribute AnketaDTO anketaDTO,
 			ActionRequest aRequest, Model model) throws ServiceException,
 			PortalException, SystemException, ParseException, DaoException {
-		long pk = PortalUtil.getUser(aRequest).getPrimaryKey();
+		long pk = PortalUtil.getUser(aRequest).getUserId();
 		anketaDTO.setId(pk);
 		anketaService.saveOrUpdate(anketaDTO);
 		model.addAttribute("save_result", "ok");

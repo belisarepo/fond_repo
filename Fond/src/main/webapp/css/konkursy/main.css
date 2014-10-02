@@ -13,3 +13,11 @@
                 50% 50% 
                 no-repeat;
 }
+textarea{
+	width:90%!important;
+	height: 100px!important;
+}
+.input-large{
+	width:90%!important;
+}
+

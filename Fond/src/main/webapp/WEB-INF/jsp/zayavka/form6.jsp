@@ -63,7 +63,7 @@
 	</aui:input>
 
 	<spring:message code="zayavka.birthdayManager" var='birthdayLabel' />
-	<aui:input name="birthday" label='${birthdayLabel}' bean="ispolnitelModel" cssClass="datapick" showRequiredLabel="">
+	<aui:input name="birthday" label='${birthdayLabel}' bean="ispolnitelModel" showRequiredLabel="" placeholder="дд-мм-гггг">
 		<aui:validator name="required" />
 		<aui:validator name="custom" errorMessage="Формат даты дд-мм-гггг">
 						function (val, fieldNode, ruleValue) {

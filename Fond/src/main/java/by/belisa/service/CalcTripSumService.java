@@ -23,7 +23,7 @@ public class CalcTripSumService extends ServiceImpl<CalcTripSum, Integer>{
 	
 	@Override
 	@Autowired
-	@Qualifier(value="calcZpSumDao")
+	@Qualifier(value="calcTripSumDao")
 	protected void setBaseDao(Dao<CalcTripSum, Integer> baseDao) {
 		super.setBaseDao(baseDao);
 	}

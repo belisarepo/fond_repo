@@ -10,6 +10,7 @@ public class AnketaDTO implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -5556610303426905342L;
+	
 	public AnketaDTO(){
 		
 	}
