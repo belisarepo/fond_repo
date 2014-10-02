@@ -522,6 +522,13 @@ public class ZayavkaFI implements Serializable, IValidaton {
 			message = "Не заполнена калькуляция" + " " + tabNameCalc;
 			vr.getErrMessages().add(message);
 		}
+		else{
+			//Сумма всего по проекту должны быть больше или равна чем за первый год
+			if(this.calculation.getAllFull()<this.calculation.getAllFirstYear()){
+				message = "Всего стоимость по проекту меньше чем за первый год " + tabNameCalc;
+				vr.getErrMessages().add(message);
+			}
+		}
 		// Проверка расчёта зп
 		if (this.calcZpSet == null) {
 			message = "Не заполнен расчёт заработной платы" + " " + tabNameCalcSalary;
