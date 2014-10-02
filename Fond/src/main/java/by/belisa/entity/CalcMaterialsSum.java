@@ -1,0 +1,60 @@
+package by.belisa.entity;
+
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+@Entity
+@Table(name="CALC_MATERIALS_SUM")
+@GenericGenerator(name = "gen", strategy = "foreign", parameters = @Parameter(name = "property", value = "zayavkaFI"))
+public class CalcMaterialsSum implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4263904864988853952L;
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(generator = "gen")
+	private Integer id;
+	@Column
+	private Float sum;
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+	@PrimaryKeyJoinColumn()
+	private ZayavkaFI zayavkaFI;
+	
+	public CalcMaterialsSum() {
+	}
+	public CalcMaterialsSum(ZayavkaFI zayavkaFI) {
+		this.zayavkaFI = zayavkaFI;
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public Float getSum() {
+		return sum;
+	}
+	public void setSum(Float sum) {
+		this.sum = sum;
+	}
+	public ZayavkaFI getZayavkaFI() {
+		return zayavkaFI;
+	}
+	public void setZayavkaFI(ZayavkaFI zayavkaFI) {
+		this.zayavkaFI = zayavkaFI;
+	}
+	
+}

@@ -34,7 +34,7 @@
 						<td>${i.pages}</td>
 						<td>${i.authors}</td>
 						<td><a
-							href="<portlet:actionURL><portlet:param name="action" value="deletePublicationM"/><portlet:param name="publicationId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /></portlet:actionURL>">Удалить</a></td>
+							class='deleteLink' href="<portlet:actionURL><portlet:param name="action" value="deletePublicationM"/><portlet:param name="publicationId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:actionURL>">Удалить</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -121,7 +121,7 @@
 								<td>${i.pages}</td>
 								<td>${i.authors}</td>
 								<td><a
-									href="<portlet:actionURL><portlet:param name="action" value="deletePublicationM"/><portlet:param name="publicationId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /></portlet:actionURL>">Удалить</a></td>
+									class='deleteLink' href="<portlet:actionURL><portlet:param name="action" value="deletePublicationM"/><portlet:param name="publicationId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:actionURL>">Удалить</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>

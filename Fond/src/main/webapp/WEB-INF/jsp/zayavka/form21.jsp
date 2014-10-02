@@ -23,7 +23,7 @@
 					<td>${n.index+1}</td>
 					<td>${i.name}</td>
 					<td><a
-						href="<portlet:actionURL><portlet:param name="action" value="deletePetition"/><portlet:param name="petitionId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /></portlet:actionURL>">Удалить</a></td>
+						class='deleteLink' href="<portlet:actionURL><portlet:param name="action" value="deletePetition"/><portlet:param name="petitionId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:actionURL>">Удалить</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>

@@ -1,9 +1,9 @@
 package by.belisa.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -62,6 +63,8 @@ public class ZayavkaFI implements Serializable, IValidaton {
 	private PrioritetNauka prioritetNauka;
 	@Column(name = "NAPR_NAUKA")
 	private String naprNauka;
+	@Column(name = "VID_PROJECT")
+	private String vidProject;
 	@Column(name = "VID_DOGOVOR")
 	private String vidDogovor;
 	@Column(name = "TEMA_Z_NAME")
@@ -92,6 +95,15 @@ public class ZayavkaFI implements Serializable, IValidaton {
 	private Rukovoditel rukovoditel;
 	@OneToOne(mappedBy = "zayavkaFI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Calculation calculation;
+	
+	@OneToOne(mappedBy = "zayavkaFI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private CalcZpSum calcZpSum;
+	@OneToOne(mappedBy = "zayavkaFI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private CalcMaterialsSum calcMaterialsSum;
+	@OneToOne(mappedBy = "zayavkaFI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private CalcTripSum calcTripSum;
+	@OneToOne(mappedBy = "zayavkaFI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private CalcOtherCostsSum calcOtherCostsSum;
 
 	@OneToOne(mappedBy = "zayavkaFI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private RukovoditelNR rukovoditelNr;
@@ -99,36 +111,43 @@ public class ZayavkaFI implements Serializable, IValidaton {
 	@JoinColumn(name = "FIZ_NR_INFO_ID")
 	private FizNRInfo fizNrInfo;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "FIZ_INFO_ID")
 	private FizInfo fizInfo;
 	@ManyToMany(mappedBy = "zayavki")
-	private Set<Organization> soOrgs = new HashSet<Organization>();
+	@OrderBy("id ASC")
+	private List<Organization> soOrgs = new ArrayList<Organization>();
 	@OneToMany(mappedBy = "zayavkaFI")
-	private Set<Ispolnitel> ispolniteli = new HashSet<Ispolnitel>();
+	@OrderBy("id ASC")
+	private List<Ispolnitel> ispolniteli = new ArrayList<Ispolnitel>();
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ZAYAVKA_ID")
-	Set<CalcZp> calcZpSet = new HashSet<CalcZp>();
+	@OrderBy("id ASC")
+	List<CalcZp> calcZpSet = new ArrayList<CalcZp>();
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ZAYAVKA_ID")
-	Set<CalcTrip> calcTripSet = new HashSet<CalcTrip>();
+	@OrderBy("id ASC")
+	List<CalcTrip> calcTripSet = new ArrayList<CalcTrip>();
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ZAYAVKA_ID")
-	Set<CalcMaterials> calcMaterialsSet = new HashSet<CalcMaterials>();
+	@OrderBy("id ASC")
+	List<CalcMaterials> calcMaterialsSet = new ArrayList<CalcMaterials>();
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ZAYAVKA_ID")
-	Set<CalcOtherCosts> calcOtherCostsSet = new HashSet<CalcOtherCosts>();
+	@OrderBy("id ASC")
+	List<CalcOtherCosts> calcOtherCostsSet = new ArrayList<CalcOtherCosts>();
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ZAYAVKA_ID")
-	Set<Petition> petitionSet = new HashSet<Petition>();
+	@OrderBy("id ASC")
+	List<Petition> petitionSet = new ArrayList<Petition>();
 
 	// @ManyToMany(cascade=CascadeType.ALL)
 	// @JoinTable(name="ZAYAVKA_FI_FIZ_INFO",
 	// joinColumns={@JoinColumn(name="ZAYAVKA_FI_ID")},
 	// inverseJoinColumns={@JoinColumn(name="FIZ_INFO_ID")})
-	// private Set<FizInfo> fizInfoSet = new HashSet<FizInfo>();
+	// private List<FizInfo> fizInfoSet = new ArrayList<FizInfo>();
 
 	public String getLastingDeadline() {
 		return lastingDeadline;
@@ -142,35 +161,36 @@ public class ZayavkaFI implements Serializable, IValidaton {
 		this.fizInfo = fizInfo;
 	}
 
-	public Set<CalcZp> getCalcZpSet() {
+	public List<CalcZp> getCalcZpSet() {
 		return calcZpSet;
 	}
 
-	public void setCalcZpSet(Set<CalcZp> calcZpSet) {
+	public void setCalcZpSet(List<CalcZp> calcZpSet) {
 		this.calcZpSet = calcZpSet;
 	}
 
-	public Set<CalcTrip> getCalcTripSet() {
+	
+	public List<CalcTrip> getCalcTripSet() {
 		return calcTripSet;
 	}
 
-	public void setCalcTripSet(Set<CalcTrip> calcTripSet) {
+	public void setCalcTripSet(List<CalcTrip> calcTripSet) {
 		this.calcTripSet = calcTripSet;
 	}
 
-	public Set<CalcMaterials> getCalcMaterialsSet() {
+	public List<CalcMaterials> getCalcMaterialsSet() {
 		return calcMaterialsSet;
 	}
 
-	public void setCalcMaterialsSet(Set<CalcMaterials> calcMaterialsSet) {
+	public void setCalcMaterialsSet(List<CalcMaterials> calcMaterialsSet) {
 		this.calcMaterialsSet = calcMaterialsSet;
 	}
 
-	public Set<CalcOtherCosts> getCalcOtherCostsSet() {
+	public List<CalcOtherCosts> getCalcOtherCostsSet() {
 		return calcOtherCostsSet;
 	}
 
-	public void setCalcOtherCostsSet(Set<CalcOtherCosts> calcOtherCostsSet) {
+	public void setCalcOtherCostsSet(List<CalcOtherCosts> calcOtherCostsSet) {
 		this.calcOtherCostsSet = calcOtherCostsSet;
 	}
 
@@ -182,11 +202,11 @@ public class ZayavkaFI implements Serializable, IValidaton {
 		this.calculation = calculation;
 	}
 
-	public Set<Ispolnitel> getIspolniteli() {
+	public List<Ispolnitel> getIspolniteli() {
 		return ispolniteli;
 	}
 
-	public void setIspolniteli(Set<Ispolnitel> ispolniteli) {
+	public void setIspolniteli(List<Ispolnitel> ispolniteli) {
 		this.ispolniteli = ispolniteli;
 	}
 
@@ -274,11 +294,11 @@ public class ZayavkaFI implements Serializable, IValidaton {
 		this.fizNrInfo = fizNrInfo;
 	}
 
-	public Set<Organization> getSoOrgs() {
+	public List<Organization> getSoOrgs() {
 		return soOrgs;
 	}
 
-	public void setSoOrgs(Set<Organization> soOrgs) {
+	public void setSoOrgs(List<Organization> soOrgs) {
 		this.soOrgs = soOrgs;
 	}
 
@@ -410,12 +430,54 @@ public class ZayavkaFI implements Serializable, IValidaton {
 		this.rukovoditelNr = rukovoditelNr;
 	}
 
-	public Set<Petition> getPetitionSet() {
+	public List<Petition> getPetitionSet() {
 		return petitionSet;
 	}
 
-	public void setPetitionSet(Set<Petition> petitionSet) {
+	public void setPetitionSet(List<Petition> petitionSet) {
 		this.petitionSet = petitionSet;
+	}
+	
+
+	public CalcZpSum getCalcZpSum() {
+		return calcZpSum;
+	}
+
+	public void setCalcZpSum(CalcZpSum calcZpSum) {
+		this.calcZpSum = calcZpSum;
+	}
+
+	public CalcMaterialsSum getCalcMaterialsSum() {
+		return calcMaterialsSum;
+	}
+
+	public void setCalcMaterialsSum(CalcMaterialsSum calcMaterialsSum) {
+		this.calcMaterialsSum = calcMaterialsSum;
+	}
+
+	public CalcTripSum getCalcTripSum() {
+		return calcTripSum;
+	}
+
+	public void setCalcTripSum(CalcTripSum calcTripSum) {
+		this.calcTripSum = calcTripSum;
+	}
+
+	public CalcOtherCostsSum getCalcOtherCostsSum() {
+		return calcOtherCostsSum;
+	}
+
+	public void setCalcOtherCostsSum(CalcOtherCostsSum calcOtherCostsSum) {
+		this.calcOtherCostsSum = calcOtherCostsSum;
+	}
+	
+
+	public String getVidProject() {
+		return vidProject;
+	}
+
+	public void setVidProject(String vidProject) {
+		this.vidProject = vidProject;
 	}
 
 	@Override

@@ -3,6 +3,8 @@ package by.belisa.bean;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
+import javax.persistence.Column;
+
 import by.belisa.entity.Konkursy;
 
 
@@ -27,14 +29,16 @@ public class KonkursyDTO implements Serializable{
 	private String formaZR;
 	private String formaZE;
 	private String reshenieNS;
-	private String uslKonkursaR;
-	private String uslKonkursaE;
+	
 	private String stopKonkurs;
 	private String startProject;
 	private String stopProject;
 	private Integer countIspolnitel;
 	private Integer countRukovoditel;
 	private Integer countIspolRukov;
+	private String konkursStatusName;
+	private Integer konkursStatusId;
+	
 	
 	public KonkursyDTO(){
 		
@@ -62,6 +66,11 @@ public class KonkursyDTO implements Serializable{
 		this.countIspolnitel = konkursy.getCountIspolnitel();
 		this.countRukovoditel = konkursy.getCountRukovoditel();
 		this.countIspolRukov = konkursy.getCountIspolRukov();
+		
+		this.konkursStatusId = konkursy.getKonkursStatus().getId();
+		this.konkursStatusName = konkursy.getKonkursStatus().getName();
+		
+		
 	}
 
 	
@@ -145,18 +154,7 @@ public class KonkursyDTO implements Serializable{
 	public void setReshenieNS(String reshenieNS) {
 		this.reshenieNS = reshenieNS;
 	}
-	public String getUslKonkursaR() {
-		return uslKonkursaR;
-	}
-	public void setUslKonkursaR(String uslKonkursaR) {
-		this.uslKonkursaR = uslKonkursaR;
-	}
-	public String getUslKonkursaE() {
-		return uslKonkursaE;
-	}
-	public void setUslKonkursaE(String uslKonkursaE) {
-		this.uslKonkursaE = uslKonkursaE;
-	}
+	
 	public String getStopKonkurs() {
 		return stopKonkurs;
 	}
@@ -193,6 +191,23 @@ public class KonkursyDTO implements Serializable{
 	public void setCountIspolRukov(Integer countIspolRukov) {
 		this.countIspolRukov = countIspolRukov;
 	}
+
+	public String getKonkursStatusName() {
+		return konkursStatusName;
+	}
+
+	public void setKonkursStatusName(String konkursStatusName) {
+		this.konkursStatusName = konkursStatusName;
+	}
+
+	public Integer getKonkursStatusId() {
+		return konkursStatusId;
+	}
+
+	public void setKonkursStatusId(Integer konkursStatusId) {
+		this.konkursStatusId = konkursStatusId;
+	}
+
 	
 	
 }

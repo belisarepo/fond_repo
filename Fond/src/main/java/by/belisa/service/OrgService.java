@@ -6,15 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import by.belisa.bean.AnketaDTO;
 import by.belisa.bean.OrgDTO;
 import by.belisa.dao.Dao;
 import by.belisa.dao.OkoguDao;
-import by.belisa.dao.OrgDao;
 import by.belisa.dao.VidOrgDao;
 import by.belisa.dao.ZayavkaFIDao;
-import by.belisa.entity.Anketa;
-import by.belisa.entity.Okogu;
 import by.belisa.entity.Organization;
 import by.belisa.exception.DaoException;
 import by.belisa.exception.ServiceException;
@@ -54,7 +50,7 @@ public class OrgService extends ServiceImpl<Organization, Integer> {
 		org.setFullNameR(orgDTO.getFull_name_rus());
 		org.setName(orgDTO.getName());
 		if (orgDTO.getOkoguName() != null)
-			org.setOkogu(okoguDao.get(orgDTO.getOkoguName()));
+			org.setOkogu(okoguDao.get(orgDTO.getOkoguId()));
 		org.setOldCode(orgDTO.getKod_old());
 		org.setUnp(orgDTO.getUnp());
 		if (orgDTO.getVidOrgId() != null)

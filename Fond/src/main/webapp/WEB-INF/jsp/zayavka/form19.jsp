@@ -20,14 +20,14 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${zayavkaModel.calcOtherCostsSet}" var="i">
+			<c:forEach items="${zayavkaModel.calcOtherCostsSet}" var="i" varStatus="n">
 				<tr>
-					<td>${i.pn}</td>
+					<td>${n.index+1}</td>
 					<td>${i.name}</td>
 					<td class="calcOtherCostsSum">${i.sum}</td>
 					<td>${i.note}</td>
 					<td><a
-						href="<portlet:actionURL><portlet:param name="action" value="deleteCalcOtherCosts"/><portlet:param name="calcOtherCostsId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /></portlet:actionURL>">Удалить</a></td>
+						class='deleteLink' href="<portlet:actionURL><portlet:param name="action" value="deleteCalcOtherCosts"/><portlet:param name="calcOtherCostsId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:actionURL>">Удалить</a></td>
 				</tr>
 			</c:forEach>
 			<tr>
@@ -46,12 +46,7 @@
 	<aui:input name="userId" type="hidden" value="${zayavkaModel.userId}" />
 	<aui:input name="zayavkaId" type="hidden" value="${zayavkaModel.id}" />
 
-	<spring:message code="zayavka.calcOtherCosts.pn" var='calcOtherCostsPnLabel' />
-	<aui:input name="pn" label='${calcOtherCostsPnLabel}' bean="calcOtherCostsModel" showRequiredLabel="">
-		<aui:validator name="required" />
-		<aui:validator name="number" />
-	</aui:input>
-
+	
 	<spring:message code="zayavka.calcOtherCosts.name" var='calcOtherCostsNameLabel' />
 	<aui:input name="name" label='${calcOtherCostsNameLabel}' bean="calcOtherCostsModel" showRequiredLabel="">
 		<aui:validator name="required" />
@@ -64,7 +59,7 @@
 	</aui:input>
 
 	<spring:message code="zayavka.calcOtherCosts.note" var='calcOtherCostsNoteLabel' />
-	<aui:input name="note" label='${calcOtherCostsNoteLabel}' bean="calcOtherCostsModel">
+	<aui:input name="note" label='${calcOtherCostsNoteLabel}' bean="calcOtherCostsModel" type="textarea">
 	</aui:input>
 
 	

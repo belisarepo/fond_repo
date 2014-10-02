@@ -71,6 +71,17 @@ public class KonkursyService extends ServiceImpl<Konkursy, Integer> {
 		return konkursyDTOList;
 
 	}
+	public List<KonkursyDTO> getActiveKonkursy(int page) {
+		KonkursyDao konkursyDao = (KonkursyDao) baseDao;
+		List<Konkursy> konkursyList = konkursyDao.getActiveKonkursy(page);
+		List<KonkursyDTO> konkursyDTOList = new ArrayList<KonkursyDTO>();
+		for (Konkursy i : konkursyList) {
+			KonkursyDTO dto = new KonkursyDTO(i);
+			konkursyDTOList.add(dto);
+		}
+		return konkursyDTOList;
+
+	}
 
 	public CheckUslResult checkUsloviyaRuk(Integer konkursId, Integer fizInfoId) throws DaoException {
 		CheckUslResult result = new CheckUslResult();

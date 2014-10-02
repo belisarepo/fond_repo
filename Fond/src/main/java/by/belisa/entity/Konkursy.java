@@ -73,6 +73,14 @@ public class Konkursy implements Serializable{
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="STATUS_KONKURS")
 	private KonkursStatus konkursStatus;
+	@Column(name="VID_PROJECT")
+	private Boolean vidProject;
+	@Column(name="NAPRAVL")
+	private Boolean napravl;
+	@Column(name="OTRASL_N")
+	private Boolean otraslN;
+	@Column(name="PRIORITET_N")
+	private Boolean prioritetN;
 	public int getId() {
 		return id;
 	}
@@ -190,6 +198,30 @@ public class Konkursy implements Serializable{
 	}
 	public void setCountIspolRukov(Integer countIspolRukov) {
 		this.countIspolRukov = countIspolRukov;
+	}
+	public Boolean getVidProject() {
+		return vidProject;
+	}
+	public void setVidProject(Boolean vidProject) {
+		this.vidProject = vidProject;
+	}
+	public Boolean getNapravl() {
+		return napravl;
+	}
+	public void setNapravl(Boolean napravl) {
+		this.napravl = napravl;
+	}
+	public Boolean getOtraslN() {
+		return otraslN;
+	}
+	public void setOtraslN(Boolean otraslN) {
+		this.otraslN = otraslN;
+	}
+	public Boolean getPrioritetN() {
+		return prioritetN;
+	}
+	public void setPrioritetN(Boolean prioritetN) {
+		this.prioritetN = prioritetN;
 	}
 	
 

@@ -40,60 +40,66 @@
 		</div>
 	</aui:button-row>
 </aui:form> --%>
-<form:form modelAttribute='${ns}anketa' method="POST" action="${sendForm}" name="anketa">
-	<form:label path="fio">ФИО краткое</form:label>
-	<form:input path="fio" disabled="true"/>
-	<br />
-	<form:label path="fullFio">ФИО полное</form:label>
-	<form:input path="fullFio" disabled="true"/>
-	<br />
-	<form:label path="birthday" placeholder="dd-MM-yyyy">Дата рождения</form:label>
-	<form:input path="birthday" disabled="true"/>
-	<br />
-	<form:label path="orgId">Организация</form:label>
-	<form:select path="orgId" class="chosen">
-		<form:option value=""></form:option>
-		<form:options items="${orgList}" itemLabel="name" itemValue="id" />
-	</form:select>
-	<form:label path="uchStepenId">Ученая степень</form:label>
-	<form:select path="uchStepenId">
-		<form:option value=""></form:option>
-		<form:options items="${uchStepeniList}" itemLabel="fullName" itemValue="id" />
-	</form:select>
-	<form:label path="uchZvaniyId">Ученое звание</form:label>
-	<form:select path="uchZvaniyId" class="chosen">
-		<form:option value=""></form:option>
-		<form:options items="${uchZvaniyList}" itemLabel="fullName" itemValue="id" />
-	</form:select>
-	<form:label path="post">Должность</form:label>
-	<form:input path="post" />
-	<br />
-	<form:label path="lab">Кафедра</form:label>
-	<form:input path="lab" />
-	<br />
-
-	<form:label path="homePhone">Тел домашний</form:label>
-	<form:input path="homePhone" />
-	<br />
-	<form:label path="jobPhone">Тел рабочий</form:label>
-	<form:input path="jobPhone" />
-	<br />
-	<form:label path="mobilePhone">Тел мобильный</form:label>
-	<form:input path="mobilePhone" />
-	<br />
-	<form:label path="address">Адрес</form:label>
-	<form:input path="address" />
-	<br />
-	<form:label path="email">Email</form:label>
-	<form:input path="email" />
-	<br />
+<aui:form method="POST" action="${sendForm}" name="anketa">
+	<aui:input name="fio" value="${anketa.fio}" bean="anketa" type="hidden"/>
+	<aui:input name="fullFio" value="${anketa.fullFio}" bean="anketa" type="hidden"/>
+	<aui:input name="birthday" value="${anketa.birthday}" bean="anketa" type="hidden"/>
 
 
-	<input type="submit" value="Save" />
-</form:form>
+	<aui:input name="fio" label="ФИО краткое" disabled="true" value="${anketa.fio}" bean="anketa"/>
+	<br />
+	<aui:input name="fullFio" label="ФИО полное" disabled="true" value="${anketa.fullFio}" bean="anketa"/>
+	<br />
+	<aui:input name="birthday" label="Дата рождения" disabled="true" value="${anketa.birthday}" bean="anketa"/>
+	<br />
+	<aui:select name="orgId" class="chosen" label="Организация">
+		<aui:option value=""></aui:option>
+		<c:forEach var="i" items="${orgList}">
+			<aui:option value="${i.id}" label="${i.name}" selected="${i.id==anketa.orgId}"></aui:option>
+		</c:forEach>
+	</aui:select>
+	<aui:select name="uchStepenId" class="chosen" label="Ученая степень">
+		<aui:option value=""></aui:option>
+		<c:forEach var="i" items="${uchStepeniList}">
+			<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==anketa.uchStepenId}"></aui:option>
+		</c:forEach>
+	</aui:select>
+	<aui:select name="uchZvaniyId" class="chosen" label="Ученое звание">
+		<aui:option value=""></aui:option>
+		<c:forEach var="i" items="${uchZvaniyList}">
+			<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==anketa.uchZvaniyId}"></aui:option>
+		</c:forEach>
+	</aui:select>
+	
+	
+	<aui:input name="post" label="Должность" value="${anketa.post}"/>
+	<br />
+	<aui:input name="lab" label="Кафедра" value="${anketa.lab}"/>
+	<br />
+
+	<aui:input name="homePhone" label="Тел домашний" value="${anketa.homePhone}"/>
+	<br />
+	<aui:input name="jobPhone" label="Тел рабочий" value="${anketa.jobPhone}"/>
+	<br />
+	<aui:input name="mobilePhone" label="Тел мобильный" value="${anketa.mobilePhone}"/>
+	<br />
+	<aui:input name="address" label="Адрес" value="${anketa.address}"/>
+	<br />
+	<aui:input name="email" label="Email" value="${anketa.email}"/>
+	<br />
+
+
+	<aui:button-row>
+		<div align="left">
+			<aui:button type="submit" value="Сохранить" />
+		</div>
+	</aui:button-row>
+</aui:form>
 
 <aui:script>
 $(document).ready(function() {
+	$('.disbl').attr('disabled', 'disabled');
+
 	$('select').chosen({
 		no_results_text : "Извините, нет совпадений!",
 		placeholder_text_single : "Выберите из списка...",

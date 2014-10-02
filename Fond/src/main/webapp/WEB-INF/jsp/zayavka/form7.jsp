@@ -25,7 +25,7 @@
 					<td>${i.okoguName}</td>
 					<td>${i.address}</td>
 					<td><a
-						href="<portlet:actionURL><portlet:param name="action" value="deleteSoOrg"/><portlet:param name="soOrgId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:actionURL>">Удалить</a></td>
+						class='deleteLink' href="<portlet:actionURL><portlet:param name="action" value="deleteSoOrg"/><portlet:param name="soOrgId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:actionURL>">Удалить</a></td>
 				</tr>
 			</c:forEach>
 
@@ -33,7 +33,7 @@
 	</table>
 </c:if>
 <aui:form action="${addSoOrgAction}" method="POST" name="form7">
-	<aui:input name="id" bean="zayavkaModel" type="hidden" value="${zayavkaModel.id}" />
+	<aui:input name="zayavkaId" type="hidden" value="${zayavkaModel.id}" />
 	<aui:input name="konkursId" type="hidden" value="${zayavkaModel.konkursId}" />
 	<aui:input name="userId" type="hidden" value="${zayavkaModel.userId}" />
 

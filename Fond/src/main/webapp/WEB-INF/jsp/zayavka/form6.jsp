@@ -35,7 +35,7 @@
 					<td>${i.orgName}</td>
 					<td>${i.post}</td>
 					<td><a
-						href="<portlet:actionURL><portlet:param name="action" value="deleteIspolnitel"/><portlet:param name="ispolnitelId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /></portlet:actionURL>">Удалить</a></td>
+						class='deleteLink' href="<portlet:actionURL><portlet:param name="action" value="deleteIspolnitel"/><portlet:param name="ispolnitelId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:actionURL>">Удалить</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -46,6 +46,7 @@
 <aui:form action="${addIspolnitelAction}" method="POST" name="form6">
 	<aui:input name="konkursId" type="hidden" value="${zayavkaModel.konkursId}" />
 	<aui:input name="userId" type="hidden" value="${zayavkaModel.userId}" />
+	<aui:input name="zayavkaId" type="hidden" value="${zayavkaModel.id}" />
 	<spring:message code="zayavka.surname" var='surnameLabel' />
 	<aui:input name="surname" label='${surnameLabel}' bean="ispolnitelModel" showRequiredLabel="">
 		<aui:validator name="required" />
@@ -62,7 +63,7 @@
 	</aui:input>
 
 	<spring:message code="zayavka.birthdayManager" var='birthdayLabel' />
-	<aui:input name="birthday" label='${birthdayLabel}' bean="ispolnitelModel" cssClass="datapick" showRequiredLabel="">
+	<aui:input name="birthday" label='${birthdayLabel}' bean="ispolnitelModel" showRequiredLabel="" placeholder="дд-мм-гггг">
 		<aui:validator name="required" />
 		<aui:validator name="custom" errorMessage="Формат даты дд-мм-гггг">
 						function (val, fieldNode, ruleValue) {

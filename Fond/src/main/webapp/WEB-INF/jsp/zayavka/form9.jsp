@@ -14,10 +14,16 @@
 	<aui:input name="userId" type="hidden" value="${zayavkaModel.userId}" />
 
 	<spring:message code='zayavka.costAll' var='costAllLabel' />
-	<aui:input name="costAll" value="${zayavkaModel.costAll}" label="${costAllLabel}" bean="zayavkaModel"></aui:input>
+	<aui:input name="costAll" value="${zayavkaModel.costAll}" label="${costAllLabel}" bean="zayavkaModel">
+		<aui:validator name="required" />
+		<aui:validator name="number" />
+	</aui:input>
 
 	<spring:message code='zayavka.costFirstYear' var='costFirstYearLabel' />
-	<aui:input name="costFirstYear" value="${zayavkaModel.costFirstYear}" label="${costFirstYearLabel}" bean="zayavkaModel"></aui:input>
+	<aui:input name="costFirstYear" value="${zayavkaModel.costFirstYear}" label="${costFirstYearLabel}" bean="zayavkaModel">
+		<aui:validator name="required" />
+		<aui:validator name="number" />
+	</aui:input>
 	<aui:button-row>
 		<div align="left">
 			<aui:button type="submit" value="Сохранить" />

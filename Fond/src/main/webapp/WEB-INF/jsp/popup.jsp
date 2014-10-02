@@ -3,7 +3,9 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib uri="http://alloy.liferay.com/tld/aui" prefix="aui"%>
 
-<liferay-ui:input-editor/>
+
+<liferay-ui:input-editor />
+
 <center>
 	<div id="successMessageContainer" />
 </center>
@@ -11,6 +13,11 @@
 
 <%-- <input id="<portlet:namespace />text" type="hidden" value="" />  --%>
 <aui:script>
+
+
+CKEDITOR.editorConfig = function( config ) {
+    config.extraPlugins = 'mathjax';
+};
 function <portlet:namespace />initEditor() {
                         return Liferay.Util.getOpener().document.getElementById('<portlet:namespace />${input_id}').value;
             }
@@ -18,7 +25,6 @@ function getDataFromPopup(input_id) {
     //AUI().one('#<portlet:namespace />text').value = window.<portlet:namespace />editor.getHTML(); 
     
     Liferay.Util.getOpener().document.getElementById('<portlet:namespace />'+input_id).value = window.<portlet:namespace />editor.getHTML(); 
-    
     showSuccess();
     <portlet:namespace />textDialog.hide();              
             }

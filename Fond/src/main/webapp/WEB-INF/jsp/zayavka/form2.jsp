@@ -42,10 +42,10 @@
 	</aui:select>
 
 	<spring:message code='zayavka.postManager' var='postLabel' />
-	<aui:input name="postRk" value="${zayavkaModel.postRk}" label='${postLabel}' bean="zayavkaModel"></aui:input>
+	<aui:input name="postRk" value="${zayavkaModel.postRk}" label='${postLabel}' bean="zayavkaModel" cssClass="input-large"></aui:input>
 
 	<spring:message code='zayavka.lab' var='labLabel' />
-	<aui:input name="labRk" value="${zayavkaModel.labRk}" label='${labLabel}' bean="zayavkaModel"></aui:input>
+	<aui:input name="labRk" value="${zayavkaModel.labRk}" label='${labLabel}' bean="zayavkaModel" cssClass="input-large"></aui:input>
 
 	<spring:message code='zayavka.jobPhone' var='jobPhoneLabel' />
 	<aui:input name="jobPhoneRk" value="${zayavkaModel.jobPhoneRk}" label='${jobPhoneLabel}' bean="zayavkaModel"></aui:input>
@@ -60,7 +60,7 @@
 	<aui:input name="emailRk" value="${zayavkaModel.emailRk}" label='${emailLabel}' bean="zayavkaModel"></aui:input>
 
 	<spring:message code='zayavka.address' var='addressLabel' />
-	<aui:input name="addressRk" value="${zayavkaModel.addressRk}" label='${addressLabel}' bean="zayavkaModel"></aui:input>
+	<aui:input name="addressRk" value="${zayavkaModel.addressRk}" label='${addressLabel}' bean="zayavkaModel" cssClass="input-large"></aui:input>
 
 	<aui:button-row>
 		<div align="left">

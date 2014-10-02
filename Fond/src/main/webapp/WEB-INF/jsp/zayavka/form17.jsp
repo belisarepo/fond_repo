@@ -21,15 +21,15 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${zayavkaModel.calcMaterialsSet}" var="i">
+			<c:forEach items="${zayavkaModel.calcMaterialsSet}" var="i" varStatus="n">
 				<tr>
-					<td>${i.pn}</td>
+					<td>${n.index+1}</td>
 					<td>${i.name}</td>
 					<td>${i.unit}</td>
 					<td>${i.count}</td>
 					<td class="calcMaterialsSum">${i.sum}</td>
 					<td><a
-						href="<portlet:actionURL><portlet:param name="action" value="deleteCalcMaterials"/><portlet:param name="calcMaterialsId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /></portlet:actionURL>">Удалить</a></td>
+						class='deleteLink' href="<portlet:actionURL><portlet:param name="action" value="deleteCalcMaterials"/><portlet:param name="calcMaterialsId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:actionURL>">Удалить</a></td>
 				</tr>
 			</c:forEach>
 			<tr>
@@ -45,12 +45,6 @@
 	<aui:input name="konkursId" type="hidden" value="${zayavkaModel.konkursId}" />
 	<aui:input name="userId" type="hidden" value="${zayavkaModel.userId}" />
 	<aui:input name="zayavkaId" type="hidden" value="${zayavkaModel.id}" />
-
-	<spring:message code="zayavka.calcMaterials.pn" var='calcMaterialsPnLabel' />
-	<aui:input name="pn" label='${calcMaterialsPnLabel}' bean="calcMaterialsModel" showRequiredLabel="">
-		<aui:validator name="required" />
-		<aui:validator name="number" />
-	</aui:input>
 
 	<spring:message code="zayavka.calcMaterials.name" var='calcMaterialsNameLabel' />
 	<aui:input name="name" label='${calcMaterialsNameLabel}' bean="calcMaterialsModel" showRequiredLabel="">

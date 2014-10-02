@@ -49,14 +49,18 @@
 	<form:label path="kod_booker">Код бухгалтерии</form:label>
 	<form:input path="kod_booker" />
 	<br />
-	<form:label path="okoguName">Классификатор ОКОГУ</form:label>
-	<form:select path="okoguName">
+	<form:label path="okoguId">Классификатор ОКОГУ</form:label>
+	<form:select path="okoguId">
 		<form:option value=""></form:option>
 		<form:options items="${okoguList}" itemLabel="fullName" itemValue="id" />
 	</form:select>
 	<br />
 
-	<input type="submit" value="Save" />
+	<aui:button-row>
+		<div align="left">
+			<aui:button type="submit" value="Сохранить" />
+		</div>
+	</aui:button-row>
 </form:form>
 <aui:script>
 $(document).ready(function() {

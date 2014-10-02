@@ -2,6 +2,7 @@ package by.belisa.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,10 @@ import by.belisa.bean.PublicationDTO;
 import by.belisa.bean.PublicationMDTO;
 import by.belisa.bean.ZayavkaFIDTO;
 import by.belisa.dao.AnketaDao;
+import by.belisa.dao.CalcMaterialsSumDao;
+import by.belisa.dao.CalcOtherCostsSumDao;
+import by.belisa.dao.CalcTripSumDao;
+import by.belisa.dao.CalcZpSumDao;
 import by.belisa.dao.Dao;
 import by.belisa.dao.FizInfoDao;
 import by.belisa.dao.KonkursyDao;
@@ -35,9 +40,13 @@ import by.belisa.dao.ZayavkaFIDao;
 import by.belisa.entity.Anketa;
 import by.belisa.entity.Annotation;
 import by.belisa.entity.CalcMaterials;
+import by.belisa.entity.CalcMaterialsSum;
 import by.belisa.entity.CalcOtherCosts;
+import by.belisa.entity.CalcOtherCostsSum;
 import by.belisa.entity.CalcTrip;
+import by.belisa.entity.CalcTripSum;
 import by.belisa.entity.CalcZp;
+import by.belisa.entity.CalcZpSum;
 import by.belisa.entity.Calculation;
 import by.belisa.entity.FizInfo;
 import by.belisa.entity.Obosnovanie;
@@ -105,6 +114,18 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	@Autowired
 	@Qualifier(value="publicationTypeDao")
 	private PublicationTypeDao publicationTypeDao;
+	@Autowired
+	@Qualifier(value = "calcZpSumDao")
+	private CalcZpSumDao calcZpSumDao;
+	@Autowired
+	@Qualifier(value = "calcOtherCostsSumDao")
+	private CalcOtherCostsSumDao calcOtherCostsSumDao;
+	@Autowired
+	@Qualifier(value = "calcTripSumDao")
+	private CalcTripSumDao calcTripSumDao;
+	@Autowired
+	@Qualifier(value = "calcMaterialsSumDao")
+	private CalcMaterialsSumDao calcMaterialsSumDao;
 
 	public ZayavkaFIDTO getZayavkaFIDTO(int id) throws DaoException {
 		ZayavkaFI zayavkaFI = baseDao.get(id);
@@ -126,6 +147,15 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		return zayavkaFIDTO;
 	}
 
+	public List<ZayavkaFIDTO> getAllByKonkursId(int konkursId){
+		ZayavkaFIDao zayavkaFIDao = (ZayavkaFIDao) baseDao;
+		List<ZayavkaFI> entityList = zayavkaFIDao.getAllByKonkursId(konkursId);
+		List<ZayavkaFIDTO> dtoList = new ArrayList<ZayavkaFIDTO>();
+		for (ZayavkaFI entity: entityList){
+			dtoList.add(new ZayavkaFIDTO(entity));
+		}
+		return dtoList;
+	}
 	public void changeStatus(int newStatus, Integer zayavkaId) throws DaoException{
 		ZayavkaFI zayavka = baseDao.get(zayavkaId);
 		zayavka.setStatusZayavkaFI(statusZayavkaFIDao.get(newStatus));
@@ -146,6 +176,8 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 			zayavkaFI.setPrioritetNauka(prioritetNaukaDao.get(dto.getPrioritetNaukaId()));
 		if (dto.getSectionFondId() != null)
 			zayavkaFI.setSectionFond(sectionFondDao.get(dto.getSectionFondId()));
+		zayavkaFI.setNaprNauka(dto.getNapravlName());
+		zayavkaFI.setVidProject(dto.getVidProjectName());
 		zayavkaFI.setTemaZName(dto.getTemaName());
 		zayavkaFI.setCodeUdk(dto.getUdk());
 		baseDao.saveOrUpdate(zayavkaFI);
@@ -374,7 +406,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 
 	}
 	
-	public void addPublication(ZayavkaFIDTO zayavkaDto, PublicationDTO publDto) throws DaoException{
+	public Integer addPublication(ZayavkaFIDTO zayavkaDto, PublicationDTO publDto) throws DaoException{
 		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
 		Rukovoditel ruk = zayavkaFI.getRukovoditel();
 		if (ruk==null){
@@ -390,16 +422,18 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		zayavkaFI.setRukovoditel(ruk);
 		ruk.setZayavkaFI(zayavkaFI);
 		baseDao.saveOrUpdate(zayavkaFI);
+		return zayavkaFI.getId();
 	}
 	
-	public void addPetition(ZayavkaFIDTO zayavkaDto, String petitionName) throws DaoException{
+	public Integer addPetition(ZayavkaFIDTO zayavkaDto, String petitionName) throws DaoException{
 		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
 		Petition petition = new Petition(petitionName);
 		zayavkaFI.getPetitionSet().add(petition);
 		baseDao.saveOrUpdate(zayavkaFI);
+		return zayavkaFI.getId();
 	}
 	
-	public void addPublicationM(ZayavkaFIDTO zayavkaDto, PublicationMDTO publDto) throws DaoException{
+	public Integer addPublicationM(ZayavkaFIDTO zayavkaDto, PublicationMDTO publDto) throws DaoException{
 		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
 		FizInfo fizInfo;
 		if (publDto.getFizInfoId()==0){
@@ -421,9 +455,10 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		zayavkaFI.setFizInfo(fizInfo);
 		
 		baseDao.saveOrUpdate(zayavkaFI);
+		return zayavkaFI.getId();
 	}
 	
-	public void addCalcZp(ZayavkaFIDTO zayavkaDto, CalcZpDTO calcZpDto) throws DaoException{
+	public Integer addCalcZp(ZayavkaFIDTO zayavkaDto, CalcZpDTO calcZpDto) throws DaoException{
 		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
 		CalcZp calcZp = new CalcZp();
 		calcZp.setDuration(calcZpDto.getDuration());
@@ -433,10 +468,22 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		calcZp.setRate(calcZpDto.getRate());
 		calcZp.setSalary(calcZpDto.getSalary());
 		zayavkaFI.getCalcZpSet().add(calcZp);
+		Float sum = 0f;
+		for (CalcZp i: zayavkaFI.getCalcZpSet()){
+			sum = sum + i.getFondZp();
+		}
+		Integer zayavkaId = zayavkaFI.getId()!=null ? zayavkaFI.getId() : -1;
+		CalcZpSum calcZpSum = calcZpSumDao.get(zayavkaId);
+		if (calcZpSum==null){
+			calcZpSum = new CalcZpSum(zayavkaFI);
+		}
+		calcZpSum.setSum(sum);
+		zayavkaFI.setCalcZpSum(calcZpSum); 
 		baseDao.saveOrUpdate(zayavkaFI);
+		return zayavkaFI.getId();
 	}
 	
-	public void addCalcMaterials(ZayavkaFIDTO zayavkaDto, CalcMaterialsDTO calcMaterialsDto) throws DaoException{
+	public Integer addCalcMaterials(ZayavkaFIDTO zayavkaDto, CalcMaterialsDTO calcMaterialsDto) throws DaoException{
 		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
 		CalcMaterials calcMaterials = new CalcMaterials();
 		calcMaterials.setCount(calcMaterialsDto.getCount());
@@ -445,10 +492,22 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		calcMaterials.setSum(calcMaterialsDto.getSum());
 		calcMaterials.setUnit(calcMaterialsDto.getUnit());
 		zayavkaFI.getCalcMaterialsSet().add(calcMaterials);
+		Float sum = 0f;
+		for (CalcMaterials i: zayavkaFI.getCalcMaterialsSet()){
+			sum = sum + i.getSum();
+		}
+		Integer zayavkaId = zayavkaFI.getId()!=null ? zayavkaFI.getId() : -1;
+		CalcMaterialsSum calcMaterialsSum = calcMaterialsSumDao.get(zayavkaId);
+		if (calcMaterialsSum==null){
+			calcMaterialsSum = new CalcMaterialsSum(zayavkaFI);
+		}
+		calcMaterialsSum.setSum(sum);
+		zayavkaFI.setCalcMaterialsSum(calcMaterialsSum);
 		baseDao.saveOrUpdate(zayavkaFI);
+		return zayavkaFI.getId();
 	}
 	
-	public void addCalcTrip(ZayavkaFIDTO zayavkaDto, CalcTripDTO calcTripDto) throws DaoException{
+	public Integer addCalcTrip(ZayavkaFIDTO zayavkaDto, CalcTripDTO calcTripDto) throws DaoException{
 		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
 		CalcTrip calcTrip = new CalcTrip();
 		calcTrip.setCosts(calcTripDto.getCosts());
@@ -457,10 +516,22 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		calcTrip.setTripGoal(calcTripDto.getTripGoal());
 		calcTrip.setTripPoint(calcTripDto.getTripPoint());
 		zayavkaFI.getCalcTripSet().add(calcTrip);
+		Float sum = 0f;
+		for (CalcTrip i: zayavkaFI.getCalcTripSet()){
+			sum = sum + i.getCosts();
+		}
+		Integer zayavkaId = zayavkaFI.getId()!=null ? zayavkaFI.getId() : -1;
+		CalcTripSum calcTripSum = calcTripSumDao.get(zayavkaId);
+		if (calcTripSum==null){
+			calcTripSum = new CalcTripSum(zayavkaFI);
+		}
+		calcTripSum.setSum(sum);
+		zayavkaFI.setCalcTripSum(calcTripSum);
 		baseDao.saveOrUpdate(zayavkaFI);
+		return zayavkaFI.getId();
 	}
 	
-	public void addCalcOtherCosts(ZayavkaFIDTO zayavkaDto, CalcOtherCostsDTO calcOtherCostsDto) throws DaoException{
+	public Integer addCalcOtherCosts(ZayavkaFIDTO zayavkaDto, CalcOtherCostsDTO calcOtherCostsDto) throws DaoException{
 		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
 		CalcOtherCosts calcOtherCosts = new CalcOtherCosts();
 		calcOtherCosts.setName(calcOtherCostsDto.getName());
@@ -468,7 +539,19 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		calcOtherCosts.setPn(calcOtherCostsDto.getPn());
 		calcOtherCosts.setSum(calcOtherCostsDto.getSum());
 		zayavkaFI.getCalcOtherCostsSet().add(calcOtherCosts);
+		Float sum = 0f;
+		for (CalcOtherCosts i: zayavkaFI.getCalcOtherCostsSet()){
+			sum = sum + i.getSum();
+		}
+		Integer zayavkaId = zayavkaFI.getId()!=null ? zayavkaFI.getId() : -1;
+		CalcOtherCostsSum calcOtherCostsSum = calcOtherCostsSumDao.get(zayavkaId);
+		if (calcOtherCostsSum==null){
+			calcOtherCostsSum = new CalcOtherCostsSum(zayavkaFI);
+		}
+		calcOtherCostsSum.setSum(sum);
+		zayavkaFI.setCalcOtherCostsSum(calcOtherCostsSum);
 		baseDao.saveOrUpdate(zayavkaFI);
+		return zayavkaFI.getId();
 	}
 	
 	

@@ -31,7 +31,7 @@
 					<td class="calcZpSum">${i.fondZp}</td>
 					<td>${i.note}</td>
 					<td><a
-						href="<portlet:actionURL><portlet:param name="action" value="deleteCalcZp"/><portlet:param name="calcZpId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /></portlet:actionURL>">Удалить</a></td>
+						class='deleteLink' href="<portlet:actionURL><portlet:param name="action" value="deleteCalcZp"/><portlet:param name="calcZpId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:actionURL>">Удалить</a></td>
 				</tr>
 			</c:forEach>
 			<tr>
@@ -79,7 +79,7 @@
 	</aui:input>
 	
 	<spring:message code="zayavka.calcZp.note" var='calcZpNoteLabel' />
-	<aui:input name="note" label='${calcZpNoteLabel}' bean="calcZpModel">
+	<aui:input name="note" label='${calcZpNoteLabel}' bean="calcZpModel" type="textarea">
 	</aui:input>
 
 

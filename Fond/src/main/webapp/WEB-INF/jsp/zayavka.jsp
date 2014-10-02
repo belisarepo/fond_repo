@@ -223,19 +223,48 @@
 	</div>
 </div>
 
+<!-- Modal -->
+<div class="modal" id="confirmModal" role="dialog" aria-hidden="true" data-backdrop="true" style="width:260px;top:40%;left:55%;display:none">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+      	
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title"  id="myModalLabel">Сохранить изменения?</h4>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Нет</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="submitFondForm()">Сохранить</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
 
-
-
+<div class="loading"><!-- Place at bottom of page --></div>
 <aui:script>
+var isChanged = false;
+var changedForm;
+function submitFondForm(){
+		changedForm.submit();
+		$('.loading').css('display','block');
+	}
 $(document).ready(function() {
+	
+	$('input, select').change(function(){
+		isChanged = true;
+		changedForm = $(this).closest("form");
+	});
+	
 	function disabledZayavka(){
 		$('input').prop('disabled', true);
 		$('button').prop('disabled', true);
 		$('select').prop('disabled', true);
 		$('#send_btn').css('display','none');
+		$('.deleteLink').css('display','none');
 		
 	}
 	if ('${zayavkaModel.statusZayavkaId}'==3){
@@ -245,7 +274,8 @@ $(document).ready(function() {
 	$('select').chosen({
 		no_results_text : "Извините, нет совпадений!",
 		placeholder_text_single : "Выберите из списка...",
-		width : '206px'
+		width : '91%',
+		search_contains:true
 	});
 
 	$('.datapick').datepick({
@@ -274,6 +304,7 @@ function showPopup(title, input_id, popup_page_url) {
 					on : {
 						click : function() {
 							getDataFromPopup(input_id);
+							Y.one('#<portlet:namespace />'+input_id).simulate('change');
 						}
 					}
 				} ];
@@ -342,8 +373,14 @@ var tabview = new Y.TabView({
 if (sessionStorage.getItem('tab')) {
 	tabview.selectChild(sessionStorage.getItem('tab') || 0);
 }
-
+tabview.before('selectionChange', function(e) {
+	if (isChanged){
+		$('#confirmModal').modal('show');
+	}
+	
+});
 tabview.after('selectionChange', function(e) {
+	isChanged = false;
 	sessionStorage.setItem('tab', e.newVal.get('index') || 0);
 });
 //============================================================

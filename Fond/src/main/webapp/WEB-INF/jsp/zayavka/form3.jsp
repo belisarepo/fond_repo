@@ -29,7 +29,7 @@
 
 	<spring:message code='zayavka.addressOrg' var='addressOrgLabel' />
 	<aui:input id="orgAddressRb" disabled="true" name="orgAddress" value="${zayavkaModel.orgAddress}" label='${addressOrgLabel}'
-		bean="zayavkaModel"></aui:input>
+		bean="zayavkaModel" cssClass="input-large"></aui:input>
 
 	<aui:button-row>
 		<div align="left">
