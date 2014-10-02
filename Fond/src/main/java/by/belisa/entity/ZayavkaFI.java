@@ -95,7 +95,7 @@ public class ZayavkaFI implements Serializable, IValidaton {
 	private Rukovoditel rukovoditel;
 	@OneToOne(mappedBy = "zayavkaFI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Calculation calculation;
-	
+
 	@OneToOne(mappedBy = "zayavkaFI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private CalcZpSum calcZpSum;
 	@OneToOne(mappedBy = "zayavkaFI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -169,7 +169,6 @@ public class ZayavkaFI implements Serializable, IValidaton {
 		this.calcZpSet = calcZpSet;
 	}
 
-	
 	public List<CalcTrip> getCalcTripSet() {
 		return calcTripSet;
 	}
@@ -437,7 +436,6 @@ public class ZayavkaFI implements Serializable, IValidaton {
 	public void setPetitionSet(List<Petition> petitionSet) {
 		this.petitionSet = petitionSet;
 	}
-	
 
 	public CalcZpSum getCalcZpSum() {
 		return calcZpSum;
@@ -470,7 +468,6 @@ public class ZayavkaFI implements Serializable, IValidaton {
 	public void setCalcOtherCostsSum(CalcOtherCostsSum calcOtherCostsSum) {
 		this.calcOtherCostsSum = calcOtherCostsSum;
 	}
-	
 
 	public String getVidProject() {
 		return vidProject;
@@ -530,14 +527,33 @@ public class ZayavkaFI implements Serializable, IValidaton {
 			message = "Не заполнен расчёт заработной платы" + " " + tabNameCalcSalary;
 			vr.getErrMessages().add(message);
 		}
+		// Проверка итоговый сумм калькуляций
+		if (this.calculation != null && this.calcZpSet != null) {
+			if (this.calculation.getAllFull() != this.calcZpSum.getSum()) {
+				message = "Не совпадают суммы \"Заработная плата(основаная и дополнительная) научно-производственного персонала\" "+tabNameCalc+" и \"Итого затрат\" "+tabNameCalcSalary;
+				vr.getErrMessages().add(message);
+			}
+			if((this.calcMaterialsSet==null && this.calculation.getHardwareFull()!=0) ||(this.calculation.getHardwareFull()!=this.calcMaterialsSum.getSum())){
+				message ="Не совпадают суммы \"Материалы,покупные полуфабрикаты и комплектующие изделия\" " + tabNameCalc+" и \"Итого затрат\" во вкладке \"Расчёт затрат на материалы\"";
+				vr.getErrMessages().add(message);
+			}
+			if((this.calcTripSet==null && this.calculation.getBusinessTripFull()!=0) ||(this.calculation.getBusinessTripFull()!=this.calcTripSum.getSum())){
+				message ="Не совпадают суммы \"Научно-производственные командировки\" "+tabNameCalc+" и \"Итого затрат\" во вкладке \"Расчёт затрат на командировки\"";
+				vr.getErrMessages().add(message);
+			}
+			if((this.calcOtherCostsSet == null && this.calculation.getOtherFull()!=0) || (this.calculation.getOtherFull()!=this.calcOtherCostsSum.getSum())){
+				message = "Не совпадают суммы \"Прочие прямые расходы\" "+tabNameCalc+" и \"Итого затрат\" во вкладке \"Расчёт затрат по статье\"Прочие прямые затраты\"\"";
+				vr.getErrMessages().add(message);
+			}
+		}
 		// Проверка списка публикации
 		if (this.fizInfo.getPublication() == null || this.fizInfo.getPublication().isEmpty()) {
 			message = "Не заполнена вкладка \"Список публикации\"";
 			vr.getErrMessages().add(message);
 		}
-		//Проверка кто вносит ходатайство 
-		if(VidFormId == BELARUS_JUNIOR_FORM_ID || VidFormId == COOPERATIVE_JUNIOR_FORM_ID){
-			if(this.petitionSet.isEmpty() || this.petitionSet == null){
+		// Проверка кто вносит ходатайство
+		if (VidFormId == BELARUS_JUNIOR_FORM_ID || VidFormId == COOPERATIVE_JUNIOR_FORM_ID) {
+			if (this.petitionSet.isEmpty() || this.petitionSet == null) {
 				message = "Не заполнена вкладка \"Кто вносит ходатайство\"";
 				vr.getErrMessages().add(message);
 			}
@@ -566,7 +582,7 @@ public class ZayavkaFI implements Serializable, IValidaton {
 				}
 			}
 		}
-		if (VidFormId ==COOPERATIVE_FORM_ID || VidFormId == BELARUS_FORM_ID) {
+		if (VidFormId == COOPERATIVE_FORM_ID || VidFormId == BELARUS_FORM_ID) {
 			// Проверка вкладки аннотация
 			if (this.annotation != null) {
 				vr.getErrMessages().addAll(this.annotation.validate().getErrMessages());
