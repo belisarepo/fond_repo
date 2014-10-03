@@ -1,15 +1,19 @@
 <%@ page contentType="text/html" language="java" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/portlet" prefix="portlet" %>
-<%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
+<%@ taglib uri="http://java.sun.com/portlet" prefix="portlet"%>
+<%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib uri="http://alloy.liferay.com/tld/aui" prefix="aui"%>
+
 
 <liferay-ui:input-editor />
 
-<center><div id="successMessageContainer" /></center>
+<center>
+	<div id="successMessageContainer" />
+</center>
 
 
 <%-- <input id="<portlet:namespace />text" type="hidden" value="" />  --%>
 <aui:script>
+
 
 CKEDITOR.editorConfig = function( config ) {
     config.extraPlugins = 'mathjax';
