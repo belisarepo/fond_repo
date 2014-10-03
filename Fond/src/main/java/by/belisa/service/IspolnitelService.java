@@ -95,6 +95,19 @@ public class IspolnitelService extends ServiceImpl<Ispolnitel, Integer>{
 		baseDao.saveOrUpdate(ispolnitel);
 		
 	}
-	
+	public IspolnitelDTO getDTO(Integer id) throws DaoException{
+		Ispolnitel ispl = baseDao.get(id);
+		return new IspolnitelDTO(ispl, false);
+	}
+	public void edit(IspolnitelDTO dto) throws DaoException, ParseException{
+		Ispolnitel entity = baseDao.get(dto.getId());
+		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		entity.setBirthday(df.parse(dto.getBirthday()));
+		entity.setName(dto.getName());
+		entity.setPatronymic(dto.getPatronymic());
+		entity.setPost(dto.getPost());
+		entity.setSurname(dto.getSurname());
+		baseDao.update(entity);
+	}
 
 }

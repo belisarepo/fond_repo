@@ -21,11 +21,12 @@
 				<th><spring:message code="zayavka.mestoRaboti" /></th>
 				<th><spring:message code="zayavka.postManager" /></th>
 				<th></th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${zayavkaModel.ispolniteliDTO}" var="i">
-				<tr>
+			<c:forEach items="${zayavkaModel.ispolniteliDTO}" var="i" varStatus="n">
+				<tr id="${i.id}">
 					<td>${i.surname}</td>
 					<td>${i.name}</td>
 					<td>${i.patronymic}</td>
@@ -34,6 +35,14 @@
 					<td>${i.uchZvaniyName}</td>
 					<td>${i.orgName}</td>
 					<td>${i.post}</td>
+					<portlet:renderURL var="editIsplUrl" windowState='<%=LiferayWindowState.POP_UP.toString()%>'><portlet:param name="action" value="editIspolnitel" /><portlet:param name="isplId" value="${i.id}" /></portlet:renderURL>
+					<c:set var="strEditIsplUrl"><%=editIsplUrl.toString()%></c:set>
+					<aui:script>
+						$('#editIspl${n.index+1}').on('click', function(event){
+  					 		showPopup('Редактировать исполнителя',null,'${strEditIsplUrl}');
+						});
+					</aui:script>
+					<td><a id="editIspl${n.index+1}" class='deleteLink' href="#">Редактировать</a></td>
 					<td><a
 						class='deleteLink' href="<portlet:actionURL><portlet:param name="action" value="deleteIspolnitel"/><portlet:param name="ispolnitelId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:actionURL>">Удалить</a></td>
 				</tr>

@@ -648,6 +648,13 @@ public abstract class SaveZayavkaController {
 		model.addAttribute("publModel", publ);
 		return "editPublicationForm";
 	}
+	@RenderMapping(params = "action=editIspolnitel")
+	public String renderEditIspolnitelForm(Model model, PortletRequest request) throws ServiceException, DaoException{
+		Integer id = ParamUtil.getInteger(request, "isplId");
+		IspolnitelDTO ispl = ispolnitelService.getDTO(id);
+		model.addAttribute("isplModel", ispl);
+		return "editIspolnitelForm";
+	}
 	
 	@RenderMapping(params = "action=popup")
 	public String renderPopup(Model model, PortletRequest request) {
@@ -677,7 +684,6 @@ public abstract class SaveZayavkaController {
 	}
 	@ResourceMapping(value = "editPublication")
 	public void editPublication(ResourceRequest req, ResourceResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException, IOException{
-//		OutputStream outStream = resp.getPortletOutputStream();
 		String publId = req.getParameter("id");
 		String name = req.getParameter("name");
 		String edition = req.getParameter("edition");
@@ -686,7 +692,17 @@ public abstract class SaveZayavkaController {
 		String database = req.getParameter("database");
 		PublicationDTO dto = new PublicationDTO(Integer.parseInt(publId), name, edition, authors, citationIndex, database);
 		publicationService.edit(dto);	
-//		outStream.write(0);
+	}
+	@ResourceMapping(value = "editIspolnitel")
+	public void editIspolnitel(ResourceRequest req, ResourceResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException, IOException{
+		String isplId = req.getParameter("id");
+		String surname = req.getParameter("surname");
+		String name = req.getParameter("name");
+		String patronymic = req.getParameter("patronymic");
+		String birthday = req.getParameter("birthday");
+		String post = req.getParameter("post");
+		IspolnitelDTO dto = new IspolnitelDTO(Integer.parseInt(isplId), name, surname, patronymic, birthday, post);
+		ispolnitelService.edit(dto);	
 	}
 	
 	@ResourceMapping(value="report")

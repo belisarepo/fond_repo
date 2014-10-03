@@ -32,6 +32,17 @@ public class IspolnitelDTO implements Serializable{
 	}
 	
 	
+	public IspolnitelDTO(Integer id, String name, String surname, String patronymic, String birthday, String post) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.surname = surname;
+		this.patronymic = patronymic;
+		this.birthday = birthday;
+		this.post = post;
+	}
+
+
 	public IspolnitelDTO(Ispolnitel entity, boolean withPubl) {
 		if (entity!=null){
 			this.id = entity.getId();
