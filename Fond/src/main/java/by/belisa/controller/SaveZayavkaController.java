@@ -655,6 +655,13 @@ public abstract class SaveZayavkaController {
 		model.addAttribute("isplModel", ispl);
 		return "editIspolnitelForm";
 	}
+	@RenderMapping(params = "action=editCalcZP")
+	public String renderEditCalcZPForm(Model model, PortletRequest request) throws ServiceException, DaoException{
+		Integer id = ParamUtil.getInteger(request, "CalcZPId");
+		CalcZpDTO calcZp = calcZpService.getDTO(id);
+		model.addAttribute("calcZpModel",calcZp);
+		return "editCalcZPForm";
+	}
 	
 	@RenderMapping(params = "action=popup")
 	public String renderPopup(Model model, PortletRequest request) {
@@ -692,6 +699,18 @@ public abstract class SaveZayavkaController {
 		String database = req.getParameter("database");
 		PublicationDTO dto = new PublicationDTO(Integer.parseInt(publId), name, edition, authors, citationIndex, database);
 		publicationService.edit(dto);	
+	}
+	@ResourceMapping(value = "editCalcZP")
+	public void editCalcZP(ResourceRequest req, ResourceResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException, IOException{
+		String CalcZPId = req.getParameter("id");
+		String name = req.getParameter("name");
+		String salary = req.getParameter("salary");
+		String rate = req.getParameter("rate");
+		String duration = req.getParameter("duration");
+		String fondZp = req.getParameter("fondZp");
+		String note = req.getParameter("note");
+		CalcZpDTO dto = new CalcZpDTO(Integer.parseInt(CalcZPId), name, Float.parseFloat(salary), Float.parseFloat(rate), Float.parseFloat(duration), Float.parseFloat(fondZp),note);
+		calcZpService.edit(dto);	
 	}
 	@ResourceMapping(value = "editIspolnitel")
 	public void editIspolnitel(ResourceRequest req, ResourceResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException, IOException{

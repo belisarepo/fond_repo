@@ -24,6 +24,20 @@ public class CalcZpDTO implements Serializable{
 	}
 
 
+	
+	public CalcZpDTO(Integer id, String name, float salary, float rate, float duration, float fondZp, String note) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.salary = salary;
+		this.rate = rate;
+		this.duration = duration;
+		this.fondZp = fondZp;
+		this.note = note;
+	}
+
+
+
 	public CalcZpDTO(CalcZp calcZp){
 		this.id = calcZp.getId();
 		this.name = calcZp.getName(); 
