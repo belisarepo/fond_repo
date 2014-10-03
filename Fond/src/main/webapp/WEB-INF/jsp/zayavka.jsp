@@ -300,11 +300,16 @@ function showPopup(title, input_id, popup_page_url) {
 	AUI().use('aui-base', 'aui-tabview', 'liferay-notice', 'history',
 			'liferay-util-window', 'aui-io-plugin-deprecated', function(Y) {
 				var saveButton = [ {
+					id: 'popupSaveBtn',
 					label : 'Save',
 					on : {
 						click : function() {
-							getDataFromPopup(input_id);
-							Y.one('#<portlet:namespace />'+input_id).simulate('change');
+							if (input_id!=null){
+								getDataFromPopup(input_id);
+								Y.one('#<portlet:namespace />'+input_id).simulate('change');
+								<portlet:namespace />textDialog.hide(); 
+							}
+    						
 						}
 					}
 				} ];

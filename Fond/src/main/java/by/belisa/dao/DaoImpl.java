@@ -48,20 +48,7 @@ public class DaoImpl<T, PK extends Serializable> implements Dao<T, PK> {
 		return session;
 	}
 
-	@Override
-	public List<T> getAll() throws DaoException {
-		log.debug(String.format("Get all <%s>.", typeName));
-		try {
-			@SuppressWarnings("unchecked")
-			List<T> list = getSession().createCriteria(type)
-					.addOrder(Order.asc("id")).list();
-			log.debug(String.format("Got %d products",
-					list == null ? 0 : list.size()));
-			return list;
-		} catch (HibernateException e) {
-			throw new DaoException(e);
-		}
-	}
+	
 
 	@Override
 	public List<T> getList(Criterion... criterion) throws DaoException {
@@ -144,6 +131,21 @@ public class DaoImpl<T, PK extends Serializable> implements Dao<T, PK> {
 			throw new DaoException(e);
 		}
 		
+	}
+
+	@Override
+	public List<T> getAll() throws DaoException {
+		log.debug(String.format("Get all <%s>.", typeName));
+		try {
+			@SuppressWarnings("unchecked")
+			List<T> list = getSession().createCriteria(type)
+					.addOrder(Order.asc("id")).list();
+			log.debug(String.format("Got %d products",
+					list == null ? 0 : list.size()));
+			return list;
+		} catch (HibernateException e) {
+			throw new DaoException(e);
+		}
 	}
 
 }

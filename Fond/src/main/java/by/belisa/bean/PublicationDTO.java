@@ -19,6 +19,15 @@ public class PublicationDTO implements Serializable{
 	private String database;
 	
 	
+	public PublicationDTO(Integer id, String name, String edition, String authors, String citationIndex, String database) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.edition = edition;
+		this.authors = authors;
+		this.citationIndex = citationIndex;
+		this.database = database;
+	}
 	public PublicationDTO(Publication publ) {
 		super();
 		this.id = publ.getId();

@@ -16,6 +16,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
@@ -104,6 +105,7 @@ public class Rukovoditel implements Serializable, IValidaton {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "RUKOVODITEL_ID")
+	@OrderBy("id ASC")
 	Set<Publication> publicationSet = new HashSet<Publication>();
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)

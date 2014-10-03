@@ -64,7 +64,7 @@ public class FizInfo implements Serializable{
 	@OneToMany(mappedBy="fizInfo")
 	private Set<ZayavkaFI> zayavkiAsRuk = new HashSet<ZayavkaFI>();
 	@OneToMany(mappedBy="fizInfo",cascade=CascadeType.ALL)
-	@OrderBy("publicationType ASC")
+	@OrderBy("publicationType,id")
 	private List<PublicationM> publication = new ArrayList<PublicationM>();
 	public Set<ZayavkaFI> getZayavki() {
 		return zayavki;

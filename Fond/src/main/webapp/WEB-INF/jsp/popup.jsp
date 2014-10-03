@@ -21,8 +21,7 @@ function getDataFromPopup(input_id) {
     //AUI().one('#<portlet:namespace />text').value = window.<portlet:namespace />editor.getHTML(); 
     
     Liferay.Util.getOpener().document.getElementById('<portlet:namespace />'+input_id).value = window.<portlet:namespace />editor.getHTML(); 
-    showSuccess();
-    <portlet:namespace />textDialog.hide();              
+                 
             }
             
 function showSuccess(){

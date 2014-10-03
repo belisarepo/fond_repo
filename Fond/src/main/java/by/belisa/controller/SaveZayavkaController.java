@@ -469,6 +469,7 @@ public abstract class SaveZayavkaController {
 			resp.setRenderParameter("konkursId", konkursId.toString());
 	}
 	
+	
 	@ActionMapping(params = "action=addPublicationM")
 	public void addPublicationM(@ModelAttribute(value="publicationMModel") PublicationMDTO publication, ActionRequest req, ActionResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
 			Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
@@ -639,6 +640,15 @@ public abstract class SaveZayavkaController {
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
 	}
+	
+	@RenderMapping(params = "action=editPublication")
+	public String renderEditPublicationForm(Model model, PortletRequest request) throws ServiceException, DaoException{
+		Integer id = ParamUtil.getInteger(request, "publId");
+		PublicationDTO publ = publicationService.getDTO(id);
+		model.addAttribute("publModel", publ);
+		return "editPublicationForm";
+	}
+	
 	@RenderMapping(params = "action=popup")
 	public String renderPopup(Model model, PortletRequest request) {
 		String inputId = ParamUtil.getString(request, "input_id");
@@ -665,6 +675,20 @@ public abstract class SaveZayavkaController {
 		String jsonString = mapper.writeValueAsString(orgNr);
 	    outStream.write(jsonString.getBytes());
 	}
+	@ResourceMapping(value = "editPublication")
+	public void editPublication(ResourceRequest req, ResourceResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException, IOException{
+//		OutputStream outStream = resp.getPortletOutputStream();
+		String publId = req.getParameter("id");
+		String name = req.getParameter("name");
+		String edition = req.getParameter("edition");
+		String authors = req.getParameter("authors");
+		String citationIndex = req.getParameter("citationIndex");
+		String database = req.getParameter("database");
+		PublicationDTO dto = new PublicationDTO(Integer.parseInt(publId), name, edition, authors, citationIndex, database);
+		publicationService.edit(dto);	
+//		outStream.write(0);
+	}
+	
 	@ResourceMapping(value="report")
 	public void getReport(ResourceRequest request, ResourceResponse response) throws IOException{
 		int zayavkaId = ParamUtil.getInteger(request,"zayavkaId");

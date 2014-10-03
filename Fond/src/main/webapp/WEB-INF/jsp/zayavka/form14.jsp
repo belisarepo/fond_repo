@@ -18,18 +18,26 @@
 				<th><spring:message code="zayavka.publIndex" /></th>
 				<th><spring:message code="zayavka.publDB" /></th>
 				<th></th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${zayavkaModel.publications}" var="i">
-				<tr>
+			<c:forEach items="${zayavkaModel.publications}" var="i" varStatus="n">
+				<tr id="${i.id}">
 					<td>${i.name}</td>
 					<td>${i.edition}</td>
 					<td>${i.authors}</td>
 					<td>${i.citationIndex}</td>
 					<td>${i.database}</td>
-					<td><a
-						class='deleteLink' href="<portlet:actionURL><portlet:param name="action" value="deletePublication"/><portlet:param name="publicationId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:actionURL>">Удалить</a></td>
+					<portlet:renderURL var="editPublUrl" windowState='<%=LiferayWindowState.POP_UP.toString()%>'><portlet:param name="action" value="editPublication" /><portlet:param name="publId" value="${i.id}" /></portlet:renderURL>
+					<c:set var="strEditPublUrl"><%=editPublUrl.toString()%></c:set>
+					<aui:script>
+						$('#editPubl${n.index+1}').on('click', function(event){
+  					 		showPopup('Редактировать публикацию',null,'${strEditPublUrl}');
+						});
+					</aui:script>
+					<td><a id="editPubl${n.index+1}" class='deleteLink' href="#">Редактировать</a></td>
+					<td><a class='deleteLink' href="<portlet:actionURL><portlet:param name="action" value="deletePublication"/><portlet:param name="publicationId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:actionURL>">Удалить</a></td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -43,17 +51,17 @@
 	<aui:input name="zayavkaId" type="hidden" value="${zayavkaModel.id}" />
 
 	<spring:message code="zayavka.publName" var='publNameLabel' />
-	<aui:input name="name" label='${publNameLabel}' bean="publicationModel" showRequiredLabel="">
+	<aui:input name="name" label='${publNameLabel}' bean="publicationModel" showRequiredLabel="" type="textarea">
 		<aui:validator name="required" />
 	</aui:input>
 
 	<spring:message code="zayavka.publIzdanie" var='publIzdanieLabel' />
-	<aui:input name="edition" label='${publIzdanieLabel}' bean="publicationModel" showRequiredLabel="">
+	<aui:input name="edition" label='${publIzdanieLabel}' bean="publicationModel" showRequiredLabel="" type="textarea">
 		<aui:validator name="required" />
 	</aui:input>
 
 	<spring:message code="zayavka.fullListAutors" var='fullListAutorsLabel' />
-	<aui:input name="authors" label='${fullListAutorsLabel}' bean="publicationModel" showRequiredLabel="">
+	<aui:input name="authors" label='${fullListAutorsLabel}' bean="publicationModel" showRequiredLabel="" type="textarea">
 		<aui:validator name="required" />
 	</aui:input>
 
