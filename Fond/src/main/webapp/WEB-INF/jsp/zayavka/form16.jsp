@@ -31,7 +31,7 @@
 					<td>${i.duration}</td>
 					<td class="calcZpSum">${i.fondZp}</td>
 					<td>${i.note}</td>
-					<portlet:renderURL var="editCalcZPUrl" windowState='<%=LiferayWindowState.POP_UP.toString()%>'><portlet:param name="action" value="editCalcZP" /><portlet:param name="CalcZPId" value="${i.id}" /></portlet:renderURL>
+					<portlet:renderURL var="editCalcZPUrl" windowState='<%=LiferayWindowState.POP_UP.toString()%>'><portlet:param name="action" value="editCalcZP" /><portlet:param name="CalcZPId" value="${i.id}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}"/></portlet:renderURL>
 					<c:set var="strCalcZPUrl"><%=editCalcZPUrl.toString()%></c:set>
 					<aui:script>
 						$('#editCalcZP${n.index+1}').on('click', function(event){
@@ -46,7 +46,8 @@
 			<tr>
 				<td colspan="4"><spring:message code="zayavka.calc.all" /></td>
 				<td id="calcZpSumAll"></td>
-				<td></td>
+				<td></td><td></td><td></td>
+				
 			</tr>
 		</tbody>
 	</table>
@@ -111,9 +112,12 @@
 <br />
 
 <aui:script>
-var calcZpSumAll = 0;
-$('.calcZpSum').each(function(){
-	calcZpSumAll += parseFloat($(this).text());
-});
-$('#calcZpSumAll').text(calcZpSumAll);
+function resum(){
+	var calcZpSumAll = 0;
+	$('.calcZpSum').each(function(){
+		calcZpSumAll += parseFloat($(this).text());
+	});
+	$('#calcZpSumAll').text(calcZpSumAll);
+}
+resum();
 </aui:script>

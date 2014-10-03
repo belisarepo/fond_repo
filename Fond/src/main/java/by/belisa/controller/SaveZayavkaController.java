@@ -668,8 +668,10 @@ public abstract class SaveZayavkaController {
 	@RenderMapping(params = "action=editCalcZP")
 	public String renderEditCalcZPForm(Model model, PortletRequest request) throws ServiceException, DaoException{
 		Integer id = ParamUtil.getInteger(request, "CalcZPId");
+		Integer zayavkaId = ParamUtil.getInteger(request, "zayavkaId");
 		CalcZpDTO calcZp = calcZpService.getDTO(id);
 		model.addAttribute("calcZpModel",calcZp);
+		model.addAttribute("zayavkaId",zayavkaId);
 		return "editCalcZPForm";
 	}
 	
@@ -730,8 +732,10 @@ public abstract class SaveZayavkaController {
 		String duration = req.getParameter("duration");
 		String fondZp = req.getParameter("fondZp");
 		String note = req.getParameter("note");
+		String zayavkaId = req.getParameter("zayavkaId");
 		CalcZpDTO dto = new CalcZpDTO(Integer.parseInt(CalcZPId), name, Float.parseFloat(salary), Float.parseFloat(rate), Float.parseFloat(duration), Float.parseFloat(fondZp),note);
 		calcZpService.edit(dto);	
+		calcZpSumService.recalculate(Integer.parseInt(zayavkaId));
 	}
 	@ResourceMapping(value = "editIspolnitel")
 	public void editIspolnitel(ResourceRequest req, ResourceResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException, IOException{

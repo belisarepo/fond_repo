@@ -55,7 +55,8 @@ $(document).ready(function() {
 		   		  	"rate":$('#${ns}rate').val(),
 		   		  	"duration":$('#${ns}duration').val(),
 		   		  	"fondZp":$('#${ns}fondZp').val(),
-		   		  	"note":$('#${ns}note').val()};
+		   		  	"note":$('#${ns}note').val(),
+		   		  	"zayavkaId":'${zayavkaId}'};
 		$.ajax({
 		   url: '${editCalcZPUrl}',
 		   <!-- dataType: 'json', -->
@@ -68,6 +69,7 @@ $(document).ready(function() {
 						 $(parentTR).children('td').eq(3).html(data['duration']);
 						 $(parentTR).children('td').eq(4).html(data['fondZp']);
 						 $(parentTR).children('td').eq(5).html(data['note']);
+						 resum();
 						<portlet:namespace />textDialog.hide();
 		   			}
 		 });
