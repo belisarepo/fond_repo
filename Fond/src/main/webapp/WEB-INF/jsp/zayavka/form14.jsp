@@ -23,7 +23,7 @@
 		</thead>
 		<tbody>
 			<c:forEach items="${zayavkaModel.publications}" var="i" varStatus="n">
-				<tr id="${i.id}">
+				<tr id="publ${i.id}">
 					<td>${i.name}</td>
 					<td>${i.edition}</td>
 					<td>${i.authors}</td>

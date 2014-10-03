@@ -26,7 +26,7 @@
 		</thead>
 		<tbody>
 			<c:forEach items="${zayavkaModel.ispolniteliDTO}" var="i" varStatus="n">
-				<tr id="${i.id}">
+				<tr id="ispl${i.id}">
 					<td>${i.surname}</td>
 					<td>${i.name}</td>
 					<td>${i.patronymic}</td>

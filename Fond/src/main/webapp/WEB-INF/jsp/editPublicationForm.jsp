@@ -55,7 +55,7 @@ $(document).ready(function() {
 		   <!-- dataType: 'json', -->
 		   data: data,
 		   success: function(){
-		   				 var parentTR = Liferay.Util.getOpener().document.getElementById(data['id']);
+		   				 var parentTR = Liferay.Util.getOpener().document.getElementById('publ'+data['id']);
 						 $(parentTR).children('td').eq(0).html(data['name']);
 						 $(parentTR).children('td').eq(1).html(data['edition']);
 						 $(parentTR).children('td').eq(2).html(data['authors']);

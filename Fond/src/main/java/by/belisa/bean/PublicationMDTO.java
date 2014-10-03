@@ -26,6 +26,16 @@ public class PublicationMDTO implements Serializable{
 	}
 	
 	
+	public PublicationMDTO(Integer id, String name, String edition, int pages, String authors) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.edition = edition;
+		this.pages = pages;
+		this.authors = authors;
+	}
+
+
 	public PublicationMDTO(PublicationM publM) {
 		this.id = publM.getId();
 		this.name = publM.getName();

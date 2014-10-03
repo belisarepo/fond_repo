@@ -38,6 +38,7 @@ import by.belisa.bean.PublicationMDTO;
 import by.belisa.bean.ZayavkaFIDTO;
 import by.belisa.dao.StatusZayavkaFIDao;
 import by.belisa.entity.Ispolnitel;
+import by.belisa.entity.Organization;
 import by.belisa.entity.OrganizationNR;
 import by.belisa.entity.OtraslNauka;
 import by.belisa.entity.PrioritetNauka;
@@ -648,11 +649,20 @@ public abstract class SaveZayavkaController {
 		model.addAttribute("publModel", publ);
 		return "editPublicationForm";
 	}
+	@RenderMapping(params = "action=editPublicationM")
+	public String renderEditPublicationMForm(Model model, PortletRequest request) throws ServiceException, DaoException{
+		Integer id = ParamUtil.getInteger(request, "publMId");
+		PublicationMDTO publM = publicationMService.getDTO(id);
+		model.addAttribute("publMModel", publM);
+		return "editPublicationMForm";
+	}
 	@RenderMapping(params = "action=editIspolnitel")
 	public String renderEditIspolnitelForm(Model model, PortletRequest request) throws ServiceException, DaoException{
 		Integer id = ParamUtil.getInteger(request, "isplId");
 		IspolnitelDTO ispl = ispolnitelService.getDTO(id);
 		model.addAttribute("isplModel", ispl);
+		List<Organization> listOrg = orgService.getAll();
+		model.addAttribute("listOrg", listOrg);
 		return "editIspolnitelForm";
 	}
 	
@@ -693,15 +703,28 @@ public abstract class SaveZayavkaController {
 		PublicationDTO dto = new PublicationDTO(Integer.parseInt(publId), name, edition, authors, citationIndex, database);
 		publicationService.edit(dto);	
 	}
+	@ResourceMapping(value = "editPublicationM")
+	public void editPublicationM(ResourceRequest req, ResourceResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException, IOException{
+		String publMId = req.getParameter("id");
+		String name = req.getParameter("name");
+		String edition = req.getParameter("edition");
+		String authors = req.getParameter("authors");
+		String pages = req.getParameter("pages");
+		PublicationMDTO dto = new PublicationMDTO(Integer.parseInt(publMId), name, edition, Integer.parseInt(pages), authors);
+		publicationMService.edit(dto);	
+	}
 	@ResourceMapping(value = "editIspolnitel")
 	public void editIspolnitel(ResourceRequest req, ResourceResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException, IOException{
 		String isplId = req.getParameter("id");
-		String surname = req.getParameter("surname");
-		String name = req.getParameter("name");
-		String patronymic = req.getParameter("patronymic");
-		String birthday = req.getParameter("birthday");
+//		String surname = req.getParameter("surname");
+//		String name = req.getParameter("name");
+//		String patronymic = req.getParameter("patronymic");
+//		String birthday = req.getParameter("birthday");
 		String post = req.getParameter("post");
-		IspolnitelDTO dto = new IspolnitelDTO(Integer.parseInt(isplId), name, surname, patronymic, birthday, post);
+		String uchStepeniId = req.getParameter("uchStepeniId");
+		String uchZvaniyId = req.getParameter("uchZvaniyId");
+		String orgId = req.getParameter("orgId");
+		IspolnitelDTO dto = new IspolnitelDTO(Integer.parseInt(isplId), post, Integer.parseInt(uchStepeniId), Integer.parseInt(uchZvaniyId), Integer.parseInt(orgId));
 		ispolnitelService.edit(dto);	
 	}
 	

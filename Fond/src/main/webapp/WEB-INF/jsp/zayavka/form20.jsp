@@ -22,19 +22,32 @@
 					<th><spring:message code="zayavka.pages" /></th>
 					<th><spring:message code="zayavka.soauthors" /></th>
 					<th></th>
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${zayavkaModel.fizInfoDTO.publications}" var="i" varStatus="n">
-					<tr>
+					<tr id="publM${i.id}">
 						<td>${n.index+1}</td>
 						<td>${i.publicationTypeName}</td>
 						<td>${i.name}</td>
 						<td>${i.edition}</td>
 						<td>${i.pages}</td>
 						<td>${i.authors}</td>
-						<td><a
-							class='deleteLink' href="<portlet:actionURL><portlet:param name="action" value="deletePublicationM"/><portlet:param name="publicationId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:actionURL>">Удалить</a></td>
+						<portlet:renderURL var="editPublMUrl" windowState='<%=LiferayWindowState.POP_UP.toString()%>'>
+							<portlet:param name="action" value="editPublicationM" />
+							<portlet:param name="publMId" value="${i.id}" />
+						</portlet:renderURL>
+						<c:set var="strEditPublMUrl"><%=editPublMUrl.toString()%></c:set>
+						<aui:script>
+							$('#editPublM${n.index+1}').on('click', function(event){
+	  					 		showPopup('Редактировать публикацию',null,'${strEditPublMUrl}');
+							});
+						</aui:script>
+						<td><a id="editPublM${n.index+1}" class='deleteLink' href="#">Редактировать</a></td>
+
+						<td><a class='deleteLink'
+							href="<portlet:actionURL><portlet:param name="action" value="deletePublicationM"/><portlet:param name="publicationId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:actionURL>">Удалить</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

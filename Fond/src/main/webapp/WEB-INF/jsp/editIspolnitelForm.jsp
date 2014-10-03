@@ -17,22 +17,23 @@
 <aui:form action="#" name="editIspolnitelForm" id="editIspolnitelForm">
 	<aui:input id="id" name="id" type="hidden" value="${isplModel.id}" />
 	
-	<aui:input id="surname" name="surname" label='${surnameLabel}' bean="isplModel" showRequiredLabel="" value="${isplModel.surname}">
+	<spring:message code="zayavka.surname" var='surnameLabel' />
+	<aui:input id="surname" name="surname" label='${surnameLabel}' bean="isplModel" showRequiredLabel="" value="${isplModel.surname}" disabled="true">
 		<aui:validator name="required" />
 	</aui:input>
 
 	<spring:message code="zayavka.name" var='nameLabel' />
-	<aui:input id="name" name="name" label='${nameLabel}' bean="isplModel" showRequiredLabel="" value="${isplModel.name}">
+	<aui:input id="name" name="name" label='${nameLabel}' bean="isplModel" showRequiredLabel="" value="${isplModel.name}" disabled="true">
 		<aui:validator name="required" />
 	</aui:input>
 
 	<spring:message code="zayavka.patronymic" var='patronymicLabel' />
-	<aui:input id="patronymic" name="patronymic" label='${patronymicLabel}' bean="isplModel" showRequiredLabel="" value="${isplModel.patronymic}">
+	<aui:input id="patronymic" name="patronymic" label='${patronymicLabel}' bean="isplModel" showRequiredLabel="" value="${isplModel.patronymic}" disabled="true">
 		<aui:validator name="required" />
 	</aui:input>
 
 	<spring:message code="zayavka.birthdayManager" var='birthdayLabel' />
-	<aui:input id="birthday" name="birthday" label='${birthdayLabel}' bean="isplModel" showRequiredLabel="" placeholder="дд-мм-гггг" value="${isplModel.birthday}">
+	<aui:input id="birthday" name="birthday" label='${birthdayLabel}' bean="isplModel" showRequiredLabel="" placeholder="дд-мм-гггг" value="${isplModel.birthday}" disabled="true">
 		<aui:validator name="required" />
 		<aui:validator name="custom" errorMessage="Формат даты дд-мм-гггг">
 						function (val, fieldNode, ruleValue) {
@@ -47,28 +48,28 @@
 	</aui:input>
 
 	<spring:message code="zayavka.degree" var='degreeLabel' />
-	<aui:select name="uchStepeniId" bean="isplModel" label='${degreeLabel}' >
+	<aui:select id="popupUchStepeniId" name="uchStepeniId" bean="isplModel" label='${degreeLabel}' >
 		<option value="" />
 		<c:forEach var="i" items="${uchStepeniList}">
-			<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==ispolnitelModel.uchStepeniId}" />
+			<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==isplModel.uchStepeniId}" />
 		</c:forEach>
 		<aui:option></aui:option>
 	</aui:select>
 
 	<spring:message code="zayavka.academicTitle" var='academicTitleLabel' />
-	<aui:select name="uchZvaniyId" bean="isplModel" label='${academicTitleLabel}'>
+	<aui:select id="popupUchZvaniyId" name="uchZvaniyId" bean="isplModel" label='${academicTitleLabel}'>
 		<option value="" />
 		<c:forEach var="i" items="${uchZvaniyList}">
-			<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==ispolnitelModel.uchZvaniyId}"/>
+			<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==isplModel.uchZvaniyId}"/>
 		</c:forEach>
 		<aui:option></aui:option>
 	</aui:select>
 
 	<spring:message code="zayavka.mestoRaboti" var='mestoRabotiLabel' />
-	<aui:select name="orgId" bean="isplModel" label='${mestoRabotiLabel}'>
+	<aui:select id="popupOrgId" name="orgId" bean="isplModel" label='${mestoRabotiLabel}'>
 		<option value="" />
 		<c:forEach var="i" items="${listOrg}">
-			<aui:option value="${i.id}" label="${i.name}" selected="${i.id==ispolnitelModel.orgId}"/>
+			<aui:option value="${i.id}" label="${i.name}" selected="${i.id==isplModel.orgId}"/>
 		</c:forEach>
 		<aui:option></aui:option>
 	</aui:select>
@@ -79,23 +80,37 @@
 </aui:form>
 <aui:script>
 $(document).ready(function() {
+	
+	$('#${ns}popupUchStepeniId,#${ns}popupUchZvaniyId,#${ns}popupOrgId').chosen({
+		no_results_text : "Извините, нет совпадений!",
+		placeholder_text_single : "Выберите из списка...",
+		width : '91%',
+		search_contains:true
+	});
+	
 	$('#popupSaveBtn').click(function(){
 		var data = {"id":$('#${ns}id').val(),
 					"surname":$('#${ns}surname').val(),
 		   		  	"name":$('#${ns}name').val(),
 		   		  	"patronymic":$('#${ns}patronymic').val(),
 		   		  	"birthday":$('#${ns}birthday').val(),
-		   		  	"post":$('#${ns}post').val()};
+		   		  	"post":$('#${ns}post').val(),
+		   		  	"uchStepeniId":$('#${ns}popupUchStepeniId').val(),
+		   		  	"uchZvaniyId":$('#${ns}popupUchZvaniyId').val(),
+		   		  	"orgId":$('#${ns}popupOrgId').val()};
 		$.ajax({
 		   url: '${editIspolnitelUrl}',
 		   <!-- dataType: 'json', -->
 		   data: data,
 		   success: function(){
-		   				 var parentTR = Liferay.Util.getOpener().document.getElementById(data['id']);
+		   				 var parentTR = Liferay.Util.getOpener().document.getElementById('ispl'+data['id']);
 						 $(parentTR).children('td').eq(0).html(data['surname']);
 						 $(parentTR).children('td').eq(1).html(data['name']);
 						 $(parentTR).children('td').eq(2).html(data['patronymic']);
 						 $(parentTR).children('td').eq(3).html(data['birthday']);
+						 $(parentTR).children('td').eq(4).html($('#${ns}popupUchStepeniId option:selected').text());
+						 $(parentTR).children('td').eq(5).html($('#${ns}popupUchZvaniyId option:selected').text());
+						 $(parentTR).children('td').eq(6).html($('#${ns}popupOrgId option:selected').text());
 						 $(parentTR).children('td').eq(7).html(data['post']);
 						<portlet:namespace />textDialog.hide();
 		   			}

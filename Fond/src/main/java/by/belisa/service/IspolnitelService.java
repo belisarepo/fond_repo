@@ -102,11 +102,14 @@ public class IspolnitelService extends ServiceImpl<Ispolnitel, Integer>{
 	public void edit(IspolnitelDTO dto) throws DaoException, ParseException{
 		Ispolnitel entity = baseDao.get(dto.getId());
 		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-		entity.setBirthday(df.parse(dto.getBirthday()));
-		entity.setName(dto.getName());
-		entity.setPatronymic(dto.getPatronymic());
+//		entity.setBirthday(df.parse(dto.getBirthday()));
+//		entity.setName(dto.getName());
+//		entity.setPatronymic(dto.getPatronymic());
 		entity.setPost(dto.getPost());
-		entity.setSurname(dto.getSurname());
+//		entity.setSurname(dto.getSurname());
+		entity.setUchStepeni(uchStepeniDao.get(dto.getUchStepeniId()));
+		entity.setUchZvaniy(uchZvanieDao.get(dto.getUchZvaniyId()));
+		entity.setOrg(orgDao.get(dto.getOrgId()));
 		baseDao.update(entity);
 	}
 

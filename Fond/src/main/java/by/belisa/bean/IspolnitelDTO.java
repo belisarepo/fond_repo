@@ -32,14 +32,13 @@ public class IspolnitelDTO implements Serializable{
 	}
 	
 	
-	public IspolnitelDTO(Integer id, String name, String surname, String patronymic, String birthday, String post) {
+	public IspolnitelDTO(Integer id, String post, Integer uchStepenId, Integer uchZvaniyId, Integer orgId) {
 		super();
 		this.id = id;
-		this.name = name;
-		this.surname = surname;
-		this.patronymic = patronymic;
-		this.birthday = birthday;
 		this.post = post;
+		this.orgId = orgId;
+		this.uchStepeniId = uchStepenId;
+		this.uchZvaniyId = uchZvaniyId;
 	}
 
 
