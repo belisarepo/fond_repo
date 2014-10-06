@@ -21,6 +21,16 @@ public class CalcTripDTO implements Serializable{
 	public CalcTripDTO() {
 	}
 
+	public CalcTripDTO(Integer id, String tripGoal, String tripPoint, float count, float duration, float costs) {
+		super();
+		this.id = id;
+		this.tripGoal = tripGoal;
+		this.tripPoint = tripPoint;
+		this.count = count;
+		this.duration = duration;
+		this.costs = costs;
+	}
+
 	public CalcTripDTO(CalcTrip calcTrip) {
 		this.id = calcTrip.getId();
 		this.tripGoal = calcTrip.getTripGoal();

@@ -62,14 +62,14 @@ $(document).ready(function() {
 		   <!-- dataType: 'json', -->
 		   data: data,
 		   success: function(){
-		   				 var parentTR = Liferay.Util.getOpener().document.getElementById(data['id']);
+		   				 var parentTR = Liferay.Util.getOpener().document.getElementById('calcZp'+data['id']);
 						 $(parentTR).children('td').eq(0).html(data['name']);
 						 $(parentTR).children('td').eq(1).html(data['salary']);
 						 $(parentTR).children('td').eq(2).html(data['rate']);
 						 $(parentTR).children('td').eq(3).html(data['duration']);
 						 $(parentTR).children('td').eq(4).html(data['fondZp']);
 						 $(parentTR).children('td').eq(5).html(data['note']);
-						 resum();
+						 resumCalcZp();
 						<portlet:namespace />textDialog.hide();
 		   			}
 		 });

@@ -24,7 +24,7 @@
 		</thead>
 		<tbody>
 			<c:forEach items="${zayavkaModel.calcZpSet}" var="i" varStatus="n">
-				<tr id="${i.id}">
+				<tr id="calcZp${i.id}">
 					<td>${i.name}</td>
 					<td>${i.salary}</td>
 					<td>${i.rate}</td>
@@ -112,12 +112,12 @@
 <br />
 
 <aui:script>
-function resum(){
+function resumCalcZp(){
 	var calcZpSumAll = 0;
 	$('.calcZpSum').each(function(){
 		calcZpSumAll += parseFloat($(this).text());
 	});
 	$('#calcZpSumAll').text(calcZpSumAll);
 }
-resum();
+resumCalcZp();
 </aui:script>
