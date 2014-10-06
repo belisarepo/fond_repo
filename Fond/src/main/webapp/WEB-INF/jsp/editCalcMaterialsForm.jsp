@@ -52,12 +52,12 @@ $(document).ready(function() {
 		   <!-- dataType: 'json', -->
 		   data: data,
 		   success: function(){
-		   				 var parentTR = Liferay.Util.getOpener().document.getElementById(data['id']);
+		   				 var parentTR = Liferay.Util.getOpener().document.getElementById('calcMaterials'+data['id']);
 						 $(parentTR).children('td').eq(1).html(data['name']);
 						 $(parentTR).children('td').eq(2).html(data['unit']);
 						 $(parentTR).children('td').eq(3).html(data['count']);
 						 $(parentTR).children('td').eq(4).html(data['sum']);
-						 resum();
+						 resumCalcMaterials();
 						<portlet:namespace />textDialog.hide();
 		   			}
 		 });

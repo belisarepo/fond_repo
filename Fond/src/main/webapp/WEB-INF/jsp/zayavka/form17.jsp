@@ -24,7 +24,7 @@
 		<tbody>
 			<c:forEach items="${zayavkaModel.calcMaterialsSet}" var="i"
 				varStatus="n">
-				<tr id="${i.id}">
+				<tr id="calcMaterials${i.id}">
 					<td>${n.index+1}</td>
 					<td>${i.name}</td>
 					<td>${i.unit}</td>
@@ -114,9 +114,12 @@
 <br />
 
 <aui:script>
-var calcMaterialsSumAll = 0;
-$('.calcMaterialsSum').each(function(){
-	calcMaterialsSumAll += parseFloat($(this).text());
-});
-$('#calcMaterialsSumAll').text(calcMaterialsSumAll);
+function resumCalcMaterials(){
+	var calcMaterialsSumAll = 0;
+	$('.calcMaterialsSum').each(function(){
+		calcMaterialsSumAll += parseFloat($(this).text());
+	});
+	$('#calcMaterialsSumAll').text(calcMaterialsSumAll);
+}
+resumCalcMaterials();
 </aui:script>
