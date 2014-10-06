@@ -21,6 +21,15 @@ public class CalcOtherCostsDTO implements Serializable{
 	
 	public CalcOtherCostsDTO() {
 	}
+	
+	public CalcOtherCostsDTO(Integer id, String name, float sum, String note) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.sum = sum;
+		this.note = note;
+	}
+
 	public CalcOtherCostsDTO(CalcOtherCosts calcOtherCosts) {
 		this.id = calcOtherCosts.getId();
 		this.pn = calcOtherCosts.getPn();

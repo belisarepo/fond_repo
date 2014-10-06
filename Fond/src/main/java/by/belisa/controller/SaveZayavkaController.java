@@ -674,6 +674,7 @@ public abstract class SaveZayavkaController {
 		model.addAttribute("zayavkaId",zayavkaId);
 		return "editCalcZPForm";
 	}
+
 	@RenderMapping(params = "action=editCalcMaterials")
 	public String renderEditCalcMaterialsForm(Model model, PortletRequest request) throws ServiceException, DaoException{
 		Integer id = ParamUtil.getInteger(request, "CalcMaterialsId");
@@ -682,6 +683,26 @@ public abstract class SaveZayavkaController {
 		model.addAttribute("calcMaterialsModel",calcMaterials);
 		model.addAttribute("zayavkaId",zayavkaId);
 		return "editCalcMaterialsForm";
+	}
+
+	@RenderMapping(params = "action=editCalcOtherCosts")
+	public String renderEditCalcOtherCostsForm(Model model, PortletRequest request) throws ServiceException, DaoException{
+		Integer id = ParamUtil.getInteger(request, "calcOtherCostsId");
+		Integer zayavkaId = ParamUtil.getInteger(request, "zayavkaId");
+		CalcOtherCostsDTO calcOtherCosts = calcOtherCostsService.getDTO(id);
+		model.addAttribute("calcOtherCostsModel",calcOtherCosts);
+		model.addAttribute("zayavkaId",zayavkaId);
+		return "editCalcOtherCostsForm";
+	}
+	@RenderMapping(params = "action=editCalcTrip")
+	public String renderEditCalcTripForm(Model model, PortletRequest request) throws ServiceException, DaoException{
+		Integer id = ParamUtil.getInteger(request, "calcTripId");
+		Integer zayavkaId = ParamUtil.getInteger(request, "zayavkaId");
+		CalcTripDTO calcTrip = calcTripService.getDTO(id);
+		model.addAttribute("calcTripModel",calcTrip);
+		model.addAttribute("zayavkaId",zayavkaId);
+		return "editCalcTripForm";
+
 	}
 	
 	@RenderMapping(params = "action=popup")
@@ -734,7 +755,7 @@ public abstract class SaveZayavkaController {
 	}
 	@ResourceMapping(value = "editCalcZP")
 	public void editCalcZP(ResourceRequest req, ResourceResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException, IOException{
-		String CalcZPId = req.getParameter("id");
+		String calcZPId = req.getParameter("id");
 		String name = req.getParameter("name");
 		String salary = req.getParameter("salary");
 		String rate = req.getParameter("rate");
@@ -742,9 +763,33 @@ public abstract class SaveZayavkaController {
 		String fondZp = req.getParameter("fondZp");
 		String note = req.getParameter("note");
 		String zayavkaId = req.getParameter("zayavkaId");
-		CalcZpDTO dto = new CalcZpDTO(Integer.parseInt(CalcZPId), name, Float.parseFloat(salary), Float.parseFloat(rate), Float.parseFloat(duration), Float.parseFloat(fondZp),note);
+		CalcZpDTO dto = new CalcZpDTO(Integer.parseInt(calcZPId), name, Float.parseFloat(salary), Float.parseFloat(rate), Float.parseFloat(duration), Float.parseFloat(fondZp),note);
 		calcZpService.edit(dto);	
 		calcZpSumService.recalculate(Integer.parseInt(zayavkaId));
+	}
+	@ResourceMapping(value = "editCalcOtherCosts")
+	public void editCalcOtherCosts(ResourceRequest req, ResourceResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException, IOException{
+		String calcOtherCostsId = req.getParameter("id");
+		String name = req.getParameter("name");
+		String sum = req.getParameter("sum");
+		String note = req.getParameter("note");
+		String zayavkaId = req.getParameter("zayavkaId");
+		CalcOtherCostsDTO dto = new CalcOtherCostsDTO(Integer.parseInt(calcOtherCostsId), name, Float.parseFloat(sum), note);
+		calcOtherCostsService.edit(dto);	
+		calcOtherCostsSumService.recalculate(Integer.parseInt(zayavkaId));
+	}
+	@ResourceMapping(value = "editCalcTrip")
+	public void editCalcTrip(ResourceRequest req, ResourceResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException, IOException{
+		String calcTripId = req.getParameter("id");
+		String tripGoal = req.getParameter("tripGoal");
+		String tripPoint = req.getParameter("tripPoint");
+		String count = req.getParameter("count");
+		String duration = req.getParameter("duration");
+		String costs = req.getParameter("costs");
+		String zayavkaId = req.getParameter("zayavkaId");
+		CalcTripDTO dto = new CalcTripDTO(Integer.parseInt(calcTripId), tripGoal, tripPoint, Float.parseFloat(count), Float.parseFloat(duration), Float.parseFloat(costs));
+		calcTripService.edit(dto);	
+		calcTripSumService.recalculate(Integer.parseInt(zayavkaId));
 	}
 	@ResourceMapping(value = "editIspolnitel")
 	public void editIspolnitel(ResourceRequest req, ResourceResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException, IOException{

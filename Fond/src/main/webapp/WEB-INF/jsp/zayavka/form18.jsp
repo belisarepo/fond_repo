@@ -18,16 +18,26 @@
 				<th><spring:message code="zayavka.calcTrip.duration" /></th>
 				<th><spring:message code="zayavka.calcTrip.costs" /></th>
 				<th></th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${zayavkaModel.calcTripSet}" var="i">
-				<tr>
+			<c:forEach items="${zayavkaModel.calcTripSet}" var="i" varStatus="n">
+				<tr id="calcTrip${i.id}">
 					<td>${i.tripGoal}</td>
 					<td>${i.tripPoint}</td>
 					<td>${i.count}</td>
 					<td>${i.duration}</td>
 					<td class="calcTripSum">${i.costs}</td>
+					<portlet:renderURL var="editCalcTripUrl" windowState='<%=LiferayWindowState.POP_UP.toString()%>'><portlet:param name="action" value="editCalcTrip" /><portlet:param name="calcTripId" value="${i.id}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}"/></portlet:renderURL>
+					<c:set var="strCalcTripUrl"><%=editCalcTripUrl.toString()%></c:set>
+					<aui:script>
+						$('#editCalcTrip${n.index+1}').on('click', function(event){
+  					 		showPopup('Редактировать затраты на командировки',null,'${strCalcTripUrl}');
+						});
+					</aui:script>
+					<td><a id="editCalcTrip${n.index+1}" class='deleteLink' href="#">Редактировать</a></td>
+					
 					<td><a
 						class='deleteLink' href="<portlet:actionURL><portlet:param name="action" value="deleteCalcTrip"/><portlet:param name="calcTripId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:actionURL>">Удалить</a></td>
 				</tr>
@@ -35,6 +45,7 @@
 			<tr>
 				<td colspan="4"><spring:message code="zayavka.calc.all" /></td>
 				<td id="calcTripSumAll"></td>
+				<td></td><td></td>
 			</tr>
 		</tbody>
 	</table>
@@ -94,9 +105,12 @@
 <br />
 
 <aui:script>
-var calcTripSumAll = 0;
-$('.calcTripSum').each(function(){
-	calcTripSumAll += parseFloat($(this).text());
-});
-$('#calcTripSumAll').text(calcTripSumAll);
+function resumCalcTrip(){
+	var calcTripSumAll = 0;
+	$('.calcTripSum').each(function(){
+		calcTripSumAll += parseFloat($(this).text());
+	});
+	$('#calcTripSumAll').text(calcTripSumAll);
+}
+resumCalcTrip();
 </aui:script>

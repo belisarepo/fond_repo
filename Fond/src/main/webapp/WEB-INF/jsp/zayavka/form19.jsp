@@ -17,15 +17,24 @@
 				<th><spring:message code="zayavka.calcOtherCosts.sum" /></th>
 				<th><spring:message code="zayavka.calcOtherCosts.note" /></th>
 				<th></th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${zayavkaModel.calcOtherCostsSet}" var="i" varStatus="n">
-				<tr>
+				<tr id="calcOtherCosts${i.id}">
 					<td>${n.index+1}</td>
 					<td>${i.name}</td>
 					<td class="calcOtherCostsSum">${i.sum}</td>
 					<td>${i.note}</td>
+					<portlet:renderURL var="editCalcOtherCostsUrl" windowState='<%=LiferayWindowState.POP_UP.toString()%>'><portlet:param name="action" value="editCalcOtherCosts" /><portlet:param name="calcOtherCostsId" value="${i.id}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}"/></portlet:renderURL>
+					<c:set var="strCalcOtherCostsUrl"><%=editCalcOtherCostsUrl.toString()%></c:set>
+					<aui:script>
+						$('#editCalcOtherCosts${n.index+1}').on('click', function(event){
+  					 		showPopup('Редактировать затраты по статье "Прочие прямые расходы"',null,'${strCalcOtherCostsUrl}');
+						});
+					</aui:script>
+					<td><a id="editCalcOtherCosts${n.index+1}" class='deleteLink' href="#">Редактировать</a></td>
 					<td><a
 						class='deleteLink' href="<portlet:actionURL><portlet:param name="action" value="deleteCalcOtherCosts"/><portlet:param name="calcOtherCostsId" value="${i.id}"/><portlet:param name="konkursId" value="${zayavkaModel.konkursId}" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:actionURL>">Удалить</a></td>
 				</tr>
@@ -33,6 +42,7 @@
 			<tr>
 				<td colspan="2"><spring:message code="zayavka.calc.all" /></td>
 				<td id="calcOtherCostsAllSum"></td>
+				<td></td>
 				<td></td>
 				<td></td>
 			</tr>
@@ -81,9 +91,12 @@
 <br />
 <br />
 <aui:script>
-var calcOtherCostsAllSum = 0;
-$('.calcOtherCostsSum').each(function(){
-	calcOtherCostsAllSum += parseFloat($(this).text());
-});
-$('#calcOtherCostsAllSum').text(calcOtherCostsAllSum);
+function resumCalcOtherCosts(){
+	var calcOtherCostsAllSum = 0;
+	$('.calcOtherCostsSum').each(function(){
+		calcOtherCostsAllSum += parseFloat($(this).text());
+	});
+	$('#calcOtherCostsAllSum').text(calcOtherCostsAllSum);
+}
+resumCalcOtherCosts();
 </aui:script>
