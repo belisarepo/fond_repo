@@ -674,6 +674,15 @@ public abstract class SaveZayavkaController {
 		model.addAttribute("zayavkaId",zayavkaId);
 		return "editCalcZPForm";
 	}
+	@RenderMapping(params = "action=editCalcMaterials")
+	public String renderEditCalcMaterialsForm(Model model, PortletRequest request) throws ServiceException, DaoException{
+		Integer id = ParamUtil.getInteger(request, "CalcMaterialsId");
+		Integer zayavkaId = ParamUtil.getInteger(request, "zayavkaId");
+		CalcMaterialsDTO calcMaterials = calcMaterialsService.getDTO(id);
+		model.addAttribute("calcMaterialsModel",calcMaterials);
+		model.addAttribute("zayavkaId",zayavkaId);
+		return "editCalcMaterialsForm";
+	}
 	
 	@RenderMapping(params = "action=popup")
 	public String renderPopup(Model model, PortletRequest request) {
@@ -750,6 +759,18 @@ public abstract class SaveZayavkaController {
 		String orgId = req.getParameter("orgId");
 		IspolnitelDTO dto = new IspolnitelDTO(Integer.parseInt(isplId), post, Integer.parseInt(uchStepeniId), Integer.parseInt(uchZvaniyId), Integer.parseInt(orgId));
 		ispolnitelService.edit(dto);	
+	}
+	@ResourceMapping(value = "editCalcMaterials")
+	public void editCalcMaterials(ResourceRequest req, ResourceResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException, IOException{
+		String CalcMaterialsId = req.getParameter("id");
+		String name = req.getParameter("name");
+		String unit = req.getParameter("unit");
+		String count = req.getParameter("count");
+		String sum = req.getParameter("sum");
+		String zayavkaId = req.getParameter("zayavkaId");
+		CalcMaterialsDTO dto = new CalcMaterialsDTO(Integer.parseInt(CalcMaterialsId), name,unit, Float.parseFloat(count),Float.parseFloat(sum));
+		calcMaterialsService.edit(dto);	
+		calcMaterialsSumService.recalculate(Integer.parseInt(zayavkaId));
 	}
 	
 	@ResourceMapping(value="report")

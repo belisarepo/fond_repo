@@ -4,8 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import by.belisa.bean.CalcMaterialsDTO;
+import by.belisa.bean.CalcZpDTO;
 import by.belisa.dao.Dao;
 import by.belisa.entity.CalcMaterials;
+import by.belisa.entity.CalcZp;
+import by.belisa.exception.DaoException;
 
 @Service
 public class CalcMaterialsService extends ServiceImpl<CalcMaterials, Integer>{
@@ -20,5 +24,19 @@ public class CalcMaterialsService extends ServiceImpl<CalcMaterials, Integer>{
 	protected void setBaseDao(Dao<CalcMaterials, Integer> baseDao) {
 		super.setBaseDao(baseDao);
 	}
+	
+	public CalcMaterialsDTO getDTO(Integer id) throws DaoException{
+		CalcMaterials calcMaterials = baseDao.get(id);
+		return new CalcMaterialsDTO(calcMaterials);
+	}
+	public void edit(CalcMaterialsDTO dto) throws DaoException{
+		CalcMaterials entity = baseDao.get(dto.getId());
+		entity.setName(dto.getName());
+		entity.setUnit(dto.getUnit());
+		entity.setCount(dto.getCount());
+		entity.setSum(dto.getSum());
+		baseDao.update(entity);
+	}
+
 
 }

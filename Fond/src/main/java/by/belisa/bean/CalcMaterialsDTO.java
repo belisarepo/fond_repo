@@ -29,6 +29,18 @@ public class CalcMaterialsDTO implements Serializable{
 		this.count = calcMaterials.getCount();
 		this.sum = calcMaterials.getSum();
 	}
+	
+
+
+
+	public CalcMaterialsDTO(Integer id, String name, String unit, float count, float sum) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.unit = unit;
+		this.count = count;
+		this.sum = sum;
+	}
 
 	public Integer getId() {
 		return id;
