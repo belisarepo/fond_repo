@@ -44,6 +44,9 @@
 	<aui:input name="fio" value="${anketa.fio}" bean="anketa" type="hidden"/>
 	<aui:input name="fullFio" value="${anketa.fullFio}" bean="anketa" type="hidden"/>
 	<aui:input name="birthday" value="${anketa.birthday}" bean="anketa" type="hidden"/>
+	<aui:input name="name" value="${anketa.name}" bean="anketa" type="hidden"/>
+	<aui:input name="surname" value="${anketa.surname}" bean="anketa" type="hidden"/>
+	<aui:input name="patronymic" value="${anketa.patronymic}" bean="anketa" type="hidden"/>
 
 
 	<aui:input name="fio" label="ФИО краткое" disabled="true" value="${anketa.fio}" bean="anketa"/>
@@ -103,7 +106,7 @@ $(document).ready(function() {
 	$('select').chosen({
 		no_results_text : "Извините, нет совпадений!",
 		placeholder_text_single : "Выберите из списка...",
-		width : '206px'
+		width : '90%'
 	});
 });
 YUI().use(

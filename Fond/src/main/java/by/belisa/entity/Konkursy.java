@@ -81,6 +81,27 @@ public class Konkursy implements Serializable{
 	private Boolean otraslN;
 	@Column(name="PRIORITET_N")
 	private Boolean prioritetN;
+	@ManyToOne
+	@JoinColumn(name="ORGANIZATION_NR_ID")
+	private OrganizationNR orgNr;
+	@Column(name="COUNTRY_ID")
+	private Integer countryId;
+	
+	public Integer getCountryId() {
+		return countryId;
+	}
+	public void setCountryId(Integer countryId) {
+		this.countryId = countryId;
+	}
+	public OrganizationNR getOrgNr() {
+		return orgNr;
+	}
+	public void setOrgNr(OrganizationNR orgNr) {
+		this.orgNr = orgNr;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public int getId() {
 		return id;
 	}

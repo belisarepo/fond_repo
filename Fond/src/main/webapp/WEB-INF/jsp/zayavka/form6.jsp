@@ -90,7 +90,7 @@
 	<aui:select name="uchStepeniId" bean="ispolnitelModel" label='${degreeLabel}'>
 		<option value="" />
 		<c:forEach var="i" items="${uchStepeniList}">
-			<aui:option value="${i.id}" label="${i.fullName}" />
+			<aui:option value="${i.id}" label="${i.fullName}"  selected="${i.id==45}"/>
 		</c:forEach>
 		<aui:option></aui:option>
 	</aui:select>
@@ -99,7 +99,7 @@
 	<aui:select name="uchZvaniyId" bean="ispolnitelModel" label='${academicTitleLabel}'>
 		<option value="" />
 		<c:forEach var="i" items="${uchZvaniyList}">
-			<aui:option value="${i.id}" label="${i.fullName}" />
+			<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==17}"/>
 		</c:forEach>
 		<aui:option></aui:option>
 	</aui:select>

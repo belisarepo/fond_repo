@@ -30,6 +30,11 @@
 	<spring:message code='zayavka.addressOrg' var='addressOrgLabel' />
 	<aui:input id="orgAddressRb" disabled="true" name="orgAddress" value="${zayavkaModel.orgAddress}" label='${addressOrgLabel}'
 		bean="zayavkaModel" cssClass="input-large"></aui:input>
+		
+	<portlet:renderURL var="addOrgUrl" windowState='<%=LiferayWindowState.POP_UP.toString()%>'><portlet:param name="action" value="addOrg" /><portlet:param name="zayavkaId" value="${zayavkaModel.id}"/></portlet:renderURL>
+	<c:set var="strAddOrgUrl"><%=addOrgUrl.toString()%></c:set>
+						
+	<p>Если вы не нашли в списке нужную организацию, добавьте ее <a id="addOrg" href="#" class="btn deleteLink">Добавить организацию</a></p>
 
 	<aui:button-row>
 		<div align="left">
@@ -48,7 +53,13 @@
 <br />
 <br />
 <aui:script>
-$('#${ns}orgSelect').on('change', function(evt, params) {
+$('#addOrg').on('click', function(event){
+
+											showPopup('Добавить организацию',null,'${strAddOrgUrl}');
+										 }
+			);
+
+	$('#${ns}orgSelect').on('change', function(evt, params) {
 		var orgId = $(evt.target).val();
 
 		$.ajax({
@@ -65,4 +76,6 @@ $('#${ns}orgSelect').on('change', function(evt, params) {
 			}
 		});
 	});
+				 
+
 </aui:script>

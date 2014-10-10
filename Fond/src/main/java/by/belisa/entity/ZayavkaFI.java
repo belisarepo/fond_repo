@@ -497,16 +497,27 @@ public class ZayavkaFI implements Serializable, IValidaton {
 			message = "Не выбрана секция научного совета БРФФИ" + " " + tabNameDataAboutTender;
 			vr.getErrMessages().add(message);
 		}
-		// Проверка списка "Научное направление"
-		if (this.otraslNauka == null) {
-			message = "Не выбрано научное направление" + " " + tabNameDataAboutTender;
+		// Проверка "Научное направление"
+		if (this.konkursy.getNapravl() && this.naprNauka.isEmpty()) {
+			message = "Не заполнено научное направление" + " " + tabNameDataAboutTender;
+			vr.getErrMessages().add(message);
+		}
+		// Проверка "Вид проекта"
+		if (this.konkursy.getVidProject() && this.vidProject.isEmpty()) {
+			message = "Не заполнено Вид проекта" + " " + tabNameDataAboutTender;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка списка "Приоритетное направление"
-		if (this.prioritetNauka == null) {
+		if (this.konkursy.getPrioritetN() && this.prioritetNauka == null) {
 			message = "Не выбрано приоритетное направление" + " " + tabNameDataAboutTender;
 			vr.getErrMessages().add(message);
 		}
+		// Проверка списка "Отрасль науки"
+		if (this.konkursy.getOtraslN() && this.otraslNauka == null) {
+			message = "Не выбрано Отрасль науки" + " " + tabNameDataAboutTender;
+			vr.getErrMessages().add(message);
+		}
+		
 		// Проверка заполнения темы заявляемого проекта
 		if (this.temaZName == null || this.temaZName.isEmpty()) {
 			message = "Не заполнена тема заявляемого объекта" + " " + tabNameDataAboutTender;
@@ -535,26 +546,26 @@ public class ZayavkaFI implements Serializable, IValidaton {
 			vr.getErrMessages().add(message);
 		}
 		// Проверка итоговый сумм калькуляций
-		if (this.calculation != null && this.calcZpSet != null) {
-			if (this.calculation.getAllFull() != this.calcZpSum.getSum()) {
+		if (this.calculation != null && !this.calcZpSet.isEmpty()) {
+			if (this.calculation.getZpFull() != this.calcZpSum.getSum()) {
 				message = "Не совпадают суммы \"Заработная плата(основаная и дополнительная) научно-производственного персонала\" " + tabNameCalc
 						+ " и \"Итого затрат\" " + tabNameCalcSalary;
 				vr.getErrMessages().add(message);
 			}
-			if ((this.calcMaterialsSet == null && this.calculation.getHardwareFull() != 0)
-					|| (this.calculation.getHardwareFull() != this.calcMaterialsSum.getSum())) {
+			if ((this.calcMaterialsSet.isEmpty() && this.calculation.getHardwareFull() != 0)
+					|| (this.calcMaterialsSum!=null && this.calculation.getHardwareFull() != this.calcMaterialsSum.getSum())) {
 				message = "Не совпадают суммы \"Материалы,покупные полуфабрикаты и комплектующие изделия\" " + tabNameCalc
 						+ " и \"Итого затрат\" во вкладке \"Расчёт затрат на материалы\"";
 				vr.getErrMessages().add(message);
 			}
-			if ((this.calcTripSet == null && this.calculation.getBusinessTripFull() != 0)
-					|| (this.calculation.getBusinessTripFull() != this.calcTripSum.getSum())) {
+			if ((this.calcTripSet.isEmpty() && this.calculation.getBusinessTripFull() != 0)
+					|| (this.calcTripSum!=null && this.calculation.getBusinessTripFull() != this.calcTripSum.getSum())) {
 				message = "Не совпадают суммы \"Научно-производственные командировки\" " + tabNameCalc
 						+ " и \"Итого затрат\" во вкладке \"Расчёт затрат на командировки\"";
 				vr.getErrMessages().add(message);
 			}
-			if ((this.calcOtherCostsSet == null && this.calculation.getOtherFull() != 0)
-					|| (this.calculation.getOtherFull() != this.calcOtherCostsSum.getSum())) {
+			if ((this.calcOtherCostsSet.isEmpty() && this.calculation.getOtherFull() != 0)
+					|| (this.calcOtherCostsSum!=null && this.calculation.getOtherFull() != this.calcOtherCostsSum.getSum())) {
 				message = "Не совпадают суммы \"Прочие прямые расходы\" " + tabNameCalc
 						+ " и \"Итого затрат\" во вкладке \"Расчёт затрат по статье\"Прочие прямые затраты\"\"";
 				vr.getErrMessages().add(message);

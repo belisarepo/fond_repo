@@ -15,12 +15,24 @@
 
 
 	<spring:message code="zayavka.orgZNr" var='orgZNrLabel' />
-	<aui:select name="orgNrId" bean="zayavkaModel" label='${orgZNrLabel}' id="orgNrSelect">
+	<c:choose>
+	<c:when test="${not empty zayavkaModel.konkursOrgNrId }">
+		<aui:select name="orgNrId" bean="zayavkaModel" label='${orgZNrLabel}' id="orgNrSelect">
+		
+			<aui:option value="${zayavkaModel.konkursOrgNrId}" label="${zayavkaModel.konkursOrgNrName}" selected="true" />
+		
+	</aui:select>
+	</c:when>
+	<c:otherwise>
+		<aui:select name="orgNrId" bean="zayavkaModel" label='${orgZNrLabel}' id="orgNrSelect">
 		<option value="" />
 		<c:forEach var="i" items="${orgNrList}">
 			<aui:option value="${i.id}" label="${i.nameR}" selected="${i.id==zayavkaModel.orgNrId}" />
 		</c:forEach>
 	</aui:select>
+	</c:otherwise>
+	
+	</c:choose>
 	<spring:message code='zayavka.email' var='emailOrgNrLabel' />
 	<aui:input id="orgNrEmail" disabled="true" name="orgNrEmail" value="${zayavkaModel.orgNrEmail}" label='${emailOrgNrLabel}'
 		bean="zayavkaModel"></aui:input>
@@ -48,7 +60,6 @@
 <aui:script>
 $('#${ns}orgNrSelect').on('change', function(evt, params) {
 		var orgId = $(evt.target).val();
-
 		$.ajax({
 			dataType : 'json',
 			url : '<portlet:resourceURL id="getOrgNrById" />',

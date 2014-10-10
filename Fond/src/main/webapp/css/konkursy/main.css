@@ -20,4 +20,6 @@ textarea{
 .input-large{
 	width:90%!important;
 }
-
+input:not([type='radio']){
+	width:90%!important;
+}

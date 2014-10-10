@@ -38,6 +38,7 @@ public class KonkursyDTO implements Serializable{
 	private Integer countIspolRukov;
 	private String konkursStatusName;
 	private Integer konkursStatusId;
+	private Integer orgNrId;
 	
 	
 	public KonkursyDTO(){
@@ -70,12 +71,22 @@ public class KonkursyDTO implements Serializable{
 		this.konkursStatusId = konkursy.getKonkursStatus().getId();
 		this.konkursStatusName = konkursy.getKonkursStatus().getName();
 		
+		this.orgNrId = konkursy.getOrgNr()!=null ? konkursy.getOrgNr().getId() : null;
+		
 		
 	}
 
 	
 	
 	
+	public Integer getOrgNrId() {
+		return orgNrId;
+	}
+
+	public void setOrgNrId(Integer orgNrId) {
+		this.orgNrId = orgNrId;
+	}
+
 	public int getId() {
 		return id;
 	}

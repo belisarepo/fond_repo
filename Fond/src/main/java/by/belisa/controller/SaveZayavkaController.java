@@ -3,9 +3,11 @@ package by.belisa.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 
@@ -38,6 +40,7 @@ import by.belisa.bean.PublicationMDTO;
 import by.belisa.bean.ZayavkaFIDTO;
 import by.belisa.dao.StatusZayavkaFIDao;
 import by.belisa.entity.Ispolnitel;
+import by.belisa.entity.Okogu;
 import by.belisa.entity.Organization;
 import by.belisa.entity.OrganizationNR;
 import by.belisa.entity.OtraslNauka;
@@ -46,6 +49,7 @@ import by.belisa.entity.PublicationType;
 import by.belisa.entity.SectionFond;
 import by.belisa.entity.UchStepeni;
 import by.belisa.entity.UchZvaniy;
+import by.belisa.entity.VidOrg;
 import by.belisa.exception.DaoException;
 import by.belisa.exception.ServiceException;
 import by.belisa.service.AnketaService;
@@ -60,6 +64,7 @@ import by.belisa.service.CalcZpSumService;
 import by.belisa.service.FizInfoService;
 import by.belisa.service.IspolnitelService;
 import by.belisa.service.KonkursyService;
+import by.belisa.service.OkoguService;
 import by.belisa.service.OrgNrService;
 import by.belisa.service.OrgService;
 import by.belisa.service.OtraslNaukaService;
@@ -72,6 +77,7 @@ import by.belisa.service.SectionFondService;
 import by.belisa.service.UchStepeniService;
 import by.belisa.service.UchZvaniyService;
 import by.belisa.service.UserService;
+import by.belisa.service.VidOrgService;
 import by.belisa.service.ZayavkaFIService;
 import by.belisa.util.Utils;
 import by.belisa.validation.ValidationResult;
@@ -163,6 +169,12 @@ public abstract class SaveZayavkaController {
 	@Autowired
 	@Qualifier("publicationTypeService")
 	protected PublicationTypeService publicationTypeService;
+	@Autowired
+	@Qualifier("vidOrgService")
+	private VidOrgService vidOrgService;
+	@Autowired
+	@Qualifier("okoguService")
+	private OkoguService okoguService;
 
 	private List<OtraslNauka> otraslNaukaList = null;
 	private List<SectionFond> sectionFondList = null;
@@ -260,7 +272,6 @@ public abstract class SaveZayavkaController {
 		ValidationResult vr = null;
 		
 		if (zayavkaId!=0){
-			
 			vr = zayavkaFIService.checkZayavkaFI(zayavkaId);
 			
 			if (vr.isOk()){
@@ -641,7 +652,16 @@ public abstract class SaveZayavkaController {
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
 	}
-	
+	@RenderMapping(params = "action=addOrg")
+	public String renderAddOrgForm(Model model, PortletRequest request) throws ServiceException, DaoException{
+		OrgDTO orgModel = new OrgDTO();
+		List<VidOrg> vidOrgList = vidOrgService.getAll();
+		List<Okogu> okoguList = okoguService.getAll();
+		model.addAttribute("okoguList", okoguList);
+		model.addAttribute("vidOrgList", vidOrgList);
+		model.addAttribute("orgModel", orgModel);
+		return "addOrgForm";
+	}
 	@RenderMapping(params = "action=editPublication")
 	public String renderEditPublicationForm(Model model, PortletRequest request) throws ServiceException, DaoException{
 		Integer id = ParamUtil.getInteger(request, "publId");
@@ -713,23 +733,106 @@ public abstract class SaveZayavkaController {
 	}
 	
 	@ResourceMapping(value="getOrgById")
-	public void getOrgByid(ResourceRequest request, ResourceResponse response) throws IOException, NumberFormatException, DaoException{
-		OutputStream outStream = response.getPortletOutputStream();
+	public void getOrgByid(ResourceRequest request, ResourceResponse response) throws NumberFormatException, DaoException{
+		
 		String orgId = request.getParameter("orgId");
 		OrgDTO orgDTO = orgService.getOrgDTOById(Integer.parseInt(orgId));
-		ObjectMapper mapper = new ObjectMapper();
-		String jsonString = mapper.writeValueAsString(orgDTO);
-	    outStream.write(jsonString.getBytes());
+		OutputStream outStream=null;
+		try {
+			outStream = response.getPortletOutputStream();
+			ObjectMapper mapper = new ObjectMapper();
+			String jsonString = mapper.writeValueAsString(orgDTO);
+		    outStream.write(jsonString.getBytes());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			if (outStream!=null){
+				try {
+					outStream.flush();
+					outStream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		}
+		
 	}
 	
 	@ResourceMapping(value="getOrgNrById")
-	public void getOrgNrByid(ResourceRequest request, ResourceResponse response) throws IOException, NumberFormatException, DaoException, ServiceException{
-		OutputStream outStream = response.getPortletOutputStream();
+	public void getOrgNrByid(ResourceRequest request, ResourceResponse response) throws NumberFormatException, DaoException, ServiceException{
+		
 		String orgId = request.getParameter("orgId");
 		OrganizationNR orgNr = orgNrService.get(Integer.parseInt(orgId));
-		ObjectMapper mapper = new ObjectMapper();
-		String jsonString = mapper.writeValueAsString(orgNr);
-	    outStream.write(jsonString.getBytes());
+		OutputStream outStream=null;
+		try {
+			outStream = response.getPortletOutputStream();
+			ObjectMapper mapper = new ObjectMapper();
+			String jsonString = mapper.writeValueAsString(orgNr);
+		    outStream.write(jsonString.getBytes());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			if (outStream!=null){
+				try {
+					outStream.flush();
+					outStream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		}
+		
+	}
+	@ResourceMapping(value = "addOrg")
+	public void addOrg(ResourceRequest req, ResourceResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+		String name = req.getParameter("name");
+		String full_name_rus = req.getParameter("full_name_rus");
+		String full_name_eng = req.getParameter("full_name_eng");
+		String unp = req.getParameter("unp");
+		String vidOrgId = req.getParameter("vidOrgId");
+		String address = req.getParameter("address");
+		String email = req.getParameter("email");
+		String kod_booker = req.getParameter("kod_booker");
+		String okoguId = req.getParameter("okoguId");
+		Organization o = new Organization();
+		o.setName(name);
+		o.setFullNameR(full_name_rus);
+		o.setFullNameE(full_name_eng);
+		o.setUnp(unp);
+		if(!vidOrgId.isEmpty())
+		o.setVidOrg(vidOrgService.get(Integer.parseInt(vidOrgId)));
+		o.setAddress(address);
+		o.setEmail(email);
+		o.setCodeBooker(kod_booker);
+		if(!okoguId.isEmpty())
+		o.setOkogu(okoguService.get(Integer.parseInt(okoguId)));
+		Organization newOrg = orgService.add(o);
+		System.out.println(newOrg.getId());
+		OrgDTO dto = orgService.getOrgDTOById(newOrg.getId());
+		OutputStream outStream=null;
+		try {
+			outStream = resp.getPortletOutputStream();
+			ObjectMapper mapper = new ObjectMapper();
+			String jsonString = mapper.writeValueAsString(dto);
+		    outStream.write(jsonString.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			if (outStream!=null){
+				try {
+					outStream.flush();
+					outStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	@ResourceMapping(value = "editPublication")
 	public void editPublication(ResourceRequest req, ResourceResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException, IOException{
@@ -819,26 +922,46 @@ public abstract class SaveZayavkaController {
 	}
 	
 	@ResourceMapping(value="report")
-	public void getReport(ResourceRequest request, ResourceResponse response) throws IOException{
+	public void getReport(ResourceRequest request, ResourceResponse response){
 		int zayavkaId = ParamUtil.getInteger(request,"zayavkaId");
 		String strUrl = messageSource.getMessage("zayavka.reportUrl", new Object[]{zayavkaId}, Locale.getDefault());
 
-		URL url = new URL(strUrl);
-		URLConnection urlConnection = url.openConnection();
-		InputStream is = urlConnection.getInputStream();
-		
-		response.setContentType("application/rtf");
-		response.setContentLength(is.available());
-		response.setProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=zayavka.rtf");
-		
-		OutputStream outStream = response.getPortletOutputStream();
-		byte[] buffer = new byte[1024];
-		int len;
-		while ((len = is.read(buffer)) != -1) {
-		    outStream.write(buffer, 0, len);
+		URL url=null;
+		OutputStream outStream = null;
+		InputStream is = null;
+		try {
+			url = new URL(strUrl);
+			URLConnection urlConnection = url.openConnection();
+			is = urlConnection.getInputStream();
+			
+			response.setContentType("application/rtf");
+			response.setContentLength(is.available());
+			response.setProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=zayavka.rtf");
+			
+			outStream = response.getPortletOutputStream();
+			byte[] buffer = new byte[1024];
+			int len;
+			while ((len = is.read(buffer)) != -1) {
+			    outStream.write(buffer, 0, len);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			if (outStream!=null){
+				try {
+					outStream.flush();
+					outStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (is!=null){
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
-		outStream.flush();
-		outStream.close();
-		is.close();
 	}
 }

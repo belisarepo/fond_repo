@@ -47,7 +47,7 @@
 	</aui:input>
 </aui:form>
 <aui:script>
-$(document).ready(function() {
+
 	$('#popupSaveBtn').click(function(){
 		var data = {"id":$('#${ns}id').val(),
 					"tripGoal":$('#${ns}tripGoal').val(),
@@ -75,5 +75,5 @@ $(document).ready(function() {
 		
 		
 	});
-});
+
 </aui:script>

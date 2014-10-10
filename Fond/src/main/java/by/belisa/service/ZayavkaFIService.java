@@ -569,6 +569,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 			zayavkaFI = new ZayavkaFI();
 			zayavkaFI.setAnketa(anketa);
 			zayavkaFI.setFizInfo(fizInfo);
+			zayavkaFI.setOrganization(anketa.getOrg());
 			zayavkaFI.setKonkursy(konkursyDao.get(dto.getKonkursId()));
 			zayavkaFI.setStatusZayavkaFI(statusZayavkaFIDao.get(1));// id=1 -
 			// Подготовка

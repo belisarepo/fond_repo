@@ -21,14 +21,15 @@
 </c:if>
  <table class="table table-bordered table-striped table-hover">
  	<thead>
- 		<tr><th>Наименование</th><th>Описание</th><th>Условия</th><th>Подать заявку</th></tr>
+ 		<tr><th>Наименование</th><th>Описание</th><th>Завершение конкурса</th><th>Условия</th><th>Подать заявку</th></tr>
  	</thead>
  	<tbody>
  		<c:forEach var="i" items="${konkursyList}">
  			<tr>
  				<td>${i.nameR}</td>
  				<td>${i.descriptionR}</td>
- 				<td><a href="<portlet:resourceURL><portlet:param name="konkursId" value="${i.id}" /></portlet:resourceURL>" >Скачать описание</a></td>
+ 				<td>${i.stopKonkurs}</td>
+ 				<td><a href="<portlet:resourceURL><portlet:param name="konkursId" value="${i.id}" /></portlet:resourceURL>" ><spring:message code="konkursy.downloadUsl"/></a></td>
  				<td><a href="<portlet:renderURL><portlet:param name="view" value="zayavka"/><portlet:param name="konkursId" value="${i.id}"/></portlet:renderURL>">К заявке</a></td>
  			</tr>
  		</c:forEach>

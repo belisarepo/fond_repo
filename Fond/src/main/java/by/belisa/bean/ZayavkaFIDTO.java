@@ -42,7 +42,9 @@ public class ZayavkaFIDTO implements Serializable {
 	private String vidProjectName;
 	private Boolean napravl;
 	private String napravlName;
-	
+	private Integer konkursOrgNrId;
+	private String konkursOrgNrName;
+	private Integer konkursCountryId;
 	
 	
 	private Long userId;
@@ -214,6 +216,9 @@ public class ZayavkaFIDTO implements Serializable {
 				if (k.getTipKonkursa()!=null){
 					this.vidFormaZId = k.getTipKonkursa().getVidFormaZ()!=null ? k.getTipKonkursa().getVidFormaZ().getId() : 1;
 				}
+				this.konkursOrgNrId = k.getOrgNr()!=null ? k.getOrgNr().getId() : null;
+				this.konkursOrgNrName = k.getOrgNr()!=null ? k.getOrgNr().getNameR() : "";
+				this.konkursCountryId = k.getCountryId();
 			}
 			
 			this.sectionFondId = zayavkaFI.getSectionFond() != null ? zayavkaFI.getSectionFond().getId() : 0;
@@ -249,7 +254,7 @@ public class ZayavkaFIDTO implements Serializable {
 				this.orgId = zayavkaFI.getOrganization().getId();
 				this.orgName = zayavkaFI.getOrganization().getName();
 				this.orgEmail = zayavkaFI.getOrganization().getEmail();
-				this.okoguName = zayavkaFI.getOrganization().getOkogu().getName();
+				this.okoguName = zayavkaFI.getOrganization().getOkogu()!=null ? zayavkaFI.getOrganization().getOkogu().getName() : "";
 				this.orgAddress = zayavkaFI.getOrganization().getAddress();
 			}
 			
@@ -1053,6 +1058,14 @@ public class ZayavkaFIDTO implements Serializable {
 		return orgNameRkNr;
 	}
 
+	public Integer getKonkursOrgNrId() {
+		return konkursOrgNrId;
+	}
+
+	public void setKonkursOrgNrId(Integer konkursOrgNrId) {
+		this.konkursOrgNrId = konkursOrgNrId;
+	}
+
 	public void setOrgNameRkNr(String orgNameRkNr) {
 		this.orgNameRkNr = orgNameRkNr;
 	}
@@ -1495,6 +1508,14 @@ public class ZayavkaFIDTO implements Serializable {
 
 	public void setNapravlName(String napravlName) {
 		this.napravlName = napravlName;
+	}
+
+	public String getKonkursOrgNrName() {
+		return konkursOrgNrName;
+	}
+
+	public void setKonkursOrgNrName(String konkursOrgNrName) {
+		this.konkursOrgNrName = konkursOrgNrName;
 	}
 
 }

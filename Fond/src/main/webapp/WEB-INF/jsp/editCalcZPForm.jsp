@@ -47,7 +47,7 @@
 
 </aui:form>
 <aui:script>
-$(document).ready(function() {
+
 	$('#popupSaveBtn').click(function(){
 		var data = {"id":$('#${ns}id').val(),
 					"name":$('#${ns}name').val(),
@@ -77,5 +77,5 @@ $(document).ready(function() {
 		
 		
 	});
-});
+
 </aui:script>

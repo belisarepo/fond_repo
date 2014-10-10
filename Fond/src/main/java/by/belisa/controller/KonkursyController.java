@@ -1,85 +1,33 @@
 package by.belisa.controller;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.text.ParseException;
 import java.util.List;
-import java.util.Locale;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 
 import by.belisa.bean.AnketaDTO;
-import by.belisa.bean.CalcMaterialsDTO;
-import by.belisa.bean.CalcOtherCostsDTO;
-import by.belisa.bean.CalcTripDTO;
-import by.belisa.bean.CalcZpDTO;
 import by.belisa.bean.CheckUslResult;
-import by.belisa.bean.IspolnitelDTO;
 import by.belisa.bean.KonkursyDTO;
-import by.belisa.bean.OrgDTO;
-import by.belisa.bean.PublicationDTO;
-import by.belisa.bean.PublicationMDTO;
 import by.belisa.bean.ZayavkaFIDTO;
-import by.belisa.dao.StatusZayavkaFIDao;
-import by.belisa.entity.Ispolnitel;
 import by.belisa.entity.Organization;
 import by.belisa.entity.OrganizationNR;
-import by.belisa.entity.OtraslNauka;
-import by.belisa.entity.PrioritetNauka;
-import by.belisa.entity.PublicationType;
-import by.belisa.entity.SectionFond;
-import by.belisa.entity.UchStepeni;
-import by.belisa.entity.UchZvaniy;
 import by.belisa.exception.DaoException;
 import by.belisa.exception.ServiceException;
-import by.belisa.service.AnketaService;
-import by.belisa.service.CalcMaterialsService;
-import by.belisa.service.CalcOtherCostsService;
-import by.belisa.service.CalcTripService;
-import by.belisa.service.CalcZpService;
-import by.belisa.service.FizInfoService;
-import by.belisa.service.IspolnitelService;
-import by.belisa.service.KonkursyService;
-import by.belisa.service.OrgNrService;
-import by.belisa.service.OrgService;
-import by.belisa.service.OtraslNaukaService;
-import by.belisa.service.PetitionService;
-import by.belisa.service.PrioritetNaukaService;
-import by.belisa.service.PublicationMService;
-import by.belisa.service.PublicationService;
-import by.belisa.service.PublicationTypeService;
-import by.belisa.service.SectionFondService;
-import by.belisa.service.UchStepeniService;
-import by.belisa.service.UchZvaniyService;
-import by.belisa.service.UserService;
-import by.belisa.service.ZayavkaFIService;
 import by.belisa.util.Utils;
-import by.belisa.validation.ValidationResult;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
-import com.liferay.portal.kernel.util.Base64;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.util.PortalUtil;
 
@@ -136,21 +84,23 @@ public class KonkursyController extends SaveZayavkaController{
 	@RenderMapping(params = "view=zayavka")
 	public String renderZayavkaForm(Model model, PortletRequest request) throws Exception {
 		ZayavkaFIDTO zayavkaFIDTO = null;
+		Integer konkursId = ParamUtil.getInteger(request, "konkursId");
 		Integer zayavkaId = ParamUtil.getInteger(request, "zayavkaId");
 		if (zayavkaId!=0){
 			zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTO(zayavkaId);
 		}else{
 			Long userId = PortalUtil.getUser(request).getUserId();
 			anketaService.checkUser(PortalUtil.getUser(request));
-			String konkursId = ParamUtil.getString(request, "konkursId");
-			zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(userId, Integer.parseInt(konkursId));
+			
+			zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(userId, konkursId);
 			if (zayavkaFIDTO.getId()==null){
 
 				AnketaDTO anketaDTO = anketaService.getDTO(userId);
 				Integer fizInfoId = fizInfoService.addFizInfo(anketaDTO);
-				zayavkaFIDTO.setFizInfoDTO(fizInfoService.getDTO(fizInfoId, Integer.parseInt(konkursId)));
-				CheckUslResult checkUslResult = konkursyService.checkUsloviyaRuk(Integer.parseInt(konkursId), fizInfoId);
-				if (!checkUslResult.isAvailable()){
+				zayavkaFIDTO.setFizInfoDTO(fizInfoService.getDTO(fizInfoId, konkursId));
+				zayavkaFIDTO.setKonkursId(konkursId);
+				CheckUslResult checkUslResult = konkursyService.checkUsloviyaRuk(konkursId, fizInfoId);
+				if (1==2/*!checkUslResult.isAvailable()*/){
 					String errorMsg = Utils.createErrorMsg(anketaDTO.getFio(), checkUslResult);
 					model.addAttribute("errorMsg", errorMsg);
 					return renderView(model,request);
@@ -161,7 +111,8 @@ public class KonkursyController extends SaveZayavkaController{
 		model.addAttribute("zayavkaModel", zayavkaFIDTO);
 		List<Organization> listOrg = orgService.getAll();
 		model.addAttribute("listOrg", listOrg);
-		List<OrganizationNR> orgNrList = orgNrService.getAll();
+		
+		List<OrganizationNR> orgNrList = orgNrService.getAllByKonkurs(zayavkaFIDTO.getKonkursId());
 		model.addAttribute("orgNrList", orgNrList);
 		return "zayavka";
 	}

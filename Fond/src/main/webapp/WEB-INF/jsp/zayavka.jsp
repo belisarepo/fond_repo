@@ -90,6 +90,7 @@
 
 	<aui:button-row>
 		<div align="right">
+			<div style="position: absolute;left: 0px;font-weight: bold;">${zayavkaModel.konkursNameR}</div>
 			<a class="btn" id="send_btn" href="${sendZayavka}">Подать</a>
 			<c:if test="${zayavkaModel.statusZayavkaId==3}">
 				<a class="btn"
@@ -124,7 +125,7 @@
 		<li><a href="#tab-6"><spring:message code="zayavka.tab6" /></a></li>
 		<li><a href="#tab-7"><spring:message code="zayavka.tab7" /></a></li>
 		<li><a href="#tab-8"><spring:message code="zayavka.tab8" /></a></li>
-		<li><a href="#tab-9"><spring:message code="zayavka.tab9" /></a></li>
+		<%-- <li><a href="#tab-9"><spring:message code="zayavka.tab9" /></a></li> --%>
 		<c:if test="${zayavkaModel.young}">
 			<li><a href="#tab-21"><spring:message code="zayavka.tab21" /></a></li>
 		</c:if>
@@ -173,9 +174,9 @@
 		<div id="tab-8" class="tab-pane">
 			<%@ include file="/WEB-INF/jsp/zayavka/form8.jsp"%>
 		</div>
-		<div id="tab-9" class="tab-pane">
+		<%-- <div id="tab-9" class="tab-pane">
 			<%@ include file="/WEB-INF/jsp/zayavka/form9.jsp"%>
-		</div>
+		</div> --%>
 		<c:if test="${zayavkaModel.young}">
 			<div id="tab-21" class="tab-pane">
 				<%@ include file="/WEB-INF/jsp/zayavka/form21.jsp"%>
@@ -254,7 +255,7 @@ function submitFondForm(){
 	}
 $(document).ready(function() {
 	
-	$('input, select').change(function(){
+	$('input, select, textarea').change(function(){
 		isChanged = true;
 		changedForm = $(this).closest("form");
 	});

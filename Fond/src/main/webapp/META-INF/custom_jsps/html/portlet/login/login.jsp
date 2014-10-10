@@ -46,6 +46,9 @@
 		String redirect = ParamUtil.getString(request, "redirect");
 
 		String login = LoginUtil.getLogin(request, "login", company);
+		if (login.startsWith("@")){
+			login="";
+		}
 		String password = StringPool.BLANK;
 		boolean rememberMe = ParamUtil.getBoolean(request, "rememberMe");
 
