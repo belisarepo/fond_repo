@@ -29,8 +29,10 @@
 		<header-portlet-javascript>/js/jquery.plugin.min.js</header-portlet-javascript>
 		<footer-portlet-javascript>/js/chosen.jquery.min.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/jquery.datepick.min.js</footer-portlet-javascript>
+		<footer-portlet-javascript>/js/jquery.mask.min.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/bootstrap.min.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/konkursy/main.js</footer-portlet-javascript>
+		
 		
 	</portlet>
 	<portlet>
@@ -53,6 +55,7 @@
 		<header-portlet-javascript>/js/jquery.plugin.min.js</header-portlet-javascript>
 		<footer-portlet-javascript>/js/chosen.jquery.min.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/jquery.datepick.min.js</footer-portlet-javascript>
+		<footer-portlet-javascript>/js/jquery.mask.min.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/bootstrap.min.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/datatable.min.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/jquery.bootpag.min.js</footer-portlet-javascript>

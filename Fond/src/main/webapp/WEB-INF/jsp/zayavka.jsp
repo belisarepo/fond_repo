@@ -59,6 +59,11 @@
 	<portlet:param name="konkursId" value="${zayavkaModel.konkursId}" />
 	<portlet:param name="zayavkaId" value="${zayavkaModel.id}" />
 </portlet:actionURL>
+<portlet:actionURL var="validateZayavka">
+	<portlet:param name="action" value="validateZ" />
+	<portlet:param name="konkursId" value="${zayavkaModel.konkursId}" />
+	<portlet:param name="zayavkaId" value="${zayavkaModel.id}" />
+</portlet:actionURL>
 
 
 <portlet:actionURL var="addIspolnitelAction">
@@ -88,16 +93,29 @@
 
 
 
-	<aui:button-row>
-		<div align="right">
-			<div style="position: absolute;left: 0px;font-weight: bold;">${zayavkaModel.konkursNameR}</div>
-			<a class="btn" id="send_btn" href="${sendZayavka}">Подать</a>
-			<c:if test="${zayavkaModel.statusZayavkaId==3}">
-				<a class="btn"
-					onclick="window.open('<portlet:resourceURL id="report"><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:resourceURL>')">Печать</a>
+<aui:button-row>
+	<div align="right">
+		<div style="position: absolute; left: 0px; font-weight: bold;">${zayavkaModel.konkursNameR}</div>
+		<c:if test="${not empty zayavkaModel.id}">
+			<c:if test="${zayavkaModel.statusZayavkaId!=3}">
+				<a class="btn" id="validate_btn" href="${validateZayavka}">Валидировать</a>
 			</c:if>
-		</div>
-	</aui:button-row>
+			
+			<c:if test="${not empty validate_result}">
+				<a class="btn" id="send_btn">Подать</a>
+			</c:if>
+			
+			<a class="btn"
+				onclick="window.open('<portlet:resourceURL id="report"><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:resourceURL>')">Печать</a>
+		
+		</c:if>
+		
+		<%-- <c:if test="${zayavkaModel.statusZayavkaId==3}">
+				<a class="btn"
+					onclick="window.open('<portlet:resourceURL id="report"><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /></portlet:resourceURL>')">Печать2</a>
+			</c:if> --%>
+	</div>
+</aui:button-row>
 <hr />
 <center>
 	<div id="successMessageContainer"></div>
@@ -225,27 +243,55 @@
 </div>
 
 <!-- Modal -->
-<div class="modal" id="confirmModal" role="dialog" aria-hidden="true" data-backdrop="true" style="width:260px;top:40%;left:55%;display:none">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-      	
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"  id="myModalLabel">Сохранить изменения?</h4>
-      </div>
-      
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Нет</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="submitFondForm()">Сохранить</button>
-      </div>
-    </div>
-  </div>
+<div class="modal" id="confirmModal" role="dialog" aria-hidden="true" data-backdrop="true"
+	style="width: 260px; top: 40%; left: 55%; display: none">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Сохранить изменения?</h4>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Нет</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="submitFondForm()">Сохранить</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal 2 -->
+<div class="modal" id="confirmSendZayavkaModal" role="dialog" aria-hidden="true" data-backdrop="true"
+	style="width: 260px; top: 40%; left: 55%; display: none">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Предупреждение</h4>
+			</div>
+			<div class='modal-body'>
+				<p>После того, как заявка будет подана, ее редактирование будет заблокированно.Подать?</p>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Нет</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="location.href = '${sendZayavka}'">Подать</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 
 
 
-<div class="loading"><!-- Place at bottom of page --></div>
+<div class="loading">
+	<!-- Place at bottom of page -->
+</div>
 <aui:script>
 var isChanged = false;
 var changedForm;
@@ -254,6 +300,10 @@ function submitFondForm(){
 		$('.loading').css('display','block');
 	}
 $(document).ready(function() {
+
+	$('#send_btn').click(function(){
+		$('#confirmSendZayavkaModal').modal('show');
+	});
 	
 	$('input, select, textarea').change(function(){
 		isChanged = true;
@@ -288,7 +338,7 @@ $(document).ready(function() {
 		}
 	});
 	
-	
+	$('.datemask').mask('00-00-0000', {placeholder: "__-__-____",clearIfNotMatch: true});
 	
 	
 	
@@ -308,6 +358,7 @@ function showPopup(title, input_id, popup_page_url) {
 							if (input_id!=null){
 								getDataFromPopup(input_id);
 								Y.one('#<portlet:namespace />'+input_id).simulate('change');
+								submitFondForm();
 								<portlet:namespace />textDialog.hide(); 
 							}
     						

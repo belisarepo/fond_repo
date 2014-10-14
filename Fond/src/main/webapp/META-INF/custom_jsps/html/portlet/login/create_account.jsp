@@ -145,17 +145,19 @@ birthdayCalendar.set(Calendar.YEAR, 1970);
 					</aui:validator>
 				</aui:input>
 			</c:if>
-
+			<%-- <aui:input id='reg_birth' name="birthday" label='${birthdayLabel}' showRequiredLabel="" cssClass="datemask">
+				<aui:validator name="required" />
+			</aui:input> --%>
 			<c:choose>
 				<c:when test="<%= PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.FIELD_ENABLE_COM_LIFERAY_PORTAL_MODEL_CONTACT_BIRTHDAY) %>">
-					<aui:input name="birthday" value="<%= birthdayCalendar %>" showRequiredLabel=""/>
+					<aui:input name="birthday" showRequiredLabel="" value="<%= birthdayCalendar %>" />
 				</c:when>
 				<c:otherwise>
-					<aui:input name="birthdayMonth" type="hidden" value="<%= Calendar.JANUARY %>" />
-					<aui:input name="birthdayDay" type="hidden" value="1" />
-					<aui:input name="birthdayYear" type="hidden" value="1970" />
+					<aui:input id="reg_month" name="birthdayMonth" type="hidden" value="<%= Calendar.JANUARY %>" />
+					<aui:input id="reg_day" name="birthdayDay" type="hidden" value="1" />
+					<aui:input id="reg_year" name="birthdayYear" type="hidden" value="1970" />
 				</c:otherwise>
-			</c:choose>
+			</c:choose> 
 
 			<c:if test="<%= PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.FIELD_ENABLE_COM_LIFERAY_PORTAL_MODEL_CONTACT_MALE) %>">
 				<aui:select label="gender" name="male">
@@ -178,5 +180,15 @@ birthdayCalendar.set(Calendar.YEAR, 1970);
 		<aui:button type="submit" />
 	</aui:button-row>
 </aui:form>
-
+<!-- <aui:script>
+$(document).ready(function(){
+  $('.datemask').mask('00/00/0000', {placeholder: "__/__/____",clearIfNotMatch: true});
+});
+$('reg_birth').change(functuin(){
+	var reg_birth_val = $(this).val();
+	$('#reg_day').val(parseInt(reg_birth_val.substring(0,2),10));
+	$('#reg_month').val(parseInt(reg_birth_val.substring(3,5),10)-1);
+	$('#reg_year').val(parseInt(reg_birth_val.substring(6),10));
+});
+</aui:script> -->
 <liferay-util:include page="/html/portlet/login/navigation.jsp" />

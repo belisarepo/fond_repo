@@ -25,7 +25,7 @@ public class Utils {
 	}
 	public static String createErrorMsg(ValidationResult vr){
 		List<String> errors = vr.getErrMessages();
-		StringBuffer message = new StringBuffer("Заявка не подана, потому что :");
+		StringBuffer message = new StringBuffer("<ul>");
 		for (String entry : errors){
 			message.append("<li>");
 			message.append(entry);

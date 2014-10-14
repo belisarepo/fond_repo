@@ -209,6 +209,9 @@ $('#calcTable .full').on('change',function() {
 	});  
 	$('#${ns}plannedFull').val(fullSum.toFixed(2));
 	$('#${ns}plannedFullHidden').val(fullSum.toFixed(2));
+	
+	$('#${ns}allFull').val(parseFloat($('#${ns}plannedFull').val())+parseFloat($('#${ns}profitFull').val()));
+	$('#${ns}allFullHidden').val(parseFloat($('#${ns}plannedFullHidden').val())+parseFloat($('#${ns}profitFull').val()));
 }); 
 
 $('#calcTable .firstYear').on('change',function() { 
@@ -219,6 +222,9 @@ $('#calcTable .firstYear').on('change',function() {
 	});  
 	$('#${ns}plannedFirstYear').val(firstYearSum.toFixed(2));
 	$('#${ns}plannedFirstYearHidden').val(firstYearSum.toFixed(2));
+	
+	$('#${ns}allFirstYear').val(parseFloat($('#${ns}plannedFirstYear').val())+parseFloat($('#${ns}profitFirstYear').val()));
+	$('#${ns}allFirstYearHidden').val(parseFloat($('#${ns}plannedFirstYearHidden').val())+parseFloat($('#${ns}profitFirstYear').val()));
 }); 
 $('#${ns}profitFull').on('change',function() {
 	$('#${ns}allFull').val((parseFloat($(this).val())+parseFloat($('#${ns}plannedFull').val())).toFixed(2));

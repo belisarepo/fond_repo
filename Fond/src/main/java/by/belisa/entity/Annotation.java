@@ -107,7 +107,7 @@ public class Annotation implements Serializable, IValidaton {
 		String message = null;
 		String tabNameAnnotation = "во вкладке \"Аннотация\"";
 		// Проверка ключевых слов
-		if (this.keyWords.isEmpty()) {
+		if (this.keyWords == null || this.keyWords.isEmpty()) {
 			message = "Не заполненые ключевые слова" + " " + tabNameAnnotation;
 			vr.getErrMessages().add(message);
 		}

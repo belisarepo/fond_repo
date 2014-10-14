@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -67,7 +68,8 @@ public class ZayavkaFI implements Serializable, IValidaton {
 	private String vidProject;
 	@Column(name = "VID_DOGOVOR")
 	private String vidDogovor;
-	@Column(name = "TEMA_Z_NAME")
+	@Lob
+	@Column(name = "TEMA_NAME")
 	private String temaZName;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ORGANIZATION_ID")
@@ -498,17 +500,17 @@ public class ZayavkaFI implements Serializable, IValidaton {
 			vr.getErrMessages().add(message);
 		}
 		// Проверка "Научное направление"
-		if (this.konkursy.getNapravl() && this.naprNauka.isEmpty()) {
+		if (this.konkursy.getNapravl() && (this.naprNauka==null || this.naprNauka.isEmpty())) {
 			message = "Не заполнено научное направление" + " " + tabNameDataAboutTender;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка "Вид проекта"
-		if (this.konkursy.getVidProject() && this.vidProject.isEmpty()) {
+		if (this.konkursy.getVidProject() && (this.vidProject==null || this.vidProject.isEmpty())) {
 			message = "Не заполнено Вид проекта" + " " + tabNameDataAboutTender;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка списка "Приоритетное направление"
-		if (this.konkursy.getPrioritetN() && this.prioritetNauka == null) {
+		if (this.konkursy.getPrioritetN() && (this.prioritetNauka == null)) {
 			message = "Не выбрано приоритетное направление" + " " + tabNameDataAboutTender;
 			vr.getErrMessages().add(message);
 		}
