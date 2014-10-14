@@ -32,8 +32,7 @@
 		<footer-portlet-javascript>/js/jquery.mask.min.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/bootstrap.min.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/konkursy/main.js</footer-portlet-javascript>
-		
-		
+
 	</portlet>
 	<portlet>
 		<portlet-name>organization</portlet-name>
@@ -60,6 +59,11 @@
 		<footer-portlet-javascript>/js/datatable.min.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/jquery.bootpag.min.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/adminZayavki/main.js</footer-portlet-javascript>
+	</portlet>
+	<portlet>
+		<portlet-name>comment</portlet-name>
+		<icon>/icon.png</icon>
+		<requires-namespaced-parameters>false</requires-namespaced-parameters>
 	</portlet>
 	<role-mapper>
 		<role-name>administrator</role-name>
