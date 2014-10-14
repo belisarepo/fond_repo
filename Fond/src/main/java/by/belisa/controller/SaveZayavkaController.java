@@ -269,14 +269,26 @@ public abstract class SaveZayavkaController {
 	@ActionMapping(params="action=send")
 	public void sendZayavka(ActionRequest req, ActionResponse resp, Model model) throws DaoException, ParseException, NumberFormatException, ServiceException {
 		Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
+		
+		zayavkaFIService.changeStatus(3, zayavkaId);
+		model.addAttribute("save_result", "Заявка подана");
+			
+		resp.setRenderParameter("zayavkaId", zayavkaId.toString());
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
+	}
+	@ActionMapping(params="action=validateZ")
+	public void validateZayavka(ActionRequest req, ActionResponse resp, Model model) throws DaoException{
+		Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
 		ValidationResult vr = null;
 		
 		if (zayavkaId!=0){
 			vr = zayavkaFIService.checkZayavkaFI(zayavkaId);
 			
 			if (vr.isOk()){
-				zayavkaFIService.changeStatus(3, zayavkaId);
-				model.addAttribute("save_result", "Заявка подана");
+				
+				model.addAttribute("save_result", "Заявка заполнена корректно");
+				model.addAttribute("validate_result", "ok");
 			}else{
 				model.addAttribute("errorMsg", Utils.createErrorMsg(vr));
 			}
