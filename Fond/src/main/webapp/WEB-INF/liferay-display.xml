@@ -8,5 +8,6 @@
 		<portlet id="konkursy" />
 		<portlet id="organization" />
 		<portlet id="adminZayavki" />
+		<portlet id="comment" />
 	</category>
 </display>

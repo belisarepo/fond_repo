@@ -84,6 +84,7 @@
 				<value>by.belisa.entity.Calculation</value>
 				<value>by.belisa.entity.VidFormaZ</value>
 				<value>by.belisa.entity.Petition</value>
+				<value>by.belisa.entity.Comment</value>
 				
 			</list>
 		</property>
