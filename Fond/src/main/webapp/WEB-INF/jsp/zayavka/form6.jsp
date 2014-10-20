@@ -31,8 +31,8 @@
 					<td>${i.name}</td>
 					<td>${i.patronymic}</td>
 					<td>${i.birthday}</td>
-					<td>${i.uchStepeniName}</td>
-					<td>${i.uchZvaniyName}</td>
+					<td>${i.uchStepeniNames}</td>
+					<td>${i.uchZvaniyNames}</td>
 					<td>${i.orgName}</td>
 					<td>${i.post}</td>
 					<portlet:renderURL var="editIsplUrl" windowState='<%=LiferayWindowState.POP_UP.toString()%>'><portlet:param name="action" value="editIspolnitel" /><portlet:param name="isplId" value="${i.id}" /></portlet:renderURL>
@@ -87,7 +87,7 @@
 	</aui:input>
 
 	<spring:message code="zayavka.degree" var='degreeLabel' />
-	<aui:select name="uchStepeniId" bean="ispolnitelModel" label='${degreeLabel}'>
+	<aui:select name="uchStepeniIdArr" bean="ispolnitelModel" label='${degreeLabel}' multiple="true">
 		<option value="" />
 		<c:forEach var="i" items="${uchStepeniList}">
 			<aui:option value="${i.id}" label="${i.fullName}"  selected="${i.id==45}"/>
@@ -96,7 +96,7 @@
 	</aui:select>
 
 	<spring:message code="zayavka.academicTitle" var='academicTitleLabel' />
-	<aui:select name="uchZvaniyId" bean="ispolnitelModel" label='${academicTitleLabel}'>
+	<aui:select name="uchZvaniyIdArr" bean="ispolnitelModel" label='${academicTitleLabel}' multiple="true">
 		<option value="" />
 		<c:forEach var="i" items="${uchZvaniyList}">
 			<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==17}"/>

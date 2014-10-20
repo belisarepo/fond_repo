@@ -2,27 +2,4 @@
 @import url(../jquery.datepick.css);
 @import url(../datatable.min.css);
 @import url(../datatable-bootstrap.min.css);
-.loading{
-	display:    none;
-    position:   fixed;
-    z-index:    1000;
-    top:        0;
-    left:       0;
-    height:     100%;
-    width:      100%;
-    background: rgba( 0, 0, 0, 0.5 ) 
-                url('../../img/loading-large.gif') 
-                50% 50% 
-                no-repeat;
-}
-
-textarea{
-	width:90%!important;
-	height: 100px!important;
-}
-.input-large{
-	width:90%!important;
-}
-input:not([type='radio']){
-	width:90%!important;
-}
+@import url(../main.css);

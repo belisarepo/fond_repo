@@ -13,6 +13,15 @@
 	<aui:input name="userId" bean="zayavkaModel" type="hidden" value="${zayavkaModel.userId}" />
 	<aui:input name="calcId" bean="zayavkaModel" type="hidden" value="${zayavkaModel.calcId}" />
 
+	<aui:button-row>
+		<div align="left">
+			<aui:button type="submit" value="Сохранить" />
+		</div>
+
+	</aui:button-row>
+	<hr/>
+	
+
 	<table id="calcTable" class="table table-bordered table-condensed">
 		<thead>
 			<tr>
@@ -192,11 +201,7 @@
 	<p>
 	**)     В качестве сторонних организаций могут быть, как правило, только организации-соисполнители проекта
 	</p>
-	<aui:button-row>
-		<div align="left">
-			<aui:button type="submit" value="Сохранить" />
-		</div>
-	</aui:button-row>
+	
 </aui:form>
 
 <aui:script>

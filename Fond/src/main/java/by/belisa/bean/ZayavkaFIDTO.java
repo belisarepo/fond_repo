@@ -14,6 +14,8 @@ import by.belisa.entity.Konkursy;
 import by.belisa.entity.Organization;
 import by.belisa.entity.Petition;
 import by.belisa.entity.Publication;
+import by.belisa.entity.UchStepeni;
+import by.belisa.entity.UchZvaniy;
 import by.belisa.entity.ZayavkaFI;
 
 public class ZayavkaFIDTO implements Serializable {
@@ -75,10 +77,8 @@ public class ZayavkaFIDTO implements Serializable {
 	private String orgNameRk;
 	private Integer orgIdRk;
 	private String birthdayRk;
-	private String uchStepenNameRk;
-	private Integer uchStepenIdRk;
-	private String uchZvaniyNameRk;
-	private Integer uchZvaniyIdRk;
+	private Integer[] uchStepeniIdRkArr;
+	private Integer[] uchZvaniyIdRkArr;
 	private String postRk;
 	private String labRk;
 	private String jobPhoneRk;
@@ -274,10 +274,18 @@ public class ZayavkaFIDTO implements Serializable {
 				this.orgIdRk = zayavkaFI.getRukovoditel().getOrg()!=null ? zayavkaFI.getRukovoditel().getOrg().getId() : null;
 				this.orgNameRk = zayavkaFI.getRukovoditel().getOrg()!=null ? zayavkaFI.getRukovoditel().getOrg().getName() : "";
 				this.postRk = zayavkaFI.getRukovoditel().getPost();
-				this.uchStepenIdRk = zayavkaFI.getRukovoditel().getUchStepeni()!=null ? zayavkaFI.getRukovoditel().getUchStepeni().getId() : null;
-				this.uchStepenNameRk = zayavkaFI.getRukovoditel().getUchStepeni()!=null ? zayavkaFI.getRukovoditel().getUchStepeni().getName() : "";
-				this.uchZvaniyIdRk = zayavkaFI.getRukovoditel().getUchZvaniy()!=null ? zayavkaFI.getRukovoditel().getUchZvaniy().getId() : null;
-				this.uchZvaniyNameRk = zayavkaFI.getRukovoditel().getUchZvaniy()!=null ? zayavkaFI.getRukovoditel().getUchZvaniy().getName() : "";
+				this.uchZvaniyIdRkArr = new Integer[zayavkaFI.getRukovoditel().getUchZvaniyList().size()];
+				int n=0;
+				for (UchZvaniy i : zayavkaFI.getRukovoditel().getUchZvaniyList()){
+					this.uchZvaniyIdRkArr[n]=i.getId();
+					n++;
+				}
+				this.uchStepeniIdRkArr = new Integer[zayavkaFI.getRukovoditel().getUchStepeniList().size()];
+				n=0;
+				for (UchStepeni i : zayavkaFI.getRukovoditel().getUchStepeniList()){
+					this.uchStepeniIdRkArr[n]=i.getId();
+					n++;
+				}
 				
 				this.countPublicationScopus =zayavkaFI.getRukovoditel().getCountPublicationScopus();
 				this.countPublicationISI =zayavkaFI.getRukovoditel().getCountPublicationISI();
@@ -312,10 +320,18 @@ public class ZayavkaFIDTO implements Serializable {
 				this.orgIdRk = zayavkaFI.getAnketa().getOrg()!=null ? zayavkaFI.getAnketa().getOrg().getId() : null;
 				this.orgNameRk = zayavkaFI.getAnketa().getOrg()!=null ? zayavkaFI.getAnketa().getOrg().getName() : "";
 				this.postRk = zayavkaFI.getAnketa().getPost();
-				this.uchStepenIdRk = zayavkaFI.getAnketa().getUchStepeni()!=null ? zayavkaFI.getAnketa().getUchStepeni().getId() : null;
-				this.uchStepenNameRk = zayavkaFI.getAnketa().getUchStepeni()!=null ? zayavkaFI.getAnketa().getUchStepeni().getName() : "";
-				this.uchZvaniyIdRk = zayavkaFI.getAnketa().getUchZvaniy()!=null ? zayavkaFI.getAnketa().getUchZvaniy().getId() : null;
-				this.uchZvaniyNameRk = zayavkaFI.getAnketa().getUchZvaniy()!=null ? zayavkaFI.getAnketa().getUchZvaniy().getName() : "";
+				this.uchZvaniyIdRkArr = new Integer[zayavkaFI.getAnketa().getUchZvaniyList().size()];
+				int n=0;
+				for (UchZvaniy i : zayavkaFI.getAnketa().getUchZvaniyList()){
+					this.uchZvaniyIdRkArr[n]=i.getId();
+					n++;
+				}
+				this.uchStepeniIdRkArr = new Integer[zayavkaFI.getAnketa().getUchStepeniList().size()];
+				n=0;
+				for (UchStepeni i : zayavkaFI.getAnketa().getUchStepeniList()){
+					this.uchStepeniIdRkArr[n]=i.getId();
+					n++;
+				}
 			}
 			
 			if (zayavkaFI.getRukovoditelNr()!=null){
@@ -1230,36 +1246,22 @@ public class ZayavkaFIDTO implements Serializable {
 		this.birthdayRk = birthdayRk;
 	}
 
-	public String getUchStepenNameRk() {
-		return uchStepenNameRk;
+	
+
+	public Integer[] getUchStepeniIdRkArr() {
+		return uchStepeniIdRkArr;
 	}
 
-	public void setUchStepenNameRk(String uchStepenNameRk) {
-		this.uchStepenNameRk = uchStepenNameRk;
+	public void setUchStepeniIdRkArr(Integer[] uchStepeniIdRkArr) {
+		this.uchStepeniIdRkArr = uchStepeniIdRkArr;
 	}
 
-	public Integer getUchStepenIdRk() {
-		return uchStepenIdRk;
+	public Integer[] getUchZvaniyIdRkArr() {
+		return uchZvaniyIdRkArr;
 	}
 
-	public void setUchStepenIdRk(Integer uchStepenIdRk) {
-		this.uchStepenIdRk = uchStepenIdRk;
-	}
-
-	public String getUchZvaniyNameRk() {
-		return uchZvaniyNameRk;
-	}
-
-	public void setUchZvaniyNameRk(String uchZvaniyNameRk) {
-		this.uchZvaniyNameRk = uchZvaniyNameRk;
-	}
-
-	public Integer getUchZvaniyIdRk() {
-		return uchZvaniyIdRk;
-	}
-
-	public void setUchZvaniyIdRk(Integer uchZvaniyIdRk) {
-		this.uchZvaniyIdRk = uchZvaniyIdRk;
+	public void setUchZvaniyIdRkArr(Integer[] uchZvaniyIdRkArr) {
+		this.uchZvaniyIdRkArr = uchZvaniyIdRkArr;
 	}
 
 	public String getPostRk() {
@@ -1516,6 +1518,14 @@ public class ZayavkaFIDTO implements Serializable {
 
 	public void setKonkursOrgNrName(String konkursOrgNrName) {
 		this.konkursOrgNrName = konkursOrgNrName;
+	}
+
+	public Integer getKonkursCountryId() {
+		return konkursCountryId;
+	}
+
+	public void setKonkursCountryId(Integer konkursCountryId) {
+		this.konkursCountryId = konkursCountryId;
 	}
 
 }

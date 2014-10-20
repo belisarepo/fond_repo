@@ -48,21 +48,45 @@
 	</aui:input>
 
 	<spring:message code="zayavka.degree" var='degreeLabel' />
-	<aui:select id="popupUchStepeniId" name="uchStepeniId" bean="isplModel" label='${degreeLabel}' >
+	<aui:select id="popupUchStepeniId" name="uchStepeniIdArr" bean="isplModel" label='${degreeLabel}' multiple="true">
 		<option value="" />
 		<c:forEach var="i" items="${uchStepeniList}">
-			<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==isplModel.uchStepeniId}" />
+			<c:choose>
+				<c:when test="${empty isplModel.uchStepeniIdArr}">
+					<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==45}" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="contains" value="false" />
+					<c:forEach var="item" items="${isplModel.uchStepeniIdArr}">
+						<c:if test="${item eq i.id}">
+							<c:set var="contains" value="true" />
+						</c:if>
+					</c:forEach>
+					<aui:option value="${i.id}" label="${i.fullName}" selected="${contains}" />
+				</c:otherwise>
+			</c:choose>
 		</c:forEach>
-		<aui:option></aui:option>
 	</aui:select>
 
 	<spring:message code="zayavka.academicTitle" var='academicTitleLabel' />
-	<aui:select id="popupUchZvaniyId" name="uchZvaniyId" bean="isplModel" label='${academicTitleLabel}'>
+	<aui:select id="popupUchZvaniyId" name="uchZvaniyIdArr" bean="isplModel" label='${academicTitleLabel}' multiple="true">
 		<option value="" />
 		<c:forEach var="i" items="${uchZvaniyList}">
-			<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==isplModel.uchZvaniyId}"/>
+			<c:choose>
+				<c:when test="${empty isplModel.uchZvaniyIdArr}">
+					<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==17}" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="contains" value="false" />
+					<c:forEach var="item" items="${isplModel.uchZvaniyIdArr}">
+						<c:if test="${item eq i.id}">
+							<c:set var="contains" value="true" />
+						</c:if>
+					</c:forEach>
+					<aui:option value="${i.id}" label="${i.fullName}" selected="${contains}" />
+				</c:otherwise>
+			</c:choose>
 		</c:forEach>
-		<aui:option></aui:option>
 	</aui:select>
 
 	<spring:message code="zayavka.mestoRaboti" var='mestoRabotiLabel' />
@@ -84,6 +108,7 @@ $(document).ready(function() {
 	$('#${ns}popupUchStepeniId,#${ns}popupUchZvaniyId,#${ns}popupOrgId').chosen({
 		no_results_text : "Извините, нет совпадений!",
 		placeholder_text_single : "Выберите из списка...",
+		placeholder_text_multiple : "Выберите нужные пункты...",
 		width : '91%',
 		search_contains:true
 	});
@@ -95,9 +120,10 @@ $(document).ready(function() {
 		   		  	"patronymic":$('#${ns}patronymic').val(),
 		   		  	"birthday":$('#${ns}birthday').val(),
 		   		  	"post":$('#${ns}post').val(),
-		   		  	"uchStepeniId":$('#${ns}popupUchStepeniId').val(),
-		   		  	"uchZvaniyId":$('#${ns}popupUchZvaniyId').val(),
+		   		  	"uchStepeniIdArr":$('#${ns}popupUchStepeniId').val(),
+		   		  	"uchZvaniyIdArr":$('#${ns}popupUchZvaniyId').val(),
 		   		  	"orgId":$('#${ns}popupOrgId').val()};
+		   		  	
 		$.ajax({
 		   url: '${editIspolnitelUrl}',
 		   <!-- dataType: 'json', -->

@@ -13,6 +13,15 @@
 	<aui:input name="konkursId" type="hidden" value="${zayavkaModel.konkursId}" />
 	<aui:input name="userId" type="hidden" value="${zayavkaModel.userId}" />
 
+	<aui:button-row>
+		<div align="left">
+			<aui:button type="submit" value="Сохранить" />
+		</div>
+
+	</aui:button-row>
+	<hr/>
+	
+
 	<spring:message code='zayavka.costAll' var='costAllLabel' />
 	<aui:input name="costAll" value="${zayavkaModel.costAll}" label="${costAllLabel}" bean="zayavkaModel">
 		<aui:validator name="required" />
@@ -24,9 +33,5 @@
 		<aui:validator name="required" />
 		<aui:validator name="number" />
 	</aui:input>
-	<aui:button-row>
-		<div align="left">
-			<aui:button type="submit" value="Сохранить" />
-		</div>
-	</aui:button-row>
+	
 </aui:form>

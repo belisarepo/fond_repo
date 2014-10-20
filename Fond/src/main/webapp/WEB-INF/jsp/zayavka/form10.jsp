@@ -38,39 +38,59 @@
 	<aui:input name="konkursId" bean="zayavkaModel" type="hidden" value="${zayavkaModel.konkursId}" />
 	<aui:input name="userId" bean="zayavkaModel" type="hidden" value="${zayavkaModel.userId}" />
 
-	<spring:message code="zayavka.keyWords" var='keyWordsLabel' />
-	<aui:input name="keyWords" value="${zayavkaModel.keyWords}" id="keyWords" label="${keyWordsLabel}" bean="zayavkaModel" type="textarea"/>
-
-	<spring:message code="zayavka.jobGoal" var='jobGoalLabel' />
-	<aui:input name="jobGoal" value="${zayavkaModel.jobGoal}" id="jobGoal" label="${jobGoalLabel}" bean="zayavkaModel" type="textarea"/>
-	
-	<spring:message code="zayavka.idea" var='ideaLabel' />
-	<aui:input name="idea" value="${zayavkaModel.idea}" id="idea" label="${ideaLabel}" bean="zayavkaModel" type="textarea"/>
-	
-	<spring:message code="zayavka.results" var='resultsLabel' />
-	<aui:input name="results" value="${zayavkaModel.results}" id="results" label="${resultsLabel}" bean="zayavkaModel" type="textarea"/>
-	
 	<aui:button-row>
 		<div align="left">
 			<aui:button type="submit" value="Сохранить" />
 		</div>
+
 	</aui:button-row>
+	<hr/>
+	
+
+	<spring:message code="zayavka.keyWords" var='keyWordsLabel' />
+	<aui:input name="keyWords" value="${zayavkaModel.keyWords}" id="keyWords" label="${keyWordsLabel}" bean="zayavkaModel" type="hidden"/>
+	<label>${keyWordsLabel}</label>
+	<div id="keyWordsDiv" class='div-as-textarea'></div>
+
+	<spring:message code="zayavka.jobGoal" var='jobGoalLabel' />
+	<aui:input name="jobGoal" value="${zayavkaModel.jobGoal}" id="jobGoal" label="${jobGoalLabel}" bean="zayavkaModel" type="hidden"/>
+	<label>${jobGoalLabel}</label>
+	<div id="jobGoalDiv" class='div-as-textarea'></div>
+	
+	<spring:message code="zayavka.idea" var='ideaLabel' />
+	<aui:input name="idea" value="${zayavkaModel.idea}" id="idea" label="${ideaLabel}" bean="zayavkaModel" type="hidden"/>
+	<label>${ideaLabel}</label>
+	<div id="ideaDiv" class='div-as-textarea'></div>
+	
+	<spring:message code="zayavka.results" var='resultsLabel' />
+	<aui:input name="results" value="${zayavkaModel.results}" id="results" label="${resultsLabel}" bean="zayavkaModel" type="hidden"/>
+	<label>${resultsLabel}</label>
+	<div id="resultsDiv" class='div-as-textarea'></div>
+	
+	
 </aui:form>
 <aui:script>
 // add Show Popup
 //===============================================================
-$('#${ns}keyWords').on('click', function(event){
+$('#keyWordsDiv').on('click', function(event){
    showPopup('Ключевые слова','keyWords','${strPopupKeyWordsUrl}');
 });
-$('#${ns}jobGoal').on('click', function(event){
+$('#keyWordsDiv').html($('#${ns}keyWords').val());
+
+$('#jobGoalDiv').on('click', function(event){
    showPopup('Цель работы','jobGoal','${strPopupJobGoalUrl}');
 });
-$('#${ns}idea').on('click', function(event){
+$('#jobGoalDiv').html($('#${ns}jobGoal').val());
+
+$('#ideaDiv').on('click', function(event){
    showPopup('Научная идея (гипотеза) авторов','idea','${strPopupIdeaUrl}');
 });
-$('#${ns}results').on('click', function(event){
+$('#ideaDiv').html($('#${ns}idea').val());
+
+$('#resultsDiv').on('click', function(event){
    showPopup('Основные планируемые результаты, их научная и практическая значимость','results','${strPopupResultsUrl}');
 });
+$('#resultsDiv').html($('#${ns}results').val());
 //==============================================================
 
 </aui:script>

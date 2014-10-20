@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
 import by.belisa.entity.Anketa;
+import by.belisa.entity.UchStepeni;
+import by.belisa.entity.UchZvaniy;
 
 public class AnketaDTO implements Serializable{
 	/**
@@ -30,13 +32,22 @@ public class AnketaDTO implements Serializable{
 			this.orgId = anketa.getOrg()!=null ? anketa.getOrg().getId() : null;
 			this.orgName = anketa.getOrg()!=null ? anketa.getOrg().getName() : "";
 			this.post = anketa.getPost();
-			this.uchStepenId = anketa.getUchStepeni()!=null ?  anketa.getUchStepeni().getId() : null;
-			this.uchStepenName = anketa.getUchStepeni()!=null ? anketa.getUchStepeni().getName() : "";
-			this.uchZvaniyId = anketa.getUchZvanie()!=null ? anketa.getUchZvanie().getId() : null;
-			this.uchZvaniyName = anketa.getUchZvanie()!=null ? anketa.getUchZvanie().getName() : "";
 			this.name = anketa.getName();
 			this.surname = anketa.getSurname();
 			this.patronymic = anketa.getPatronymic();
+			this.uchZvaniyIdArr = new Integer[anketa.getUchZvaniyList().size()];
+			int n=0;
+			for (UchZvaniy i : anketa.getUchZvaniyList()){
+				this.uchZvaniyIdArr[n]=i.getId();
+				n++;
+			}
+			this.uchStepeniIdArr = new Integer[anketa.getUchStepeniList().size()];
+			n=0;
+			for (UchStepeni i : anketa.getUchStepeniList()){
+				this.uchStepeniIdArr[n]=i.getId();
+				n++;
+			}
+			
 		}
 		
 	}
@@ -51,9 +62,8 @@ public class AnketaDTO implements Serializable{
 	private Integer orgId;
 	private String birthday;
 	private String uchStepenName;
-	private Integer uchStepenId;
-	private String uchZvaniyName;
-	private Integer uchZvaniyId;
+	private Integer[] uchStepeniIdArr;
+	private Integer[] uchZvaniyIdArr;
 	private String post;
 	private String lab;
 	private String jobPhone;
@@ -115,17 +125,13 @@ public class AnketaDTO implements Serializable{
 	public void setOrgId(Integer orgId) {
 		this.orgId = orgId;
 	}
-	public Integer getUchStepenId() {
-		return uchStepenId;
+	
+
+	public Integer[] getUchStepeniIdArr() {
+		return uchStepeniIdArr;
 	}
-	public void setUchStepenId(Integer uchStepenId) {
-		this.uchStepenId = uchStepenId;
-	}
-	public Integer getUchZvaniyId() {
-		return uchZvaniyId;
-	}
-	public void setUchZvaniyId(Integer uchZvaniyId) {
-		this.uchZvaniyId = uchZvaniyId;
+	public void setUchStepeniIdArr(Integer[] uchStepeniIdArr) {
+		this.uchStepeniIdArr = uchStepeniIdArr;
 	}
 	public String getBirthday() {
 		return birthday;
@@ -138,14 +144,6 @@ public class AnketaDTO implements Serializable{
 	}
 	public void setUchStepenName(String uchStepenName) {
 		this.uchStepenName = uchStepenName;
-	}
-	
-	
-	public String getUchZvaniyName() {
-		return uchZvaniyName;
-	}
-	public void setUchZvaniyName(String uchZvaniyName) {
-		this.uchZvaniyName = uchZvaniyName;
 	}
 	
 	public String getPost() {
@@ -195,6 +193,12 @@ public class AnketaDTO implements Serializable{
 	}
 	public void setBiography(String biography) {
 		this.biography = biography;
+	}
+	public Integer[] getUchZvaniyIdArr() {
+		return uchZvaniyIdArr;
+	}
+	public void setUchZvaniyIdArr(Integer[] uchZvaniyIdArr) {
+		this.uchZvaniyIdArr = uchZvaniyIdArr;
 	}
 	
 	

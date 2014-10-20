@@ -1,7 +1,9 @@
  package by.belisa.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,7 +12,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -18,9 +22,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-
-import by.belisa.validation.IValidaton;
-import by.belisa.validation.ValidationResult;
 
 @Entity
 @Table(name="ANKETA")
@@ -56,12 +57,12 @@ public class Anketa implements Serializable{
 	private Organization org;
 	@Column(name="BIRTHDAY", columnDefinition="DATE")
 	private Date birthday;
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="UCH_STEPENI_ID")
-	private UchStepeni uchStepeni;
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="UCH_ZVANIY_ID")
-	private UchZvaniy uchZvaniy;
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinTable(name="ANKETA_UCH_STEPENI")
+	private List<UchStepeni> uchStepeniList = new ArrayList<UchStepeni>();
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinTable(name="ANKETA_UCH_ZVANIY")
+	private List<UchZvaniy> uchZvaniyList = new ArrayList<UchZvaniy>();
 	@Column(name="POST")
 	private String post;
 	@Column(name="LAB")
@@ -123,17 +124,18 @@ public class Anketa implements Serializable{
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
-	public UchStepeni getUchStepeni() {
-		return uchStepeni;
+	
+	public List<UchStepeni> getUchStepeniList() {
+		return uchStepeniList;
 	}
-	public void setUchStepeni(UchStepeni uchStepeni) {
-		this.uchStepeni = uchStepeni;
+	public void setUchStepeniList(List<UchStepeni> uchStepeniList) {
+		this.uchStepeniList = uchStepeniList;
 	}
-	public UchZvaniy getUchZvanie() {
-		return uchZvaniy;
+	public List<UchZvaniy> getUchZvaniyList() {
+		return uchZvaniyList;
 	}
-	public void setUchZvanie(UchZvaniy uchZvanie) {
-		this.uchZvaniy = uchZvanie;
+	public void setUchZvaniyList(List<UchZvaniy> uchZvaniyList) {
+		this.uchZvaniyList = uchZvaniyList;
 	}
 	public String getPost() {
 		return post;
@@ -192,12 +194,7 @@ public class Anketa implements Serializable{
 	public Long getId() {
 		return id;
 	}
-	public UchZvaniy getUchZvaniy() {
-		return uchZvaniy;
-	}
-	public void setUchZvaniy(UchZvaniy uchZvaniy) {
-		this.uchZvaniy = uchZvaniy;
-	}
+	
 	public void setId(Long id) {
 		this.id = id;
 	}

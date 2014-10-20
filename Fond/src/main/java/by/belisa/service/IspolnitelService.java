@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -19,6 +18,8 @@ import by.belisa.dao.UchStepeniDao;
 import by.belisa.dao.UchZvanieDao;
 import by.belisa.dao.ZayavkaFIDao;
 import by.belisa.entity.Ispolnitel;
+import by.belisa.entity.UchStepeni;
+import by.belisa.entity.UchZvaniy;
 import by.belisa.exception.DaoException;
 @Service
 public class IspolnitelService extends ServiceImpl<Ispolnitel, Integer>{
@@ -83,12 +84,21 @@ public class IspolnitelService extends ServiceImpl<Ispolnitel, Integer>{
 		ispolnitel.setPost(dto.getPost());
 		ispolnitel.setSurname(dto.getSurname());
 		ispolnitel.setFizInfo(fizInfoDao.get(dto.getFizInfoId()));
-		if (dto.getUchStepeniId()!=null){
-			ispolnitel.setUchStepeni(uchStepeniDao.get(dto.getUchStepeniId()));
+		if (dto.getUchStepeniIdArr()!=null){
+			List<UchStepeni> uchStepeniList = new ArrayList<UchStepeni>();
+			for (Integer i : dto.getUchStepeniIdArr()){
+				uchStepeniList.add(uchStepeniDao.get(i));
+			}
+			ispolnitel.setUchStepeniList(uchStepeniList);
 		}
 		
-		if(dto.getUchZvaniyId()!=null){
-			ispolnitel.setUchZvaniy(uchZvanieDao.get(dto.getUchZvaniyId()));
+		
+		if (dto.getUchZvaniyIdArr()!=null){
+			List<UchZvaniy> uchZvaniyList = new ArrayList<UchZvaniy>();
+			for (Integer i : dto.getUchZvaniyIdArr()){
+				uchZvaniyList.add(uchZvanieDao.get(i));
+			}
+			ispolnitel.setUchZvaniyList(uchZvaniyList);
 		}
 		
 		ispolnitel.setZayavkaFI(zayavkaFIDao.get(dto.getZayavkaFIId()));
@@ -107,8 +117,22 @@ public class IspolnitelService extends ServiceImpl<Ispolnitel, Integer>{
 //		entity.setPatronymic(dto.getPatronymic());
 		entity.setPost(dto.getPost());
 //		entity.setSurname(dto.getSurname());
-		entity.setUchStepeni(uchStepeniDao.get(dto.getUchStepeniId()));
-		entity.setUchZvaniy(uchZvanieDao.get(dto.getUchZvaniyId()));
+		
+		List<UchStepeni> uchStepeniList = new ArrayList<UchStepeni>();
+		if (dto.getUchStepeniIdArr()!=null){
+			for (Integer i : dto.getUchStepeniIdArr()){
+				uchStepeniList.add(uchStepeniDao.get(i));
+			}
+		}
+		entity.setUchStepeniList(uchStepeniList);
+		List<UchZvaniy> uchZvaniyList = new ArrayList<UchZvaniy>();
+		if (dto.getUchZvaniyIdArr()!=null){
+			for (Integer i : dto.getUchZvaniyIdArr()){
+				uchZvaniyList.add(uchZvanieDao.get(i));
+			}
+		}
+		entity.setUchZvaniyList(uchZvaniyList);
+		if (dto.getOrgId()!=null)
 		entity.setOrg(orgDao.get(dto.getOrgId()));
 		baseDao.update(entity);
 	}

@@ -2,6 +2,7 @@ package by.belisa.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +22,8 @@ import by.belisa.dao.UchZvanieDao;
 import by.belisa.dao.ZayavkaFIDao;
 import by.belisa.entity.FizInfo;
 import by.belisa.entity.Ispolnitel;
-import by.belisa.entity.PublicationM;
+import by.belisa.entity.UchStepeni;
+import by.belisa.entity.UchZvaniy;
 import by.belisa.entity.ZayavkaFI;
 import by.belisa.exception.DaoException;
 
@@ -69,13 +71,23 @@ public class FizInfoService extends ServiceImpl<FizInfo, Integer>{
 			}
 			
 			fizInfo.setPost(dto.getPost());
-			if (dto.getUchStepenId()!=null){
-				fizInfo.setUchStepeni(uchStepeniDao.get(dto.getUchStepenId()));
+			
+			if (dto.getUchStepeniIdArr()!=null){
+				List<UchStepeni> uchStepeniList = new ArrayList<UchStepeni>();
+				for (Integer i : dto.getUchStepeniIdArr()){
+					uchStepeniList.add(uchStepeniDao.get(i));
+				}
+				fizInfo.setUchStepeniList(uchStepeniList);
 			}
 			
-			if (dto.getUchZvaniyId()!=null){
-				fizInfo.setUchZvaniy(uchZvanieDao.get(dto.getUchZvaniyId()));
+			if (dto.getUchZvaniyIdArr()!=null){
+				List<UchZvaniy> uchZvaniyList = new ArrayList<UchZvaniy>();
+				for (Integer i : dto.getUchZvaniyIdArr()){
+					uchZvaniyList.add(uchZvanieDao.get(i));
+				}
+				fizInfo.setUchZvaniyList(uchZvaniyList);
 			}
+			
 			fizInfoDao.saveOrUpdate(fizInfo);
 		}
 		return fizInfo.getId();
@@ -96,12 +108,27 @@ public class FizInfoService extends ServiceImpl<FizInfo, Integer>{
 		}
 		
 		fizInfo.setPost(dto.getPost());
-		if (dto.getUchStepeniId()!=null){
-			fizInfo.setUchStepeni(uchStepeniDao.get(dto.getUchStepeniId()));
+		if (dto.getUchStepeniIdArr()!=null){
+			List<UchStepeni> uchStepeniList = new ArrayList<UchStepeni>();
+			for (Integer i : dto.getUchStepeniIdArr()){
+				uchStepeniList.add(uchStepeniDao.get(i));
+			}
+			fizInfo.setUchStepeniList(uchStepeniList);
+		}
+		if (dto.getUchZvaniyIdArr()!=null){
+			List<UchZvaniy> uchZvaniyList = new ArrayList<UchZvaniy>();
+			for (Integer i : dto.getUchZvaniyIdArr()){
+				uchZvaniyList.add(uchZvanieDao.get(i));
+			}
+			fizInfo.setUchZvaniyList(uchZvaniyList);
 		}
 		
-		if (dto.getUchZvaniyId()!=null){
-			fizInfo.setUchZvaniy(uchZvanieDao.get(dto.getUchZvaniyId()));
+		if (dto.getUchZvaniyIdArr()!=null){
+			List<UchZvaniy> uchZvaniyList = new ArrayList<UchZvaniy>();
+			for (Integer i : dto.getUchZvaniyIdArr()){
+				uchZvaniyList.add(uchZvanieDao.get(i));
+			}
+			fizInfo.setUchZvaniyList(uchZvaniyList);
 		}
 		
 		fizInfoDao.saveOrUpdate(fizInfo);

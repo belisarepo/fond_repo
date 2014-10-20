@@ -301,7 +301,7 @@ function submitFondForm(){
 	}
 $(document).ready(function() {
 
-	$('#send_btn').click(function(){
+		$('#send_btn').click(function(){
 		$('#confirmSendZayavkaModal').modal('show');
 	});
 	
@@ -316,6 +316,7 @@ $(document).ready(function() {
 		$('select').prop('disabled', true);
 		$('#send_btn').css('display','none');
 		$('.deleteLink').css('display','none');
+		$(".div-as-textarea").unbind("click");
 		
 	}
 	if ('${zayavkaModel.statusZayavkaId}'==3){
@@ -325,6 +326,7 @@ $(document).ready(function() {
 	$('select').chosen({
 		no_results_text : "Извините, нет совпадений!",
 		placeholder_text_single : "Выберите из списка...",
+		placeholder_text_multiple : "Выберите нужные пункты...",
 		width : '91%',
 		search_contains:true
 	});
@@ -407,20 +409,6 @@ AUI().use(
   'liferay-util-window',
   'aui-io-plugin-deprecated',
   function(Y) {
-
-// add Show Popup
-//===============================================================  	
-Y.one('#${ns}temaName').on('click', function(event){
-   showPopup('Тема заявки','temaName','${strPopupTemaNameUrl}');
-});
-
-
-
-
-Y.one('#${ns}biography').on('click', function(event){
-   showPopup('Научная биография руководителя','biography','${strPopupBiographyURL}');
-});
-
 //=================================================================================  
 // Render Tabs
 //=============================================================

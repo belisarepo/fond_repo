@@ -1,19 +1,21 @@
 package by.belisa.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -42,12 +44,12 @@ public class Ispolnitel implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="ORG_ID")
 	private Organization org;
-	@ManyToOne
-	@JoinColumn(name="UCH_STEPENI_ID")
-	private UchStepeni uchStepeni;
-	@ManyToOne
-	@JoinColumn(name="UCH_ZVANIY_ID")
-	private UchZvaniy uchZvaniy;
+	@ManyToMany
+	@JoinTable(name="ISPOLNITEL_UCH_STEPENI")
+	private List<UchStepeni> uchStepeniList = new ArrayList<UchStepeni>();
+	@ManyToMany
+	@JoinTable(name="ISPOLNITEL_UCH_ZVANIY")
+	private List<UchZvaniy> uchZvaniyList = new ArrayList<UchZvaniy>();
 	@Column(name="POST")
 	private String post;
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -92,17 +94,18 @@ public class Ispolnitel implements Serializable{
 	public void setOrg(Organization org) {
 		this.org = org;
 	}
-	public UchStepeni getUchStepeni() {
-		return uchStepeni;
+	
+	public List<UchStepeni> getUchStepeniList() {
+		return uchStepeniList;
 	}
-	public void setUchStepeni(UchStepeni uchStepeni) {
-		this.uchStepeni = uchStepeni;
+	public void setUchStepeniList(List<UchStepeni> uchStepeniList) {
+		this.uchStepeniList = uchStepeniList;
 	}
-	public UchZvaniy getUchZvaniy() {
-		return uchZvaniy;
+	public List<UchZvaniy> getUchZvaniyList() {
+		return uchZvaniyList;
 	}
-	public void setUchZvaniy(UchZvaniy uchZvaniy) {
-		this.uchZvaniy = uchZvaniy;
+	public void setUchZvaniyList(List<UchZvaniy> uchZvaniyList) {
+		this.uchZvaniyList = uchZvaniyList;
 	}
 	public String getPost() {
 		return post;

@@ -55,6 +55,8 @@ import by.belisa.entity.Publication;
 import by.belisa.entity.PublicationM;
 import by.belisa.entity.Rukovoditel;
 import by.belisa.entity.RukovoditelNR;
+import by.belisa.entity.UchStepeni;
+import by.belisa.entity.UchZvaniy;
 import by.belisa.entity.ZayavkaFI;
 import by.belisa.exception.DaoException;
 import by.belisa.validation.ValidationResult;
@@ -217,10 +219,22 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 			rukovoditel.setOrg(orgDao.get(dto.getOrgIdRk()));
 		rukovoditel.setPost(dto.getPostRk());
 		// rukovoditel.setPublicationSet(publicationSet);
-		if (dto.getUchStepenIdRk() != null)
-			rukovoditel.setUchStepeni(uchStepeniDao.get(dto.getUchStepenIdRk()));
-		if (dto.getUchZvaniyIdRk() != null)
-			rukovoditel.setUchZvaniy(uchZvanieDao.get(dto.getUchZvaniyIdRk()));
+		
+		List<UchZvaniy> uchZvaniyList = new ArrayList<UchZvaniy>();
+		if (dto.getUchZvaniyIdRkArr()!=null){
+			for (Integer i : dto.getUchZvaniyIdRkArr()){
+				uchZvaniyList.add(uchZvanieDao.get(i));
+			}
+		}
+		rukovoditel.setUchZvaniyList(uchZvaniyList);
+		List<UchStepeni> uchStepeniList = new ArrayList<UchStepeni>();
+		if (dto.getUchStepeniIdRkArr()!=null){
+			for (Integer i : dto.getUchZvaniyIdRkArr()){
+				uchStepeniList.add(uchStepeniDao.get(i));
+			}
+		}
+		rukovoditel.setUchStepeniList(uchStepeniList);
+		
 		rukovoditel.setZayavkaFI(zayavkaFI);
 		zayavkaFI.setRukovoditel(rukovoditel);
 		baseDao.saveOrUpdate(zayavkaFI);

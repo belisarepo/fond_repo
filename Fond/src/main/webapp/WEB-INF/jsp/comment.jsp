@@ -19,7 +19,7 @@
 
 	<aui:button-row>
 		<div align="left">
-			<aui:button type="submit" value="Сохранить" />
+			<aui:button type="submit" value="Отправить" />
 		</div>
 	</aui:button-row>
 </form:form>

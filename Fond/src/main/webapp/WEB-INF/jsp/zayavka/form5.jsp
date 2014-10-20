@@ -13,6 +13,14 @@
 	<aui:input name="konkursId" bean="zayavkaModel" type="hidden" value="${zayavkaModel.konkursId}" />
 	<aui:input name="userId" bean="zayavkaModel" type="hidden" value="${zayavkaModel.userId}" />
 
+	<aui:button-row>
+		<div align="left">
+			<aui:button type="submit" value="Сохранить" />
+		</div>
+
+	</aui:button-row>
+	<hr/>
+	
 
 	<spring:message code="zayavka.orgZNr" var='orgZNrLabel' />
 	<c:choose>
@@ -27,7 +35,7 @@
 		<aui:select name="orgNrId" bean="zayavkaModel" label='${orgZNrLabel}' id="orgNrSelect">
 		<option value="" />
 		<c:forEach var="i" items="${orgNrList}">
-			<aui:option value="${i.id}" label="${i.nameR}" selected="${i.id==zayavkaModel.orgNrId}" />
+			<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==zayavkaModel.orgNrId}" />
 		</c:forEach>
 	</aui:select>
 	</c:otherwise>
@@ -40,12 +48,14 @@
 	<spring:message code='zayavka.addressOrg' var='addressOrgLabel' />
 	<aui:input id="orgNrAddress" disabled="true" name="orgNrAddress" value="${zayavkaModel.orgNrAddress}" label='${addressOrgLabel}'
 		bean="zayavkaModel"></aui:input>
+		
+	<portlet:renderURL var="addOrgNrUrl" windowState='<%=LiferayWindowState.POP_UP.toString()%>'><portlet:param name="action" value="addOrgNr" /><portlet:param name="konkursId" value="${zayavkaModel.konkursId}"/></portlet:renderURL>
+	<c:set var="strAddOrgNrUrl"><%=addOrgNrUrl.toString()%></c:set>
+						
+	<p>Если вы не нашли в списке нужную организацию, добавьте ее <a id="addOrgNr" href="#" class="btn deleteLink">Добавить организацию</a></p>
+	
 
-	<aui:button-row>
-		<div align="left">
-			<aui:button type="submit" value="Сохранить" />
-		</div>
-	</aui:button-row>
+	
 </aui:form>
 <br />
 <br />
@@ -58,6 +68,11 @@
 <br />
 <br />
 <aui:script>
+$('#addOrgNr').on('click', function(event){
+
+											showPopup('Добавить организацию',null,'${strAddOrgNrUrl}');
+										 }
+			);
 $('#${ns}orgNrSelect').on('change', function(evt, params) {
 		var orgId = $(evt.target).val();
 		$.ajax({

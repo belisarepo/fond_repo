@@ -13,6 +13,15 @@
 	<aui:input name="konkursId" bean="zayavkaModel" type="hidden" value="${zayavkaModel.konkursId}" />
 	<aui:input name="userId" bean="zayavkaModel" type="hidden" value="${zayavkaModel.userId}" />
 
+	<aui:button-row>
+		<div align="left">
+			<aui:button type="submit" value="Сохранить" />
+		</div>
+
+	</aui:button-row>
+	<hr/>
+	
+
 	<spring:message code="zayavka.fioRuk" var='fioRukLabel' />
 	<aui:input name="fioRk" value="${zayavkaModel.fioRk}" disabled="true" label="${fioRukLabel}" bean="zayavkaModel" />
 
@@ -24,21 +33,45 @@
 	</aui:input>
 
 	<spring:message code="zayavka.degree" var='degreeLabel' />
-	<aui:select name="uchStepenIdRk" bean="zayavkaModel" label='${degreeLabel}'>
+	<aui:select name="uchStepenIdRkArr" bean="zayavkaModel" label='${degreeLabel}' multiple="true">
 		<option value="" />
 		<c:forEach var="i" items="${uchStepeniList}">
-			<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==zayavkaModel.uchStepenIdRk}" />
+			<c:choose>
+				<c:when test="${empty zayavkaModel.uchStepeniIdRkArr}">
+					<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==45}" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="contains" value="false" />
+					<c:forEach var="item" items="${zayavkaModel.uchStepeniIdRkArr}">
+						<c:if test="${item eq i.id}">
+							<c:set var="contains" value="true" />
+						</c:if>
+					</c:forEach>
+					<aui:option value="${i.id}" label="${i.fullName}" selected="${contains}" />
+				</c:otherwise>
+			</c:choose>
 		</c:forEach>
-		<aui:option></aui:option>
 	</aui:select>
 
 	<spring:message code="zayavka.academicTitle" var='academicTitleLabel' />
-	<aui:select name="uchZvaniyIdRk" bean="zayavkaModel" label='${academicTitleLabel}'>
+	<aui:select name="uchZvaniyIdRkArr" bean="zayavkaModel" label='${academicTitleLabel}' multiple="true">
 		<option value="" />
 		<c:forEach var="i" items="${uchZvaniyList}">
-			<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==zayavkaModel.uchZvaniyIdRk}" />
+			<c:choose>
+				<c:when test="${empty zayavkaModel.uchZvaniyIdRkArr}">
+					<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==17}" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="contains" value="false" />
+					<c:forEach var="item" items="${zayavkaModel.uchZvaniyIdRkArr}">
+						<c:if test="${item eq i.id}">
+							<c:set var="contains" value="true" />
+						</c:if>
+					</c:forEach>
+					<aui:option value="${i.id}" label="${i.fullName}" selected="${contains}" />
+				</c:otherwise>
+			</c:choose>
 		</c:forEach>
-		<aui:option></aui:option>
 	</aui:select>
 
 	<spring:message code='zayavka.postManager' var='postLabel' />
@@ -62,10 +95,6 @@
 	<spring:message code='zayavka.address' var='addressLabel' />
 	<aui:input name="addressRk" value="${zayavkaModel.addressRk}" label='${addressLabel}' bean="zayavkaModel" cssClass="input-large"></aui:input>
 
-	<aui:button-row>
-		<div align="left">
-			<aui:button type="submit" value="Сохранить" />
-		</div>
-	</aui:button-row>
+	
 </aui:form>
 

@@ -3,6 +3,8 @@ package by.belisa.util;
 import java.util.List;
 import java.util.Map;
 
+import javax.portlet.PortletRequest;
+
 import by.belisa.bean.CheckUslResult;
 import by.belisa.validation.ValidationResult;
 
@@ -33,5 +35,18 @@ public class Utils {
 		}
 		message.append("</ul>");
 		return message.toString();
+	}
+	
+	public static void printRequestParams(PortletRequest req){
+		Map<String,String[]> params = req.getParameterMap();
+		for (Map.Entry<String, String[]> entry : params.entrySet()){
+			String key = entry.getKey();
+			String [] values = entry.getValue();
+			System.out.print(key+":");
+			for (String s : values){
+				System.out.print("["+s+"]");
+			}
+			System.out.println();
+		}
 	}
 }

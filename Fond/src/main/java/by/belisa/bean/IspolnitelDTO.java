@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
 import by.belisa.entity.Ispolnitel;
+import by.belisa.entity.UchStepeni;
+import by.belisa.entity.UchZvaniy;
 
 public class IspolnitelDTO implements Serializable{
 	
@@ -19,10 +21,10 @@ public class IspolnitelDTO implements Serializable{
 	private String birthday;
 	private Integer orgId;
 	private String orgName;
-	private Integer uchStepeniId;
-	private String uchStepeniName;
-	private Integer uchZvaniyId;
-	private String uchZvaniyName;
+	private Integer[] uchStepeniIdArr;
+	private String uchStepeniNames;
+	private Integer[] uchZvaniyIdArr;
+	private String uchZvaniyNames;
 	private String post;
 	private Integer zayavkaFIId;
 	private FizInfoDTO fizInfo;
@@ -32,13 +34,13 @@ public class IspolnitelDTO implements Serializable{
 	}
 	
 	
-	public IspolnitelDTO(Integer id, String post, Integer uchStepenId, Integer uchZvaniyId, Integer orgId) {
+	public IspolnitelDTO(Integer id, String post, Integer[] uchStepenIdArr, Integer[] uchZvaniyIdArr, Integer orgId) {
 		super();
 		this.id = id;
 		this.post = post;
 		this.orgId = orgId;
-		this.uchStepeniId = uchStepenId;
-		this.uchZvaniyId = uchZvaniyId;
+		this.uchStepeniIdArr = uchStepenIdArr;
+		this.uchZvaniyIdArr = uchZvaniyIdArr;
 	}
 
 
@@ -51,10 +53,26 @@ public class IspolnitelDTO implements Serializable{
 			this.birthday = entity.getBirthday()!=null ? dateFormat.format(entity.getBirthday()): null;
 			this.orgId = entity.getOrg()!=null ? entity.getOrg().getId() : null;
 			this.orgName = entity.getOrg()!=null ? entity.getOrg().getName() : "";
-			this.uchStepeniId =  entity.getUchStepeni()!=null ? entity.getUchStepeni().getId() : null;
-			this.uchStepeniName = entity.getUchStepeni()!=null ? entity.getUchStepeni().getFullName() : "";
-			this.uchZvaniyId = entity.getUchZvaniy()!=null ? entity.getUchZvaniy().getId() : null;
-			this.uchZvaniyName = entity.getUchZvaniy()!=null ? entity.getUchZvaniy().getFullName() : "";
+			
+			
+			this.uchStepeniIdArr = new Integer[entity.getUchStepeniList().size()];
+			this.uchStepeniNames="";
+			int n=0;
+			for (UchStepeni i : entity.getUchStepeniList()){
+				this.uchStepeniIdArr[n]=i.getId();
+				this.uchStepeniNames+=i.getFullName()+"<br/>";
+				n++;
+			}
+			
+			this.uchZvaniyIdArr = new Integer[entity.getUchZvaniyList().size()];
+			this.uchZvaniyNames="";
+			n=0;
+			for (UchZvaniy i : entity.getUchZvaniyList()){
+				this.uchZvaniyIdArr[n]=i.getId();
+				this.uchZvaniyNames+=i.getFullName()+"<br/>";
+				n++;
+			}
+			
 			this.post = entity.getPost();
 			this.zayavkaFIId = entity.getZayavkaFI().getId();
 			this.fizInfoId = entity.getFizInfo().getId();
@@ -119,30 +137,49 @@ public class IspolnitelDTO implements Serializable{
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
 	}
-	public Integer getUchStepeniId() {
-		return uchStepeniId;
+	
+	
+	public Integer[] getUchStepeniIdArr() {
+		return uchStepeniIdArr;
 	}
-	public void setUchStepeniId(Integer uchStepeniId) {
-		this.uchStepeniId = uchStepeniId;
+
+
+	public void setUchStepeniIdArr(Integer[] uchStepeniIdArr) {
+		this.uchStepeniIdArr = uchStepeniIdArr;
 	}
-	public String getUchStepeniName() {
-		return uchStepeniName;
+
+
+	public String getUchStepeniNames() {
+		return uchStepeniNames;
 	}
-	public void setUchStepeniName(String uchStepeniName) {
-		this.uchStepeniName = uchStepeniName;
+
+
+	public void setUchStepeniNames(String uchStepeniNames) {
+		this.uchStepeniNames = uchStepeniNames;
 	}
-	public Integer getUchZvaniyId() {
-		return uchZvaniyId;
+
+
+	public Integer[] getUchZvaniyIdArr() {
+		return uchZvaniyIdArr;
 	}
-	public void setUchZvaniyId(Integer uchZvaniyId) {
-		this.uchZvaniyId = uchZvaniyId;
+
+
+	public void setUchZvaniyIdArr(Integer[] uchZvaniyIdArr) {
+		this.uchZvaniyIdArr = uchZvaniyIdArr;
 	}
-	public String getUchZvaniyName() {
-		return uchZvaniyName;
+
+
+	
+	public String getUchZvaniyNames() {
+		return uchZvaniyNames;
 	}
-	public void setUchZvaniyName(String uchZvaniyName) {
-		this.uchZvaniyName = uchZvaniyName;
+
+
+	public void setUchZvaniyNames(String uchZvaniyNames) {
+		this.uchZvaniyNames = uchZvaniyNames;
 	}
+
+
 	public String getPost() {
 		return post;
 	}

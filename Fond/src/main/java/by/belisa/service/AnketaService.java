@@ -2,14 +2,12 @@ package by.belisa.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.model.User;
 
 import by.belisa.bean.AnketaDTO;
 import by.belisa.dao.Dao;
@@ -18,8 +16,14 @@ import by.belisa.dao.UchStepeniDao;
 import by.belisa.dao.UchZvanieDao;
 import by.belisa.dao.UserDao;
 import by.belisa.entity.Anketa;
+import by.belisa.entity.UchStepeni;
+import by.belisa.entity.UchZvaniy;
 import by.belisa.exception.DaoException;
 import by.belisa.exception.ServiceException;
+
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.User;
 @Service
 public class AnketaService extends ServiceImpl<Anketa,Long>{
 	
@@ -85,10 +89,20 @@ public class AnketaService extends ServiceImpl<Anketa,Long>{
 		if (anketaDTO.getOrgId()!=null)
 		anketa.setOrg(orgDao.get(anketaDTO.getOrgId()));
 		anketa.setPost(anketaDTO.getPost());
-		if (anketaDTO.getUchStepenId()!=null)
-		anketa.setUchStepeni(uchStepeniDao.get(anketaDTO.getUchStepenId()));
-		if (anketaDTO.getUchZvaniyId()!=null)
-		anketa.setUchZvanie(uchZvanieDao.get(anketaDTO.getUchZvaniyId()));
+		List<UchZvaniy> uchZvaniyList = new ArrayList<UchZvaniy>();
+		if (anketaDTO.getUchZvaniyIdArr()!=null){
+			for (Integer i : anketaDTO.getUchZvaniyIdArr()){
+				uchZvaniyList.add(uchZvanieDao.get(i));
+			}
+		}
+		anketa.setUchZvaniyList(uchZvaniyList);
+		List<UchStepeni> uchStepeniList = new ArrayList<UchStepeni>();
+		if (anketaDTO.getUchStepeniIdArr()!=null){
+			for (Integer i : anketaDTO.getUchStepeniIdArr()){
+				uchStepeniList.add(uchStepeniDao.get(i));
+			}
+		}
+		anketa.setUchStepeniList(uchStepeniList);
 		anketa.setUser(userDao.get(anketaDTO.getId()));
 		baseDao.saveOrUpdate(anketa);
 	}

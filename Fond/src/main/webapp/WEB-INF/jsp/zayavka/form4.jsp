@@ -13,6 +13,15 @@
 	<aui:input name="konkursId" bean="zayavkaModel" type="hidden" value="${zayavkaModel.konkursId}" />
 	<aui:input name="userId" bean="zayavkaModel" type="hidden" value="${zayavkaModel.userId}" />
 
+	<aui:button-row>
+		<div align="left">
+			<aui:button type="submit" value="Сохранить" />
+		</div>
+
+	</aui:button-row>
+	<hr/>
+	
+
 	<spring:message code="zayavka.fioRuk" var='fioRukLabel' />
 	<aui:input name="fioRkNr" value="${zayavkaModel.fioRkNr}" label="${fioRukLabel}" bean="zayavkaModel" showRequiredLabel="">
 		<aui:validator name="required" />
@@ -59,9 +68,5 @@
 	<spring:message code='zayavka.postManager' var='postLabel' />
 	<aui:input name="postRkNr" value="${zayavkaModel.postRkNr}" label='${postLabel}' bean="zayavkaModel"></aui:input>
 
-	<aui:button-row>
-		<div align="left">
-			<aui:button type="submit" value="Сохранить" />
-		</div>
-	</aui:button-row>
+	
 </aui:form>

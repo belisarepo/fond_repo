@@ -8,7 +8,6 @@ public class AnketaDao extends DaoImpl<Anketa, Long>{
 
 	public AnketaDao() {
 		super(Anketa.class);
-		// TODO Auto-generated constructor stub
 	}
 
 }

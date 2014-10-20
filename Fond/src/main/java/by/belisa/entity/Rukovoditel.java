@@ -1,8 +1,10 @@
 package by.belisa.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,7 +14,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -54,12 +58,12 @@ public class Rukovoditel implements Serializable, IValidaton {
 	private Organization org;
 	@Column(name = "BIRTHDAY", columnDefinition = "DATE")
 	private Date birthday;
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "UCH_STEPENI_ID")
-	private UchStepeni uchStepeni;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UCH_ZVANIY_ID")
-	private UchZvaniy uchZvaniy;
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "RUK_UCH_STEPENI")
+	private List<UchStepeni> uchStepeniList = new ArrayList<UchStepeni>();
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "RUK_UCH_ZVANIY")
+	private List<UchZvaniy> uchZvaniyList= new ArrayList<UchZvaniy>();
 	@Column(name = "POST")
 	private String post;
 	@Column(name = "LAB")
@@ -160,20 +164,21 @@ public class Rukovoditel implements Serializable, IValidaton {
 		this.birthday = birthday;
 	}
 
-	public UchStepeni getUchStepeni() {
-		return uchStepeni;
+	
+	public List<UchStepeni> getUchStepeniList() {
+		return uchStepeniList;
 	}
 
-	public void setUchStepeni(UchStepeni uchStepeni) {
-		this.uchStepeni = uchStepeni;
+	public void setUchStepeniList(List<UchStepeni> uchStepeniList) {
+		this.uchStepeniList = uchStepeniList;
 	}
 
-	public UchZvaniy getUchZvaniy() {
-		return uchZvaniy;
+	public List<UchZvaniy> getUchZvaniyList() {
+		return uchZvaniyList;
 	}
 
-	public void setUchZvaniy(UchZvaniy uchZvaniy) {
-		this.uchZvaniy = uchZvaniy;
+	public void setUchZvaniyList(List<UchZvaniy> uchZvaniyList) {
+		this.uchZvaniyList = uchZvaniyList;
 	}
 
 	public String getPost() {
@@ -363,12 +368,12 @@ public class Rukovoditel implements Serializable, IValidaton {
 			vr.getErrMessages().add(message);
 		}
 		// Проверка учёной степени
-		if (this.uchStepeni == null) {
+		if (this.uchStepeniList.isEmpty()) {
 			message = "Не выбрана учённая степень" + " " + tabNameHeadProjectOfBelarus;
 			vr.getErrMessages().add(message);
 		}
 		// Проверка ученного звания
-		if (this.uchZvaniy == null) {
+		if (this.uchZvaniyList.isEmpty()) {
 			message = "Не выбрано ученое звание" + " " + tabNameHeadProjectOfBelarus;
 			vr.getErrMessages().add(message);
 		}

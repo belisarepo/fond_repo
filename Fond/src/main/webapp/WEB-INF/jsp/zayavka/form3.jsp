@@ -13,12 +13,20 @@
 	<aui:input name="konkursId" bean="zayavkaModel" type="hidden" value="${zayavkaModel.konkursId}" />
 	<aui:input name="userId" bean="zayavkaModel" type="hidden" value="${zayavkaModel.userId}" />
 
+	<aui:button-row>
+		<div align="left">
+			<aui:button type="submit" value="Сохранить" />
+		</div>
+
+	</aui:button-row>
+	<hr/>
+	
 
 	<spring:message code="zayavka.orgZRB" var='orgZRBLabel' />
 	<aui:select name="orgId" bean="zayavkaModel" label='${orgZRBLabel}' id="orgSelect">
 		<option value="" />
 		<c:forEach var="i" items="${listOrg}">
-			<aui:option value="${i.id}" label="${i.name}" selected="${i.id==zayavkaModel.orgId}" />
+			<aui:option value="${i.id}" label="${i.fullNameR}" selected="${i.id==zayavkaModel.orgId}" />
 		</c:forEach>
 	</aui:select>
 	<spring:message code='zayavka.email' var='emailLabel' />
@@ -36,11 +44,7 @@
 						
 	<p>Если вы не нашли в списке нужную организацию, добавьте ее <a id="addOrg" href="#" class="btn deleteLink">Добавить организацию</a></p>
 
-	<aui:button-row>
-		<div align="left">
-			<aui:button type="submit" value="Сохранить" />
-		</div>
-	</aui:button-row>
+	
 </aui:form>
 <br />
 <br />

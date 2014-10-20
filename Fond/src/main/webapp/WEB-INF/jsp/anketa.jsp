@@ -41,19 +41,19 @@
 	</aui:button-row>
 </aui:form> --%>
 <aui:form method="POST" action="${sendForm}" name="anketa">
-	<aui:input name="fio" value="${anketa.fio}" bean="anketa" type="hidden"/>
-	<aui:input name="fullFio" value="${anketa.fullFio}" bean="anketa" type="hidden"/>
-	<aui:input name="birthday" value="${anketa.birthday}" bean="anketa" type="hidden"/>
-	<aui:input name="name" value="${anketa.name}" bean="anketa" type="hidden"/>
-	<aui:input name="surname" value="${anketa.surname}" bean="anketa" type="hidden"/>
-	<aui:input name="patronymic" value="${anketa.patronymic}" bean="anketa" type="hidden"/>
+	<aui:input name="fio" value="${anketa.fio}" bean="anketa" type="hidden" />
+	<aui:input name="fullFio" value="${anketa.fullFio}" bean="anketa" type="hidden" />
+	<aui:input name="birthday" value="${anketa.birthday}" bean="anketa" type="hidden" />
+	<aui:input name="name" value="${anketa.name}" bean="anketa" type="hidden" />
+	<aui:input name="surname" value="${anketa.surname}" bean="anketa" type="hidden" />
+	<aui:input name="patronymic" value="${anketa.patronymic}" bean="anketa" type="hidden" />
 
 
-	<aui:input name="fio" label="ФИО краткое" disabled="true" value="${anketa.fio}" bean="anketa"/>
+	<aui:input name="fio" label="ФИО краткое" disabled="true" value="${anketa.fio}" bean="anketa" />
 	<br />
-	<aui:input name="fullFio" label="ФИО полное" disabled="true" value="${anketa.fullFio}" bean="anketa"/>
+	<aui:input name="fullFio" label="ФИО полное" disabled="true" value="${anketa.fullFio}" bean="anketa" />
 	<br />
-	<aui:input name="birthday" label="Дата рождения" disabled="true" value="${anketa.birthday}" bean="anketa"/>
+	<aui:input name="birthday" label="Дата рождения" disabled="true" value="${anketa.birthday}" bean="anketa" />
 	<br />
 	<aui:select name="orgId" class="chosen" label="Организация">
 		<aui:option value=""></aui:option>
@@ -61,34 +61,60 @@
 			<aui:option value="${i.id}" label="${i.name}" selected="${i.id==anketa.orgId}"></aui:option>
 		</c:forEach>
 	</aui:select>
-	<aui:select name="uchStepenId" class="chosen" label="Ученая степень">
+	<aui:select name="uchStepeniIdArr" class="chosen" label="Ученая степень" multiple="true">
 		<aui:option value=""></aui:option>
 		<c:forEach var="i" items="${uchStepeniList}">
-			<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==anketa.uchStepenId}"></aui:option>
+			<c:choose>
+				<c:when test="${empty anketa.uchStepeniIdArr}">
+					<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==45}"></aui:option>
+				</c:when>
+				<c:otherwise>
+					<c:set var="contains" value="false" />
+					<c:forEach var="item" items="${anketa.uchStepeniIdArr}">
+						<c:if test="${item eq i.id}">
+							<c:set var="contains" value="true" />
+						</c:if>
+					</c:forEach>
+					<aui:option value="${i.id}" label="${i.fullName}" selected="${contains}"></aui:option>
+				</c:otherwise>
+			</c:choose>
 		</c:forEach>
 	</aui:select>
-	<aui:select name="uchZvaniyId" class="chosen" label="Ученое звание">
+	<aui:select name="uchZvaniyIdArr" class="chosen" label="Ученое звание" multiple="true">
 		<aui:option value=""></aui:option>
 		<c:forEach var="i" items="${uchZvaniyList}">
-			<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==anketa.uchZvaniyId}"></aui:option>
+			<c:choose>
+				<c:when test="${empty anketa.uchZvaniyIdArr}">
+					<aui:option value="${i.id}" label="${i.fullName}" selected="${i.id==17}"></aui:option>
+				</c:when>
+				<c:otherwise>
+					<c:set var="contains" value="false" />
+					<c:forEach var="item" items="${anketa.uchZvaniyIdArr}">
+						<c:if test="${item eq i.id}">
+							<c:set var="contains" value="true" />
+						</c:if>
+					</c:forEach>
+					<aui:option value="${i.id}" label="${i.fullName}" selected="${contains}"></aui:option>
+				</c:otherwise>
+			</c:choose>
 		</c:forEach>
 	</aui:select>
-	
-	
-	<aui:input name="post" label="Должность" value="${anketa.post}"/>
+
+
+	<aui:input name="post" label="Должность" value="${anketa.post}" />
 	<br />
-	<aui:input name="lab" label="Кафедра" value="${anketa.lab}"/>
+	<aui:input name="lab" label="Кафедра" value="${anketa.lab}" />
 	<br />
 
-	<aui:input name="homePhone" label="Тел домашний" value="${anketa.homePhone}"/>
+	<aui:input name="homePhone" label="Тел домашний" value="${anketa.homePhone}" />
 	<br />
-	<aui:input name="jobPhone" label="Тел рабочий" value="${anketa.jobPhone}"/>
+	<aui:input name="jobPhone" label="Тел рабочий" value="${anketa.jobPhone}" />
 	<br />
-	<aui:input name="mobilePhone" label="Тел мобильный" value="${anketa.mobilePhone}"/>
+	<aui:input name="mobilePhone" label="Тел мобильный" value="${anketa.mobilePhone}" />
 	<br />
-	<aui:input name="address" label="Адрес" value="${anketa.address}"/>
+	<aui:input name="address" label="Адрес" value="${anketa.address}" />
 	<br />
-	<aui:input name="email" label="Email" value="${anketa.email}"/>
+	<aui:input name="email" label="Email" value="${anketa.email}" />
 	<br />
 
 
@@ -106,6 +132,7 @@ $(document).ready(function() {
 	$('select').chosen({
 		no_results_text : "Извините, нет совпадений!",
 		placeholder_text_single : "Выберите из списка...",
+		placeholder_text_multiple : "Выберите нужные пункты...",
 		width : '90%'
 	});
 });

@@ -41,7 +41,7 @@
 	<aui:select name="soOrgId" label='${orgNaimLabel}' id="soOrgSelect">
 		<option value="" />
 		<c:forEach var="i" items="${listOrg}">
-			<aui:option value="${i.id}" label="${i.name}" />
+			<aui:option value="${i.id}" label="${i.fullNameR}" />
 		</c:forEach>
 	</aui:select>
 

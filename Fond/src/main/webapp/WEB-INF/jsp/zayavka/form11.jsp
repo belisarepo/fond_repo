@@ -49,7 +49,7 @@
 	<portlet:param name="input_id" value="structureOfStud" />
 </portlet:renderURL>
 <c:set var="strPopupStructureOfStudyURL"><%=popupStructureOfStudyURL.toString()%></c:set>
-            
+
 <portlet:renderURL var="popupResultsNirURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
 	<portlet:param name="action" value="popup" />
 	<portlet:param name="input_id" value="resultsNir" />
@@ -85,95 +85,148 @@
 	<aui:input name="id" bean="zayavkaModel" type="hidden" value="${zayavkaModel.id}" />
 	<aui:input name="konkursId" bean="zayavkaModel" type="hidden" value="${zayavkaModel.konkursId}" />
 	<aui:input name="userId" bean="zayavkaModel" type="hidden" value="${zayavkaModel.userId}" />
-	
-	<c:set var="nn" value="1"/>
-	<spring:message code="zayavka.goal" var='goalLabel' arguments="${nn}"/>
-	<aui:input name="goal" value="${zayavkaModel.goal}" id="goal" label="${goalLabel}" bean="zayavkaModel" type="textarea"/>
-	
-	<c:set var="nn" value="${nn+1}"/>
-	<spring:message code="zayavka.analizResults" var='analizResultsLabel' arguments="${nn},${nn}"/>
-	<aui:input name="analizResults" value="${zayavkaModel.analizResults}" id="analizResults" label="${analizResultsLabel}" bean="zayavkaModel" type="textarea"/>
-	
-	<spring:message code="zayavka.reserveAuthors" var='reserveAuthorsLabel' arguments="${nn}" />
-	<aui:input name="reserveAuthors" value="${zayavkaModel.reserveAuthors}" id="reserveAuthors" label="${reserveAuthorsLabel}" bean="zayavkaModel" type="textarea"/>
-	<c:if test="${zayavkaModel.intl}">
-		<c:set var="nn" value="${nn+1}"/>
-		<spring:message code="zayavka.expediency" var='expediencyLabel' arguments="${nn}" />
-		<aui:input name="expediency" value="${zayavkaModel.expediency}" id="expediency" label="${expediencyLabel}" bean="zayavkaModel" type="textarea"/>
-	</c:if>
-	
-	<c:set var="nn" value="${nn+1}"/>
-	<spring:message code="zayavka.ideaFormulation" var='ideaFormulationLabel' arguments="${nn},${nn}"/>
-	<aui:input name="ideaFormulation" value="${zayavkaModel.ideaFormulation}" id="ideaFormulation" label="${ideaFormulationLabel}" bean="zayavkaModel" type="textarea"/>
 
-	<spring:message code="zayavka.ideaInnovation" var='ideaInnovationLabel' arguments="${nn}" />
-	<aui:input name="ideaInnovation" value="${zayavkaModel.ideaInnovation}" id="ideaInnovation" label="${ideaInnovationLabel}" bean="zayavkaModel" type="textarea"/>
-	
-	<c:set var="nn" value="${nn+1}"/>
-	<spring:message code="zayavka.structureOfStudy" var='structureOfStudyLabel' arguments="${nn}" />
-	<aui:input name="structureOfStudy" value="${zayavkaModel.structureOfStudy}" id="structureOfStudy" label="${structureOfStudyLabel}" bean="zayavkaModel" type="textarea"/>
-	
-	<c:set var="nn" value="${nn+1}"/>
-	<spring:message code="zayavka.resultsNir" var='resultsNirLabel' arguments="${nn}" />
-	<aui:input name="resultsNir" value="${zayavkaModel.resultsNir}" id="resultsNir" label="${resultsNirLabel}" bean="zayavkaModel" type="textarea"/>
-	
-	<c:set var="nn" value="${nn+1}"/>
-	<spring:message code="zayavka.usingResults" var='usingResultsLabel' arguments="${nn}" />
-	<aui:input name="usingResults" value="${zayavkaModel.usingResults}" id="usingResults" label="${usingResultsLabel}" bean="zayavkaModel" type="textarea"/>
-
-	<c:set var="nn" value="${nn+1}"/>
-	<spring:message code="zayavka.teamCharacteristic" var='teamCharacteristicLabel' arguments="${nn}" />
-	<aui:input name="teamCharacteristic" value="${zayavkaModel.teamCharacteristic}" id="teamCharacteristic" label="${teamCharacteristicLabel}" bean="zayavkaModel" type="textarea"/>
-	
-	<c:set var="nn" value="${nn+1}"/>
-	<spring:message code="zayavka.provisionEquipment" var='provisionEquipmentLabel' arguments="${nn}" />
-	<aui:input name="provisionEquipment" value="${zayavkaModel.provisionEquipment}" id="provisionEquipment" label="${provisionEquipmentLabel}" bean="zayavkaModel" type="textarea"/>
-	
-	<c:set var="nn" value="${nn+1}"/>
-	<spring:message code="zayavka.previousKonkurs" var='previousKonkursLabel' arguments="${nn}"/>
-	<aui:input name="previousKonkurs" value="${zayavkaModel.previousKonkurs}" id="previousKonkurs" label="${previousKonkursLabel}" bean="zayavkaModel" type="textarea"/>
-	
 	<aui:button-row>
 		<div align="left">
 			<aui:button type="submit" value="Сохранить" />
 		</div>
+
 	</aui:button-row>
+	<hr />
+
+
+	<c:set var="nn" value="1" />
+	<spring:message code="zayavka.goal" var='goalLabel' arguments="${nn}" />
+	<aui:input name="goal" value="${zayavkaModel.goal}" id="goal" label="${goalLabel}" bean="zayavkaModel" type="hidden" />
+	<label>${goalLabel}</label>
+	<div id="goalDiv" class='div-as-textarea'></div>
+
+	<c:set var="nn" value="${nn+1}" />
+	<spring:message code="zayavka.analizResults" var='analizResultsLabel' arguments="${nn},${nn}" />
+	<aui:input name="analizResults" value="${zayavkaModel.analizResults}" id="analizResults" label="${analizResultsLabel}" bean="zayavkaModel"
+		type="hidden" />
+	<label>${analizResultsLabel}"</label>
+	<div id="analizResultsDiv" class='div-as-textarea'></div>
+
+	<spring:message code="zayavka.reserveAuthors" var='reserveAuthorsLabel' arguments="${nn}" />
+	<aui:input name="reserveAuthors" value="${zayavkaModel.reserveAuthors}" id="reserveAuthors" label="${reserveAuthorsLabel}"
+		bean="zayavkaModel" type="hidden" />
+	<label>${reserveAuthorsLabel}</label>
+	<div id="reserveAuthorsDiv" class='div-as-textarea'></div>
+	<c:if test="${zayavkaModel.intl}">
+		<c:set var="nn" value="${nn+1}" />
+		<spring:message code="zayavka.expediency" var='expediencyLabel' arguments="${nn}" />
+		<aui:input name="expediency" value="${zayavkaModel.expediency}" id="expediency" label="${expediencyLabel}" bean="zayavkaModel"
+			type="hidden" />
+		<label>${expediencyLabel}</label>
+		<div id="expediencyDiv" class='div-as-textarea'></div>
+	</c:if>
+
+	<c:set var="nn" value="${nn+1}" />
+	<spring:message code="zayavka.ideaFormulation" var='ideaFormulationLabel' arguments="${nn},${nn}" />
+	<aui:input name="ideaFormulation" value="${zayavkaModel.ideaFormulation}" id="ideaFormulation" label="${ideaFormulationLabel}"
+		bean="zayavkaModel" type="hidden" />
+	<label>${ideaFormulationLabel}</label>
+	<div id="ideaFormulationDiv" class='div-as-textarea'></div>
+
+	<spring:message code="zayavka.ideaInnovation" var='ideaInnovationLabel' arguments="${nn}" />
+	<aui:input name="ideaInnovation" value="${zayavkaModel.ideaInnovation}" id="ideaInnovation" label="${ideaInnovationLabel}"
+		bean="zayavkaModel" type="hidden" />
+	<label>${ideaInnovationLabel}</label>
+	<div id="ideaInnovationDiv" class='div-as-textarea'></div>
+
+	<c:set var="nn" value="${nn+1}" />
+	<spring:message code="zayavka.structureOfStudy" var='structureOfStudyLabel' arguments="${nn}" />
+	<aui:input name="structureOfStudy" value="${zayavkaModel.structureOfStudy}" id="structureOfStudy" label="${structureOfStudyLabel}"
+		bean="zayavkaModel" type="hidden" />
+	<label>${structureOfStudyLabel}</label>
+	<div id="structureOfStudyDiv" class='div-as-textarea'></div>
+
+	<c:set var="nn" value="${nn+1}" />
+	<spring:message code="zayavka.resultsNir" var='resultsNirLabel' arguments="${nn}" />
+	<aui:input name="resultsNir" value="${zayavkaModel.resultsNir}" id="resultsNir" label="${resultsNirLabel}" bean="zayavkaModel"
+		type="hidden" />
+	<label>${resultsNirLabel}</label>
+	<div id="resultsNirDiv" class='div-as-textarea'></div>
+
+	<c:set var="nn" value="${nn+1}" />
+	<spring:message code="zayavka.usingResults" var='usingResultsLabel' arguments="${nn}" />
+	<aui:input name="usingResults" value="${zayavkaModel.usingResults}" id="usingResults" label="${usingResultsLabel}" bean="zayavkaModel"
+		type="hidden" />
+	<label>${usingResultsLabel}</label>
+	<div id="usingResultsDiv" class='div-as-textarea'></div>
+
+	<c:set var="nn" value="${nn+1}" />
+	<spring:message code="zayavka.teamCharacteristic" var='teamCharacteristicLabel' arguments="${nn}" />
+	<aui:input name="teamCharacteristic" value="${zayavkaModel.teamCharacteristic}" id="teamCharacteristic" label="${teamCharacteristicLabel}"
+		bean="zayavkaModel" type="hidden" />
+	<label>${teamCharacteristicLabel}</label>
+	<div id="teamCharacteristicDiv" class='div-as-textarea'></div>
+
+	<c:set var="nn" value="${nn+1}" />
+	<spring:message code="zayavka.provisionEquipment" var='provisionEquipmentLabel' arguments="${nn}" />
+	<aui:input name="provisionEquipment" value="${zayavkaModel.provisionEquipment}" id="provisionEquipment" label="${provisionEquipmentLabel}"
+		bean="zayavkaModel" type="hidden" />
+	<label>${provisionEquipmentLabel}</label>
+	<div id="provisionEquipmentDiv" class='div-as-textarea'></div>
+
+	<c:set var="nn" value="${nn+1}" />
+	<spring:message code="zayavka.previousKonkurs" var='previousKonkursLabel' arguments="${nn}" />
+	<aui:input name="previousKonkurs" value="${zayavkaModel.previousKonkurs}" id="previousKonkurs" label="${previousKonkursLabel}"
+		bean="zayavkaModel" type="hidden" />
+	<label>${previousKonkursLabel}</label>
+	<div id="previousKonkursDiv" class='div-as-textarea'></div>
+
+
 </aui:form>
 <aui:script>
-$('#${ns}goal').on('click', function(event){
+
+$('#goalDiv').on('click', function(event){
    showPopup('Цель и задачи работы, ее актуальность','goal','${strPopupGoalURL}');
 });
-$('#${ns}analizResults').on('click', function(event){
+$('#goalDiv').html($('#${ns}goal').val());
+$('#analizResultsDiv').on('click', function(event){
    showPopup('Краткий анализ результатов, полученных специалистами в мире в данной области','analizResults','${strPopupAnalizResultsURL}');
 });
-$('#${ns}reserveAuthors').on('click', function(event){
+$('#analizResultsDiv').html($('#${ns}analizResults').val());
+$('#reserveAuthorsDiv').on('click', function(event){
    showPopup('Научно-практический задел авторов проекта','reserveAuthors','${strPopupReserveAuthorsURL}');
 });
-$('#${ns}expediency').on('click', function(event){
+$('#reserveAuthorsDiv').html($('#${ns}reserveAuthors').val());
+$('#expediencyDiv').on('click', function(event){
    showPopup('Обоснование целесообразности проведения совместных исследований','expediency','${strPopupExpediencyURL}');
 });
-$('#${ns}ideaFormulation').on('click', function(event){
+$('#expediencyDiv').html($('#${ns}expediency').val());
+$('#ideaFormulationDiv').on('click', function(event){
    showPopup('Формулировка и обоснование идеи','ideaFormulation','${strPopupIdeaFormulationURL}');
 });
-$('#${ns}ideaInnovation').on('click', function(event){
+$('#ideaFormulationDiv').html($('#${ns}ideaFormulation').val());
+$('#ideaInnovationDiv').on('click', function(event){
    showPopup('Уровень новизны научной идеи (гипотезы)','ideaInnovation','${strPopupIdeaInnovationURL}');
 });
-$('#${ns}structureOfStudy').on('click', function(event){
+$('#ideaInnovationDiv').html($('#${ns}ideaInnovation').val());
+$('#structureOfStudyDiv').on('click', function(event){
    showPopup('Структура исследования','structureOfStudy','${strPopupStructureOfStudyURL}');
 });
-$('#${ns}resultsNir').on('click', function(event){
+$('#structureOfStudyDiv').html($('#${ns}structureOfStudy').val());
+$('#resultsNirDiv').on('click', function(event){
    showPopup('Ожидаемые результаты НИР, их научная и практическая значимость','resultsNir','${strPopupResultsNirURL}');
 });
-$('#${ns}usingResults').on('click', function(event){
+$('#resultsNirDiv').html($('#${ns}resultsNir').val());
+$('#usingResultsDiv').on('click', function(event){
    showPopup('Возможные области использования результатов исследования','usingResults','${strPopupUsingResultsURL}');
 });
-$('#${ns}teamCharacteristic').on('click', function(event){
+$('#usingResultsDiv').html($('#${ns}usingResults').val());
+$('#teamCharacteristicDiv').on('click', function(event){
    showPopup('Характеристика научного коллектива','teamCharacteristic','${strPopupTeamCharacteristicURL}');
 });
-$('#${ns}provisionEquipment').on('click', function(event){
+$('#teamCharacteristicDiv').html($('#${ns}teamCharacteristic').val());
+$('#provisionEquipmentDiv').on('click', function(event){
    showPopup('Обеспеченность работы основным оборудованием, необходимым для ее выполнения','provisionEquipment','${strPopupProvisionEquipmentURL}');
 });
-$('#${ns}previousKonkurs').on('click', function(event){
+$('#provisionEquipmentDiv').html($('#${ns}provisionEquipment').val());
+$('#previousKonkursDiv').on('click', function(event){
    showPopup('Сведения об участии руководителя и основных исполнителей проекта с белорусской стороны в предыдущих конкурсах Фонда','previousKonkurs','${strPopupPreviousKonkursURL}');
 });
+$('#previousKonkursDiv').html($('#${ns}previousKonkurs').val());
 </aui:script>

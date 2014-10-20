@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import by.belisa.bean.OrgDTO;
+import by.belisa.bean.OrgNrDTO;
 import by.belisa.dao.Dao;
 import by.belisa.dao.KonkursyDao;
 import by.belisa.entity.OrganizationNR;
 import by.belisa.exception.DaoException;
+import by.belisa.exception.ServiceException;
 
 @Service
 public class OrgNrService extends ServiceImpl<OrganizationNR, Integer>{
@@ -37,6 +40,14 @@ public class OrgNrService extends ServiceImpl<OrganizationNR, Integer>{
 			return baseDao.getAll();
 		}
 		return baseDao.getList(new Criterion[]{Restrictions.eq("oksm.id", countryId)});
+	}
+
+	public OrgNrDTO getOrgNrDTOById(Integer id) throws ServiceException {
+		try {
+			return new OrgNrDTO(baseDao.get(id));
+		} catch (DaoException e) {
+			throw new ServiceException();
+		}
 	}
 
 }

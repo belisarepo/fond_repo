@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,9 +20,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Sort;
-import org.hibernate.annotations.SortType;
 
 
 @Entity
@@ -46,12 +42,12 @@ public class FizInfo implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="ORGANIZATION_ID")
 	private Organization org;
-	@ManyToOne
-	@JoinColumn(name="UCH_STEPENI_ID")
-	private UchStepeni uchStepeni;
-	@ManyToOne
-	@JoinColumn(name="UCH_ZVANIY_ID")
-	private UchZvaniy uchZvaniy;
+	@ManyToMany
+	@JoinTable(name="FIZ_INFO_UCH_STEPENI")
+	private List<UchStepeni> uchStepeniList = new ArrayList<UchStepeni>();
+	@ManyToMany
+	@JoinTable(name="FIZ_INFO_UCH_ZVANIY")
+	private List<UchZvaniy> uchZvaniyList = new ArrayList<UchZvaniy>();
 	@Column(name="POST")
 	private String post;
 	
@@ -104,17 +100,19 @@ public class FizInfo implements Serializable{
 	public void setOrg(Organization org) {
 		this.org = org;
 	}
-	public UchStepeni getUchStepeni() {
-		return uchStepeni;
+	
+	
+	public List<UchStepeni> getUchStepeniList() {
+		return uchStepeniList;
 	}
-	public void setUchStepeni(UchStepeni uchStepeni) {
-		this.uchStepeni = uchStepeni;
+	public void setUchStepeniList(List<UchStepeni> uchStepeniList) {
+		this.uchStepeniList = uchStepeniList;
 	}
-	public UchZvaniy getUchZvaniy() {
-		return uchZvaniy;
+	public List<UchZvaniy> getUchZvaniyList() {
+		return uchZvaniyList;
 	}
-	public void setUchZvaniy(UchZvaniy uchZvaniy) {
-		this.uchZvaniy = uchZvaniy;
+	public void setUchZvaniyList(List<UchZvaniy> uchZvaniyList) {
+		this.uchZvaniyList = uchZvaniyList;
 	}
 	public String getPost() {
 		return post;

@@ -3,13 +3,12 @@ package by.belisa.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -35,12 +34,14 @@ import by.belisa.bean.CalcZpDTO;
 import by.belisa.bean.CheckUslResult;
 import by.belisa.bean.IspolnitelDTO;
 import by.belisa.bean.OrgDTO;
+import by.belisa.bean.OrgNrDTO;
 import by.belisa.bean.PublicationDTO;
 import by.belisa.bean.PublicationMDTO;
 import by.belisa.bean.ZayavkaFIDTO;
 import by.belisa.dao.StatusZayavkaFIDao;
 import by.belisa.entity.Ispolnitel;
 import by.belisa.entity.Okogu;
+import by.belisa.entity.Oksm;
 import by.belisa.entity.Organization;
 import by.belisa.entity.OrganizationNR;
 import by.belisa.entity.OtraslNauka;
@@ -65,6 +66,7 @@ import by.belisa.service.FizInfoService;
 import by.belisa.service.IspolnitelService;
 import by.belisa.service.KonkursyService;
 import by.belisa.service.OkoguService;
+import by.belisa.service.OksmService;
 import by.belisa.service.OrgNrService;
 import by.belisa.service.OrgService;
 import by.belisa.service.OtraslNaukaService;
@@ -118,6 +120,9 @@ public abstract class SaveZayavkaController {
 	@Autowired
 	@Qualifier(value = "orgNrService")
 	protected OrgNrService orgNrService;
+	@Autowired
+	@Qualifier(value = "oksmService")
+	protected OksmService oksmService;
 	@Autowired
 	@Qualifier(value = "fizInfoService")
 	protected FizInfoService fizInfoService;
@@ -674,6 +679,19 @@ public abstract class SaveZayavkaController {
 		model.addAttribute("orgModel", orgModel);
 		return "addOrgForm";
 	}
+	@RenderMapping(params = "action=addOrgNr")
+	public String renderAddOrgNrForm(Model model, PortletRequest request) throws ServiceException, DaoException{
+		Integer konkursId = ParamUtil.getInteger(request, "konkursId");
+		Integer countryId = konkursyService.get(konkursId).getCountryId();
+		Oksm oksm = oksmService.get(countryId);
+		OrgNrDTO orgNrModel = new OrgNrDTO();
+		orgNrModel.setOksmId(oksm.getId());
+		orgNrModel.setOksmName(oksm.getNameR());
+		List<VidOrg> vidOrgList = vidOrgService.getAll();
+		model.addAttribute("vidOrgList", vidOrgList);
+		model.addAttribute("orgNrModel", orgNrModel);
+		return "addOrgNrForm";
+	}
 	@RenderMapping(params = "action=editPublication")
 	public String renderEditPublicationForm(Model model, PortletRequest request) throws ServiceException, DaoException{
 		Integer id = ParamUtil.getInteger(request, "publId");
@@ -825,8 +843,47 @@ public abstract class SaveZayavkaController {
 		if(!okoguId.isEmpty())
 		o.setOkogu(okoguService.get(Integer.parseInt(okoguId)));
 		Organization newOrg = orgService.add(o);
-		System.out.println(newOrg.getId());
 		OrgDTO dto = orgService.getOrgDTOById(newOrg.getId());
+		OutputStream outStream=null;
+		try {
+			outStream = resp.getPortletOutputStream();
+			ObjectMapper mapper = new ObjectMapper();
+			String jsonString = mapper.writeValueAsString(dto);
+		    outStream.write(jsonString.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			if (outStream!=null){
+				try {
+					outStream.flush();
+					outStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	@ResourceMapping(value = "addOrgNr")
+	public void addOrgNr(ResourceRequest req, ResourceResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
+		String nameR = req.getParameter("nameR");
+		String nameE = req.getParameter("nameE");
+		String fullName = req.getParameter("fullName");
+		String vidOrgId = req.getParameter("vidOrgId");
+		String address = req.getParameter("address");
+		String email = req.getParameter("email");
+		String oksmId = req.getParameter("oksmId");
+		OrganizationNR o = new OrganizationNR();
+		o.setNameR(nameR);
+		o.setNameE(nameE);
+		o.setFullName(fullName);
+		if(!vidOrgId.isEmpty())
+		o.setVidOrg(vidOrgService.get(Integer.parseInt(vidOrgId)));
+		o.setAddress(address);
+		o.setEmail(email);
+		if(!oksmId.isEmpty())
+		o.setOksm(oksmService.get(Integer.parseInt(oksmId)));
+		OrganizationNR newOrg = orgNrService.add(o);
+		OrgNrDTO dto = orgNrService.getOrgNrDTOById(newOrg.getId());
 		OutputStream outStream=null;
 		try {
 			outStream = resp.getPortletOutputStream();
@@ -914,10 +971,26 @@ public abstract class SaveZayavkaController {
 //		String patronymic = req.getParameter("patronymic");
 //		String birthday = req.getParameter("birthday");
 		String post = req.getParameter("post");
-		String uchStepeniId = req.getParameter("uchStepeniId");
-		String uchZvaniyId = req.getParameter("uchZvaniyId");
+		String[] uchStepeniIdArrStr = req.getParameterValues("uchStepeniIdArr[]");
+		uchStepeniIdArrStr = uchStepeniIdArrStr==null ? new String[]{} : uchStepeniIdArrStr;
+		Integer[] uchStepeniIdArrInt = new Integer[uchStepeniIdArrStr.length];
+		int n=0;
+		for (String s : uchStepeniIdArrStr){
+			uchStepeniIdArrInt[n]=Integer.parseInt(s);
+			n++;
+		}
+		String[] uchZvaniyIdArrStr = req.getParameterValues("uchZvaniyIdArr[]");
+		uchZvaniyIdArrStr = uchZvaniyIdArrStr==null ? new String[]{} : uchZvaniyIdArrStr;
+		Integer[] uchZvaniyIdArrInt = new Integer[uchZvaniyIdArrStr.length];
+		n=0;
+		for (String s : uchZvaniyIdArrStr){
+			uchZvaniyIdArrInt[n]=Integer.parseInt(s);
+			n++;
+		}
 		String orgId = req.getParameter("orgId");
-		IspolnitelDTO dto = new IspolnitelDTO(Integer.parseInt(isplId), post, Integer.parseInt(uchStepeniId), Integer.parseInt(uchZvaniyId), Integer.parseInt(orgId));
+		Integer orgIdInt = orgId.isEmpty()?null:Integer.parseInt(orgId);
+		
+		IspolnitelDTO dto = new IspolnitelDTO(Integer.parseInt(isplId), post, uchStepeniIdArrInt, uchZvaniyIdArrInt, orgIdInt);
 		ispolnitelService.edit(dto);	
 	}
 	@ResourceMapping(value = "editCalcMaterials")

@@ -14,6 +14,7 @@
 </portlet:renderURL>
 <c:set var="strPopupTemaNameUrl"><%=popupTemaNameURL.toString()%></c:set>
 
+
 <aui:form action="${saveForm1}" method="POST" name="form1">
 	<aui:input name="id" bean="zayavkaModel" type="hidden" value="${zayavkaModel.id}" />
 	<aui:input name="konkursId" bean="zayavkaModel" type="hidden" value="${zayavkaModel.konkursId}" />
@@ -72,10 +73,18 @@
 
 
 	<spring:message code="zayavka.temaName" var='temaNameLabel' />
-	<aui:input name="temaName" value="${zayavkaModel.temaName}" id="temaName" label="${temaNameLabel}" bean="zayavkaModel" type="textarea" />
+	<aui:input name="temaName" value="${zayavkaModel.temaName}" id="temaName" label="${temaNameLabel}" bean="zayavkaModel" type="hidden"/>
+	<label><c:out value="${temaNameLabel}"/></label>
+	<div id="temaNameDiv" class='div-as-textarea'></div>
 
 	<spring:message code="zayavka.udk" var='udkLabel' />
 	<aui:input name="udk" value="${zayavkaModel.udk}" label="${udkLabel}" bean="zayavkaModel" />
 
 	
 </aui:form>
+<aui:script>
+$('#temaNameDiv').on('click', function(event){
+   showPopup('Тема заявки','temaName','${strPopupTemaNameUrl}');
+});
+$('#temaNameDiv').html($('#${ns}temaName').val());
+</aui:script>
