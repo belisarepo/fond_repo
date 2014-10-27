@@ -451,7 +451,7 @@ function showSuccess(save_result) {
 		node : '#successMessageContainer',
 		type : 'notice',
 		toggleText : false,
-		timeout : 1000,
+		timeout : 5000,
 		useAnimation : false
 
 	});

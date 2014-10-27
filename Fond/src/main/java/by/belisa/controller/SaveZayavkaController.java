@@ -187,7 +187,15 @@ public abstract class SaveZayavkaController {
 	private List<UchStepeni> uchStepeniList = null;
 	private List<UchZvaniy> uchZvaniyList = null;
 	private List<PublicationType> publicationTypes = null;
+	private List<Oksm> oksmList = null;
 
+	@ModelAttribute(value = "oksmList")
+	public List<Oksm> initOksmList() throws ServiceException {
+		if (oksmList == null) {
+			oksmList = oksmService.getAll();
+		}
+		return oksmList;
+	}
 	@ModelAttribute(value = "publicationTypes")
 	public List<PublicationType> initPublicationTypes() throws ServiceException {
 		if (publicationTypes == null) {
@@ -683,12 +691,20 @@ public abstract class SaveZayavkaController {
 	public String renderAddOrgNrForm(Model model, PortletRequest request) throws ServiceException, DaoException{
 		Integer konkursId = ParamUtil.getInteger(request, "konkursId");
 		Integer countryId = konkursyService.get(konkursId).getCountryId();
-		Oksm oksm = oksmService.get(countryId);
+		
+		Oksm oksm = null;
+		if (countryId!=null){
+			oksm = oksmService.get(countryId);
+		}
+		
 		OrgNrDTO orgNrModel = new OrgNrDTO();
-		orgNrModel.setOksmId(oksm.getId());
-		orgNrModel.setOksmName(oksm.getNameR());
-		List<VidOrg> vidOrgList = vidOrgService.getAll();
-		model.addAttribute("vidOrgList", vidOrgList);
+		if (oksm!=null){
+			orgNrModel.setOksmId(oksm.getId());
+			orgNrModel.setOksmName(oksm.getNameR());
+		}
+		
+//		List<VidOrg> vidOrgList = vidOrgService.getAll();
+//		model.addAttribute("vidOrgList", vidOrgList);
 		model.addAttribute("orgNrModel", orgNrModel);
 		return "addOrgNrForm";
 	}
@@ -825,21 +841,21 @@ public abstract class SaveZayavkaController {
 		String full_name_rus = req.getParameter("full_name_rus");
 		String full_name_eng = req.getParameter("full_name_eng");
 		String unp = req.getParameter("unp");
-		String vidOrgId = req.getParameter("vidOrgId");
+		/*String vidOrgId = req.getParameter("vidOrgId");*/
 		String address = req.getParameter("address");
 		String email = req.getParameter("email");
-		String kod_booker = req.getParameter("kod_booker");
+		/*String kod_booker = req.getParameter("kod_booker");*/
 		String okoguId = req.getParameter("okoguId");
 		Organization o = new Organization();
 		o.setName(name);
 		o.setFullNameR(full_name_rus);
 		o.setFullNameE(full_name_eng);
 		o.setUnp(unp);
-		if(!vidOrgId.isEmpty())
-		o.setVidOrg(vidOrgService.get(Integer.parseInt(vidOrgId)));
+		/*if(!vidOrgId.isEmpty())
+		o.setVidOrg(vidOrgService.get(Integer.parseInt(vidOrgId)));*/
 		o.setAddress(address);
 		o.setEmail(email);
-		o.setCodeBooker(kod_booker);
+		/*o.setCodeBooker(kod_booker);*/
 		if(!okoguId.isEmpty())
 		o.setOkogu(okoguService.get(Integer.parseInt(okoguId)));
 		Organization newOrg = orgService.add(o);
@@ -865,19 +881,19 @@ public abstract class SaveZayavkaController {
 	}
 	@ResourceMapping(value = "addOrgNr")
 	public void addOrgNr(ResourceRequest req, ResourceResponse resp) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
-		String nameR = req.getParameter("nameR");
+		/*String nameR = req.getParameter("nameR");*/
 		String nameE = req.getParameter("nameE");
 		String fullName = req.getParameter("fullName");
-		String vidOrgId = req.getParameter("vidOrgId");
+		/*String vidOrgId = req.getParameter("vidOrgId");*/
 		String address = req.getParameter("address");
 		String email = req.getParameter("email");
 		String oksmId = req.getParameter("oksmId");
 		OrganizationNR o = new OrganizationNR();
-		o.setNameR(nameR);
+		/*o.setNameR(nameR);*/
 		o.setNameE(nameE);
 		o.setFullName(fullName);
-		if(!vidOrgId.isEmpty())
-		o.setVidOrg(vidOrgService.get(Integer.parseInt(vidOrgId)));
+		/*if(!vidOrgId.isEmpty())
+		o.setVidOrg(vidOrgService.get(Integer.parseInt(vidOrgId)));*/
 		o.setAddress(address);
 		o.setEmail(email);
 		if(!oksmId.isEmpty())

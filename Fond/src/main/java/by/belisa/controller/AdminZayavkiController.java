@@ -41,7 +41,7 @@ public class AdminZayavkiController extends SaveZayavkaController{
 	@RenderMapping
 	public String renderView(RenderRequest req, RenderResponse resp, Model model) throws DaoException{
 //		int page = ParamUtil.getInteger(req, "pageIndex",1);
-		List<KonkursyDTO> konkursyList =  konkursyService.getAllKonkursyDTO();
+		List<KonkursyDTO> konkursyList =  konkursyService.getAllWithoutArhive();
 		model.addAttribute("konkursyList", konkursyList);
 		return "adminKonkursy";
 	}
@@ -61,7 +61,7 @@ public class AdminZayavkiController extends SaveZayavkaController{
 		model.addAttribute("zayavkaModel", zayavkaFIDTO);
 		List<Organization> listOrg = orgService.getAll();
 		model.addAttribute("listOrg", listOrg);
-		List<OrganizationNR> orgNrList = orgNrService.getAll();
+		List<OrganizationNR> orgNrList = orgNrService.getAllByKonkurs(zayavkaFIDTO.getKonkursId());
 		model.addAttribute("orgNrList", orgNrList);
 		return "zayavka";
 	}

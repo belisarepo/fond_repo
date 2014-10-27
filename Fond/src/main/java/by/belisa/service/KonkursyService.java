@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -15,9 +17,7 @@ import by.belisa.dao.Dao;
 import by.belisa.dao.FizInfoDao;
 import by.belisa.dao.KonkursyDao;
 import by.belisa.dao.ZayavkaFIDao;
-import by.belisa.entity.Anketa;
 import by.belisa.entity.Konkursy;
-import by.belisa.entity.TipKonkursa;
 import by.belisa.entity.ZayavkaFI;
 import by.belisa.exception.DaoException;
 
@@ -47,6 +47,16 @@ public class KonkursyService extends ServiceImpl<Konkursy, Integer> {
 
 	public List<KonkursyDTO> getAllKonkursyDTO() throws DaoException {
 		List<Konkursy> konkursyList = baseDao.getAll();
+		List<KonkursyDTO> konkursyDTOList = new ArrayList<KonkursyDTO>();
+		for (Konkursy i : konkursyList) {
+			KonkursyDTO dto = new KonkursyDTO(i);
+			konkursyDTOList.add(dto);
+		}
+		return konkursyDTOList;
+	}
+	public List<KonkursyDTO> getAllWithoutArhive() throws DaoException{
+		Criterion[] restr = {Restrictions.not(Restrictions.eq("konkursStatus.id", 16))};
+		List<Konkursy> konkursyList = baseDao.getList(restr);
 		List<KonkursyDTO> konkursyDTOList = new ArrayList<KonkursyDTO>();
 		for (Konkursy i : konkursyList) {
 			KonkursyDTO dto = new KonkursyDTO(i);

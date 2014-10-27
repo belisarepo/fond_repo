@@ -11,10 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.liferay.portal.util.PortalUtil;
+
 import by.belisa.bean.CalcMaterialsDTO;
 import by.belisa.bean.CalcOtherCostsDTO;
 import by.belisa.bean.CalcTripDTO;
 import by.belisa.bean.CalcZpDTO;
+import by.belisa.bean.CheckUslResult;
+import by.belisa.bean.IspolnitelDTO;
 import by.belisa.bean.PublicationDTO;
 import by.belisa.bean.PublicationMDTO;
 import by.belisa.bean.ZayavkaFIDTO;
@@ -59,6 +63,7 @@ import by.belisa.entity.UchStepeni;
 import by.belisa.entity.UchZvaniy;
 import by.belisa.entity.ZayavkaFI;
 import by.belisa.exception.DaoException;
+import by.belisa.util.Utils;
 import by.belisa.validation.ValidationResult;
 
 @Service
@@ -171,7 +176,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	}
 	
 	public Integer saveForm1(ZayavkaFIDTO dto) throws DaoException {
-		ZayavkaFI zayavkaFI = commonSave(dto);
+		ZayavkaFI zayavkaFI = getZayavka(dto);
 		if (dto.getOtraslNaukaId() != null)
 			zayavkaFI.setOtraslNauka(otraslNaukaDao.get(dto.getOtraslNaukaId()));
 		if (dto.getPrioritetNaukaId() != null)
@@ -188,7 +193,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	}
 	
 	public Integer saveForm2(ZayavkaFIDTO dto) throws DaoException, ParseException {
-		ZayavkaFI zayavkaFI = commonSave(dto);
+		ZayavkaFI zayavkaFI = getZayavka(dto);
 		Rukovoditel rukovoditel = zayavkaFI.getRukovoditel();
 		if (rukovoditel == null) {
 			rukovoditel = new Rukovoditel();
@@ -229,7 +234,8 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		rukovoditel.setUchZvaniyList(uchZvaniyList);
 		List<UchStepeni> uchStepeniList = new ArrayList<UchStepeni>();
 		if (dto.getUchStepeniIdRkArr()!=null){
-			for (Integer i : dto.getUchZvaniyIdRkArr()){
+			for (Integer i : dto.getUchStepeniIdRkArr()){
+				System.out.println(i);
 				uchStepeniList.add(uchStepeniDao.get(i));
 			}
 		}
@@ -243,7 +249,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	}
 	
 	public Integer saveForm3(ZayavkaFIDTO dto) throws DaoException {
-		ZayavkaFI zayavkaFI = commonSave(dto);
+		ZayavkaFI zayavkaFI = getZayavka(dto);
 		zayavkaFI.setOrganization(orgDao.get(dto.getOrgId()));
 		baseDao.saveOrUpdate(zayavkaFI);
 		return zayavkaFI.getId();
@@ -251,13 +257,19 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	}
 	
 	public Integer saveForm4(ZayavkaFIDTO dto) throws DaoException, ParseException {
-		ZayavkaFI zayavkaFI = commonSave(dto);
+		ZayavkaFI zayavkaFI = getZayavka(dto);
 		RukovoditelNR ruk = zayavkaFI.getRukovoditelNr();
 		if (ruk==null){
 			ruk = new RukovoditelNR();
 		}
-		ruk.setFio(dto.getFioRkNr());
-		ruk.setFullFio(dto.getFullFioRkNr());
+		
+		
+		String fullFio = dto.getFullFioRkNr();
+		String fio = Utils.createFio(fullFio);
+		
+		ruk.setFio(fio);
+		ruk.setFullFio(fullFio);
+		
 		if (dto.getBirthdayRkNr() != null && !dto.getBirthdayRkNr().isEmpty()) {
 			ruk.setBirthday(dateFormat.parse(dto.getBirthdayRkNr()));
 		}
@@ -273,15 +285,17 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 
 	}
 	public Integer saveForm5(ZayavkaFIDTO dto) throws DaoException {
-		ZayavkaFI zayavkaFI = commonSave(dto);
+		ZayavkaFI zayavkaFI = getZayavka(dto);
 		zayavkaFI.setOrgNR(orgNrDao.get(dto.getOrgNrId()));
 		baseDao.saveOrUpdate(zayavkaFI);
 		return zayavkaFI.getId();
 
 	}
 	
+	
+	
 	public Integer saveForm8(ZayavkaFIDTO dto) throws DaoException, ParseException {
-		ZayavkaFI zayavkaFI = commonSave(dto);
+		ZayavkaFI zayavkaFI = getZayavka(dto);
 		zayavkaFI.setLastingDeadline(dto.getLastingDeadline());
 		if (dto.getStartDeadline()!=null && !dto.getStartDeadline().isEmpty())
 		zayavkaFI.setStartDeadline(dateFormat.parse(dto.getStartDeadline()));
@@ -292,7 +306,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 
 	}
 	public Integer saveForm9(ZayavkaFIDTO dto) throws DaoException {
-		ZayavkaFI zayavkaFI = commonSave(dto);
+		ZayavkaFI zayavkaFI = getZayavka(dto);
 		zayavkaFI.setCostAll(dto.getCostAll());
 		zayavkaFI.setCostFirstYear(dto.getCostFirstYear());
 		baseDao.saveOrUpdate(zayavkaFI);
@@ -300,7 +314,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 
 	}
 	public Integer saveForm10(ZayavkaFIDTO dto) throws DaoException {
-		ZayavkaFI zayavkaFI = commonSave(dto);
+		ZayavkaFI zayavkaFI = getZayavka(dto);
 		Annotation annotation = zayavkaFI.getAnnotation();
 		if (annotation == null){
 			annotation = new Annotation();
@@ -317,7 +331,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	}
 	
 	public Integer saveForm11(ZayavkaFIDTO dto) throws DaoException {
-		ZayavkaFI zayavkaFI = commonSave(dto);
+		ZayavkaFI zayavkaFI = getZayavka(dto);
 		Obosnovanie obosnovanie = zayavkaFI.getObosnovanie();
 		if (obosnovanie == null){
 			obosnovanie = new Obosnovanie();
@@ -341,7 +355,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 
 	}
 	public Integer saveForm12(ZayavkaFIDTO dto) throws DaoException {
-		ZayavkaFI zayavkaFI = commonSave(dto);
+		ZayavkaFI zayavkaFI = getZayavka(dto);
 		Rukovoditel rukovoditel = zayavkaFI.getRukovoditel();
 		if (rukovoditel == null) {
 			rukovoditel = new Rukovoditel();
@@ -354,7 +368,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 
 	}
 	public Integer saveForm13(ZayavkaFIDTO dto) throws DaoException {
-		ZayavkaFI zayavkaFI = commonSave(dto);
+		ZayavkaFI zayavkaFI = getZayavka(dto);
 		Rukovoditel rukovoditel = zayavkaFI.getRukovoditel();
 		if (rukovoditel == null) {
 			rukovoditel = new Rukovoditel();
@@ -379,7 +393,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	}
 	
 	public Integer saveForm15(ZayavkaFIDTO dto) throws DaoException {
-		ZayavkaFI zayavkaFI = commonSave(dto);
+		ZayavkaFI zayavkaFI = getZayavka(dto);
 		Calculation calc = zayavkaFI.getCalculation();
 		if (calc==null){
 			calc = new Calculation();
@@ -421,7 +435,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	}
 	
 	public Integer addPublication(ZayavkaFIDTO zayavkaDto, PublicationDTO publDto) throws DaoException{
-		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
+		ZayavkaFI zayavkaFI = getZayavka(zayavkaDto);
 		Rukovoditel ruk = zayavkaFI.getRukovoditel();
 		if (ruk==null){
 			ruk = new Rukovoditel();
@@ -440,7 +454,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	}
 	
 	public Integer addPetition(ZayavkaFIDTO zayavkaDto, String petitionName) throws DaoException{
-		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
+		ZayavkaFI zayavkaFI = getZayavka(zayavkaDto);
 		Petition petition = new Petition(petitionName);
 		zayavkaFI.getPetitionSet().add(petition);
 		baseDao.saveOrUpdate(zayavkaFI);
@@ -448,7 +462,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	}
 	
 	public Integer addPublicationM(ZayavkaFIDTO zayavkaDto, PublicationMDTO publDto) throws DaoException{
-		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
+		ZayavkaFI zayavkaFI = getZayavka(zayavkaDto);
 		FizInfo fizInfo;
 		if (publDto.getFizInfoId()==0){
 			fizInfo = zayavkaFI.getFizInfo();
@@ -473,7 +487,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	}
 	
 	public Integer addCalcZp(ZayavkaFIDTO zayavkaDto, CalcZpDTO calcZpDto) throws DaoException{
-		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
+		ZayavkaFI zayavkaFI = getZayavka(zayavkaDto);
 		CalcZp calcZp = new CalcZp();
 		calcZp.setDuration(calcZpDto.getDuration());
 		calcZp.setFondZp(calcZpDto.getFondZp());
@@ -498,7 +512,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	}
 	
 	public Integer addCalcMaterials(ZayavkaFIDTO zayavkaDto, CalcMaterialsDTO calcMaterialsDto) throws DaoException{
-		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
+		ZayavkaFI zayavkaFI = getZayavka(zayavkaDto);
 		CalcMaterials calcMaterials = new CalcMaterials();
 		calcMaterials.setCount(calcMaterialsDto.getCount());
 		calcMaterials.setName(calcMaterialsDto.getName());
@@ -522,7 +536,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	}
 	
 	public Integer addCalcTrip(ZayavkaFIDTO zayavkaDto, CalcTripDTO calcTripDto) throws DaoException{
-		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
+		ZayavkaFI zayavkaFI = getZayavka(zayavkaDto);
 		CalcTrip calcTrip = new CalcTrip();
 		calcTrip.setCosts(calcTripDto.getCosts());
 		calcTrip.setCount(calcTripDto.getCount());
@@ -546,7 +560,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	}
 	
 	public Integer addCalcOtherCosts(ZayavkaFIDTO zayavkaDto, CalcOtherCostsDTO calcOtherCostsDto) throws DaoException{
-		ZayavkaFI zayavkaFI = commonSave(zayavkaDto);
+		ZayavkaFI zayavkaFI = getZayavka(zayavkaDto);
 		CalcOtherCosts calcOtherCosts = new CalcOtherCosts();
 		calcOtherCosts.setName(calcOtherCostsDto.getName());
 		calcOtherCosts.setNote(calcOtherCostsDto.getNote());
@@ -570,12 +584,12 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	
 	
 	public Integer saveOrUpdate(ZayavkaFIDTO dto) throws DaoException, ParseException {
-		ZayavkaFI zayavkaFI = commonSave(dto);
+		ZayavkaFI zayavkaFI = getZayavka(dto);
 		baseDao.saveOrUpdate(zayavkaFI);
 		return zayavkaFI.getId();
 	}
 
-	private ZayavkaFI commonSave(ZayavkaFIDTO dto) throws DaoException {
+	private ZayavkaFI getZayavka(ZayavkaFIDTO dto) throws DaoException {
 		ZayavkaFI zayavkaFI;
 		if (dto.getId()==null || dto.getId()==0){
 			Anketa anketa = anketaDao.get(dto.getUserId());

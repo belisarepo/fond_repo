@@ -37,6 +37,20 @@ public class Utils {
 		return message.toString();
 	}
 	
+	public static String createFio(String fullFio){
+		String fio;
+		String[] fioArr = fullFio.split(" ");
+		if (fioArr.length==3){
+			fio = fioArr[0]+" "+fioArr[1].charAt(0)+"."+fioArr[2].charAt(0)+".";
+		}else
+		if (fioArr.length==2){
+			fio = fioArr[0]+" "+fioArr[1].charAt(0)+".";
+		}else{
+			fio = fullFio;
+		}
+		return fio;
+	}
+	
 	public static void printRequestParams(PortletRequest req){
 		Map<String,String[]> params = req.getParameterMap();
 		for (Map.Entry<String, String[]> entry : params.entrySet()){

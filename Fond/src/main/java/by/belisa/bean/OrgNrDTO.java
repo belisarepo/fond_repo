@@ -40,8 +40,8 @@ public class OrgNrDTO implements Serializable{
 		this.city = entity.getCity();
 		this.address = entity.getAddress();
 		this.email = entity.getEmail();
-		this.vidOrgName = entity.getVidOrg().getName();
-		this.vidOrgId = entity.getVidOrg().getId();
+		this.vidOrgName = entity.getVidOrg()!=null ? entity.getVidOrg().getName() : "";
+		this.vidOrgId = entity.getVidOrg()!=null ? entity.getVidOrg().getId() : null;
 	}
 
 	public Integer getId() {

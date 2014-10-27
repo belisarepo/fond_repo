@@ -51,8 +51,10 @@
 		
 	<portlet:renderURL var="addOrgNrUrl" windowState='<%=LiferayWindowState.POP_UP.toString()%>'><portlet:param name="action" value="addOrgNr" /><portlet:param name="konkursId" value="${zayavkaModel.konkursId}"/></portlet:renderURL>
 	<c:set var="strAddOrgNrUrl"><%=addOrgNrUrl.toString()%></c:set>
-						
-	<p>Если вы не нашли в списке нужную организацию, добавьте ее <a id="addOrgNr" href="#" class="btn deleteLink">Добавить организацию</a></p>
+	<c:if test="${empty zayavkaModel.konkursOrgNrId }">
+		<p>Если вы не нашли в списке нужную организацию, добавьте ее <a id="addOrgNr" href="#" class="btn deleteLink">Добавить организацию</a></p>
+	</c:if>					
+	
 	
 
 	

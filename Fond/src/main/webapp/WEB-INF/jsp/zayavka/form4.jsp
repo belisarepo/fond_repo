@@ -22,15 +22,17 @@
 	<hr/>
 	
 
-	<spring:message code="zayavka.fioRuk" var='fioRukLabel' />
-	<aui:input name="fioRkNr" value="${zayavkaModel.fioRkNr}" label="${fioRukLabel}" bean="zayavkaModel" showRequiredLabel="">
-		<aui:validator name="required" />
-	</aui:input>
+	
 
 	<spring:message code="zayavka.fioFullRuk" var='fioFullRukLabel' />
 	<aui:input name="fullFioRkNr" value="${zayavkaModel.fullFioRkNr}" label="${fioFullRukLabel}" bean="zayavkaModel" showRequiredLabel="">
 		<aui:validator name="required" />
 	</aui:input>
+	
+	<%-- <spring:message code="zayavka.fioRuk" var='fioRukLabel' />
+	<aui:input name="fioRkNr" value="${zayavkaModel.fioRkNr}" label="${fioRukLabel}" bean="zayavkaModel" showRequiredLabel="" disabled="true">
+		<aui:validator name="required" />
+	</aui:input> --%>
 
 	<spring:message code="zayavka.birthdayManager" var='birthdayLabel' />
 	<aui:input name="birthdayRkNr" value="${zayavkaModel.birthdayRkNr}" label='${birthdayLabel}' bean="zayavkaModel" cssClass="datemask" showRequiredLabel="">

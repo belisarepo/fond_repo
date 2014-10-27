@@ -1,5 +1,6 @@
 package by.belisa.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.criterion.Criterion;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import by.belisa.bean.OrgDTO;
 import by.belisa.bean.OrgNrDTO;
 import by.belisa.dao.Dao;
 import by.belisa.dao.KonkursyDao;

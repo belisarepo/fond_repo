@@ -33,7 +33,7 @@
 	</aui:input>
 
 	<spring:message code="zayavka.degree" var='degreeLabel' />
-	<aui:select name="uchStepenIdRkArr" bean="zayavkaModel" label='${degreeLabel}' multiple="true">
+	<aui:select name="uchStepeniIdRkArr" bean="zayavkaModel" label='${degreeLabel}' multiple="true">
 		<option value="" />
 		<c:forEach var="i" items="${uchStepeniList}">
 			<c:choose>

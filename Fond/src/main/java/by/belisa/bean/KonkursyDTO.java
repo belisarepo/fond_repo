@@ -68,8 +68,8 @@ public class KonkursyDTO implements Serializable{
 		this.countRukovoditel = konkursy.getCountRukovoditel();
 		this.countIspolRukov = konkursy.getCountIspolRukov();
 		
-		this.konkursStatusId = konkursy.getKonkursStatus().getId();
-		this.konkursStatusName = konkursy.getKonkursStatus().getName();
+		this.konkursStatusId = konkursy.getKonkursStatus()!=null ? konkursy.getKonkursStatus().getId() : 16;//в архиве
+		this.konkursStatusName = konkursy.getKonkursStatus()!=null ? konkursy.getKonkursStatus().getName() : "в архиве";
 		
 		this.orgNrId = konkursy.getOrgNr()!=null ? konkursy.getOrgNr().getId() : null;
 		

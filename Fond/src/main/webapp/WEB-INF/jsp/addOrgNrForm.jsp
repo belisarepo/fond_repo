@@ -15,18 +15,29 @@
 	<portlet:namespace />
 </c:set>
 <aui:form action="#" name="addOrgNrForm" id="addOrgNrForm">
-	<spring:message code="zayavka.name_rus" var="name_rusLabel"/>
-	<aui:input name="nameR" bean="orgNrModel" label="${name_rusLabel}"></aui:input>
+	<spring:message code="zayavka.full_name_rus" var="name_rusLabel"/>
+	<aui:input name="fullName" bean="orgNrModel" label="${name_rusLabel}"></aui:input>
 	
 	<spring:message code="zayavka.name_eng" var="name_engLabel"/>
 	<aui:input name="nameE" bean="orgNrModel" label="${name_engLabel}"></aui:input>
 	
-	<spring:message code="zayavka.fullName" var="fullNameLabel"/>
-	<aui:input name="fullName" bean="orgNrModel" label="${fullNameLabel}"></aui:input>
-	
-	<aui:input name="oksmId" bean="orgNrModel" value="${orgNrModel.oksmId}" type="hidden"></aui:input>
+	<%-- <spring:message code="zayavka.fullName" var="fullNameLabel"/>
+	<aui:input name="fullName" bean="orgNrModel" label="${fullNameLabel}"></aui:input> --%>
 	<spring:message code="zayavka.oksm" var="oksmLabel"/>
-	<aui:input name="oksmName" bean="orgNrModel" value="${orgNrModel.oksmName}" disabled="true" label="${oksmLabel}"></aui:input>
+	<c:choose>
+		<c:when test="${empty orgNrModel.oksmId}">
+			<aui:select name="oksmId" label="${oksmLabel}" bean="orgNrModel">
+				<option value="" />
+				<c:forEach var="i" items="${oksmList}">
+					<aui:option value="${i.id}" label="${i.nameR}" />
+				</c:forEach>
+			</aui:select>
+		</c:when>
+		<c:otherwise>
+			<aui:input name="oksmId" bean="orgNrModel" value="${orgNrModel.oksmId}" type="hidden"></aui:input>
+			<aui:input name="oksmName" bean="orgNrModel" value="${orgNrModel.oksmName}" disabled="true" label="${oksmLabel}"></aui:input>
+		</c:otherwise>
+	</c:choose>
 	
 	
 	<spring:message code="zayavka.adr" var="addressLabel"/>
@@ -35,13 +46,13 @@
 	<spring:message code="zayavka.email" var="emailLabel"/>
 	<aui:input name="email" bean="orgNrModel" label="${emailLabel}"></aui:input>
 	
-	<spring:message code="zayavka.vidOrg" var="vidOrgLabel"/>
+	<%-- <spring:message code="zayavka.vidOrg" var="vidOrgLabel"/>
 	<aui:select id="popupVidOrg" name="vidOrgId" label="${vidOrgLabel}" bean="orgNrModel">
 		<option value="" />
 		<c:forEach var="i" items="${vidOrgList}">
 			<aui:option value="${i.id}" label="${i.name}"/>
 		</c:forEach>
-	</aui:select>
+	</aui:select> --%>
 	
 	
 </aui:form>
@@ -55,11 +66,11 @@
 	});
 	
 	$('#popupSaveBtn').click(function(){
-		var data = {"nameR":$('#${ns}nameR').val(),
+		var data = {<!-- "nameR":$('#${ns}nameR').val(), -->
 					"nameE":$('#${ns}nameE').val(),
 					"fullName":$('#${ns}fullName').val(),
 					"oksmId":$('#${ns}oksmId').val(),
-					"vidOrgId":$('#${ns}popupVidOrg').val(),
+					<!-- "vidOrgId":$('#${ns}popupVidOrg').val(), -->
 					"address":$('#${ns}address').val(),
 					"email":$('#${ns}email').val()};
 		$.ajax({
