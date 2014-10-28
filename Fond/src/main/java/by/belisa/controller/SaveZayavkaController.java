@@ -429,28 +429,27 @@ public abstract class SaveZayavkaController {
 	@ActionMapping(params = "action=addIspolnitel")
 	public void addIspolnitel(@ModelAttribute IspolnitelDTO ispolnitelDTO, ActionRequest req, ActionResponse resp, Model model) throws ParseException, DaoException, NumberFormatException, ServiceException, PortalException, SystemException{
 	
-			String konkursId = ParamUtil.getString(req, "konkursId");
+			Integer konkursId = ParamUtil.getInteger(req, "konkursId");
 			Long userId = PortalUtil.getUser(req).getUserId();
-			ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(PortalUtil.getUser(req).getUserId(), Integer.parseInt(konkursId));
-			if (zayavkaFIDTO.getId()==null){
-				zayavkaFIDTO.setUserId(userId);
-				zayavkaFIDTO.setKonkursId(Integer.parseInt(konkursId));
-				Integer zayavkaFIId = zayavkaFIService.saveOrUpdate(zayavkaFIDTO);
-				zayavkaFIDTO.setId(zayavkaFIId);
-			}
 			
-			ispolnitelDTO.setZayavkaFIId(zayavkaFIDTO.getId());
 			Integer fizInfoId = fizInfoService.addFizInfo(ispolnitelDTO);
-			ispolnitelDTO.setFizInfoId(fizInfoId);
-			CheckUslResult checkUslResult = konkursyService.checkUsloviyaIspl(Integer.parseInt(konkursId), fizInfoId); 
+			CheckUslResult checkUslResult = konkursyService.checkUsloviyaIspl(konkursId, fizInfoId); 
 			if (!checkUslResult.isAvailable()){
 				String errorMsg = Utils.createErrorMsg(ispolnitelDTO.getSurname(), checkUslResult);
 				model.addAttribute("errorMsg", errorMsg);
 			}else{
+				ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(PortalUtil.getUser(req).getUserId(), konkursId);
+				if (zayavkaFIDTO.getId()==null){
+					Integer zayavkaFIId = zayavkaFIService.saveOrUpdate(zayavkaFIDTO);
+					zayavkaFIDTO.setId(zayavkaFIId);
+				}
+				ispolnitelDTO.setZayavkaFIId(zayavkaFIDTO.getId());
+				ispolnitelDTO.setFizInfoId(fizInfoId);
 				fizInfoService.addZayavkaFI(fizInfoId,zayavkaFIDTO.getId());
 				ispolnitelService.saveOrUpdate(ispolnitelDTO);
-			}	
-			resp.setRenderParameter("zayavkaId", zayavkaFIDTO.getId().toString());
+				resp.setRenderParameter("zayavkaId", zayavkaFIDTO.getId().toString());
+			}
+			
 			resp.setRenderParameter("view", "zayavka");
 			resp.setRenderParameter("konkursId", ParamUtil.getString(req, "konkursId"));
 	}
@@ -462,8 +461,6 @@ public abstract class SaveZayavkaController {
 			Integer soOrgId = ParamUtil.getInteger(req, "soOrgId");;
 			ZayavkaFIDTO zayavkaFIDTO = zayavkaFIService.getZayavkaFIDTOByUserId(PortalUtil.getUser(req).getUserId(), konkursId);
 			if (zayavkaFIDTO.getId()==null){
-				zayavkaFIDTO.setUserId(PortalUtil.getUser(req).getUserId());
-				zayavkaFIDTO.setKonkursId(konkursId);
 				Integer zayavkaFIId = zayavkaFIService.saveOrUpdate(zayavkaFIDTO);
 				zayavkaFIDTO.setId(zayavkaFIId);
 			}

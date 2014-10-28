@@ -143,12 +143,10 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		ZayavkaFIDao zayavkaFIDao = (ZayavkaFIDao) baseDao;
 		ZayavkaFI zayavkaFI = zayavkaFIDao.getZayavkaFIByUserId(userId, konkursId);
 		if (zayavkaFI == null) {
-			zayavkaFI = new ZayavkaFI();
-			Anketa anketa = anketaDao.get(userId);
-			zayavkaFI.setAnketa(anketa);
-			zayavkaFI.setOrganization(anketa.getOrg());
-			zayavkaFI.setKonkursy(konkursyDao.get(konkursId));
-			
+			ZayavkaFIDTO dto = new ZayavkaFIDTO();
+			dto.setUserId(userId);
+			dto.setKonkursId(konkursId);
+			zayavkaFI = getZayavka(dto);
 		}
 		ZayavkaFIDTO zayavkaFIDTO = new ZayavkaFIDTO(zayavkaFI);
 		return zayavkaFIDTO;
