@@ -131,6 +131,7 @@ public class ZayavkaFIDTO implements Serializable {
 	private String jobGoal;
 	private String idea;
 	private String results;
+	private String annotationFileName;
 	
 	private String goal;
 	private String analizResults;
@@ -144,6 +145,7 @@ public class ZayavkaFIDTO implements Serializable {
 	private String teamCharacteristic;
 	private String provisionEquipment;
 	private String previousKonkurs;
+	private String obosnFileName;
 	
 	
 	private Integer calcId;
@@ -366,6 +368,7 @@ public class ZayavkaFIDTO implements Serializable {
 				this.jobGoal = zayavkaFI.getAnnotation().getJobGoal();
 				this.idea = zayavkaFI.getAnnotation().getIdea();
 				this.results = zayavkaFI.getAnnotation().getResults();
+				this.annotationFileName = zayavkaFI.getAnnotation().getFileName();
 			}
 			if (zayavkaFI.getObosnovanie()!=null){
 				this.goal=zayavkaFI.getObosnovanie().getGoal();
@@ -379,7 +382,8 @@ public class ZayavkaFIDTO implements Serializable {
 				this.usingResults=zayavkaFI.getObosnovanie().getUsingResults();
 				this.teamCharacteristic=zayavkaFI.getObosnovanie().getTeamCharacteristic();
 				this.provisionEquipment=zayavkaFI.getObosnovanie().getProvisionEquipment();
-				this.previousKonkurs=zayavkaFI.getObosnovanie().getPreviousKonkurs();		
+				this.previousKonkurs=zayavkaFI.getObosnovanie().getPreviousKonkurs();
+				this.obosnFileName = zayavkaFI.getObosnovanie().getFileName();
 							
 			}
 			if (zayavkaFI.getCalculation()!=null){
@@ -616,6 +620,14 @@ public class ZayavkaFIDTO implements Serializable {
 
 	public float getBusinessTripFirstYear() {
 		return businessTripFirstYear;
+	}
+
+	public String getObosnFileName() {
+		return obosnFileName;
+	}
+
+	public void setObosnFileName(String obosnFileName) {
+		this.obosnFileName = obosnFileName;
 	}
 
 	public void setBusinessTripFirstYear(float businessTripFirstYear) {
@@ -1526,6 +1538,14 @@ public class ZayavkaFIDTO implements Serializable {
 
 	public void setKonkursCountryId(Integer konkursCountryId) {
 		this.konkursCountryId = konkursCountryId;
+	}
+
+	public String getAnnotationFileName() {
+		return annotationFileName;
+	}
+
+	public void setAnnotationFileName(String annotationFileName) {
+		this.annotationFileName = annotationFileName;
 	}
 
 }

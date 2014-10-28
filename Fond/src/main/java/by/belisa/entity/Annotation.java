@@ -52,6 +52,28 @@ public class Annotation implements Serializable, IValidaton {
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
 	@PrimaryKeyJoinColumn()
 	private ZayavkaFI zayavkaFI;
+	@Column(name="FULL_FILE")
+	@Lob
+	private byte[] file;
+	@Column(name="FILE_NAME")
+	private String fileName;
+
+	
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public byte[] getFile() {
+		return file;
+	}
+
+	public void setFile(byte[] file) {
+		this.file = file;
+	}
 
 	public Integer getId() {
 		return id;
