@@ -1,5 +1,9 @@
 package by.belisa.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -8,7 +12,6 @@ import java.net.URLConnection;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -54,6 +57,7 @@ import by.belisa.entity.VidOrg;
 import by.belisa.exception.DaoException;
 import by.belisa.exception.ServiceException;
 import by.belisa.service.AnketaService;
+import by.belisa.service.AnnotationService;
 import by.belisa.service.CalcMaterialsService;
 import by.belisa.service.CalcMaterialsSumService;
 import by.belisa.service.CalcOtherCostsService;
@@ -65,6 +69,7 @@ import by.belisa.service.CalcZpSumService;
 import by.belisa.service.FizInfoService;
 import by.belisa.service.IspolnitelService;
 import by.belisa.service.KonkursyService;
+import by.belisa.service.ObosnovanieService;
 import by.belisa.service.OkoguService;
 import by.belisa.service.OksmService;
 import by.belisa.service.OrgNrService;
@@ -87,8 +92,14 @@ import by.belisa.validation.ValidationResult;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
+import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.util.PortalUtil;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.rtf.RtfWriter2;
+import com.lowagie.text.rtf.parser.RtfParser;
 @Controller
 public abstract class SaveZayavkaController {
 	@Autowired
@@ -180,6 +191,12 @@ public abstract class SaveZayavkaController {
 	@Autowired
 	@Qualifier("okoguService")
 	private OkoguService okoguService;
+	@Autowired
+	@Qualifier("annotationService")
+	private AnnotationService annotationService;
+	@Autowired
+	@Qualifier("obosnovanieService")
+	private ObosnovanieService obosnService;
 
 	private List<OtraslNauka> otraslNaukaList = null;
 	private List<SectionFond> sectionFondList = null;
@@ -775,6 +792,142 @@ public abstract class SaveZayavkaController {
 		return "popup";
 	}
 	
+	@ActionMapping(params="action=uploadAnnotation")
+	public void uploadAnnotation(ActionRequest req, ActionResponse resp, Model model) throws IOException, PortalException, SystemException, DaoException{
+		Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
+		Integer konkursId = ParamUtil.getInteger(req, "konkursId");
+		Long userId = PortalUtil.getUser(req).getUserId();
+		
+		UploadPortletRequest upr = PortalUtil.getUploadPortletRequest(req);
+		File f = upr.getFile("fileAnnotation");
+		String fileName = upr.getFullFileName("fileAnnotation");
+		if (!fileName.endsWith(".rtf")){
+			model.addAttribute("errorMsg", "<p>Документ должен быть в формате rtf</p>");
+		}else{
+			FileInputStream fis = new FileInputStream(f);
+			int size = fis.available();
+			byte annotation[] = new byte[size];
+			fis.read(annotation);
+			fis.close();
+			
+			ZayavkaFIDTO zayavkaFIDTO = new ZayavkaFIDTO();
+			zayavkaFIDTO.setId(zayavkaId);
+			zayavkaFIDTO.setKonkursId(konkursId);
+			zayavkaFIDTO.setUserId(userId);
+			zayavkaId = zayavkaFIService.addAnnotationFile(zayavkaFIDTO,annotation,fileName);
+		}
+		
+		resp.setRenderParameter("zayavkaId", zayavkaId.toString());
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", konkursId.toString());
+		
+	}
+	@ResourceMapping(value="getAnnotationFile")
+	public void getAnnotationFile(ResourceRequest request, ResourceResponse response) {
+		
+		Integer zayavkaId = ParamUtil.getInteger(request, "zayavkaId");
+		String fileName = ParamUtil.getString(request, "fileName");
+		byte[] annotation = annotationService.getFile(zayavkaId);
+		response.setContentType("application/msword");
+		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
+		response.setContentLength(annotation.length);
+		response.setProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+fileName);
+		OutputStream outStream = null;
+		try {
+			outStream = response.getPortletOutputStream();
+			outStream.write(annotation);
+			outStream.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (outStream != null) {
+				try {
+					outStream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	@ActionMapping(params="action=deleteAnnotationFile")
+	public void deleteAnnotationFile(ActionRequest req, ActionResponse resp){
+		Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
+		annotationService.deleteFile(zayavkaId);
+		resp.setRenderParameter("zayavkaId", zayavkaId.toString());
+		resp.setRenderParameter("view", "zayavka");
+	}
+	
+	
+	@ActionMapping(params="action=uploadObosn")
+	public void uploadObosn(ActionRequest req, ActionResponse resp, Model model) throws IOException, PortalException, SystemException, DaoException{
+		Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
+		Integer konkursId = ParamUtil.getInteger(req, "konkursId");
+		
+		UploadPortletRequest upr = PortalUtil.getUploadPortletRequest(req);
+		File f = upr.getFile("fileObosn");
+		String fileName = upr.getFullFileName("fileObosn");
+		if (!fileName.endsWith(".rtf")){
+			model.addAttribute("errorMsg", "<p>Документ должен быть в формате rtf</p>");
+		}else{
+			FileInputStream fis = new FileInputStream(f);
+			int size = fis.available();
+			byte obosn[] = new byte[size];
+			fis.read(obosn);
+			fis.close();
+			
+			Long userId = PortalUtil.getUser(req).getUserId();
+			
+			ZayavkaFIDTO zayavkaFIDTO = new ZayavkaFIDTO();
+			zayavkaFIDTO.setId(zayavkaId);
+			zayavkaFIDTO.setKonkursId(konkursId);
+			zayavkaFIDTO.setUserId(userId);
+			zayavkaId = zayavkaFIService.addObosnFile(zayavkaFIDTO,obosn,fileName);
+		}
+		
+		resp.setRenderParameter("zayavkaId", zayavkaId.toString());
+		resp.setRenderParameter("view", "zayavka");
+		resp.setRenderParameter("konkursId", konkursId.toString());
+		
+	}
+	@ResourceMapping(value="getObosnFile")
+	public void getObosnFile(ResourceRequest request, ResourceResponse response) {
+		
+		Integer zayavkaId = ParamUtil.getInteger(request, "zayavkaId");
+		String fileName = ParamUtil.getString(request, "fileName");
+		byte[] obosn = obosnService.getFile(zayavkaId);
+		response.setContentType("application/msword");
+		response.addProperty(HttpHeaders.CACHE_CONTROL, "max-age=3600, must-revalidate");
+		response.setContentLength(obosn.length);
+		response.setProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename="+fileName);
+		OutputStream outStream = null;
+		try {
+			outStream = response.getPortletOutputStream();
+			outStream.write(obosn);
+			outStream.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (outStream != null) {
+				try {
+					outStream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	@ActionMapping(params="action=deleteObosnFile")
+	public void deleteObosnFile(ActionRequest req, ActionResponse resp){
+		Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
+		obosnService.deleteFile(zayavkaId);
+		resp.setRenderParameter("zayavkaId", zayavkaId.toString());
+		resp.setRenderParameter("view", "zayavka");
+	}
+	
 	@ResourceMapping(value="getOrgById")
 	public void getOrgByid(ResourceRequest request, ResourceResponse response) throws NumberFormatException, DaoException{
 		
@@ -1020,28 +1173,54 @@ public abstract class SaveZayavkaController {
 	}
 	
 	@ResourceMapping(value="report")
-	public void getReport(ResourceRequest request, ResourceResponse response){
+	public void getReport(ResourceRequest request, ResourceResponse response) throws DaoException{
 		int zayavkaId = ParamUtil.getInteger(request,"zayavkaId");
-		String strUrl = messageSource.getMessage("zayavka.reportUrl", new Object[]{zayavkaId}, Locale.getDefault());
+		
 
 		URL url=null;
 		OutputStream outStream = null;
 		InputStream is = null;
+		
 		try {
+			byte[] annotation = annotationService.getFile(zayavkaId);
+			int annotationSize = annotation!=null ? annotation.length : 0;
+			byte[] obosn = obosnService.getFile(zayavkaId);
+			int obosnSize = obosn!=null ? obosn.length : 0;
+			boolean loadedFile = obosnSize!=0 || annotationSize!=0;
+			String msgKey;
+			if (loadedFile){
+				if (annotationSize==0){
+					msgKey = "zayavka.reportAnnotationUrl";
+				}else if (obosnSize==0){
+					msgKey = "zayavka.reportObosnUrl";
+				}else{
+					msgKey="zayavka.reportEmptyUrl";
+				}
+			}else{
+				msgKey = "zayavka.reportFullUrl";
+			}
+			String strUrl = messageSource.getMessage(msgKey, new Object[]{zayavkaId}, Locale.getDefault());
+			System.out.println("!!!!!!"+zayavkaId);
 			url = new URL(strUrl);
 			URLConnection urlConnection = url.openConnection();
 			is = urlConnection.getInputStream();
 			
 			response.setContentType("application/rtf");
-			response.setContentLength(is.available());
 			response.setProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=zayavka.rtf");
 			
 			outStream = response.getPortletOutputStream();
-			byte[] buffer = new byte[1024];
-			int len;
-			while ((len = is.read(buffer)) != -1) {
-			    outStream.write(buffer, 0, len);
+			
+			
+			
+			Utils.writePublisherReport(is, outStream, loadedFile);
+			if (annotationSize!=0){
+				Utils.writeLoadedFile(outStream, annotation, obosnSize!=0);
 			}
+			if (obosnSize!=0){
+				Utils.writeLoadedFile(outStream, obosn, false);
+			}
+			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally{

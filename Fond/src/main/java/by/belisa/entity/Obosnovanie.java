@@ -87,6 +87,28 @@ public class Obosnovanie implements Serializable, IValidaton {
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
 	@PrimaryKeyJoinColumn()
 	private ZayavkaFI zayavkaFI;
+	
+	@Column(name="FULL_FILE")
+	@Lob
+	private byte[] file;
+	@Column(name="FILE_NAME")
+	private String fileName;
+
+	public byte[] getFile() {
+		return file;
+	}
+
+	public void setFile(byte[] file) {
+		this.file = file;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 
 	public Integer getId() {
 		return id;
@@ -215,6 +237,9 @@ public class Obosnovanie implements Serializable, IValidaton {
 		final int COOPERATIVE_FORM_ID = 3;
 		final int COOPERATIVE_JUNIOR_FORM_ID = 4;
 		ValidationResult vr = new ValidationResult();
+		if (this.fileName!=null && !this.fileName.isEmpty()){
+			return vr;
+		}
 		String message = null;
 		String tabNameJustification = "во вкладке \"Обоснование\"";
 		int VidFormId = this.zayavkaFI.getKonkursy().getTipKonkursa().getVidFormaZ().getId();

@@ -614,4 +614,32 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		}
 		return userZayavki;
 	}
+
+	public Integer addAnnotationFile(ZayavkaFIDTO zayavkaFIDTO, byte[] annotation, String fileName) throws DaoException {
+		ZayavkaFI zayavkaFI = getZayavka(zayavkaFIDTO);
+		Annotation annt = zayavkaFI.getAnnotation();
+		if (annt==null){
+			annt = new Annotation();
+		}
+		annt.setFile(annotation);
+		annt.setFileName(fileName);
+		annt.setZayavkaFI(zayavkaFI);
+		zayavkaFI.setAnnotation(annt);
+		baseDao.saveOrUpdate(zayavkaFI);
+		return zayavkaFI.getId();
+	}
+
+	public Integer addObosnFile(ZayavkaFIDTO zayavkaFIDTO, byte[] obosn, String fileName) throws DaoException {
+		ZayavkaFI zayavkaFI = getZayavka(zayavkaFIDTO);
+		Obosnovanie obsn = zayavkaFI.getObosnovanie();
+		if (obsn==null){
+			obsn = new Obosnovanie();
+		}
+		obsn.setFile(obosn);
+		obsn.setFileName(fileName);
+		obsn.setZayavkaFI(zayavkaFI);
+		zayavkaFI.setObosnovanie(obsn);
+		baseDao.saveOrUpdate(zayavkaFI);
+		return zayavkaFI.getId();
+	}
 }

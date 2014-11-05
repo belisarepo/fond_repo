@@ -79,6 +79,29 @@
 	<portlet:param name="input_id" value="previousKonkurs" />
 </portlet:renderURL>
 <c:set var="strPopupPreviousKonkursURL"><%=popupPreviousKonkursURL.toString()%></c:set>
+<div style="border-radius: 20px; background: #E0EEE0; padding: 20px; width: 90%">
+	<p>
+		Вы можете загрузить все одним файлом либо заполнить форму ниже<br />
+		<c:choose>
+			<c:when test="${not empty zayavkaModel.obosnFileName}">
+				<a href="<portlet:resourceURL id="getObosnFile"><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /><portlet:param name="fileName" value="${zayavkaModel.obosnFileName}"/></portlet:resourceURL>" >${zayavkaModel.obosnFileName}</a>
+				<a title='удалить' href="<portlet:actionURL><portlet:param name="action" value="deleteObosnFile"/><portlet:param name="zayavkaId" value="${zayavkaModel.id}"/></portlet:actionURL>"><span style="color:red; padding:10px;font-size:large;font-weight:700;">X</span></a>
+			</c:when>
+			<c:otherwise>
+				<portlet:actionURL var="uploadObosnUrl">
+					<portlet:param name="action" value="uploadObosn" />
+					<portlet:param name="zayavkaId" value="${zayavkaModel.id}" />
+					<portlet:param name="konkursId" value="${zayavkaModel.konkursId}" />
+				</portlet:actionURL>
+				<aui:form action="${uploadObosnUrl}" enctype="multipart/form-data" method="POST" inlineLabels="true">
+
+					<aui:input id="fileObosn" name="fileObosn" type="file" label="" style="outline: none;"></aui:input>
+					<button id="fileObosnSubmit" type="submit" style="display:none">Загрузить</button>
+				</aui:form>
+			</c:otherwise>
+		</c:choose>
+	</p>
+</div>
 
 <aui:form action="${saveForm11}" method="POST" name="form11">
 
@@ -180,7 +203,14 @@
 
 </aui:form>
 <aui:script>
-
+$('#${ns}fileObosn').change(function(){
+	if ($(this).val()){
+		$('#fileObosnSubmit').css('display','block');
+	}else{
+		$('#fileObosnSubmit').css('display','none');
+	}
+	
+});
 $('#goalDiv').on('click', function(event){
    showPopup('Цель и задачи работы, ее актуальность','goal','${strPopupGoalURL}');
 });

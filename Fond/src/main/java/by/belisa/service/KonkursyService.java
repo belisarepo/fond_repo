@@ -157,9 +157,6 @@ public class KonkursyService extends ServiceImpl<Konkursy, Integer> {
 				return result;
 			}
 		}
-		
-		
-		
 		return result;
 	}
 

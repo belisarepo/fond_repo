@@ -31,6 +31,29 @@
 	<portlet:param name="input_id" value="results" />
 </portlet:renderURL>
 <c:set var="strPopupResultsUrl"><%=popupResultsURL.toString()%></c:set>
+<div style="border-radius: 20px; background: #E0EEE0; padding: 20px; width: 90%">
+	<p>
+		Вы можете загрузить все одним файлом либо заполнить форму ниже<br />
+		<c:choose>
+			<c:when test="${not empty zayavkaModel.annotationFileName}">
+				<a href="<portlet:resourceURL id="getAnnotationFile"><portlet:param name="zayavkaId" value="${zayavkaModel.id}" /><portlet:param name="fileName" value="${zayavkaModel.annotationFileName}"/></portlet:resourceURL>" >${zayavkaModel.annotationFileName}</a>
+				<a title='удалить' href="<portlet:actionURL><portlet:param name="action" value="deleteAnnotationFile"/><portlet:param name="zayavkaId" value="${zayavkaModel.id}"/></portlet:actionURL>"><span style="color:red; padding:10px;font-size:large;font-weight:700;">X</span></a>
+			</c:when>
+			<c:otherwise>
+				<portlet:actionURL var="uploadAnnotationUrl">
+					<portlet:param name="action" value="uploadAnnotation" />
+					<portlet:param name="zayavkaId" value="${zayavkaModel.id}" />
+					<portlet:param name="konkursId" value="${zayavkaModel.konkursId}" />
+				</portlet:actionURL>
+				<aui:form action="${uploadAnnotationUrl}" enctype="multipart/form-data" method="POST" inlineLabels="true">
+
+					<aui:input id="fileAnnotation" name="fileAnnotation" type="file" label="" style="outline: none;"></aui:input>
+					<button id="fileAnnotationSubmit" type="submit" style="display:none;">Загрузить</button>
+				</aui:form>
+			</c:otherwise>
+		</c:choose>
+	</p>
+</div>
 
 <aui:form action="${saveForm10}" method="POST" name="form10">
 
@@ -44,32 +67,41 @@
 		</div>
 
 	</aui:button-row>
-	<hr/>
-	
+	<hr />
 
 	<spring:message code="zayavka.keyWords" var='keyWordsLabel' />
-	<aui:input name="keyWords" value="${zayavkaModel.keyWords}" id="keyWords" label="${keyWordsLabel}" bean="zayavkaModel" type="hidden"/>
+	<aui:input name="keyWords" value="${zayavkaModel.keyWords}" id="keyWords" label="${keyWordsLabel}" bean="zayavkaModel" type="hidden" />
 	<label>${keyWordsLabel}</label>
 	<div id="keyWordsDiv" class='div-as-textarea'></div>
 
 	<spring:message code="zayavka.jobGoal" var='jobGoalLabel' />
-	<aui:input name="jobGoal" value="${zayavkaModel.jobGoal}" id="jobGoal" label="${jobGoalLabel}" bean="zayavkaModel" type="hidden"/>
+	<aui:input name="jobGoal" value="${zayavkaModel.jobGoal}" id="jobGoal" label="${jobGoalLabel}" bean="zayavkaModel" type="hidden" />
 	<label>${jobGoalLabel}</label>
 	<div id="jobGoalDiv" class='div-as-textarea'></div>
-	
+
 	<spring:message code="zayavka.idea" var='ideaLabel' />
-	<aui:input name="idea" value="${zayavkaModel.idea}" id="idea" label="${ideaLabel}" bean="zayavkaModel" type="hidden"/>
+	<aui:input name="idea" value="${zayavkaModel.idea}" id="idea" label="${ideaLabel}" bean="zayavkaModel" type="hidden" />
 	<label>${ideaLabel}</label>
 	<div id="ideaDiv" class='div-as-textarea'></div>
-	
+
 	<spring:message code="zayavka.results" var='resultsLabel' />
-	<aui:input name="results" value="${zayavkaModel.results}" id="results" label="${resultsLabel}" bean="zayavkaModel" type="hidden"/>
+	<aui:input name="results" value="${zayavkaModel.results}" id="results" label="${resultsLabel}" bean="zayavkaModel" type="hidden" />
 	<label>${resultsLabel}</label>
 	<div id="resultsDiv" class='div-as-textarea'></div>
-	
-	
+
+
 </aui:form>
 <aui:script>
+
+$('#${ns}fileAnnotation').change(function(){
+	if ($(this).val()){
+		$('#fileAnnotationSubmit').css('display','block');
+	}else{
+		$('#fileAnnotationSubmit').css('display','none');
+	}
+	
+});
+
 // add Show Popup
 //===============================================================
 $('#keyWordsDiv').on('click', function(event){

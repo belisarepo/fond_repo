@@ -52,6 +52,28 @@ public class Annotation implements Serializable, IValidaton {
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
 	@PrimaryKeyJoinColumn()
 	private ZayavkaFI zayavkaFI;
+	@Column(name="FULL_FILE")
+	@Lob
+	private byte[] file;
+	@Column(name="FILE_NAME")
+	private String fileName;
+
+	
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public byte[] getFile() {
+		return file;
+	}
+
+	public void setFile(byte[] file) {
+		this.file = file;
+	}
 
 	public Integer getId() {
 		return id;
@@ -106,6 +128,9 @@ public class Annotation implements Serializable, IValidaton {
 		ValidationResult vr = new ValidationResult();
 		String message = null;
 		String tabNameAnnotation = "во вкладке \"Аннотация\"";
+		if (this.fileName!=null && !this.fileName.isEmpty()){
+			return vr;
+		}
 		// Проверка ключевых слов
 		if (this.keyWords == null || this.keyWords.isEmpty()) {
 			message = "Не заполненые ключевые слова" + " " + tabNameAnnotation;
