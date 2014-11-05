@@ -237,6 +237,9 @@ public class Obosnovanie implements Serializable, IValidaton {
 		final int COOPERATIVE_FORM_ID = 3;
 		final int COOPERATIVE_JUNIOR_FORM_ID = 4;
 		ValidationResult vr = new ValidationResult();
+		if (this.fileName!=null && !this.fileName.isEmpty()){
+			return vr;
+		}
 		String message = null;
 		String tabNameJustification = "во вкладке \"Обоснование\"";
 		int VidFormId = this.zayavkaFI.getKonkursy().getTipKonkursa().getVidFormaZ().getId();

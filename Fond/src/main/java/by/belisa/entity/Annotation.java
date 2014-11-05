@@ -128,6 +128,9 @@ public class Annotation implements Serializable, IValidaton {
 		ValidationResult vr = new ValidationResult();
 		String message = null;
 		String tabNameAnnotation = "во вкладке \"Аннотация\"";
+		if (this.fileName!=null && !this.fileName.isEmpty()){
+			return vr;
+		}
 		// Проверка ключевых слов
 		if (this.keyWords == null || this.keyWords.isEmpty()) {
 			message = "Не заполненые ключевые слова" + " " + tabNameAnnotation;

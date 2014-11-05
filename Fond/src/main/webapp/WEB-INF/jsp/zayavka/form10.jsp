@@ -47,8 +47,8 @@
 				</portlet:actionURL>
 				<aui:form action="${uploadAnnotationUrl}" enctype="multipart/form-data" method="POST" inlineLabels="true">
 
-					<aui:input name="fileAnnotation" type="file" label="" style="outline: none;"></aui:input>
-					<button type="submit">Загрузить</button>
+					<aui:input id="fileAnnotation" name="fileAnnotation" type="file" label="" style="outline: none;"></aui:input>
+					<button id="fileAnnotationSubmit" type="submit" style="display:none;">Загрузить</button>
 				</aui:form>
 			</c:otherwise>
 		</c:choose>
@@ -92,6 +92,16 @@
 
 </aui:form>
 <aui:script>
+
+$('#${ns}fileAnnotation').change(function(){
+	if ($(this).val()){
+		$('#fileAnnotationSubmit').css('display','block');
+	}else{
+		$('#fileAnnotationSubmit').css('display','none');
+	}
+	
+});
+
 // add Show Popup
 //===============================================================
 $('#keyWordsDiv').on('click', function(event){

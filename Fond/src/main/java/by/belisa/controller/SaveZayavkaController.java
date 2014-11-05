@@ -2,6 +2,8 @@ package by.belisa.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -93,6 +95,11 @@ import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.util.PortalUtil;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.rtf.RtfWriter2;
+import com.lowagie.text.rtf.parser.RtfParser;
 @Controller
 public abstract class SaveZayavkaController {
 	@Autowired
@@ -789,25 +796,30 @@ public abstract class SaveZayavkaController {
 	}
 	
 	@ActionMapping(params="action=uploadAnnotation")
-	public void uploadAnnotation(ActionRequest req, ActionResponse resp) throws IOException, PortalException, SystemException, DaoException{
-		UploadPortletRequest upr = PortalUtil.getUploadPortletRequest(req);
-		File f = upr.getFile("fileAnnotation");
-		String fileName = upr.getFullFileName("fileAnnotation");
-		FileInputStream fis = new FileInputStream(f);
-		int size = fis.available();
-		byte annotation[] = new byte[size];
-		fis.read(annotation);
-		fis.close();
-		
+	public void uploadAnnotation(ActionRequest req, ActionResponse resp, Model model) throws IOException, PortalException, SystemException, DaoException{
 		Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
 		Integer konkursId = ParamUtil.getInteger(req, "konkursId");
 		Long userId = PortalUtil.getUser(req).getUserId();
 		
-		ZayavkaFIDTO zayavkaFIDTO = new ZayavkaFIDTO();
-		zayavkaFIDTO.setId(zayavkaId);
-		zayavkaFIDTO.setKonkursId(konkursId);
-		zayavkaFIDTO.setUserId(userId);
-		zayavkaId = zayavkaFIService.addAnnotationFile(zayavkaFIDTO,annotation,fileName);
+		UploadPortletRequest upr = PortalUtil.getUploadPortletRequest(req);
+		File f = upr.getFile("fileAnnotation");
+		String fileName = upr.getFullFileName("fileAnnotation");
+		if (!fileName.endsWith(".rtf")){
+			model.addAttribute("errorMsg", "<p>Документ должен быть в формате rtf</p>");
+		}else{
+			FileInputStream fis = new FileInputStream(f);
+			int size = fis.available();
+			byte annotation[] = new byte[size];
+			fis.read(annotation);
+			fis.close();
+			
+			ZayavkaFIDTO zayavkaFIDTO = new ZayavkaFIDTO();
+			zayavkaFIDTO.setId(zayavkaId);
+			zayavkaFIDTO.setKonkursId(konkursId);
+			zayavkaFIDTO.setUserId(userId);
+			zayavkaId = zayavkaFIService.addAnnotationFile(zayavkaFIDTO,annotation,fileName);
+		}
+		
 		resp.setRenderParameter("zayavkaId", zayavkaId.toString());
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", konkursId.toString());
@@ -852,25 +864,31 @@ public abstract class SaveZayavkaController {
 	
 	
 	@ActionMapping(params="action=uploadObosn")
-	public void uploadObosn(ActionRequest req, ActionResponse resp) throws IOException, PortalException, SystemException, DaoException{
+	public void uploadObosn(ActionRequest req, ActionResponse resp, Model model) throws IOException, PortalException, SystemException, DaoException{
+		Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
+		Integer konkursId = ParamUtil.getInteger(req, "konkursId");
+		
 		UploadPortletRequest upr = PortalUtil.getUploadPortletRequest(req);
 		File f = upr.getFile("fileObosn");
 		String fileName = upr.getFullFileName("fileObosn");
-		FileInputStream fis = new FileInputStream(f);
-		int size = fis.available();
-		byte obosn[] = new byte[size];
-		fis.read(obosn);
-		fis.close();
+		if (!fileName.endsWith(".rtf")){
+			model.addAttribute("errorMsg", "<p>Документ должен быть в формате rtf</p>");
+		}else{
+			FileInputStream fis = new FileInputStream(f);
+			int size = fis.available();
+			byte obosn[] = new byte[size];
+			fis.read(obosn);
+			fis.close();
+			
+			Long userId = PortalUtil.getUser(req).getUserId();
+			
+			ZayavkaFIDTO zayavkaFIDTO = new ZayavkaFIDTO();
+			zayavkaFIDTO.setId(zayavkaId);
+			zayavkaFIDTO.setKonkursId(konkursId);
+			zayavkaFIDTO.setUserId(userId);
+			zayavkaId = zayavkaFIService.addObosnFile(zayavkaFIDTO,obosn,fileName);
+		}
 		
-		Integer zayavkaId = ParamUtil.getInteger(req, "zayavkaId");
-		Integer konkursId = ParamUtil.getInteger(req, "konkursId");
-		Long userId = PortalUtil.getUser(req).getUserId();
-		
-		ZayavkaFIDTO zayavkaFIDTO = new ZayavkaFIDTO();
-		zayavkaFIDTO.setId(zayavkaId);
-		zayavkaFIDTO.setKonkursId(konkursId);
-		zayavkaFIDTO.setUserId(userId);
-		zayavkaId = zayavkaFIService.addObosnFile(zayavkaFIDTO,obosn,fileName);
 		resp.setRenderParameter("zayavkaId", zayavkaId.toString());
 		resp.setRenderParameter("view", "zayavka");
 		resp.setRenderParameter("konkursId", konkursId.toString());
@@ -1158,28 +1176,54 @@ public abstract class SaveZayavkaController {
 	}
 	
 	@ResourceMapping(value="report")
-	public void getReport(ResourceRequest request, ResourceResponse response){
+	public void getReport(ResourceRequest request, ResourceResponse response) throws DaoException{
 		int zayavkaId = ParamUtil.getInteger(request,"zayavkaId");
-		String strUrl = messageSource.getMessage("zayavka.reportUrl", new Object[]{zayavkaId}, Locale.getDefault());
+		
 
 		URL url=null;
 		OutputStream outStream = null;
 		InputStream is = null;
+		
 		try {
+			byte[] annotation = annotationService.getFile(zayavkaId);
+			int annotationSize = annotation!=null ? annotation.length : 0;
+			byte[] obosn = obosnService.getFile(zayavkaId);
+			int obosnSize = obosn!=null ? obosn.length : 0;
+			boolean loadedFile = obosnSize!=0 || annotationSize!=0;
+			String msgKey;
+			if (loadedFile){
+				if (annotationSize==0){
+					msgKey = "zayavka.reportAnnotationUrl";
+				}else if (obosnSize==0){
+					msgKey = "zayavka.reportObosnUrl";
+				}else{
+					msgKey="zayavka.reportEmptyUrl";
+				}
+			}else{
+				msgKey = "zayavka.reportFullUrl";
+			}
+			String strUrl = messageSource.getMessage(msgKey, new Object[]{zayavkaId}, Locale.getDefault());
+			System.out.println("!!!!!!"+zayavkaId);
 			url = new URL(strUrl);
 			URLConnection urlConnection = url.openConnection();
 			is = urlConnection.getInputStream();
 			
 			response.setContentType("application/rtf");
-			response.setContentLength(is.available());
 			response.setProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=zayavka.rtf");
 			
 			outStream = response.getPortletOutputStream();
-			byte[] buffer = new byte[1024];
-			int len;
-			while ((len = is.read(buffer)) != -1) {
-			    outStream.write(buffer, 0, len);
+			
+			
+			
+			Utils.writePublisherReport(is, outStream, loadedFile);
+			if (annotationSize!=0){
+				Utils.writeLoadedFile(outStream, annotation, obosnSize!=0);
 			}
+			if (obosnSize!=0){
+				Utils.writeLoadedFile(outStream, obosn, false);
+			}
+			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}finally{

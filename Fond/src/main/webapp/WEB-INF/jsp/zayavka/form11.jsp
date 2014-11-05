@@ -95,8 +95,8 @@
 				</portlet:actionURL>
 				<aui:form action="${uploadObosnUrl}" enctype="multipart/form-data" method="POST" inlineLabels="true">
 
-					<aui:input name="fileObosn" type="file" label="" style="outline: none;"></aui:input>
-					<button type="submit">Загрузить</button>
+					<aui:input id="fileObosn" name="fileObosn" type="file" label="" style="outline: none;"></aui:input>
+					<button id="fileObosnSubmit" type="submit" style="display:none">Загрузить</button>
 				</aui:form>
 			</c:otherwise>
 		</c:choose>
@@ -203,7 +203,14 @@
 
 </aui:form>
 <aui:script>
-
+$('#${ns}fileObosn').change(function(){
+	if ($(this).val()){
+		$('#fileObosnSubmit').css('display','block');
+	}else{
+		$('#fileObosnSubmit').css('display','none');
+	}
+	
+});
 $('#goalDiv').on('click', function(event){
    showPopup('Цель и задачи работы, ее актуальность','goal','${strPopupGoalURL}');
 });
