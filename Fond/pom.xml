@@ -13,6 +13,13 @@
 		<jackson.version>1.9.10</jackson.version>
 		<hibernate.version>3.6.10.Final</hibernate.version>
 	</properties>
+	<repositories>
+		<repository>
+			<id>AsposeJavaAPI</id>
+			<name>Aspose Java API</name>
+			<url>http://maven.aspose.com/artifactory/simple/ext-release-local/</url>
+		</repository>
+	</repositories>
 	<build>
 		<plugins>
 			<plugin>
@@ -202,6 +209,13 @@
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext-rtf</artifactId>
 			<version>2.1.7</version>
+		</dependency>
+		
+		<!-- Aspose -->
+		<dependency>
+			<groupId>com.aspose</groupId>
+			<artifactId>aspose-words</artifactId>
+			<version>14.5.0</version>
 		</dependency>
 	</dependencies>
 </project>

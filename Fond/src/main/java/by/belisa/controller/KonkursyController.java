@@ -1,5 +1,7 @@
 package by.belisa.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,6 +11,8 @@ import java.util.List;
 import javax.portlet.PortletRequest;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -27,6 +31,9 @@ import by.belisa.exception.DaoException;
 import by.belisa.exception.ServiceException;
 import by.belisa.util.Utils;
 
+import com.aspose.words.Document;
+import com.aspose.words.HtmlSaveOptions;
+import com.aspose.words.SaveFormat;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.HttpHeaders;
@@ -109,6 +116,22 @@ public class KonkursyController extends SaveZayavkaController{
 				}
 				
 			}
+		}
+		String annotationFileName = zayavkaFIDTO.getAnnotationFileName();
+		if (annotationFileName!=null && !annotationFileName.isEmpty()){
+			ByteArrayInputStream bis = new ByteArrayInputStream(zayavkaFIDTO.getAnnotationFile());
+			Document doc = new Document(bis);
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.HTML);
+	        options.setExportTextInputFormFieldAsText(true);
+	        HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
+	        ServletContext servletContext = servletRequest.getSession().getServletContext();
+	        File imageFolder = new File(servletContext.getRealPath("/img/"));
+	        options.setImagesFolder(imageFolder.getPath());
+	        options.setImagesFolderAlias("/UploadPortlet-portlet/img/");
+			doc.save(out, options);
+			String annotationFileText = out.toString("utf-8");
+			model.addAttribute("annotationFileText", annotationFileText);
 		}
 		model.addAttribute("zayavkaModel", zayavkaFIDTO);
 		List<Organization> listOrg = orgService.getAll();

@@ -1,10 +1,15 @@
 package by.belisa.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.List;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -24,6 +29,9 @@ import by.belisa.service.KonkursyService;
 import by.belisa.service.ZayavkaFIService;
 import by.belisa.util.Utils;
 
+import com.aspose.words.Document;
+import com.aspose.words.HtmlSaveOptions;
+import com.aspose.words.SaveFormat;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.util.PortalUtil;
 
@@ -63,6 +71,22 @@ public class AdminZayavkiController extends SaveZayavkaController{
 		model.addAttribute("listOrg", listOrg);
 		List<OrganizationNR> orgNrList = orgNrService.getAllByKonkurs(zayavkaFIDTO.getKonkursId());
 		model.addAttribute("orgNrList", orgNrList);
+		String annotationFileName = zayavkaFIDTO.getAnnotationFileName();
+		if (annotationFileName!=null && !annotationFileName.isEmpty()){
+			ByteArrayInputStream bis = new ByteArrayInputStream(zayavkaFIDTO.getAnnotationFile());
+			Document doc = new Document(bis);
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.HTML);
+	        options.setExportTextInputFormFieldAsText(true);
+	        HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
+	        ServletContext servletContext = servletRequest.getSession().getServletContext();
+	        File imageFolder = new File(servletContext.getRealPath("/img/"));
+	        options.setImagesFolder(imageFolder.getPath());
+	        options.setImagesFolderAlias("/UploadPortlet-portlet/img/");
+			doc.save(out, options);
+			String annotationFileText = out.toString("utf-8");
+			model.addAttribute("annotationFileText", annotationFileText);
+		}
 		return "zayavka";
 	}
 }

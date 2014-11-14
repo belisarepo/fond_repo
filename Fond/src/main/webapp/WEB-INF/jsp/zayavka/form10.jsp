@@ -54,7 +54,14 @@
 		</c:choose>
 	</p>
 </div>
-
+<div id="annotationFileDiv">
+	<c:if test="${not empty annotationFileText}">
+		<div class="div-as-textarea" style="height:500px;">
+			<div style="margin: 5px">${annotationFileText}</div>
+		</div>
+	</c:if>
+</div>
+<div id="annotationFormDiv">
 <aui:form action="${saveForm10}" method="POST" name="form10">
 
 	<aui:input name="id" bean="zayavkaModel" type="hidden" value="${zayavkaModel.id}" />
@@ -91,6 +98,8 @@
 
 
 </aui:form>
+</div>
+
 <aui:script>
 
 $('#${ns}fileAnnotation').change(function(){
@@ -101,6 +110,16 @@ $('#${ns}fileAnnotation').change(function(){
 	}
 	
 });
+
+var isFile = '${zayavkaModel.annotationFileName}';
+if(isFile){
+	$('#annotationFormDiv').css('display','none');
+	$('#annotationFileDiv').css('display','block');
+}else{
+	$('#annotationFormDiv').css('display','block');
+	$('#annotationFileDiv').css('display','none');
+}
+
 
 // add Show Popup
 //===============================================================

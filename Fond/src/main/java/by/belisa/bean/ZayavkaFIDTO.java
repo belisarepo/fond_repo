@@ -132,7 +132,7 @@ public class ZayavkaFIDTO implements Serializable {
 	private String idea;
 	private String results;
 	private String annotationFileName;
-	
+	private byte[] annotationFile;
 	private String goal;
 	private String analizResults;
 	private String reserveAuthors;
@@ -369,6 +369,8 @@ public class ZayavkaFIDTO implements Serializable {
 				this.idea = zayavkaFI.getAnnotation().getIdea();
 				this.results = zayavkaFI.getAnnotation().getResults();
 				this.annotationFileName = zayavkaFI.getAnnotation().getFileName();
+				this.annotationFile = zayavkaFI.getAnnotation().getFile();
+				
 			}
 			if (zayavkaFI.getObosnovanie()!=null){
 				this.goal=zayavkaFI.getObosnovanie().getGoal();
@@ -1546,6 +1548,14 @@ public class ZayavkaFIDTO implements Serializable {
 
 	public void setAnnotationFileName(String annotationFileName) {
 		this.annotationFileName = annotationFileName;
+	}
+
+	public byte[] getAnnotationFile() {
+		return annotationFile;
+	}
+
+	public void setAnnotationFile(byte[] annotationFile) {
+		this.annotationFile = annotationFile;
 	}
 
 }

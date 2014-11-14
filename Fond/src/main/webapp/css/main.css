@@ -27,4 +27,5 @@ input:not([type='radio']){
 	height:100px;
 	border:1px solid #D3D3D3;
 	color:#696969;
+	margin: 5px;
 }
