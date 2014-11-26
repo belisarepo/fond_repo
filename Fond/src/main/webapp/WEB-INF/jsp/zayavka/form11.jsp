@@ -102,7 +102,14 @@
 		</c:choose>
 	</p>
 </div>
-
+<div id="obosnFileDiv">
+	<c:if test="${not empty obosnFileText}">
+		<div class="div-as-textarea" style="height:500px;">
+			<div style="margin: 5px">${obosnFileText}</div>
+		</div>
+	</c:if>
+</div>
+<div id="obosnFormDiv">
 <aui:form action="${saveForm11}" method="POST" name="form11">
 
 	<aui:input name="id" bean="zayavkaModel" type="hidden" value="${zayavkaModel.id}" />
@@ -202,6 +209,7 @@
 
 
 </aui:form>
+</div>
 <aui:script>
 $('#${ns}fileObosn').change(function(){
 	if ($(this).val()){
@@ -211,6 +219,18 @@ $('#${ns}fileObosn').change(function(){
 	}
 	
 });
+
+var isObosnFile = '${zayavkaModel.obosnFileName}';
+if(isObosnFile){
+	$('#obosnFormDiv').css('display','none');
+	$('#obosnFileDiv').css('display','block');
+}else{
+	$('#obosnFormDiv').css('display','block');
+	$('#obosnFileDiv').css('display','none');
+}
+
+
+
 $('#goalDiv').on('click', function(event){
    showPopup('Цель и задачи работы, ее актуальность','goal','${strPopupGoalURL}');
 });

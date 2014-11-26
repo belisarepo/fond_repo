@@ -3,6 +3,7 @@ package by.belisa.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,15 +11,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import com.liferay.portal.util.PortalUtil;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import by.belisa.bean.CalcMaterialsDTO;
 import by.belisa.bean.CalcOtherCostsDTO;
 import by.belisa.bean.CalcTripDTO;
 import by.belisa.bean.CalcZpDTO;
-import by.belisa.bean.CheckUslResult;
-import by.belisa.bean.IspolnitelDTO;
 import by.belisa.bean.PublicationDTO;
 import by.belisa.bean.PublicationMDTO;
 import by.belisa.bean.ZayavkaFIDTO;
@@ -29,6 +28,7 @@ import by.belisa.dao.CalcTripSumDao;
 import by.belisa.dao.CalcZpSumDao;
 import by.belisa.dao.Dao;
 import by.belisa.dao.FizInfoDao;
+import by.belisa.dao.FizNRInfoDao;
 import by.belisa.dao.KonkursyDao;
 import by.belisa.dao.OrgDao;
 import by.belisa.dao.OrgNrDao;
@@ -53,6 +53,7 @@ import by.belisa.entity.CalcZp;
 import by.belisa.entity.CalcZpSum;
 import by.belisa.entity.Calculation;
 import by.belisa.entity.FizInfo;
+import by.belisa.entity.FizNRInfo;
 import by.belisa.entity.Obosnovanie;
 import by.belisa.entity.Petition;
 import by.belisa.entity.Publication;
@@ -119,6 +120,9 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	@Qualifier(value="fizInfoDao")
 	private FizInfoDao fizInfoDao;
 	@Autowired
+	@Qualifier(value="fizNRInfoDao")
+	private FizNRInfoDao fizNRInfoDao;
+	@Autowired
 	@Qualifier(value="publicationTypeDao")
 	private PublicationTypeDao publicationTypeDao;
 	@Autowired
@@ -133,6 +137,7 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 	@Autowired
 	@Qualifier(value = "calcMaterialsSumDao")
 	private CalcMaterialsSumDao calcMaterialsSumDao;
+	
 
 	public ZayavkaFIDTO getZayavkaFIDTO(int id) throws DaoException {
 		ZayavkaFI zayavkaFI = baseDao.get(id);
@@ -261,7 +266,6 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 			ruk = new RukovoditelNR();
 		}
 		
-		
 		String fullFio = dto.getFullFioRkNr();
 		String fio = Utils.createFio(fullFio);
 		
@@ -278,6 +282,18 @@ public class ZayavkaFIService extends ServiceImpl<ZayavkaFI, Integer> {
 		ruk.setUchZvaniy(uchZvanieDao.get(dto.getUchZvaniyIdRkNr()));
 		ruk.setZayavkaFI(zayavkaFI);
 		zayavkaFI.setRukovoditelNr(ruk);
+		
+		FizNRInfo fizNRInfo = fizNRInfoDao.getByFio(fullFio, ruk.getBirthday());
+		if (fizNRInfo==null){
+			fizNRInfo = new FizNRInfo();
+			fizNRInfo.setBirthday(ruk.getBirthday());
+			fizNRInfo.setSurname(fullFio);
+			fizNRInfo.setPost(ruk.getPost());
+			fizNRInfo.setUchStepeni(ruk.getUchStepeni());
+			fizNRInfo.setUchZvaniy(ruk.getUchZvaniy());
+		}
+		zayavkaFI.setFizNrInfo(fizNRInfo);
+		
 		baseDao.saveOrUpdate(zayavkaFI);
 		return zayavkaFI.getId();
 

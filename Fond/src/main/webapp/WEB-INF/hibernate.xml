@@ -87,6 +87,8 @@
 				<value>by.belisa.entity.Comment</value>
 				<value>by.belisa.entity.JobCalendar</value>
 				<value>by.belisa.entity.Dogovor</value>
+				<value>by.belisa.entity.CalculationArticle</value>
+				<value>by.belisa.entity.CalculationD</value>
 				
 			</list>
 		</property>

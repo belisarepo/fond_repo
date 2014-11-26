@@ -117,22 +117,9 @@ public class KonkursyController extends SaveZayavkaController{
 				
 			}
 		}
-		String annotationFileName = zayavkaFIDTO.getAnnotationFileName();
-		if (annotationFileName!=null && !annotationFileName.isEmpty()){
-			ByteArrayInputStream bis = new ByteArrayInputStream(zayavkaFIDTO.getAnnotationFile());
-			Document doc = new Document(bis);
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.HTML);
-	        options.setExportTextInputFormFieldAsText(true);
-	        HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
-	        ServletContext servletContext = servletRequest.getSession().getServletContext();
-	        File imageFolder = new File(servletContext.getRealPath("/img/"));
-	        options.setImagesFolder(imageFolder.getPath());
-	        options.setImagesFolderAlias("/UploadPortlet-portlet/img/");
-			doc.save(out, options);
-			String annotationFileText = out.toString("utf-8");
-			model.addAttribute("annotationFileText", annotationFileText);
-		}
+		
+		model.addAttribute("annotationFileText", Utils.blobToHtml(zayavkaFIDTO.getAnnotationFileName(), zayavkaFIDTO.getAnnotationFile(), request));
+		model.addAttribute("obosnFileText", Utils.blobToHtml(zayavkaFIDTO.getObosnFileName(), zayavkaFIDTO.getObosnFile(), request));
 		model.addAttribute("zayavkaModel", zayavkaFIDTO);
 		List<Organization> listOrg = orgService.getAll();
 		model.addAttribute("listOrg", listOrg);

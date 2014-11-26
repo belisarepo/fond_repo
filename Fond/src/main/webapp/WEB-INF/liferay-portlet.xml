@@ -31,9 +31,20 @@
 		<footer-portlet-javascript>/js/jquery.datepick.min.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/jquery.mask.min.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/bootstrap.min.js</footer-portlet-javascript>
-		<!-- <footer-portlet-javascript>/js/ckeditor.js</footer-portlet-javascript> -->
 		<footer-portlet-javascript>/js/konkursy/main.js</footer-portlet-javascript>
 
+	</portlet>
+	<portlet>
+		<portlet-name>dogovor</portlet-name>
+		<icon>/icon.png</icon>
+		<requires-namespaced-parameters>false</requires-namespaced-parameters>
+		<header-portlet-css>/css/dogovor/main.css</header-portlet-css>
+		<header-portlet-javascript>/js/jquery.1.9.min.js</header-portlet-javascript>
+		<header-portlet-javascript>/js/jquery.plugin.min.js</header-portlet-javascript>
+		<footer-portlet-javascript>/js/chosen.jquery.min.js</footer-portlet-javascript>
+		<footer-portlet-javascript>/js/jquery.mask.min.js</footer-portlet-javascript>
+		<footer-portlet-javascript>/js/bootstrap.min.js</footer-portlet-javascript>
+		<footer-portlet-javascript>/js/dogovor/main.js</footer-portlet-javascript>
 	</portlet>
 	<portlet>
 		<portlet-name>organization</portlet-name>

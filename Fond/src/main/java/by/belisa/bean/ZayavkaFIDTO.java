@@ -146,6 +146,7 @@ public class ZayavkaFIDTO implements Serializable {
 	private String provisionEquipment;
 	private String previousKonkurs;
 	private String obosnFileName;
+	private byte[] obosnFile;
 	
 	
 	private Integer calcId;
@@ -386,6 +387,7 @@ public class ZayavkaFIDTO implements Serializable {
 				this.provisionEquipment=zayavkaFI.getObosnovanie().getProvisionEquipment();
 				this.previousKonkurs=zayavkaFI.getObosnovanie().getPreviousKonkurs();
 				this.obosnFileName = zayavkaFI.getObosnovanie().getFileName();
+				this.obosnFile = zayavkaFI.getObosnovanie().getFile();
 							
 			}
 			if (zayavkaFI.getCalculation()!=null){
@@ -451,6 +453,14 @@ public class ZayavkaFIDTO implements Serializable {
 
 	}
 	
+	public byte[] getObosnFile() {
+		return obosnFile;
+	}
+
+	public void setObosnFile(byte[] obosnFile) {
+		this.obosnFile = obosnFile;
+	}
+
 	public List<PetitionDTO> getPetitionSet() {
 		return petitionSet;
 	}

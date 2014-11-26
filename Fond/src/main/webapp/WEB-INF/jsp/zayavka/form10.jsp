@@ -111,8 +111,8 @@ $('#${ns}fileAnnotation').change(function(){
 	
 });
 
-var isFile = '${zayavkaModel.annotationFileName}';
-if(isFile){
+var isAnnotationFile = '${zayavkaModel.annotationFileName}';
+if(isAnnotationFile){
 	$('#annotationFormDiv').css('display','none');
 	$('#annotationFileDiv').css('display','block');
 }else{

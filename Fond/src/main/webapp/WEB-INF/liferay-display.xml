@@ -9,5 +9,6 @@
 		<portlet id="organization" />
 		<portlet id="adminZayavki" />
 		<portlet id="comment" />
+		<portlet id="dogovor" />
 	</category>
 </display>

@@ -109,7 +109,7 @@ public class ZayavkaFI implements Serializable, IValidaton {
 
 	@OneToOne(mappedBy = "zayavkaFI", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private RukovoditelNR rukovoditelNr;
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "FIZ_NR_INFO_ID")
 	private FizNRInfo fizNrInfo;
 

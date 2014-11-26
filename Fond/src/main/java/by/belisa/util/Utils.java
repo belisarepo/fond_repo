@@ -1,15 +1,27 @@
 package by.belisa.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.portlet.PortletRequest;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import by.belisa.bean.CheckUslResult;
 import by.belisa.validation.ValidationResult;
+
+import com.aspose.words.Document;
+import com.aspose.words.HtmlSaveOptions;
+import com.aspose.words.SaveFormat;
+import com.liferay.portal.util.PortalUtil;
 
 public class Utils {
 
@@ -97,10 +109,10 @@ public class Utils {
 							out.write(buffer, 0, indexLast - 1);
 						} else {
 							out.write(buffer, 0, len);
-							if (indexLast!=0){
+							if (indexLast != 0) {
 								out.write(buffer2, 0, indexLast - 1);
 							}
-							
+
 						}
 					} else {
 						out.write(buffer, 0, len);
@@ -121,5 +133,28 @@ public class Utils {
 		} else {
 			out.write(file, 6, file.length - 6);
 		}
+	}
+
+	public static String blobToHtml(String fileName, byte[] file, PortletRequest request) throws Exception {
+		if (fileName != null && !fileName.isEmpty()) {
+			ByteArrayInputStream bis = new ByteArrayInputStream(file);
+			Document doc = new Document(bis);
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			HtmlSaveOptions options = new HtmlSaveOptions(SaveFormat.HTML);
+			options.setExportTextInputFormFieldAsText(true);
+			HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
+			ServletContext servletContext = servletRequest.getSession().getServletContext();
+			File imageFolder = new File(servletContext.getRealPath("/img/"));
+			String imageFolderPath = imageFolder.getPath();
+			options.setImagesFolder(imageFolderPath);
+//			Pattern p = Pattern.compile(".*(/[^/]img$)");
+//			Matcher m = p.matcher(imageFolderPath);
+//			m.find();
+			options.setImagesFolderAlias("/"+servletContext.getServletContextName()+"/img");
+			doc.save(out, options);
+			String fileText = out.toString("utf-8");
+			return fileText;
+		}
+		return null;
 	}
 }
