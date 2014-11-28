@@ -1,7 +1,6 @@
 package by.belisa.entity;
 
 import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -83,6 +82,7 @@ public class CalculationArticle implements Serializable{
 	public void setItog(Boolean itog) {
 		this.itog = itog;
 	}
+	
 	
 	
 

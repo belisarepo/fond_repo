@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import by.belisa.bean.PublicationDTO;
 import by.belisa.bean.PublicationMDTO;
 import by.belisa.dao.Dao;
-import by.belisa.entity.Publication;
 import by.belisa.entity.PublicationM;
 import by.belisa.exception.DaoException;
 

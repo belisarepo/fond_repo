@@ -1,15 +1,10 @@
 package by.belisa.controller;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.List;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,8 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
-import by.belisa.bean.AnketaDTO;
-import by.belisa.bean.CheckUslResult;
 import by.belisa.bean.KonkursyDTO;
 import by.belisa.bean.ZayavkaFIDTO;
 import by.belisa.entity.Organization;
@@ -29,11 +22,7 @@ import by.belisa.service.KonkursyService;
 import by.belisa.service.ZayavkaFIService;
 import by.belisa.util.Utils;
 
-import com.aspose.words.Document;
-import com.aspose.words.HtmlSaveOptions;
-import com.aspose.words.SaveFormat;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.util.PortalUtil;
 
 @Controller(value="adminZayavkiController")
 @RequestMapping(value="VIEW")

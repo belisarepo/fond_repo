@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import java.util.SortedSet;
+import java.util.TreeSet;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
 
 @Entity
 @Table(name="DOGOVOR")
@@ -37,8 +40,27 @@ public class Dogovor implements Serializable {
 	private Date srokN;
 	@Column(name="SROKK")
 	private Date srokK;
+	@ManyToOne
+	@JoinColumn(name="ORG_ISP_ID")
+	private Organization org;
+	@OneToMany(mappedBy="dogovor")
+	@Sort(type=SortType.NATURAL)
+	private SortedSet<CalculationD> calculationList = new TreeSet<CalculationD>();
 	
 	
+	
+	public SortedSet<CalculationD> getCalculationList() {
+		return calculationList;
+	}
+	public void setCalculationList(SortedSet<CalculationD> calculationList) {
+		this.calculationList = calculationList;
+	}
+	public Organization getOrg() {
+		return org;
+	}
+	public void setOrg(Organization org) {
+		this.org = org;
+	}
 	public Date getSrokN() {
 		return srokN;
 	}

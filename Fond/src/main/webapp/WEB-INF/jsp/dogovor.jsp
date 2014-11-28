@@ -8,6 +8,13 @@
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme"%>
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 
+<style>
+div .tab-pane{
+	min-height: 500px;
+	
+}
+</style>
+
 <portlet:defineObjects />
 <c:set var="ns">
 	<portlet:namespace />
@@ -38,4 +45,13 @@
 
 <aui:script>
 viewTab('#dogovorTab');
+$(document).ready(function(){
+	$('select').chosen({
+		no_results_text : "Извините, нет совпадений!",
+		placeholder_text_single : "Выберите из списка...",
+		placeholder_text_multiple : "Выберите нужные пункты...",
+		width : '91%',
+		search_contains:true
+	});
+});
 </aui:script>

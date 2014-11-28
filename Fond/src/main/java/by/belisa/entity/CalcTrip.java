@@ -9,9 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
 @Entity
 @Table(name="CALC_TRIP")
 @SequenceGenerator(name="PK", sequenceName="SEQ_CALC_TRIP")

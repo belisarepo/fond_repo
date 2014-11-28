@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +18,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -80,13 +78,9 @@ public class Anketa implements Serializable{
 	@Lob
 	@Column(name="BIOGRAPHY")
 	private String biography;
-	
 	@OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL, optional=false)  
 	@PrimaryKeyJoinColumn()
 	private User user;
-	
-	
-	
 	
 	public String getName() {
 		return name;
@@ -194,7 +188,6 @@ public class Anketa implements Serializable{
 	public Long getId() {
 		return id;
 	}
-	
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -204,5 +197,4 @@ public class Anketa implements Serializable{
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
 }

@@ -1,9 +1,5 @@
 package by.belisa.controller;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -11,8 +7,6 @@ import java.util.List;
 import javax.portlet.PortletRequest;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -31,9 +25,6 @@ import by.belisa.exception.DaoException;
 import by.belisa.exception.ServiceException;
 import by.belisa.util.Utils;
 
-import com.aspose.words.Document;
-import com.aspose.words.HtmlSaveOptions;
-import com.aspose.words.SaveFormat;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.HttpHeaders;

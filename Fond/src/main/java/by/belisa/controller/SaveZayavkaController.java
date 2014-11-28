@@ -1280,7 +1280,6 @@ public abstract class SaveZayavkaController {
 				msgKey = "zayavka.reportFullUrl";
 			}
 			String strUrl = messageSource.getMessage(msgKey, new Object[] { zayavkaId }, Locale.getDefault());
-			System.out.println("!!!!!!" + zayavkaId);
 			url = new URL(strUrl);
 			URLConnection urlConnection = url.openConnection();
 			is = urlConnection.getInputStream();

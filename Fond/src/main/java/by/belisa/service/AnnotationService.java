@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import by.belisa.dao.AnnotationDao;
 import by.belisa.dao.Dao;
-import by.belisa.dao.KonkursyDao;
 import by.belisa.entity.Annotation;
 
 @Service

@@ -18,7 +18,6 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 import by.belisa.bean.AnketaDTO;
-import by.belisa.entity.Anketa;
 import by.belisa.entity.Organization;
 import by.belisa.entity.UchStepeni;
 import by.belisa.entity.UchZvaniy;

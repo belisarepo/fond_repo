@@ -8,4 +8,16 @@
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme"%>
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 
-form-2
+<table border="1">
+    <tr><th>Key</th><th>value</th></tr>
+    <c:forEach var="entry" items="${dogovor.calculationMap}" varStatus="status">
+    <tr>      
+      <td>${entry.key.code} ${entry.key.name}</td>
+      <c:set var="yearList" value="${entry.value}"/>
+      <c:forEach var="i" items="${yearList}">
+      		<td>${i.sum}</td>
+      </c:forEach>
+      
+    </tr>
+    </c:forEach>
+</table>

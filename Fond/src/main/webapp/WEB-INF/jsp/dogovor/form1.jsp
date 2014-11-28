@@ -8,4 +8,24 @@
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme"%>
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 
-form-1
+<aui:form action="${saveForm1}" method="POST" name="form1">
+	<aui:input name="id" bean="dogovor" type="hidden" value="${dogovor.id}" />
+	
+
+	<aui:button-row>
+		<div align="left">
+			<aui:button type="submit" value="Сохранить" />
+		</div>
+
+	</aui:button-row>
+	<hr />
+
+
+	<spring:message code="dogovor.orgIspl" var='orgIsplLabel' />
+	<aui:select name="orgId" bean="dogovor" label='${orgIsplLabel}' id="orgSelect">
+		<option value="" />
+		<c:forEach var="i" items="${orgList}">
+			<aui:option value="${i.id}" label="${i.fullNameR}" selected="${i.id==dogovor.orgId}" />
+		</c:forEach>
+	</aui:select>
+</aui:form>
